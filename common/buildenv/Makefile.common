@@ -1,0 +1,82 @@
+# vim: set noet ts=4:
+
+# define global build and output directories
+
+OUT_DIR = out
+BUILD_DIR = builddir
+
+DIST_TAG = $(shell ./buildenv/get_dist.sh)
+
+PKGNAME = $(NAME)
+
+# copy everything in build directort
+prepare_soft: clean_build
+	mkdir $(BUILD_DIR)
+	rsync -aL --exclude $(BUILD_DIR) ../ $(BUILD_DIR)/ 
+	mkdir -p  $(OUT_DIR)
+
+# * prepare the sub-directories for rpmbuild
+# * create the tar.gz source archive and put it in SOURCES directory
+# * clean unwanted directory
+# * substitute version and package name in spec file
+rpm_prepare: prepare_soft src_prepare_rpm
+	rm -rf $(BUILD_DIR)/rpm
+	mkdir -p $(BUILD_DIR)/rpm/BUILD
+	mkdir -p $(BUILD_DIR)/rpm/BUILDROOT
+	mkdir -p $(BUILD_DIR)/rpm/RPMS
+	mkdir -p $(BUILD_DIR)/rpm/SOURCES
+	mkdir -p $(BUILD_DIR)/rpm/SPEC
+	mkdir -p $(BUILD_DIR)/rpm/SRPMS
+	cp $(NAME).spec $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec;\
+	cd $(BUILD_DIR) &&\
+	mv src $(PKGNAME)-$(VERSION) &&\
+	tar -zcf $(PKGNAME)-$(VERSION).tar.gz $(PKGNAME)-$(VERSION) &&\
+	cd -;\
+	cp $(BUILD_DIR)/$(PKGNAME)-$(VERSION).tar.gz $(BUILD_DIR)/rpm/SOURCES/ &&\
+	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
+	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/' \
+	    $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec 
+
+# build the rpm(s) and put the result inside OUT directory
+rpm: rpm_prepare
+	rpmbuild -ba --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm" \
+	                         --define "_sourcedir %{_topdir}/SOURCES" \
+	                         --define "_specdir %{_topdir}/SPEC" \
+	                         --define "_rpmdir %{_topdir}/RPMS" \
+	                         --define "_srcrpmdir %{_topdir}/SRPMS" \
+	                         --define "_tmppath %{_topdir}/BUILDROOT" \
+	                         --define "_builddir %{_topdir}/BUILD" \
+	                         --define "dist .$(DIST_TAG)" \
+	                         $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec;\
+	find $(BUILD_DIR)/rpm -type f -name "*.rpm" | xargs cp -a -f -t $(OUT_DIR)/;\
+	rm $(OUT_DIR)/*.src.rpm
+
+# * generate generic changelog
+# * create source archive
+# * substitute version and package name in control file
+deb_prepare: prepare_soft src_prepare_deb
+	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)) unstable; urgency=low\\n"  > $(BUILD_DIR)/pkg/debian/changelog
+	printf "\\n  * New version\\n\\n" >> $(BUILD_DIR)/pkg/debian/changelog
+	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $(BUILD_DIR)/pkg/debian/changelog
+	mkdir -p $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
+	rsync -a $(BUILD_DIR)/src/ $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
+	mv $(BUILD_DIR)/pkg/debian $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
+	cd $(BUILD_DIR)/src;\
+	tar -zcf ../$(PKGNAME)_$(VERSION).orig.tar.gz ./;\
+	cd -
+	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
+	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/' \
+	        $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/control
+
+# build the deb(s) and put it in out directory
+deb: deb_prepare
+	cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
+	dpkg-buildpackage -us -uc
+	find $(BUILD_DIR)/ -type f -name "*.deb" | xargs cp -a -f -t $(OUT_DIR)/;
+
+clean_build:
+	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
+
+clean: clean_build
+	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
+
