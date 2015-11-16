@@ -33,6 +33,7 @@ create_new_soft(){
     mv ./pkg/componant.spec ./pkg/${NAME}.spec
     
     cd -
+    git add "${SOFT_PATH}"
 }
 
 while getopts ":hin:" opt; do
