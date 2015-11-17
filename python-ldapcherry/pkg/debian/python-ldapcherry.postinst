@@ -23,7 +23,7 @@ case "$1" in
     configure)
         adduser \
             --system \
-            --home /var/lib/redis \
+            --home /var/lib/ldapcherry \
             --quiet \
             --group \
             ${USER}
