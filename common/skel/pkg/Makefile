@@ -1,47 +1,38 @@
-###############################################################################
-#
-# Règles Makefile spécifiques au composant $module.
-#
-###############################################################################
-# Variables spécifiques #
-#########################
-
-# Nom du composant (obligatoire, repris dans les
-# règles communes pour construire le nom du paquet)
+# Name of the package
 NAME = @@COMPONENT_NAME@@
 
-# Version (idem)
+# Version
 VERSION = 0.0.1
 
-# numero de revision
+# Revision number 
 RELEASE = 1
 
 
 ###############################################################################
-# Règles #
-##########
+# Rule #
+########
 
-# Inclusion des règles communes à tous les composants
+# Including common rules and targets 
 include buildenv/Makefile.common
 
-# hook de manipulation des sources pour rpm
+# preparation hook for rpm package
+# source archives must recovered here
+# and their content put inside $(BUILD_DIR)/src
+#
+# $(WGS) should be the prefered way to recover archives
+# (add checksum against a manifest file).
+# use 'make manifest' to generate/update this manifest file.
+
 src_prepare_rpm:
-#exemple de recuperation d'un tar de sources externes
-#       cd $(BUILD_DIR)/src;\
-#       wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/<name>.tar.gz;\
-#       tar xf $(NAME)-$(VERSION).tar.gz;\
-#       rm $(NAME)-$(VERSION).tar.gz
-
-#exemple de recuperation d'un logiciel avec beaucoup de fichiers
-#       cd $(BUILD_DIR)/src;\
-#       wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/listing;\
-#       for f in `cat listing`;do wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/$f;done
+# example of source archive handling:
+#	$(WGS) -u $(URL) -o $(BUILD_DIR)/lc.tar.gz
+#	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+#	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
+#	rm -rf ldapcherry-$(VERSION)
+#	rm -f $(BUILD_DIR)/lc.tar.gz
 
 
-
-# hook de manipulation des sources pour deb
-# * s'il est identique au rpm, on fait la meme chose
-# * s'il est different supprime "src_prepare_rpm"
-# 	et rajoutez les commandes adhoc	
+# preparation hook for deb package.
+# by default, same as rpm package but could be override
 src_prepare_deb: src_prepare_rpm
 
