@@ -1,31 +1,23 @@
-###############################################################################
-#
-# Règles Makefile spécifiques au composant $module.
-#
-###############################################################################
-# Variables spécifiques #
-#########################
-
-# Nom du composant (obligatoire, repris dans les
-# règles communes pour construire le nom du paquet)
+# Name of the package
 NAME = python-ldapcherry
 
 # Version (idem)
 VERSION = 0.2.2
 
-# numero de revision
+# release number 
 RELEASE = 1
 
+# external url where to recover the sources
 URL=https://github.com/kakwa/ldapcherry/archive/$(VERSION).tar.gz
 
 ###############################################################################
-# Règles #
-##########
+# Rules #
+#########
 
-# Inclusion des règles communes à tous les composants
+# Including common rules
 include buildenv/Makefile.common
 
-# hook de manipulation des sources pour rpm
+# preparation hook for rpm 
 src_prepare_rpm:
 	$(WGS) -u $(URL) -o $(BUILD_DIR)/lc.tar.gz
 	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
@@ -33,4 +25,5 @@ src_prepare_rpm:
 	rm -rf ldapcherry-$(VERSION)
 	rm -f $(BUILD_DIR)/lc.tar.gz
 
+# preparation hook for deb (same as rpm  by default)
 src_prepare_deb: src_prepare_rpm
