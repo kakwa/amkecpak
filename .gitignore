@@ -3,3 +3,4 @@ builddir/
 cache/
 *.rpm
 *.deb
+.*.swp
