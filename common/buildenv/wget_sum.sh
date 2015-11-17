@@ -2,7 +2,8 @@
 
 help(){
   cat <<EOF
-usage: `basename $0` -u <url> -o <outfile> [-m <manifest file>] [-c]
+usage: `basename $0` -u <url> -o <outfile> \\
+    [-m <manifest file>] [-c] [-C <cache dir>]
 
 Download files, checking them against a manifest
 
@@ -11,6 +12,7 @@ arguments:
   -o <outfile>: path to output file
   -m <manifest file>: path to manifest file (file containing hashes)
   -c: flag to fill the manifest file 
+  -C <cache dir>: directory where to cache downloads
 EOF
   exit 1
 }
@@ -24,7 +26,7 @@ exit_error(){
 
 MANIFEST_FILE="`dirname $0`/../MANIFEST"
 
-while getopts ":hu:o:m:c" opt; do
+while getopts ":hu:o:m:cC:" opt; do
   case $opt in
 
     h) 
@@ -41,6 +43,9 @@ while getopts ":hu:o:m:c" opt; do
         ;;
     c)
         CREATE_SUM=0
+        ;;
+    C)
+        CACHE_DIR="$OPTARG"
         ;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
@@ -66,7 +71,17 @@ else
     EXPECTED_SUM=""
 fi
 
-wget "$URL" -O "$OUTFILE"
+if ! [ -z "${CACHE_DIR}" ]
+then
+    if ! [ -f "${CACHE_DIR}/${SOURCE_FILE}" ]
+    then
+        wget "$URL" -O "${CACHE_DIR}/${SOURCE_FILE}"
+    fi
+    cp "${CACHE_DIR}/${SOURCE_FILE}" "${OUTFILE}"
+else
+    wget "$URL" -O ${OUTFILE}
+fi
+
 SUM=`sha512sum $OUTFILE -t |sed "s/\ .*//"`
 
 #EXPECTED_SUM=`eval echo ${SOURCE_FILE}`
