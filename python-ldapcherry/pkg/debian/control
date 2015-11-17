@@ -11,6 +11,6 @@ X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: all
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, python-ldap, python-yaml, python-mako, python-yaml, python-cherrypy3
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
