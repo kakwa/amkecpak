@@ -9,6 +9,13 @@ DIST_TAG = $(shell ./buildenv/get_dist.sh)
 
 PKGNAME = $(NAME)
 
+MANIFEST_FILE=$(shell pwd)/MANITEST
+ifeq ($(MAKECMDGOALS), manifest)
+WGS=./buildenv/wget_sum.sh -c -m $(MANIFEST_FILE)
+else
+WGS=./buildenv/wget_sum.sh -m $(MANIFEST_FILE)
+endif
+
 # copy everything in build directort
 prepare_soft: clean_build
 	mkdir $(BUILD_DIR)
@@ -80,3 +87,7 @@ clean_build:
 clean: clean_build
 	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
 
+rm_manifest_file:
+	rm $(MANIFEST_FILE)
+
+manifest: rm_manifest_file prepare_soft src_prepare_deb src_prepare_rpm
