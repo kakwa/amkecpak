@@ -1,4 +1,5 @@
 %define pkgname @NAME@
+%define _unitdir /usr/lib/systemd/system/
 
 Name: %{pkgname}
 Version: @VERSION@
@@ -24,10 +25,18 @@ Requires: python-cherrypy, python-ldap, PyYAML, python-mako
 
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
+mkdir -p %{buildroot}%{_unitdir}
+install -pm644 rhel/ldapcherryd.service %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}/etc/sysconfig/
+install -pm644 rhel/ldapcherryd %{buildroot}/etc/sysconfig/
 
 %post
-true
-
+adduser \
+    --system \
+    --home /var/lib/ldapcherry \
+    --quiet \
+    --group \
+    ldapcherry
 
 %preun
 true
@@ -41,6 +50,7 @@ rm -rf \$RPM_BUILD_ROOT
 /usr/share/ldapcherry/
 /usr/lib/
 %config /etc/ldapcherry/*
+%config /etc/sysconfig/ldapcherryd
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
