@@ -11,11 +11,12 @@
 NAME = python-ldapcherry
 
 # Version (idem)
-VERSION = 0.0.1
+VERSION = 0.2.2
 
 # numero de revision
 RELEASE = 1
 
+URL=https://github.com/kakwa/ldapcherry/archive/$(VERSION).tar.gz
 
 ###############################################################################
 # Règles #
@@ -26,22 +27,10 @@ include buildenv/Makefile.common
 
 # hook de manipulation des sources pour rpm
 src_prepare_rpm:
-#exemple de recuperation d'un tar de sources externes
-#       cd $(BUILD_DIR)/src;\
-#       wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/<name>.tar.gz;\
-#       tar xf $(NAME)-$(VERSION).tar.gz;\
-#       rm $(NAME)-$(VERSION).tar.gz
+	$(WGS) -u $(URL) -o $(BUILD_DIR)/lc.tar.gz
+	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
+	rm -rf ldapcherry-$(VERSION)
+	rm -f $(BUILD_DIR)/lc.tar.gz
 
-#exemple de recuperation d'un logiciel avec beaucoup de fichiers
-#       cd $(BUILD_DIR)/src;\
-#       wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/listing;\
-#       for f in `cat listing`;do wget $(RESSOURCE_SERVER)/$(NAME)/$(VERSION)/$f;done
-
-
-
-# hook de manipulation des sources pour deb
-# * s'il est identique au rpm, on fait la meme chose
-# * s'il est different supprime "src_prepare_rpm"
-# 	et rajoutez les commandes adhoc	
 src_prepare_deb: src_prepare_rpm
-
