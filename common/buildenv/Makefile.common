@@ -40,11 +40,11 @@ rpm_prepare: prepare_soft src_prepare_rpm
 	cp $(NAME).spec $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec;\
 	cd $(BUILD_DIR) &&\
 	mv src $(PKGNAME)-$(VERSION) &&\
-	tar -zcf $(PKGNAME)-$(VERSION).tar.gz $(PKGNAME)-$(VERSION) &&\
+	tar -zcf $(PKGNAME)-$(VERSION).tar.gz $(PKGNAME)-$(VERSION) --owner=root --group=root &&\
 	cd -;\
 	cp $(BUILD_DIR)/$(PKGNAME)-$(VERSION).tar.gz $(BUILD_DIR)/rpm/SOURCES/ &&\
 	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
-	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/' \
+	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/;s/@DESCRIPTION@/$(DESCRIPTION)/;s/@SUMMARY@/$(SUMMARY)/;s|@URL@|$(URL)|' \
 	    $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec 
 
 # build the rpm(s) and put the result inside OUT directory
@@ -57,7 +57,7 @@ rpm: rpm_prepare
 	                         --define "_tmppath %{_topdir}/BUILDROOT" \
 	                         --define "_builddir %{_topdir}/BUILD" \
 	                         --define "dist .$(DIST_TAG)" \
-	                         $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec;\
+	                         $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec
 	find $(BUILD_DIR)/rpm -type f -name "*.rpm" | xargs cp -a -f -t $(OUT_DIR)/;\
 	rm $(OUT_DIR)/*.src.rpm
 
@@ -72,10 +72,10 @@ deb_prepare: prepare_soft src_prepare_deb
 	rsync -a $(BUILD_DIR)/src/ $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
 	mv $(BUILD_DIR)/pkg/debian $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
 	cd $(BUILD_DIR)/src;\
-	tar -zcf ../$(PKGNAME)_$(VERSION).orig.tar.gz ./;\
+	tar -zcf ../$(PKGNAME)_$(VERSION).orig.tar.gz ./ --owner=root --group=root;\
 	cd -
 	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
-	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/' \
+	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/;s/@DESCRIPTION@/$(DESCRIPTION)/;s/@SUMMARY@/$(SUMMARY)/;s|@URL@|$(URL)|' \
 	        $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/control
 
 # build the deb(s) and put it in out directory
