@@ -26,17 +26,21 @@ Requires: python-cherrypy, python-ldap, PyYAML, python-mako
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
 mkdir -p %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
 install -pm644 rhel/ldapcherryd.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
 install -pm644 rhel/ldapcherryd %{buildroot}/etc/sysconfig/
+install -pm644 rhel/ldapcherryd.conf %{buildroot}/usr/lib/tmpfiles.d/
 
 %post
-adduser \
-    --system \
-    --home /var/lib/ldapcherry \
-    --quiet \
-    --group \
-    ldapcherry
+getent group ldapcherry >/dev/null || groupadd -r ldapcherry
+getent passwd ldapcherry >/dev/null || \
+    useradd -r -g ldapcherry -d /var/lib/ldapcherry -s /sbin/nologin \
+    -c "LdapCherry daemon user" ldapcherry
+
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/ldapcherryd.conf
+
+systemctl daemon-reload
 
 %preun
 true
@@ -48,7 +52,9 @@ rm -rf \$RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %attr(755, root, root) /usr/bin/ldapcherryd
 /usr/share/ldapcherry/
-/usr/lib/
+/usr/lib/python2.7/site-packages/ldapcherry*
+/usr/lib/systemd/system/ldapcherryd.service
+/usr/lib/tmpfiles.d/*
 %config /etc/ldapcherry/*
 %config /etc/sysconfig/ldapcherryd
 

@@ -4,11 +4,13 @@ After=network.target
 Wants=network.service
 
 [Service]
+Type=forking
+PIDFile=/var/run/ldapcherryd/ldapcherryd.pid
 User=ldapcherry
 Group=ldapcherry
 
 EnvironmentFile=/etc/sysconfig/ldapcherryd
-ExecStart=/usr/bin/ldapcherryd $OPTIONS
+ExecStart=/usr/bin/ldapcherryd $OPTIONS -p /var/run/ldapcherryd/ldapcherryd.pid
 KillMode=process
 Restart=on-failure
 RestartSec=42s
