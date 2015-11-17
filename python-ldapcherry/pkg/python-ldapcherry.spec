@@ -11,10 +11,10 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
-BuildRequires: sed
+Requires: python-cherrypy, python-ldap, PyYAML, python-mako
 
 %description
-@DESCRIPT@
+@DESCRIPTION@
 
 %prep
 
@@ -23,9 +23,7 @@ BuildRequires: sed
 %install
 
 rm -rf $RPM_BUILD_ROOT
-make install \
-    DESTDIR=$RPM_BUILD_ROOT \
-    PREFIX=%{_prefix}
+python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
 
 %post
 true
@@ -39,6 +37,10 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
+%attr(755, root, root) /usr/bin/ldapcherryd
+/usr/share/ldapcherry/
+/usr/lib/
+%config /etc/ldapcherry/*
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
