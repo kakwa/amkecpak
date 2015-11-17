@@ -1,0 +1,17 @@
+[Unit]
+Description=LdapCherry Web UI
+After=network.target
+Wants=network.service
+
+[Service]
+User=ldapcherry
+Group=ldapcherry
+
+EnvironmentFile=/etc/sysconfig/ldapcherryd
+ExecStart=/usr/bin/ldapcherryd $OPTIONS
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+
+[Install]
+WantedBy=multi-user.target
