@@ -8,7 +8,12 @@ VERSION = 0.2.2
 RELEASE = 1
 
 # external url where to recover the sources
-URL=https://github.com/kakwa/ldapcherry/archive/$(VERSION).tar.gz
+URL=https://github.com/kakwa/ldapcherry
+URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+
+SUMMARY="Directory management web UI"
+
+DESCRIPTION=$(SUMMARY)
 
 ###############################################################################
 # Rules #
@@ -19,7 +24,7 @@ include buildenv/Makefile.common
 
 # preparation hook for rpm 
 src_prepare_rpm:
-	$(WGS) -u $(URL) -o $(BUILD_DIR)/lc.tar.gz
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
 	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf ldapcherry-$(VERSION)
