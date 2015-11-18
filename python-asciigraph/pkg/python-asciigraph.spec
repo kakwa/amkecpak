@@ -37,6 +37,8 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
+%attr(755,-,-)/usr/bin/asciigraph
+/usr/lib/python*/site-packages/ascii_graph*
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1

@@ -2,7 +2,7 @@
 NAME = python-asciigraph
 
 # Version
-VERSION = 1.1.2
+VERSION = 1.1.3
 
 # Revision number 
 RELEASE = 1
@@ -16,7 +16,7 @@ SUMMARY="ascii histogram library"
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
-URL_SRC=$(URL)/archives/$(VERSION).tar.gz
+URL_SRC=$(URL)/archive/$(VERSION).tar.gz
 
 ###############################################################################
 # Rule #
