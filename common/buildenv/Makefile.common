@@ -10,7 +10,7 @@ DIST_TAG = $(shell ./buildenv/get_dist.sh)
 
 PKGNAME = $(NAME)
 
-MANIFEST_FILE=$(shell pwd)/MANITEST
+MANIFEST_FILE=$(shell pwd)/MANIFEST
 CACHE_DIR=$(shell pwd)/$(CACHE)/
 ifeq ($(MAKECMDGOALS), manifest)
 WGS=./buildenv/wget_sum.sh -c -m $(MANIFEST_FILE)
