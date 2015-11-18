@@ -7,6 +7,14 @@ VERSION = 0.0.1
 # Revision number 
 RELEASE = 1
 
+# URL of the project 
+URL=https://github.com/kakwa/dnscherry
+
+# short summary of what the package provides
+SUMMARY="DNS management web UI"
+
+# long version of the summary, but I'm lazy
+DESCRIPTION=$(SUMMARY)
 
 ###############################################################################
 # Rule #
@@ -35,4 +43,3 @@ src_prepare_rpm:
 # preparation hook for deb package.
 # by default, same as rpm package but could be override
 src_prepare_deb: src_prepare_rpm
-
