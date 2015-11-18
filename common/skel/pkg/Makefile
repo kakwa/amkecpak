@@ -8,10 +8,10 @@ VERSION = 0.0.1
 RELEASE = 1
 
 # URL of the project 
-URL=https://github.com/kakwa/dnscherry
+URL=http://example.org/stuff
 
 # short summary of what the package provides
-SUMMARY="DNS management web UI"
+SUMMARY="Not a package summary"
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
@@ -19,6 +19,9 @@ DESCRIPTION=$(SUMMARY)
 ###############################################################################
 # Rule #
 ########
+
+# example of source recovery url
+#URL_SRC=$(URL)/releases/$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
@@ -33,7 +36,7 @@ include buildenv/Makefile.common
 
 src_prepare_rpm:
 # example of source archive handling:
-#	$(WGS) -u $(URL) -o $(BUILD_DIR)/lc.tar.gz
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
 #	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
 #	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
 #	rm -rf ldapcherry-$(VERSION)
