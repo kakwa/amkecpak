@@ -11,7 +11,7 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
-Requires: python, python-cracklib, python-ldapcherry
+Requires: cracklib-python, python-ldapcherry
 
 %description
 @DESCRIPTION@
