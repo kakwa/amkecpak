@@ -94,6 +94,6 @@ clean: clean_build clean_cache
 	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
 
 rm_manifest_file:
-	rm $(MANIFEST_FILE)
+	if [ -f $(MANIFEST_FILE) ]; then  rm $(MANIFEST_FILE);fi
 
 manifest: rm_manifest_file prepare_soft src_prepare_deb src_prepare_rpm
