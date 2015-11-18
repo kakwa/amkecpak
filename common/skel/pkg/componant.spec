@@ -11,10 +11,11 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
-BuildRequires: sed
+#BuildRequires: sed
+#Requires: python
 
 %description
-@DESCRIPT@
+@DESCRIPTION@
 
 %prep
 
