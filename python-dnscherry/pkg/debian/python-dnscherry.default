@@ -1,0 +1,6 @@
+#PIDFILE=/var/run/dnscherryd/dnscherryd.pid
+#CONF=/etc/dnscherry/dnscherry.ini
+#USER=dnscherry
+#GROUP=dnscherry
+#BIN=/usr/bin/dnscherryd
+#OPTS="-d -c $CONF -p $PIDFILE"
