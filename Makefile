@@ -4,7 +4,7 @@ deb_PKG=$(addprefix deb_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
 all: $(PKG)
 clean: $(clean_PKG)
-.PHONY: force
+.PHONY: force rpm deb
 
 deb: $(deb_PKG)
 rpm: $(rpm_PKG)
