@@ -18,6 +18,12 @@ else
 WGS=./buildenv/wget_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 endif
 
+.NOTPARALLEL: deb rpm clean
+
+.PHONY: all prepare_soft rpm_prepare rpm deb_prepare deb clean_build clean_cache clean rm_manifest_file manifest src_prepare_rpm src_prepare_deb
+
+all: deb
+
 # copy everything in build directort
 prepare_soft: clean_build
 	mkdir $(BUILD_DIR)
@@ -80,7 +86,7 @@ deb_prepare: prepare_soft src_prepare_deb
 
 # build the deb(s) and put it in out directory
 deb: deb_prepare
-	cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
+	+cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
 	dpkg-buildpackage -us -uc
 	find $(BUILD_DIR)/ -type f -name "*.deb" | xargs cp -a -f -t $(OUT_DIR)/;
 
