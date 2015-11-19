@@ -34,11 +34,11 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
-	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/src.tar.gz
+	tar -vxf $(BUILD_DIR)/src.tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/py-ascii-graph-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf py-ascii-graph-$(VERSION)
-	rm -f $(BUILD_DIR)/lc.tar.gz
+	rm -f $(BUILD_DIR)/src.tar.gz
 
 
 # preparation hook for deb package.
