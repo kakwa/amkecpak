@@ -64,7 +64,7 @@ rpm: rpm_prepare
 	                         --define "_builddir %{_topdir}/BUILD" \
 	                         --define "dist .$(DIST_TAG)" \
 	                         $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec
-	find $(BUILD_DIR)/rpm -type f -name "*.rpm" | xargs cp -a -f -t $(OUT_DIR)/;\
+	find $(BUILD_DIR)/rpm -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \; ;\
 	rm $(OUT_DIR)/*.src.rpm
 
 # * generate generic changelog
@@ -88,7 +88,7 @@ deb_prepare: prepare_soft src_prepare_deb
 deb: deb_prepare
 	+cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
 	dpkg-buildpackage -us -uc
-	find $(BUILD_DIR)/ -type f -name "*.deb" | xargs cp -a -f -t $(OUT_DIR)/;
+	find $(BUILD_DIR)/ -type f -name "*.deb" -exec mv {} $(OUT_DIR)/ \;
 
 clean_build:
 	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
