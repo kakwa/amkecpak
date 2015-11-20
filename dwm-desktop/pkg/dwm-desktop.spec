@@ -12,7 +12,7 @@ Summary: @SUMMARY@
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 #BuildArch: noarch
 #BuildRequires: sed
-#Requires: python
+Requires: dmenu, libXinerama, libXft, libX11
 
 %description
 @DESCRIPTION@
