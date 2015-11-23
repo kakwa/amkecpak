@@ -2,7 +2,7 @@
 NAME = python-dnscherry
 
 # Version (idem)
-VERSION = 0.1.2
+VERSION = 0.1.3
 
 # release number 
 RELEASE = 1
