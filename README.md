@@ -152,4 +152,23 @@ python-asciigraph_1.1.3-1_all.deb  python-asciigraph-1.1.3-1.unk.noarch.rpm
 
 ## Complete repositories
 
+
+
+### GPG cheat sheet
+
+Generate the GPG key:
+
+```bash
+$ gpg --gen-key
+```
+
+List the keys:
+```bash
+$ gpg -K
+```
+
+export the private key (multiple hosts):
+```
+$ gpg --export-secret-key -a "kakwa"
+```
 TODO
