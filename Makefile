@@ -27,11 +27,11 @@ $(PKG): force
 	$(MAKE) -C $@
 
 $(clean_PKG): force
-	+echo  $(MAKE) -C $(patsubst clean_%,%,$@) clean
+	@+echo  $(MAKE) -C $(patsubst clean_%,%,$@) clean
 	@$(MAKE) -C $(patsubst clean_%,%,$@) clean
 
 $(deb_PKG): force
-	+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
+	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
 	@$(MAKE) -C $(patsubst deb_%,%,$@) deb
 
 $(rpm_PKG): force
