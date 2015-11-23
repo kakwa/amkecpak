@@ -152,7 +152,34 @@ python-asciigraph_1.1.3-1_all.deb  python-asciigraph-1.1.3-1.unk.noarch.rpm
 
 ## Complete repositories
 
+### Repository metadata
 
+First, you need to fill the repositories metadata:
+
+```make
+# Name of the gpg key to use
+GPG_KEY="kakwa"
+# Output directory for the repos
+OUTPUT="out/"
+# Package provider
+ORIGIN="kakwa"
+```
+
+### Create the repositories
+
+```bash
+# optionnally, cleaning everything
+$ make clean
+
+# create the deb repository
+$ make deb_repo -j 4
+
+# create the rpm repository
+$ make rpm_repo -j 4
+
+# create everything
+$ make all -j 4
+```
 
 ### GPG cheat sheet
 
@@ -171,4 +198,3 @@ export the private key (multiple hosts):
 ```
 $ gpg --export-secret-key -a "kakwa"
 ```
-TODO
