@@ -194,7 +194,12 @@ List the keys:
 $ gpg -K
 ```
 
-export the private key (multiple hosts):
+Export the private key (multiple hosts):
 ```
-$ gpg --export-secret-key -a "kakwa"
+$ gpg --export-secret-key -a "kakwa" > priv.gpg
+```
+
+Import the private key:
+```bash
+gpg --import priv.gpg
 ```
