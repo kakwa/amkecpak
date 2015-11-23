@@ -203,3 +203,8 @@ Import the private key:
 ```bash
 gpg --import priv.gpg
 ```
+
+import the key in debian:
+```
+cat pub.gpg | apt-key add -
+```
