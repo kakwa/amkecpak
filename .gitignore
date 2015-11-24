@@ -4,3 +4,4 @@ cache/
 *.rpm
 *.deb
 .*.swp
+*.gpg
