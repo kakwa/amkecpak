@@ -35,3 +35,7 @@ do
     gen_dist "el" "$c" "$i"
     c=$(( $c + 1 ))
 done
+
+
+release=`lsb_release -sr |sed 's/\(.\).*/\1/'`
+printf "el$release\n"
