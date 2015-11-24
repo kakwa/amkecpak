@@ -1,6 +1,16 @@
-# packages
+# Packages
 
 Stuff I package for fun and profit.
+
+# Necessary tools:
+
+```bash
+# CentOS/RHEL/Fedora
+$ yum install rpm-sign expect rpm-build createrepo rsync make
+
+# Debian/Ubuntu
+$ apt-get install make debhelper rerepro lsb-release
+```
 
 # Creating a package
 
@@ -164,6 +174,7 @@ OUTPUT="out/"
 # Package provider
 ORIGIN="kakwa"
 ```
+
 
 ### Create the repositories
 
