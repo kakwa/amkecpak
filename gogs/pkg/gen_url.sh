@@ -16,6 +16,7 @@ do
         if echo $name_url | grep -qe '^x/'
         then
             name_url=`echo $name | sed 's|^x/|golang/|'`
+            name="golang.org/$name"
         elif echo $name_url | grep -qe 'redis.v2'
         then
             name_url=`echo $name | sed 's|redis.v2|go-redis/redis|'`
@@ -36,6 +37,9 @@ do
         then
             name=`echo $name | sed 's|sanitized/anchor_name|sanitized_anchor_name|'`
             name_url=$name
+            name="github.com/$name"
+        else
+            name="github.com/$name"
         fi
         echo "$var_url=https://github.com/$name_url/archive/\$($var_version).tar.gz" >> Makefile.meta
         echo "$var_path=$name" >> Makefile.meta
