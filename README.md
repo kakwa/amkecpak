@@ -9,7 +9,7 @@ Stuff I package for fun and profit.
 $ yum install rpm-sign expect rpm-build createrepo rsync make
 
 # Debian/Ubuntu
-$ apt-get install make debhelper rerepro lsb-release
+$ apt-get install make debhelper reprepro lsb-release
 ```
 
 # Creating a package
