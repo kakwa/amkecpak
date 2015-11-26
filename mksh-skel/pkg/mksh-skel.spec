@@ -40,7 +40,7 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
-%attr(755,-,-)/usr/bin/mksh
+%attr(755,-,-)/usr/bin/mksh-skel
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1

@@ -2,7 +2,7 @@
 NAME = mksh-skel
 
 # Version
-VERSION = 0.1.1
+VERSION = 1.0.0
 
 # Revision number 
 RELEASE = 1
