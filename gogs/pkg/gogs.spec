@@ -10,7 +10,6 @@ License: See project
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-BuildArch: noarch
 #BuildRequires: sed
 #Requires: python
 
@@ -24,9 +23,16 @@ BuildArch: noarch
 %install
 
 rm -rf $RPM_BUILD_ROOT
-make install \
-    DESTDIR=$RPM_BUILD_ROOT \
-    PREFIX=%{_prefix}
+
+mkdir ./tmpgobuild
+unset GOROOT && \
+export TMPDIR=`pwd`/tmpgobuild && \
+export GOPATH=`pwd`/externals/ && \
+go build
+
+mkdir -p $RPM_BUILD_ROOT/usr/bin/
+cp gogs-* $RPM_BUILD_ROOT/usr/bin/gogs
+chmod 755 $RPM_BUILD_ROOT/usr/bin/gogs
 
 %post
 true
@@ -40,6 +46,7 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
+%attr(755,-,-)/usr/bin/gogs
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
