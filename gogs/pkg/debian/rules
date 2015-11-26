@@ -9,6 +9,8 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+DEST=$$(pwd)/debian/gogs
+
 %:
 	dh $@
 
@@ -22,6 +24,13 @@ override_dh_auto_build:
 	go build
 
 override_dh_auto_install:
-	mkdir -p $$(pwd)/debian/gogs/usr/bin/
-	cp gogs-* $$(pwd)/debian/gogs/usr/bin/gogs
-	chmod 755 $$(pwd)/debian/gogs/usr/bin/gogs
+	mkdir -p  $(DEST)/usr/bin/
+	cp gogs-* $(DEST)/usr/bin/gogs
+	chmod 755 $(DEST)/usr/bin/gogs
+	mkdir -p  $(DEST)/etc/gogs/
+	mkdir -p  $(DEST)/var/lib/gogs/
+	mkdir -p  $(DEST)/var/log/gogs/
+	mkdir -p  $(DEST)/usr/share/gogs/
+	cp -r templates $(DEST)/usr/share/gogs/
+	cp -r public $(DEST)/usr/share/gogs/
+	cp gogs.ini $(DEST)/etc/gogs/
