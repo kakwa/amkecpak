@@ -10,7 +10,7 @@ Homepage: @URL@
 X-Python-Version: >= 2.5
 
 Package: @NAME@
-Architecture: all
+Architecture: amd64 i386
 Depends: ${misc:Depends}
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
