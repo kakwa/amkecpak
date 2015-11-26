@@ -1,9 +1,9 @@
 # Name of the gpg key to use
-GPG_KEY="kakwa"
+GPG_KEY=kakwa
 # Output directory for the repos
-OUTPUT="out/"
+OUTPUT=out/
 # Package provider
-ORIGIN="kakwa"
+ORIGIN=kakwa
 
 #####################################################################
 
@@ -50,7 +50,7 @@ clean_rpm_repo:
 deb_repo: $(deb_PKG) export_key
 	@$(MAKE) clean_deb_repo
 	mkdir -p $(OUTDEB)
-	common/deb_repos.sh -p "$$(find `pwd` -type f -name "*.deb")" \
+	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/pkg/out/*.deb')" \
 		-o $(OUTDEB) \
 		-O $(ORIGIN) \
 		-k $(GPG_KEY)
@@ -58,7 +58,7 @@ deb_repo: $(deb_PKG) export_key
 rpm_repo: $(rpm_PKG) export_key
 	@$(MAKE) clean_rpm_repo
 	mkdir -p $(OUTRPM)/RPMS/
-	for r in $$(find `pwd` -type f -name "*.rpm"); do \
+	for r in $$(find `pwd` -type f -path '*/pkg/out/*.rpm'); do \
 		cp $$r $(OUTRPM)/RPMS/ && \
 		./common/rpmsign.exp $(OUTRPM)/RPMS/`basename $$r` --key-id=$(GPG_KEY) || exit 1; \
 	done
