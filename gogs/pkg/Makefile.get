@@ -1,0 +1,118 @@
+prepare_deps:
+	$(WGS) -u $(URL_gomail.v2) -o $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz -n $(PATH_gomail.v2)
+	rm $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz
+	$(WGS) -u $(URL_ini.v1) -o $(BUILD_DIR)/ini.v1-$(VERSION_ini.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/ini.v1-$(VERSION_ini.v1).tar.gz -n $(PATH_ini.v1)
+	rm $(BUILD_DIR)/ini.v1-$(VERSION_ini.v1).tar.gz
+	$(WGS) -u $(URL_macaron.v1) -o $(BUILD_DIR)/macaron.v1-$(VERSION_macaron.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/macaron.v1-$(VERSION_macaron.v1).tar.gz -n $(PATH_macaron.v1)
+	rm $(BUILD_DIR)/macaron.v1-$(VERSION_macaron.v1).tar.gz
+	$(WGS) -u $(URL_redis.v2) -o $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz -n $(PATH_redis.v2)
+	rm $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz
+	$(WGS) -u $(URL_bradfitz_gomemcache) -o $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz -n $(PATH_bradfitz_gomemcache)
+	rm $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz
+	$(WGS) -u $(URL_go-macaron_inject) -o $(BUILD_DIR)/go-macaron_inject-$(VERSION_go-macaron_inject).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_inject-$(VERSION_go-macaron_inject).tar.gz -n $(PATH_go-macaron_inject)
+	rm $(BUILD_DIR)/go-macaron_inject-$(VERSION_go-macaron_inject).tar.gz
+	$(WGS) -u $(URL_klauspost_compress) -o $(BUILD_DIR)/klauspost_compress-$(VERSION_klauspost_compress).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/klauspost_compress-$(VERSION_klauspost_compress).tar.gz -n $(PATH_klauspost_compress)
+	rm $(BUILD_DIR)/klauspost_compress-$(VERSION_klauspost_compress).tar.gz
+	$(WGS) -u $(URL_klauspost_cpuid) -o $(BUILD_DIR)/klauspost_cpuid-$(VERSION_klauspost_cpuid).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/klauspost_cpuid-$(VERSION_klauspost_cpuid).tar.gz -n $(PATH_klauspost_cpuid)
+	rm $(BUILD_DIR)/klauspost_cpuid-$(VERSION_klauspost_cpuid).tar.gz
+	$(WGS) -u $(URL_klauspost_crc32) -o $(BUILD_DIR)/klauspost_crc32-$(VERSION_klauspost_crc32).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/klauspost_crc32-$(VERSION_klauspost_crc32).tar.gz -n $(PATH_klauspost_crc32)
+	rm $(BUILD_DIR)/klauspost_crc32-$(VERSION_klauspost_crc32).tar.gz
+	$(WGS) -u $(URL_mattn_go-sqlite3) -o $(BUILD_DIR)/mattn_go-sqlite3-$(VERSION_mattn_go-sqlite3).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/mattn_go-sqlite3-$(VERSION_mattn_go-sqlite3).tar.gz -n $(PATH_mattn_go-sqlite3)
+	rm $(BUILD_DIR)/mattn_go-sqlite3-$(VERSION_mattn_go-sqlite3).tar.gz
+	$(WGS) -u $(URL_msteinert_pam) -o $(BUILD_DIR)/msteinert_pam-$(VERSION_msteinert_pam).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/msteinert_pam-$(VERSION_msteinert_pam).tar.gz -n $(PATH_msteinert_pam)
+	rm $(BUILD_DIR)/msteinert_pam-$(VERSION_msteinert_pam).tar.gz
+	$(WGS) -u $(URL_shurcooL_sanitized_anchor_name) -o $(BUILD_DIR)/shurcooL_sanitized_anchor_name-$(VERSION_shurcooL_sanitized_anchor_name).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/shurcooL_sanitized_anchor_name-$(VERSION_shurcooL_sanitized_anchor_name).tar.gz -n $(PATH_shurcooL_sanitized_anchor_name)
+	rm $(BUILD_DIR)/shurcooL_sanitized_anchor_name-$(VERSION_shurcooL_sanitized_anchor_name).tar.gz
+	$(WGS) -u $(URL_Unknwon_cae) -o $(BUILD_DIR)/Unknwon_cae-$(VERSION_Unknwon_cae).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/Unknwon_cae-$(VERSION_Unknwon_cae).tar.gz -n $(PATH_Unknwon_cae)
+	rm $(BUILD_DIR)/Unknwon_cae-$(VERSION_Unknwon_cae).tar.gz
+	$(WGS) -u $(URL_Unknwon_com) -o $(BUILD_DIR)/Unknwon_com-$(VERSION_Unknwon_com).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/Unknwon_com-$(VERSION_Unknwon_com).tar.gz -n $(PATH_Unknwon_com)
+	rm $(BUILD_DIR)/Unknwon_com-$(VERSION_Unknwon_com).tar.gz
+	$(WGS) -u $(URL_Unknwon_i18n) -o $(BUILD_DIR)/Unknwon_i18n-$(VERSION_Unknwon_i18n).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/Unknwon_i18n-$(VERSION_Unknwon_i18n).tar.gz -n $(PATH_Unknwon_i18n)
+	rm $(BUILD_DIR)/Unknwon_i18n-$(VERSION_Unknwon_i18n).tar.gz
+	$(WGS) -u $(URL_Unknwon_paginater) -o $(BUILD_DIR)/Unknwon_paginater-$(VERSION_Unknwon_paginater).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/Unknwon_paginater-$(VERSION_Unknwon_paginater).tar.gz -n $(PATH_Unknwon_paginater)
+	rm $(BUILD_DIR)/Unknwon_paginater-$(VERSION_Unknwon_paginater).tar.gz
+	$(WGS) -u $(URL_codegangsta_cli) -o $(BUILD_DIR)/codegangsta_cli-$(VERSION_codegangsta_cli).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/codegangsta_cli-$(VERSION_codegangsta_cli).tar.gz -n $(PATH_codegangsta_cli)
+	rm $(BUILD_DIR)/codegangsta_cli-$(VERSION_codegangsta_cli).tar.gz
+	$(WGS) -u $(URL_go-macaron_binding) -o $(BUILD_DIR)/go-macaron_binding-$(VERSION_go-macaron_binding).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_binding-$(VERSION_go-macaron_binding).tar.gz -n $(PATH_go-macaron_binding)
+	rm $(BUILD_DIR)/go-macaron_binding-$(VERSION_go-macaron_binding).tar.gz
+	$(WGS) -u $(URL_go-macaron_cache) -o $(BUILD_DIR)/go-macaron_cache-$(VERSION_go-macaron_cache).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_cache-$(VERSION_go-macaron_cache).tar.gz -n $(PATH_go-macaron_cache)
+	rm $(BUILD_DIR)/go-macaron_cache-$(VERSION_go-macaron_cache).tar.gz
+	$(WGS) -u $(URL_go-macaron_captcha) -o $(BUILD_DIR)/go-macaron_captcha-$(VERSION_go-macaron_captcha).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_captcha-$(VERSION_go-macaron_captcha).tar.gz -n $(PATH_go-macaron_captcha)
+	rm $(BUILD_DIR)/go-macaron_captcha-$(VERSION_go-macaron_captcha).tar.gz
+	$(WGS) -u $(URL_go-macaron_csrf) -o $(BUILD_DIR)/go-macaron_csrf-$(VERSION_go-macaron_csrf).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_csrf-$(VERSION_go-macaron_csrf).tar.gz -n $(PATH_go-macaron_csrf)
+	rm $(BUILD_DIR)/go-macaron_csrf-$(VERSION_go-macaron_csrf).tar.gz
+	$(WGS) -u $(URL_go-macaron_gzip) -o $(BUILD_DIR)/go-macaron_gzip-$(VERSION_go-macaron_gzip).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_gzip-$(VERSION_go-macaron_gzip).tar.gz -n $(PATH_go-macaron_gzip)
+	rm $(BUILD_DIR)/go-macaron_gzip-$(VERSION_go-macaron_gzip).tar.gz
+	$(WGS) -u $(URL_go-macaron_i18n) -o $(BUILD_DIR)/go-macaron_i18n-$(VERSION_go-macaron_i18n).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_i18n-$(VERSION_go-macaron_i18n).tar.gz -n $(PATH_go-macaron_i18n)
+	rm $(BUILD_DIR)/go-macaron_i18n-$(VERSION_go-macaron_i18n).tar.gz
+	$(WGS) -u $(URL_go-macaron_session) -o $(BUILD_DIR)/go-macaron_session-$(VERSION_go-macaron_session).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_session-$(VERSION_go-macaron_session).tar.gz -n $(PATH_go-macaron_session)
+	rm $(BUILD_DIR)/go-macaron_session-$(VERSION_go-macaron_session).tar.gz
+	$(WGS) -u $(URL_go-macaron_toolbox) -o $(BUILD_DIR)/go-macaron_toolbox-$(VERSION_go-macaron_toolbox).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-macaron_toolbox-$(VERSION_go-macaron_toolbox).tar.gz -n $(PATH_go-macaron_toolbox)
+	rm $(BUILD_DIR)/go-macaron_toolbox-$(VERSION_go-macaron_toolbox).tar.gz
+	$(WGS) -u $(URL_go-sql-driver_mysql) -o $(BUILD_DIR)/go-sql-driver_mysql-$(VERSION_go-sql-driver_mysql).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-sql-driver_mysql-$(VERSION_go-sql-driver_mysql).tar.gz -n $(PATH_go-sql-driver_mysql)
+	rm $(BUILD_DIR)/go-sql-driver_mysql-$(VERSION_go-sql-driver_mysql).tar.gz
+	$(WGS) -u $(URL_go-xorm_core) -o $(BUILD_DIR)/go-xorm_core-$(VERSION_go-xorm_core).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-xorm_core-$(VERSION_go-xorm_core).tar.gz -n $(PATH_go-xorm_core)
+	rm $(BUILD_DIR)/go-xorm_core-$(VERSION_go-xorm_core).tar.gz
+	$(WGS) -u $(URL_go-xorm_xorm) -o $(BUILD_DIR)/go-xorm_xorm-$(VERSION_go-xorm_xorm).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/go-xorm_xorm-$(VERSION_go-xorm_xorm).tar.gz -n $(PATH_go-xorm_xorm)
+	rm $(BUILD_DIR)/go-xorm_xorm-$(VERSION_go-xorm_xorm).tar.gz
+	$(WGS) -u $(URL_gogits_chardet) -o $(BUILD_DIR)/gogits_chardet-$(VERSION_gogits_chardet).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gogits_chardet-$(VERSION_gogits_chardet).tar.gz -n $(PATH_gogits_chardet)
+	rm $(BUILD_DIR)/gogits_chardet-$(VERSION_gogits_chardet).tar.gz
+	$(WGS) -u $(URL_gogits_go-gogs-client) -o $(BUILD_DIR)/gogits_go-gogs-client-$(VERSION_gogits_go-gogs-client).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gogits_go-gogs-client-$(VERSION_gogits_go-gogs-client).tar.gz -n $(PATH_gogits_go-gogs-client)
+	rm $(BUILD_DIR)/gogits_go-gogs-client-$(VERSION_gogits_go-gogs-client).tar.gz
+	$(WGS) -u $(URL_issue9_identicon) -o $(BUILD_DIR)/issue9_identicon-$(VERSION_issue9_identicon).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/issue9_identicon-$(VERSION_issue9_identicon).tar.gz -n $(PATH_issue9_identicon)
+	rm $(BUILD_DIR)/issue9_identicon-$(VERSION_issue9_identicon).tar.gz
+	$(WGS) -u $(URL_lib_pq) -o $(BUILD_DIR)/lib_pq-$(VERSION_lib_pq).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/lib_pq-$(VERSION_lib_pq).tar.gz -n $(PATH_lib_pq)
+	rm $(BUILD_DIR)/lib_pq-$(VERSION_lib_pq).tar.gz
+	$(WGS) -u $(URL_mcuadros_go-version) -o $(BUILD_DIR)/mcuadros_go-version-$(VERSION_mcuadros_go-version).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/mcuadros_go-version-$(VERSION_mcuadros_go-version).tar.gz -n $(PATH_mcuadros_go-version)
+	rm $(BUILD_DIR)/mcuadros_go-version-$(VERSION_mcuadros_go-version).tar.gz
+	$(WGS) -u $(URL_microcosm-cc_bluemonday) -o $(BUILD_DIR)/microcosm-cc_bluemonday-$(VERSION_microcosm-cc_bluemonday).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/microcosm-cc_bluemonday-$(VERSION_microcosm-cc_bluemonday).tar.gz -n $(PATH_microcosm-cc_bluemonday)
+	rm $(BUILD_DIR)/microcosm-cc_bluemonday-$(VERSION_microcosm-cc_bluemonday).tar.gz
+	$(WGS) -u $(URL_nfnt_resize) -o $(BUILD_DIR)/nfnt_resize-$(VERSION_nfnt_resize).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/nfnt_resize-$(VERSION_nfnt_resize).tar.gz -n $(PATH_nfnt_resize)
+	rm $(BUILD_DIR)/nfnt_resize-$(VERSION_nfnt_resize).tar.gz
+	$(WGS) -u $(URL_russross_blackfriday) -o $(BUILD_DIR)/russross_blackfriday-$(VERSION_russross_blackfriday).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/russross_blackfriday-$(VERSION_russross_blackfriday).tar.gz -n $(PATH_russross_blackfriday)
+	rm $(BUILD_DIR)/russross_blackfriday-$(VERSION_russross_blackfriday).tar.gz
+	$(WGS) -u $(URL_x_crypto) -o $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz -n $(PATH_x_crypto)
+	rm $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz
+	$(WGS) -u $(URL_x_net) -o $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz -n $(PATH_x_net)
+	rm $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz
+	$(WGS) -u $(URL_x_text) -o $(BUILD_DIR)/x_text-$(VERSION_x_text).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/x_text-$(VERSION_x_text).tar.gz -n $(PATH_x_text)
+	rm $(BUILD_DIR)/x_text-$(VERSION_x_text).tar.gz
