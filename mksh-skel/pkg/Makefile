@@ -1,5 +1,5 @@
 # Name of the package
-NAME = mksh
+NAME = mksh-skel
 
 # Version
 VERSION = 0.1.1
