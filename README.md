@@ -4,13 +4,18 @@ Stuff I package for fun and profit.
 
 # Necessary tools:
 
-```bash
-# CentOS/RHEL/Fedora
-$ yum install rpm-sign expect rpm-build createrepo rsync make
+Install the necessary tool for packaging and repository creation:
 
-# Debian/Ubuntu
-$ apt-get install make debhelper reprepro lsb-release
+```bash
+# CentOS/RHEL (rpm)
+$ yum install rpm-sign expect rpm-build createrepo rsync make
+# Fedora (rpm)
+$ dnf install rpm-sign expect rpm-build createrepo rsync make
+
+# Debian/Ubuntu (deb)
+$ apt-get install make debhelper reprepro lsb-release rsync
 ```
+For each package, you need to install its build dependancies (stuff like gcc, python-setuptools, etc).
 
 # Creating a package
 
