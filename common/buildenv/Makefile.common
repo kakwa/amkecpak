@@ -3,6 +3,7 @@
 # define global build and output directories
 
 OUT_DIR = out
+OUT_SRC = outsrc
 BUILD_DIR = builddir
 CACHE=cache
 
@@ -29,6 +30,7 @@ prepare_soft: clean_build
 	mkdir $(BUILD_DIR)
 	rsync -aL --exclude $(BUILD_DIR) ../ $(BUILD_DIR)/ 
 	mkdir -p  $(OUT_DIR)
+	mkdir -p  $(OUT_SRC)
 	mkdir -p  $(CACHE)
 
 # * prepare the sub-directories for rpmbuild
@@ -64,8 +66,8 @@ rpm: rpm_prepare
 	                         --define "_builddir %{_topdir}/BUILD" \
 	                         --define "dist .$(DIST_TAG)" \
 	                         $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec
-	find $(BUILD_DIR)/rpm -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \; ;\
-	rm $(OUT_DIR)/*.src.rpm
+	find $(BUILD_DIR)/rpm -type f -name "*.src.rpm" -exec mv {} $(OUT_SRC)/ \;
+	find $(BUILD_DIR)/rpm -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \;
 
 # * generate generic changelog
 # * create source archive
@@ -89,6 +91,9 @@ deb: deb_prepare
 	+cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
 	dpkg-buildpackage -us -uc
 	find $(BUILD_DIR)/ -type f -name "*.deb" -exec mv {} $(OUT_DIR)/ \;
+	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
+	find $(BUILD_DIR)/ -type f -name "*.dsc" -exec mv {} $(OUT_SRC)/ \;
+	find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -exec mv {} $(OUT_SRC)/ \;
 
 clean_build:
 	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
@@ -98,6 +103,7 @@ clean_cache:
 
 clean: clean_build clean_cache
 	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
+	if [ -d $(OUT_SRC) ]; then chmod 700 -R $(OUT_SRC);rm -rf $(OUT_SRC);fi
 
 rm_manifest_file:
 	if [ -f $(MANIFEST_FILE) ]; then  rm $(MANIFEST_FILE);fi
