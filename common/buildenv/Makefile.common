@@ -7,9 +7,10 @@ OUT_SRC = src-out
 BUILD_DIR = builddir
 CACHE=cache
 
-DIST_TAG = $(shell ./buildenv/get_dist.sh)
+DIST_TAG=$(shell ./buildenv/get_dist.sh)
 
-PKGNAME = $(NAME)
+#PREFIX=kakwa-
+PKGNAME=$(PREFIX)$(NAME)
 
 MANIFEST_FILE=$(shell pwd)/MANIFEST
 CACHE_DIR=$(shell pwd)/$(CACHE)/
