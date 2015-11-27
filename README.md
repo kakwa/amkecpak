@@ -185,7 +185,6 @@ OUTPUT="out/"
 ORIGIN="kakwa"
 ```
 
-
 ### Create the repositories
 
 ```bash
@@ -200,6 +199,16 @@ $ make rpm_repo -j 4
 
 # create everything
 $ make all -j 4
+```
+
+### Global package prefix
+
+If you want to prefix all your packages, just uncomment and fill **PREFIX**
+at the beginning of **common/buildenv/Makefile.common**.
+
+example with **PREFIX=kakwa-** for package dwm-desktop:
+```
+dwm-desktop_5.9.0-1_amd64.deb  -> kakwa-dwm-desktop_5.9.0-1_amd64.deb
 ```
 
 ### GPG cheat sheet
