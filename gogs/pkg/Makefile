@@ -2,7 +2,7 @@
 NAME = gogs
 
 # Version
-VERSION = 0.7.19
+VERSION = 0.7.22
 
 # Gogs dependancies versions
 VERSION_gomail.v2=2.0.0
