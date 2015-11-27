@@ -75,11 +75,11 @@ if ! [ -z "${CACHE_DIR}" ]
 then
     if ! [ -f "${CACHE_DIR}/${SOURCE_FILE}" ]
     then
-        wget "$URL" -O "${CACHE_DIR}/${SOURCE_FILE}"
+        wget "$URL" -O "${CACHE_DIR}/${SOURCE_FILE}" || exit_error "[ERROR] download failed"
     fi
     cp "${CACHE_DIR}/${SOURCE_FILE}" "${OUTFILE}"
 else
-    wget "$URL" -O ${OUTFILE}
+    wget "$URL" -O ${OUTFILE} || exit_error "[ERROR] download failed"
 fi
 
 SUM=`sha512sum $OUTFILE -t |sed "s/\ .*//"`
