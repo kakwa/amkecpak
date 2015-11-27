@@ -1,41 +1,27 @@
 #!/bin/sh
 
-rhr="/etc/redhat-release"
-if ! [ -f "$rhr" ]
+DISTID=`lsb_release -is`
+
+RELEASE=`lsb_release -rs`
+MAJOR=`echo $RELEASE | sed 's/\..*$//'`
+
+if echo $DISTID | grep -iq 'Redhat\|CentOS'
 then
-    printf 'unk\n'
-    exit 0
+    PKGDID='el'
+elif echo $DISTID | grep -iq 'Fedora'
+then
+    PKGDID='fc'
+elif echo $DISTID | grep -iq 'Debian'
+then
+    PKGDID='deb'
+else
+    PKGDID='unk'
+    MAJOR=''
 fi
 
-gen_dist(){
-    pref="$1"
-    count="$2"
-    cn="$3"
-    if grep -q "$cn"  "$rhr"
-    then
-        printf "${pref}${count}\n"
-        exit 0
-    fi
-}
+if echo $MAJOR | grep -iq 'unstable'
+then
+    MAJOR='U'
+fi
 
-fc_releases="Yarrow Tettnang Heidelberg Stentz Bordeaux Zod Moonshine Werewolf Sulphur Cambridge Leonidas Constantine Goddard Laughlin Lovelock Verne Miracle Spherical Schrödinger Heisenbug"
-
-c=1
-for i in $fc_releases
-do
-    gen_dist "fc" "$c" "$i"
-    c=$(( $c + 1 ))
-done
-
-rhel_releases="NONE Pensacola Taroon Nahant Tikanga Santiago Maipo"
-
-c=1
-for i in $rhel_releases
-do
-    gen_dist "el" "$c" "$i"
-    c=$(( $c + 1 ))
-done
-
-
-release=`lsb_release -sr |sed 's/\(.\).*/\1/'`
-printf "el$release\n"
+echo "${PKGDID}${MAJOR}"
