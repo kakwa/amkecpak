@@ -36,11 +36,11 @@ include buildenv/Makefile.common
 
 src_prepare_rpm:
 # example of source archive handling:
-#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
-#	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
-#	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
-#	rm -rf ldapcherry-$(VERSION)
-#	rm -f $(BUILD_DIR)/lc.tar.gz
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/src-$(VERSION).tar.gz
+#	tar -vxf $(BUILD_DIR)/src-$(VERSION).tar.gz -C $(BUILD_DIR)/
+#	mv $(BUILD_DIR)/src-$(VERSION)/* $(BUILD_DIR)/src/
+#	rm -rf src-$(VERSION)
+#	rm -f $(BUILD_DIR)/src-$(VERSION).tar.gz
 
 
 # preparation hook for deb package.

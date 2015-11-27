@@ -25,11 +25,11 @@ include buildenv/Makefile.common
 
 # preparation hook for rpm 
 src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
-	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/ldapcherry-$(VERSION).tar.gz
+	tar -vxf $(BUILD_DIR)/ldapcherry-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/ldapcherry-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf ldapcherry-$(VERSION)
-	rm -f $(BUILD_DIR)/lc.tar.gz
+	rm -f $(BUILD_DIR)/ldapcherry-$(VERSION).tar.gz
 
 # preparation hook for deb (same as rpm  by default)
 src_prepare_deb: src_prepare_rpm

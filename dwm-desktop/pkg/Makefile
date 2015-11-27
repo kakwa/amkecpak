@@ -35,11 +35,11 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/archive.tar.gz
-	tar -vxf $(BUILD_DIR)/archive.tar.gz -C $(BUILD_DIR)/
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz
+	tar -vxf $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/dwm-desktop-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf $(BUILD_DIR)/dwm-desktop-$(VERSION)
-	rm -f $(BUILD_DIR)/archive.tar.gz
+	rm -f $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz
 
 
 # preparation hook for deb package.

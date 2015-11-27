@@ -83,13 +83,13 @@ include Makefile.meta
 include Makefile.get
 
 src_prepare_rpm: prepare_deps
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/gogs-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/gogits/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/gogits/gogs
-	tar -xf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+	tar -xf $(BUILD_DIR)/gogs-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/gogs-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf $(BUILD_DIR)/gogs-$(VERSION)/
-	rm -f $(BUILD_DIR)/lc.tar.gz
+	rm -f $(BUILD_DIR)/gogs-$(VERSION).tar.gz
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override

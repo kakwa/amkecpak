@@ -35,11 +35,11 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/lc.tar.gz
-	tar -vxf $(BUILD_DIR)/lc.tar.gz -C $(BUILD_DIR)/
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz
+	tar -vxf $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/mk-sh-skel-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf mk-sh-skel-$(VERSION)
-	rm -f $(BUILD_DIR)/lc.tar.gz
+	rm -f $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz
 
 
 # preparation hook for deb package.
