@@ -5,6 +5,7 @@ NAME = gogs
 VERSION = 0.7.22
 
 # Gogs dependancies versions
+VERSION_bufio.v1=v1
 VERSION_gomail.v2=2.0.0
 VERSION_ini.v1=2e44421
 VERSION_macaron.v1=1c6dd87

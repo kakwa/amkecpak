@@ -33,6 +33,10 @@ do
         then
             name_url=`echo $name | sed 's|macaron.v1|go-macaron/macaron|'`
             name="gopkg.in/$name"
+        elif echo $name_url | grep -qe 'bufio.v1'
+        then
+            name_url=`echo $name | sed 's|bufio.v1|go-bufio/bufio|'`
+            name="gopkg.in/$name"
         elif echo $name_url | grep -qe 'anchor_name'
         then
             name=`echo $name | sed 's|sanitized/anchor_name|sanitized_anchor_name|'`
