@@ -2,12 +2,12 @@
 
 help(){
   cat <<EOF
-usage: `basename $0` <args>
+usage: `basename $0` -n <go module name> -a <archive> -d <gopath directory>
 
-<description>
+extract go upstream archive in module name
 
-arguments:
-  <options>
+example: `basename $0` -a gogs-0.7.1.tar.gz -n 'github.com/gogits/gogs/' -d \$GOPATH
+
 EOF
   exit 1
 }
