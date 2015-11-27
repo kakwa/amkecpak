@@ -3,7 +3,7 @@
 # define global build and output directories
 
 OUT_DIR = out
-OUT_SRC = outsrc
+OUT_SRC = src-out
 BUILD_DIR = builddir
 CACHE=cache
 

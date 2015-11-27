@@ -1,5 +1,5 @@
 out/
-outsrc/
+src-out/
 builddir/
 cache/
 *.rpm
