@@ -158,6 +158,11 @@ $ make rpm
 # output packages:
 $ ls out/
 python-asciigraph_1.1.3-1_all.deb  python-asciigraph-1.1.3-1.unk.noarch.rpm
+
+# output source package
+$ ls src-out/
+python-asciigraph_1.1.3-1.debian.tar.xz  python-asciigraph-1.1.3-1.unk.src.rpm
+python-asciigraph_1.1.3-1.dsc            python-asciigraph_1.1.3.orig.tar.gz
 ```
 
 ## Complete repositories
