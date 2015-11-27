@@ -63,7 +63,7 @@ done
 [ -z "$URL" ] && exit_error "[ERROR] missing -u <url> arg"
 [ -z "$OUTFILE" ] && exit_error "[ERROR] missing -o <out> arg"
 
-SOURCE_FILE="`basename $URL`"
+SOURCE_FILE="`basename ${OUTFILE}`"
 if [ -e "$MANIFEST_FILE" ]
 then
     EXPECTED_SUM="`sed \"s/$SOURCE_FILE=\(.*\)/\1/p;d\" $MANIFEST_FILE`"
