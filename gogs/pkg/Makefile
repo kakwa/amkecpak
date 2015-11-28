@@ -10,6 +10,7 @@ VERSION_gomail.v2=2.0.0
 VERSION_ini.v1=2e44421
 VERSION_macaron.v1=1c6dd87
 VERSION_redis.v2=v2.3.2
+VERSION_alexcesaro_quotedprintable.v3=2caba252f4dc53eaf6b553000885530023f54623
 VERSION_bradfitz_gomemcache=72a68649ba
 VERSION_go-macaron_inject=c5ab7bf
 VERSION_klauspost_compress=bbfa9dc

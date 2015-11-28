@@ -1,4 +1,7 @@
 prepare_deps:
+	$(WGS) -u $(URL_bufio.v1) -o $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz -n $(PATH_bufio.v1)
+	rm $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz
 	$(WGS) -u $(URL_gomail.v2) -o $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz -n $(PATH_gomail.v2)
 	rm $(BUILD_DIR)/gomail.v2-$(VERSION_gomail.v2).tar.gz
@@ -11,9 +14,9 @@ prepare_deps:
 	$(WGS) -u $(URL_redis.v2) -o $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz -n $(PATH_redis.v2)
 	rm $(BUILD_DIR)/redis.v2-$(VERSION_redis.v2).tar.gz
-	$(WGS) -u $(URL_bufio.v1) -o $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz -n $(PATH_bufio.v1)
-	rm $(BUILD_DIR)/bufio.v1-$(VERSION_bufio.v1).tar.gz
+	$(WGS) -u $(URL_alexcesaro_quotedprintable.v3) -o $(BUILD_DIR)/alexcesaro_quotedprintable.v3-$(VERSION_alexcesaro_quotedprintable.v3).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/alexcesaro_quotedprintable.v3-$(VERSION_alexcesaro_quotedprintable.v3).tar.gz -n $(PATH_alexcesaro_quotedprintable.v3)
+	rm $(BUILD_DIR)/alexcesaro_quotedprintable.v3-$(VERSION_alexcesaro_quotedprintable.v3).tar.gz
 	$(WGS) -u $(URL_bradfitz_gomemcache) -o $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz -n $(PATH_bradfitz_gomemcache)
 	rm $(BUILD_DIR)/bradfitz_gomemcache-$(VERSION_bradfitz_gomemcache).tar.gz

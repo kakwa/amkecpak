@@ -74,8 +74,8 @@ rm -rf \$RPM_BUILD_ROOT
 %files
 %defattr(644, root, root, 755)
 %attr(755,-,-)/usr/bin/gogs
-%attr(644,gogs,gogs)/var/lib/gogs/
-%attr(644,gogs,gogs)/var/log/gogs/
+%attr(755,gogs,gogs)/var/lib/gogs/
+%attr(755,gogs,gogs)/var/log/gogs/
 /usr/share/gogs/
 /etc/gogs/
 /usr/lib/tmpfiles.d/*

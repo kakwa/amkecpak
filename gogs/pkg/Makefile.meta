@@ -1,4 +1,6 @@
 # meta variables for deps
+URL_bufio.v1=https://github.com/go-bufio/bufio/archive/$(VERSION_bufio.v1).tar.gz
+PATH_bufio.v1=gopkg.in/bufio.v1
 URL_gomail.v2=https://github.com/go-gomail/gomail/archive/$(VERSION_gomail.v2).tar.gz
 PATH_gomail.v2=gopkg.in/gomail.v2
 URL_ini.v1=https://github.com/go-ini/ini/archive/$(VERSION_ini.v1).tar.gz
@@ -7,8 +9,8 @@ URL_macaron.v1=https://github.com/go-macaron/macaron/archive/$(VERSION_macaron.v
 PATH_macaron.v1=gopkg.in/macaron.v1
 URL_redis.v2=https://github.com/go-redis/redis/archive/$(VERSION_redis.v2).tar.gz
 PATH_redis.v2=gopkg.in/redis.v2
-URL_bufio.v1=https://github.com/go-bufio/bufio/archive/$(VERSION_bufio.v1).tar.gz
-PATH_bufio.v1=gopkg.in/bufio.v1
+URL_alexcesaro_quotedprintable.v3=https://github.com/alexcesaro/quotedprintable/archive/$(VERSION_alexcesaro_quotedprintable.v3).tar.gz
+PATH_alexcesaro_quotedprintable.v3=gopkg.in/alexcesaro/quotedprintable.v3
 URL_bradfitz_gomemcache=https://github.com/bradfitz/gomemcache/archive/$(VERSION_bradfitz_gomemcache).tar.gz
 PATH_bradfitz_gomemcache=github.com/bradfitz/gomemcache
 URL_go-macaron_inject=https://github.com/go-macaron/inject/archive/$(VERSION_go-macaron_inject).tar.gz

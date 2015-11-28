@@ -37,6 +37,10 @@ do
         then
             name_url=`echo $name | sed 's|bufio.v1|go-bufio/bufio|'`
             name="gopkg.in/$name"
+        elif echo $name_url | grep -qe 'alexcesaro/quotedprintable.v3'
+        then
+            name_url=`echo $name | sed 's|alexcesaro/quotedprintable.v3|alexcesaro/quotedprintable|'`
+            name="gopkg.in/$name"
         elif echo $name_url | grep -qe 'anchor_name'
         then
             name=`echo $name | sed 's|sanitized/anchor_name|sanitized_anchor_name|'`
@@ -47,8 +51,8 @@ do
         fi
         echo "$var_url=https://github.com/$name_url/archive/\$($var_version).tar.gz" >> Makefile.meta
         echo "$var_path=$name" >> Makefile.meta
-        echo "\t\$(WGS) -u \$($var_url) -o \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz" >> Makefile.get
-        echo "\t\$(GO_EXT) -a \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz -n \$($var_path)" >>Makefile.get
-        echo "\trm \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz" >> Makefile.get
+        printf "\t\$(WGS) -u \$($var_url) -o \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz\n" >> Makefile.get
+        printf "\t\$(GO_EXT) -a \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz -n \$($var_path)\n" >>Makefile.get
+        printf "\trm \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz\n" >> Makefile.get
     fi
 done
