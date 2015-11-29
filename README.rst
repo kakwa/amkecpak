@@ -3,6 +3,22 @@ Packages
 
 Stuff I package for fun and profit.
 
+.. image:: https://travis-ci.org/kakwa/packages.svg?branch=master
+    :target: https://travis-ci.org/kakwa/packages
+    
+.. image:: https://readthedocs.org/projects/kakwa-packages/badge/?version=latest
+    :target: http://kakwa-packages.readthedocs.org/en/latest/?badge=latest
+    :alt: Documentation Status
+
+----
+
+:Doc:    `Documentation on ReadTheDoc <http://kakwa-package.readthedocs.org/en/latest/>`_
+:Dev:    `GitHub <https://github.com/kakwa/packages>`_
+:Author:  Pierre-Francois Carpentier - copyright © 2015
+
+----
+
+
 Packaging documentation in a nutshell
 -------------------------------------
 
