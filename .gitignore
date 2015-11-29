@@ -6,3 +6,4 @@ cache/
 *.deb
 .*.swp
 *.gpg
+_build/
