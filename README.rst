@@ -12,7 +12,7 @@ Stuff I package for fun and profit.
 
 ----
 
-:Doc:    `Documentation on ReadTheDoc <http://kakwa-package.readthedocs.org/en/latest/>`_
+:Doc:    `Documentation on ReadTheDoc <http://kakwa-packages.readthedocs.org/en/latest/>`_
 :Dev:    `GitHub <https://github.com/kakwa/packages>`_
 :Author:  Pierre-Francois Carpentier - copyright © 2015
 
