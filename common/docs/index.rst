@@ -10,7 +10,7 @@ Contents
    building_repo
    misc 
 
-.. include:: ../README.rst
+.. include:: ../../README.rst
 
 Indices and tables
 ==================
