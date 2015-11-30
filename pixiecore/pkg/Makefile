@@ -7,6 +7,9 @@ REVISION=b9a4006784aec6400b161a214cc16514c0f65900
 
 #VERSION_bufio.v1=v1
 
+VERSION_x_crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
+VERSION_x_net=b092070472000b3147a7bdaf7cfc9515cf90514f
+
 # Revision number 
 RELEASE = 1
 
@@ -41,10 +44,10 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-#include Makefile.meta
-#include Makefile.get
+include Makefile.meta
+include Makefile.get
 
-src_prepare_rpm:
+src_prepare_rpm: prepare_deps
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/pixiecore-$(REVISION).tar.gz
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/danderson/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/danderson/pixiecore

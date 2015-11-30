@@ -32,22 +32,22 @@ export GOPATH=`pwd`/externals/ && \
 go build
 
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
-cp gogs-* $RPM_BUILD_ROOT/usr/bin/gogs
-chmod 755 $RPM_BUILD_ROOT/usr/bin/gogs
-mkdir -p  $RPM_BUILD_ROOT/etc/gogs/
-mkdir -p  $RPM_BUILD_ROOT/var/lib/gogs/
-mkdir -p  $RPM_BUILD_ROOT/var/log/gogs/
-mkdir -p  $RPM_BUILD_ROOT/usr/share/gogs/
-cp -r templates $RPM_BUILD_ROOT/usr/share/gogs/
-cp -r public $RPM_BUILD_ROOT/usr/share/gogs/
-cp gogs.ini $RPM_BUILD_ROOT/etc/gogs/
+cp pixiecore-* $RPM_BUILD_ROOT/usr/bin/pixiecore
+chmod 755 $RPM_BUILD_ROOT/usr/bin/pixiecore
+#mkdir -p  $RPM_BUILD_ROOT/etc/pixiecore/
+#mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
+#mkdir -p  $RPM_BUILD_ROOT/var/log/pixiecore/
+#mkdir -p  $RPM_BUILD_ROOT/usr/share/pixiecore/
+#cp -r templates $RPM_BUILD_ROOT/usr/share/pixiecore/
+#cp -r public $RPM_BUILD_ROOT/usr/share/pixiecore/
+#cp pixiecore.ini $RPM_BUILD_ROOT/etc/pixiecore/
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 rhel/gogs.service %{buildroot}%{_unitdir}
+install -pm644 rhel/pixiecore.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
-install -pm644 rhel/gogs %{buildroot}/etc/sysconfig/
-install -pm644 rhel/gogs.conf %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 rhel/pixiecore %{buildroot}/etc/sysconfig/
+install -pm644 rhel/pixiecore.conf %{buildroot}/usr/lib/tmpfiles.d/
 
 
 %post
@@ -55,12 +55,12 @@ true
 
 %pre
 
-getent group gogs >/dev/null || groupadd -r gogs
-getent passwd gogs >/dev/null || \
-    useradd -r -g gogs -d /var/lib/gogs -s /sbin/nologin \
-    -c "Gogs daemon user" gogs
+getent group pixiecore >/dev/null || groupadd -r pixiecore
+getent passwd pixiecore >/dev/null || \
+    useradd -r -g pixiecore -d /var/lib/pixiecore -s /sbin/nologin \
+    -c "pixiecore daemon user" pixiecore
 
-systemd-tmpfiles --create /usr/lib/tmpfiles.d/gogs.conf
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/pixiecore.conf
 
 systemctl daemon-reload
 
@@ -73,11 +73,11 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
-%attr(755,-,-)/usr/bin/gogs
-%attr(755,gogs,gogs)/var/lib/gogs/
-%attr(755,gogs,gogs)/var/log/gogs/
-/usr/share/gogs/
-/etc/gogs/
+%attr(755,-,-)/usr/bin/pixiecore
+#%attr(755,pixiecore,pixiecore)/var/lib/pixiecore/
+#%attr(755,pixiecore,pixiecore)/var/log/pixiecore/
+#/usr/share/pixiecore/
+#/etc/pixiecore/
 /usr/lib/tmpfiles.d/*
 /etc/sysconfig/*
 %{_unitdir}/*

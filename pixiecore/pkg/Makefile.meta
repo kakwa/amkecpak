@@ -1,0 +1,5 @@
+# meta variables for deps
+URL_x_crypto=https://github.com/golang/crypto/archive/$(VERSION_x_crypto).tar.gz
+PATH_x_crypto=golang.org/x/crypto
+URL_x_net=https://github.com/golang/net/archive/$(VERSION_x_net).tar.gz
+PATH_x_net=golang.org/x/net

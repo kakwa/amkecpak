@@ -9,7 +9,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DEST=$$(pwd)/debian/gogs
+DEST=$$(pwd)/debian/pixiecore
 
 %:
 	dh $@
@@ -25,12 +25,12 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
-	cp gogs-* $(DEST)/usr/bin/gogs
-	chmod 755 $(DEST)/usr/bin/gogs
-	mkdir -p  $(DEST)/etc/gogs/
-	mkdir -p  $(DEST)/var/lib/gogs/
-	mkdir -p  $(DEST)/var/log/gogs/
-	mkdir -p  $(DEST)/usr/share/gogs/
-	cp -r templates $(DEST)/usr/share/gogs/
-	cp -r public $(DEST)/usr/share/gogs/
-	cp gogs.ini $(DEST)/etc/gogs/
+	cp pixiecore-* $(DEST)/usr/bin/pixiecore
+	chmod 755 $(DEST)/usr/bin/pixiecore
+#	mkdir -p  $(DEST)/etc/pixiecore/
+#	mkdir -p  $(DEST)/var/lib/pixiecore/
+#	mkdir -p  $(DEST)/var/log/pixiecore/
+#	mkdir -p  $(DEST)/usr/share/pixiecore/
+#	cp -r templates $(DEST)/usr/share/pixiecore/
+#	cp -r public $(DEST)/usr/share/pixiecore/
+#	cp pixiecore.ini $(DEST)/etc/pixiecore/
