@@ -1,12 +1,12 @@
-#! /bin/sh
+#!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:        gogs
+# Provides:          gogs
 # Required-Start:    $remote_fs $network $syslog
-# Required-Stop:    $remote_fs $network $syslog
-# Default-Start:    2 3 4 5
+# Required-Stop:     $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
 # Default-Stop:        
-# Short-Description:    gogs
+# Short-Description: gogs
 ### END INIT INFO
 
 PIDFILE=/var/run/gogs/gogs.pid
@@ -40,13 +40,14 @@ start_gogs(){
         --quiet --pidfile $PIDFILE --make-pidfile \
         --background --exec $BIN -- $OPTS
     then
-        log_end_msg 0 || true
-        return 0
+        wait_start 2
+        ret=$?
+        log_end_msg $ret || true
+        return $ret
     else
         log_end_msg 1 || true
         return 1
     fi
-
 }
 
 stop_gogs(){
@@ -62,9 +63,23 @@ stop_gogs(){
     fi
 }
 
-wait_stop(){
+wait_start(){
+    timeout_start=$(( $1 * 2 ))
     c=0
-    while pidofproc -p $PIDFILE $BIN >/dev/null && [ $c -lt 10 ]
+    wait_stop 1
+    while ! pidofproc -p $PIDFILE $BIN >/dev/null && [ $c -lt $timeout_start ]
+    do
+        sleep 0.5
+        c=$(( $c + 1 ))
+    done
+    ! [ $c -eq $timeout_start ]
+    return $?
+}
+
+wait_stop(){
+    timeout_stop=$(( $1 * 2 ))
+    c=0
+    while pidofproc -p $PIDFILE $BIN >/dev/null && [ $c -lt $timeout_stop ]
     do
         sleep 0.5
         c=$(( $c + 1 ))
@@ -82,7 +97,7 @@ case "$1" in
     ;;
   restart)
     stop_gogs
-    wait_stop
+    wait_stop 10
     start_gogs
     exit $?
     ;;
