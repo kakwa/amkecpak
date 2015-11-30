@@ -40,6 +40,9 @@ Packaging documentation in a nutshell
 
     $ cd ../../ 
 
+    # gpg key generation (one time thing)
+    $ gpg --gen-key
+
     # Preparing the repositories metadata
     $ vim Makefile
 
@@ -47,4 +50,4 @@ Packaging documentation in a nutshell
     $ make deb_repo -j 4
     $ make rpm_repo -j 4
 
-If need more information, read the `complete documentation <http://kakwa-packages.readthedocs.org/en/latest/>`_
+If you need more information, read the `detailed documentation <http://kakwa-packages.readthedocs.org/en/latest/>`_.
