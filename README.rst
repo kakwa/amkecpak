@@ -46,3 +46,5 @@ Packaging documentation in a nutshell
     # Building the repositories
     $ make deb_repo -j 4
     $ make rpm_repo -j 4
+
+If need more information, read the `complete documentation <http://kakwa-packages.readthedocs.org/en/latest/>`_
