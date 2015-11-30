@@ -153,8 +153,8 @@ insert the package specific sutff.
 
 .. warning::
 
-    The preparation steps must not modified or add files outside **$(BUILD_DIR)**, everything must be done inside
-    that directory.
+    The preparation steps must not modify, delete or add files outside **$(BUILD_DIR)**, everything must be done inside
+    this directory.
 
 Distribution specific packaging
 ===============================
