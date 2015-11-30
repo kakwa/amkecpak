@@ -29,11 +29,10 @@ mkdir ./tmpgobuild
 unset GOROOT && \
 export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
-go build
+go build -o pixiecore
 
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
-cp pixiecore-* $RPM_BUILD_ROOT/usr/bin/pixiecore
-chmod 755 $RPM_BUILD_ROOT/usr/bin/pixiecore
+install -m 755 pixiecore $RPM_BUILD_ROOT/usr/bin/
 #mkdir -p  $RPM_BUILD_ROOT/etc/pixiecore/
 #mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
 #mkdir -p  $RPM_BUILD_ROOT/var/log/pixiecore/

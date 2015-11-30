@@ -29,11 +29,10 @@ mkdir ./tmpgobuild
 unset GOROOT && \
 export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
-go build
+go build -o gogs
 
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
-cp gogs-* $RPM_BUILD_ROOT/usr/bin/gogs
-chmod 755 $RPM_BUILD_ROOT/usr/bin/gogs
+install -m 755 gogs $RPM_BUILD_ROOT/usr/bin/
 mkdir -p  $RPM_BUILD_ROOT/etc/gogs/
 mkdir -p  $RPM_BUILD_ROOT/var/lib/gogs/
 mkdir -p  $RPM_BUILD_ROOT/var/log/gogs/
