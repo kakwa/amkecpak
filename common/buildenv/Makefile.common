@@ -85,7 +85,8 @@ deb_prepare: prepare_soft src_prepare_deb
 	cd -
 	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
 	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/;s/@DESCRIPTION@/$(DESCRIPTION)/;s/@SUMMARY@/$(SUMMARY)/;s|@URL@|$(URL)|' \
-	        $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/control
+	        $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/control \
+			$(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/rules
 
 # build the deb(s) and put it in out directory
 deb: deb_prepare

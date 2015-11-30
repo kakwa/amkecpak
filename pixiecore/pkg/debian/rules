@@ -9,7 +9,7 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-DEST=$$(pwd)/debian/pixiecore
+DEST=$$(pwd)/debian/@NAME@
 
 %:
 	dh $@
@@ -21,12 +21,11 @@ override_dh_auto_build:
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
-	go build
+	go build -o pixiecore
 
 override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
-	cp pixiecore-* $(DEST)/usr/bin/pixiecore
-	chmod 755 $(DEST)/usr/bin/pixiecore
+	install -m 755 pixiecore $(DEST)/usr/bin/pixiecore
 	mkdir -p  $(DEST)/var/lib/pixiecore/tcl/
 	install -m 644 vmlinuz $(DEST)/var/lib/pixiecore/tcl/
 	install -m 644 core.gz $(DEST)/var/lib/pixiecore/tcl/
