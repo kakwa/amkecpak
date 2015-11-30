@@ -1,6 +1,12 @@
-#PIDFILE=/var/run/gogs/gogs.pid
-#CONF=/etc/gogs/gogs.ini
-#USER=gogs
-#GROUP=gogs
-#BIN=/usr/bin/gogs
-#OPTS="-d -c $CONF -p 8080"
+#PIDFILE=/var/run/pixiecore/pixiecore.pid
+#USER=pixiecore
+#GROUP=pixiecore
+#BIN=/usr/bin/pixiecore
+#
+#API="-api http://localhot:8080"
+#API_TIMEOUT="-api-timeout 10"
+#INITRD="-initrd /path/to/initrd"
+#KERNEL="-kernel /path/to/kerel"
+#KERNEL_CMDLINE="-cmdline 'ks=ks.cfg'"
+#OTHER="-port-dhcp 67 -port-http 70 -port-pxe 4011 -port-tftp 69"
+

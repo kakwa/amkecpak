@@ -17,18 +17,17 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-USER=gogs
+USER=pixiecore
 
 case "$1" in
     configure)
         adduser \
             --system \
-            --home /var/lib/gogs \
+            --home /var/lib/pixiecore \
             --quiet \
             --group \
             ${USER}
-        chown -R ${USER}:${USER} /var/lib/gogs
-        chown -R ${USER}:${USER} /var/log/gogs
+        setcap 'cap_net_bind_service=+ep' /usr/bin/pixiecore
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
