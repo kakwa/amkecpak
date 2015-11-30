@@ -35,6 +35,7 @@ start_gogs(){
     fi
     mkdir -p `dirname $PIDFILE` -m 750
     chown $USER:$GROUP `dirname $PIDFILE`
+    export USER=$USER
     if start-stop-daemon -c $USER:$GROUP --start \
         --quiet --pidfile $PIDFILE --make-pidfile \
         --background --exec $BIN -- $OPTS
