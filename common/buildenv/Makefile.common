@@ -24,7 +24,9 @@ endif
 
 .PHONY: all prepare_soft rpm_prepare rpm deb_prepare deb clean_build clean_cache clean rm_manifest_file manifest src_prepare_rpm src_prepare_deb
 
-all: deb
+all:
+	$(MAKE) deb
+	$(MAKE) rpm
 
 # copy everything in build directort
 prepare_soft: clean_build
