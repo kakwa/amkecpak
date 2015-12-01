@@ -21,15 +21,15 @@ override_dh_auto_build:
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
-	go build -o gogs
+	go build -o drone
 
 override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
-	install -m 755 gogs $(DEST)/usr/bin/
-	mkdir -p  $(DEST)/etc/gogs/
-	mkdir -p  $(DEST)/var/lib/gogs/
-	mkdir -p  $(DEST)/var/log/gogs/
-	mkdir -p  $(DEST)/usr/share/gogs/
-	cp -r templates $(DEST)/usr/share/gogs/
-	cp -r public $(DEST)/usr/share/gogs/
-	cp gogs.ini $(DEST)/etc/gogs/
+	install -m 755 drone $(DEST)/usr/bin/
+	mkdir -p  $(DEST)/etc/drone/
+	mkdir -p  $(DEST)/var/lib/drone/
+	mkdir -p  $(DEST)/var/log/drone/
+	mkdir -p  $(DEST)/usr/share/drone/
+	cp -r templates $(DEST)/usr/share/drone/
+	cp -r public $(DEST)/usr/share/drone/
+	cp drone.ini $(DEST)/etc/drone/

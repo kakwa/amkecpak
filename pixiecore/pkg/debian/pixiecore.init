@@ -1,36 +1,39 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:        gogs
-# Required-Start:    $remote_fs $network $syslog
+# Provides:         pixiecore
+# Required-Start:   $remote_fs $network $syslog
 # Required-Stop:    $remote_fs $network $syslog
 # Default-Start:    2 3 4 5
 # Default-Stop:        
-# Short-Description:    gogs
+# Short-Description:    pixiecore
 ### END INIT INFO
 
-PIDFILE=/var/run/gogs/gogs.pid
-CONF=/etc/gogs/gogs.ini
-USER=gogs
-GROUP=gogs
-BIN=/usr/bin/gogs
-OPTS="web --config=$CONF"
+PIDFILE=/var/run/pixiecore/pixiecore.pid
+CONF=/etc/pixiecore/pixiecore.ini
+USER=pixiecore
+GROUP=pixiecore
+BIN=/usr/bin/pixiecore
+KERNEL="-kernel /var/lib/pixiecore/tcl/core.gz"
+INITRD="-initrd /var/lib/pixiecore/tcl/"
 
 . /lib/lsb/init-functions
 
-if [ -f /etc/default/gogs ]; then
-    . /etc/default/gogs
+if [ -f /etc/default/pixiecore ]; then
+    . /etc/default/pixiecore
 fi
 
-start_gogs(){
-    log_daemon_msg "Starting gogs" "gogs" || true
+OPTS="$API $API_TIMEOUT $INITRD $KERNEL $KERNEL_CMDLINE $OTHER"
+
+start_pixiecore(){
+    log_daemon_msg "Starting pixiecore" "pixiecore" || true
     pidofproc -p $PIDFILE $BIN >/dev/null
     status="$?"
     if [ $status -eq 0 ]
     then
         log_end_msg 1 
         log_failure_msg \
-        "gogs already started"
+        "pixiecore already started"
         return 1
     fi
     mkdir -p `dirname $PIDFILE` -m 750
@@ -48,8 +51,8 @@ start_gogs(){
 
 }
 
-stop_gogs(){
-    log_daemon_msg "Stopping gogs" "gogs" || true
+stop_pixiecore(){
+    log_daemon_msg "Stopping pixiecore" "pixiecore" || true
     if start-stop-daemon --stop --quiet \
         --pidfile $PIDFILE --remove-pidfile
     then
@@ -72,26 +75,26 @@ wait_stop(){
 
 case "$1" in
   start)
-    start_gogs
+    start_pixiecore
     exit $?
     ;;
   stop)
-    stop_gogs
+    stop_pixiecore
     exit $?
     ;;
   restart)
-    stop_gogs
+    stop_pixiecore
     wait_stop
-    start_gogs
+    start_pixiecore
     exit $?
     ;;
   status)
-    status_of_proc -p $PIDFILE $BIN "gogs" \
+    status_of_proc -p $PIDFILE $BIN "pixiecore" \
         && exit 0 || exit $?
     ;;
   *)
     log_action_msg \
-    "Usage: /etc/init.d/gogs {start|stop|restart|status}" \
+    "Usage: /etc/init.d/pixiecore {start|stop|restart|status}" \
     || true
     exit 1
 esac

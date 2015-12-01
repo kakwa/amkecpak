@@ -29,11 +29,10 @@ mkdir ./tmpgobuild
 unset GOROOT && \
 export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
-go build
+go build -o pixiecore
 
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
-cp pixiecore-* $RPM_BUILD_ROOT/usr/bin/pixiecore
-chmod 755 $RPM_BUILD_ROOT/usr/bin/pixiecore
+install -m 755 pixiecore $RPM_BUILD_ROOT/usr/bin/
 #mkdir -p  $RPM_BUILD_ROOT/etc/pixiecore/
 #mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
 #mkdir -p  $RPM_BUILD_ROOT/var/log/pixiecore/
@@ -41,6 +40,11 @@ chmod 755 $RPM_BUILD_ROOT/usr/bin/pixiecore
 #cp -r templates $RPM_BUILD_ROOT/usr/share/pixiecore/
 #cp -r public $RPM_BUILD_ROOT/usr/share/pixiecore/
 #cp pixiecore.ini $RPM_BUILD_ROOT/etc/pixiecore/
+mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
+install -m 644 vmlinuz $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
+install -m 644 core.gz $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
+
+
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
@@ -49,9 +53,8 @@ mkdir -p %{buildroot}/etc/sysconfig/
 install -pm644 rhel/pixiecore %{buildroot}/etc/sysconfig/
 install -pm644 rhel/pixiecore.conf %{buildroot}/usr/lib/tmpfiles.d/
 
-
 %post
-true
+setcap 'cap_net_bind_service=+ep' /usr/bin/pixiecore
 
 %pre
 
@@ -74,10 +77,7 @@ rm -rf \$RPM_BUILD_ROOT
 %files
 %defattr(644, root, root, 755)
 %attr(755,-,-)/usr/bin/pixiecore
-#%attr(755,pixiecore,pixiecore)/var/lib/pixiecore/
-#%attr(755,pixiecore,pixiecore)/var/log/pixiecore/
-#/usr/share/pixiecore/
-#/etc/pixiecore/
+/var/lib/pixiecore/tcl/
 /usr/lib/tmpfiles.d/*
 /etc/sysconfig/*
 %{_unitdir}/*

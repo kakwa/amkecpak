@@ -1,1 +1,10 @@
-OPTIONS="-c /etc/gogs/gogs.ini"
+#PIDFILE=/var/run/pixiecore/pixiecore.pid
+#USER=pixiecore
+#GROUP=pixiecore
+#BIN=/usr/bin/pixiecore
+#
+#API="-api http://localhot:8080"
+#API_TIMEOUT="-api-timeout 10"
+KERNEL="-kernel /var/lib/pixiecore/tcl/core.gz"
+INITRD="-initrd /var/lib/pixiecore/tcl/"
+#KERNEL_CMDLINE="-cmdline 'ks=ks.cfg'"

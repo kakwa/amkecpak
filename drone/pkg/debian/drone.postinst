@@ -17,17 +17,18 @@ set -e
 # for details, see http://www.debian.org/doc/debian-policy/ or
 # the debian-policy package
 
-USER=pixiecore
+USER=drone
 
 case "$1" in
     configure)
         adduser \
             --system \
-            --home /var/lib/pixiecore \
+            --home /var/lib/drone \
             --quiet \
             --group \
             ${USER}
-        setcap 'cap_net_bind_service=+ep' /usr/bin/pixiecore
+        chown -R ${USER}:${USER} /var/lib/drone
+        chown -R ${USER}:${USER} /var/log/drone
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
