@@ -23,6 +23,11 @@ Packaging documentation in a nutshell
 -------------------------------------
 
 .. sourcecode:: bash
+    
+    # Install the packaing tools
+    $ apt-get install make debhelper reprepro lsb-release rsync
+    # or
+    $ yum install rpm-sign expect rpm-build createrepo rsync make
 
     # Init a package foo
     $ ./common/init_pkg.sh -n foo

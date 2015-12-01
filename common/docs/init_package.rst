@@ -160,3 +160,14 @@ Distribution specific packaging
 ===============================
 
 Nothing special here, just package according to deb/rpm documentation.
+
+General packaging workflow
+==========================
+
+Here is the general packaging workflow:
+
+.. figure:: img/pkg_diagram.png
+    :scale: 80
+
+* The steps in orange are common for all packages and must not be modified.
+* The steps in green are package specific, it's those steps which must be customized for each package.
