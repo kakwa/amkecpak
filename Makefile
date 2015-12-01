@@ -7,12 +7,13 @@ ORIGIN=kakwa
 
 #####################################################################
 
+DIST_TAG=$(shell ./common/buildenv/get_dist.sh)
 PKG=$(shell find ./* -maxdepth 1 -type d -name pkg |grep -v '^common')
 clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
 OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
-OUTRPM=$(shell echo $(OUTPUT)/rpm/`./common/buildenv/get_dist.sh`/`uname -m`/)
+OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
 
 all:
 	$(MAKE) rpm_repo
