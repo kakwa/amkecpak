@@ -20,6 +20,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/elazarl/go-bindata-assetfs) -o $(BUILD_DIR)/github.com-elazarl-go-bindata-assetfs-$(VERSION_github.com/elazarl/go-bindata-assetfs).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-elazarl-go-bindata-assetfs-$(VERSION_github.com/elazarl/go-bindata-assetfs).tar.gz -n $(PATH_github.com/elazarl/go-bindata-assetfs)
 	rm $(BUILD_DIR)/github.com-elazarl-go-bindata-assetfs-$(VERSION_github.com/elazarl/go-bindata-assetfs).tar.gz
+	$(WGS) -u $(URL_github.com/jteeuwen/go-bindata) -o $(BUILD_DIR)/github.com-jteeuwen-go-bindata-$(VERSION_github.com/jteeuwen/go-bindata).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-jteeuwen-go-bindata-$(VERSION_github.com/jteeuwen/go-bindata).tar.gz -n $(PATH_github.com/jteeuwen/go-bindata)
+	rm $(BUILD_DIR)/github.com-jteeuwen-go-bindata-$(VERSION_github.com/jteeuwen/go-bindata).tar.gz
 	$(WGS) -u $(URL_github.com/gin-gonic/gin) -o $(BUILD_DIR)/github.com-gin-gonic-gin-$(VERSION_github.com/gin-gonic/gin).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gin-gonic-gin-$(VERSION_github.com/gin-gonic/gin).tar.gz -n $(PATH_github.com/gin-gonic/gin)
 	rm $(BUILD_DIR)/github.com-gin-gonic-gin-$(VERSION_github.com/gin-gonic/gin).tar.gz

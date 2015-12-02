@@ -12,6 +12,7 @@ VERSION_github.com/dgrijalva/jwt-go=v2.4.0
 VERSION_github.com/docker/docker=v1.9.1
 VERSION_github.com/eknkc/amber=144da19a9994994c069f0693294a66dd310e14a4
 VERSION_github.com/elazarl/go-bindata-assetfs=d5cac425555ca5cf00694df246e04f05e6a55150
+VERSION_github.com/jteeuwen/go-bindata=v3.0.7
 VERSION_github.com/gin-gonic/gin=v1.0rc1
 VERSION_github.com/go-sql-driver/mysql=v1.2
 VERSION_github.com/gogits/go-gogs-client=7c02c9529986c5f4a61db75b3a57500ba08c9278
@@ -95,6 +96,8 @@ src_prepare_rpm: prepare_deps
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
 	sed -i 's|code.google.com/p/cascadia|github.com/andybalholm/cascadia|' \
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
+	sed -i 's|-ignore.*-pkg|-pkg|' \
+		$(BUILD_DIR)/src/static/static.go
 	#rm -rf $(BUILD_DIR)/src/vendor
 
 # preparation hook for deb package.
