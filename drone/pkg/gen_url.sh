@@ -6,7 +6,7 @@ cat Makefile | while read line
 do
     if echo $line | grep -qe '^VERSION_'
     then
-        name=`echo $line | sed "s/VERSION_//" | sed "s/_/\//" | sed "s/_/\//" | sed "s/=.*//"`
+        name=`echo $line | sed "s/VERSION_//" | sed "s/=.*//"`
         name_under=`echo $line | sed "s/VERSION_//" | sed "s/=.*//"`
         var_version=`echo $line | sed "s/=.*//"`
         var_url=`echo $line | sed "s/VERSION_/URL_/" | sed "s/=.*//"`
@@ -25,9 +25,12 @@ do
         elif echo $name_url | grep -qe 'yaml.v2'
         then
             name_url=`echo $name | sed 's|gopkg.in/yaml.v2|github.com/go-yaml/yaml|'`
-            #name="gopkg.in/$name"
-        #else
-        #    name="github.com/$name"
+        elif echo $name_url | grep -qe 'gopkg.in/bluesuncorp/validator.v5'
+        then
+            name_url=`echo $name | sed 's|gopkg.in/bluesuncorp/validator.v5|github.com/bluesuncorp/validator|'`
+        elif echo $name_url | grep -qe 'gopkg.in/gorp.v1'
+        then
+            name_url=`echo $name | sed 's|gopkg.in/gorp.v1|github.com/go-gorp/gorp|'`
         fi
         echo "$var_url=https://$name_url/archive/\$($var_version).tar.gz" >> Makefile.meta
         echo "$var_path=$name" >> Makefile.meta

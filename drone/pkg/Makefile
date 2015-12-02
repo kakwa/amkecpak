@@ -28,6 +28,20 @@ VERSION_github.com/square/go-jose=37934a899dd03635373fd1e143936d32cfe48d31
 VERSION_golang.org/x/net=195180cfebf7362bd243a52477697895128c8777
 VERSION_golang.org/x/oauth2=442624c9ec9243441e83b374a9e22ac549b5c51d
 VERSION_gopkg.in/yaml.v2=f7716cbe52baa25d2e9b0d0da546fcf909fc16b4
+VERSION_github.com/google/go-querystring=2a60fc2ba6c19de80291203597d752e9ba58e4c0
+VERSION_github.com/mattn/go-colorable=3dac7b4f76f6e17fb39b768b89e3783d16e237fe
+VERSION_gopkg.in/bluesuncorp/validator.v5=v5.12
+VERSION_gopkg.in/gorp.v1=v1.7.1
+VERSION_github.com/dchest/jsmin=9c1f68690c8261c76c4f43dd1de5e7039148e83b
+VERSION_github.com/go-swagger/go-swagger=8c51b1e9ef48d0d0c5a88e1a6b9cc8567d06d9c9
+VERSION_github.com/PuerkitoBio/purell=d69616f51cdfcd7514d6a380847a152dfc2a749d
+VERSION_github.com/opennota/urlesc=5fa9ff0392746aeae1c4b37fcc42c65afa7a9587
+#VERSION_github.com/PuerkitoBio/goquery=v0.3.2
+VERSION_github.com/PuerkitoBio/goquery=417cce822c7b9a379df5824be95228d177c5698b
+VERSION_github.com/russross/blackfriday=v1.4
+VERSION_github.com/andybalholm/cascadia=3ad29d1ad1c4f2023e355603324348cf1f4b2d48
+VERSION_github.com/shurcooL/sanitized_anchor_name=10ef21a441db47d8b13ebcc5fd2310f636973c77
+
 
 # Revision number 
 RELEASE = 1
@@ -70,10 +84,18 @@ src_prepare_rpm: prepare_deps
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/drone-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/drone/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/drone/drone
+	mkdir -p $(BUILD_DIR)/src/externals/src/golang.org/x/
+	ln -s ../../code.google.com/p/go.crypto $(BUILD_DIR)/src/externals/src/golang.org/x/crypto
 	tar -xf $(BUILD_DIR)/drone-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/drone-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf $(BUILD_DIR)/drone-$(VERSION)/
 	rm -f $(BUILD_DIR)/drone-$(VERSION).tar.gz
+	sed -i 's|code.google.com/p/go.net|golang.org/x/net|' \
+		$(BUILD_DIR)/src/shared/crypto/crypto.go \
+		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
+	sed -i 's|code.google.com/p/cascadia|github.com/andybalholm/cascadia|' \
+		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
+	#rm -rf $(BUILD_DIR)/src/vendor
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override

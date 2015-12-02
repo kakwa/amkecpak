@@ -68,3 +68,39 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/yaml.v2) -o $(BUILD_DIR)/gopkg.in-yaml.v2-$(VERSION_gopkg.in/yaml.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-yaml.v2-$(VERSION_gopkg.in/yaml.v2).tar.gz -n $(PATH_gopkg.in/yaml.v2)
 	rm $(BUILD_DIR)/gopkg.in-yaml.v2-$(VERSION_gopkg.in/yaml.v2).tar.gz
+	$(WGS) -u $(URL_github.com/google/go-querystring) -o $(BUILD_DIR)/github.com-google-go-querystring-$(VERSION_github.com/google/go-querystring).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-google-go-querystring-$(VERSION_github.com/google/go-querystring).tar.gz -n $(PATH_github.com/google/go-querystring)
+	rm $(BUILD_DIR)/github.com-google-go-querystring-$(VERSION_github.com/google/go-querystring).tar.gz
+	$(WGS) -u $(URL_github.com/mattn/go-colorable) -o $(BUILD_DIR)/github.com-mattn-go-colorable-$(VERSION_github.com/mattn/go-colorable).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-mattn-go-colorable-$(VERSION_github.com/mattn/go-colorable).tar.gz -n $(PATH_github.com/mattn/go-colorable)
+	rm $(BUILD_DIR)/github.com-mattn-go-colorable-$(VERSION_github.com/mattn/go-colorable).tar.gz
+	$(WGS) -u $(URL_gopkg.in/bluesuncorp/validator.v5) -o $(BUILD_DIR)/gopkg.in-bluesuncorp-validator.v5-$(VERSION_gopkg.in/bluesuncorp/validator.v5).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bluesuncorp-validator.v5-$(VERSION_gopkg.in/bluesuncorp/validator.v5).tar.gz -n $(PATH_gopkg.in/bluesuncorp/validator.v5)
+	rm $(BUILD_DIR)/gopkg.in-bluesuncorp-validator.v5-$(VERSION_gopkg.in/bluesuncorp/validator.v5).tar.gz
+	$(WGS) -u $(URL_gopkg.in/gorp.v1) -o $(BUILD_DIR)/gopkg.in-gorp.v1-$(VERSION_gopkg.in/gorp.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-gorp.v1-$(VERSION_gopkg.in/gorp.v1).tar.gz -n $(PATH_gopkg.in/gorp.v1)
+	rm $(BUILD_DIR)/gopkg.in-gorp.v1-$(VERSION_gopkg.in/gorp.v1).tar.gz
+	$(WGS) -u $(URL_github.com/dchest/jsmin) -o $(BUILD_DIR)/github.com-dchest-jsmin-$(VERSION_github.com/dchest/jsmin).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-dchest-jsmin-$(VERSION_github.com/dchest/jsmin).tar.gz -n $(PATH_github.com/dchest/jsmin)
+	rm $(BUILD_DIR)/github.com-dchest-jsmin-$(VERSION_github.com/dchest/jsmin).tar.gz
+	$(WGS) -u $(URL_github.com/go-swagger/go-swagger) -o $(BUILD_DIR)/github.com-go-swagger-go-swagger-$(VERSION_github.com/go-swagger/go-swagger).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-swagger-go-swagger-$(VERSION_github.com/go-swagger/go-swagger).tar.gz -n $(PATH_github.com/go-swagger/go-swagger)
+	rm $(BUILD_DIR)/github.com-go-swagger-go-swagger-$(VERSION_github.com/go-swagger/go-swagger).tar.gz
+	$(WGS) -u $(URL_github.com/PuerkitoBio/purell) -o $(BUILD_DIR)/github.com-PuerkitoBio-purell-$(VERSION_github.com/PuerkitoBio/purell).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-PuerkitoBio-purell-$(VERSION_github.com/PuerkitoBio/purell).tar.gz -n $(PATH_github.com/PuerkitoBio/purell)
+	rm $(BUILD_DIR)/github.com-PuerkitoBio-purell-$(VERSION_github.com/PuerkitoBio/purell).tar.gz
+	$(WGS) -u $(URL_github.com/opennota/urlesc) -o $(BUILD_DIR)/github.com-opennota-urlesc-$(VERSION_github.com/opennota/urlesc).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-opennota-urlesc-$(VERSION_github.com/opennota/urlesc).tar.gz -n $(PATH_github.com/opennota/urlesc)
+	rm $(BUILD_DIR)/github.com-opennota-urlesc-$(VERSION_github.com/opennota/urlesc).tar.gz
+	$(WGS) -u $(URL_github.com/PuerkitoBio/goquery) -o $(BUILD_DIR)/github.com-PuerkitoBio-goquery-$(VERSION_github.com/PuerkitoBio/goquery).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-PuerkitoBio-goquery-$(VERSION_github.com/PuerkitoBio/goquery).tar.gz -n $(PATH_github.com/PuerkitoBio/goquery)
+	rm $(BUILD_DIR)/github.com-PuerkitoBio-goquery-$(VERSION_github.com/PuerkitoBio/goquery).tar.gz
+	$(WGS) -u $(URL_github.com/russross/blackfriday) -o $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz -n $(PATH_github.com/russross/blackfriday)
+	rm $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
+	$(WGS) -u $(URL_github.com/andybalholm/cascadia) -o $(BUILD_DIR)/github.com-andybalholm-cascadia-$(VERSION_github.com/andybalholm/cascadia).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-andybalholm-cascadia-$(VERSION_github.com/andybalholm/cascadia).tar.gz -n $(PATH_github.com/andybalholm/cascadia)
+	rm $(BUILD_DIR)/github.com-andybalholm-cascadia-$(VERSION_github.com/andybalholm/cascadia).tar.gz
+	$(WGS) -u $(URL_github.com/shurcooL/sanitized_anchor_name) -o $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz -n $(PATH_github.com/shurcooL/sanitized_anchor_name)
+	rm $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
