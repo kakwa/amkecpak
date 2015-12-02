@@ -4,48 +4,30 @@ NAME = drone
 # Version
 VERSION = 0.4.0
 
-# Gogs dependancies versions
-VERSION_bufio.v1=v1
-VERSION_gomail.v2=2.0.0
-VERSION_ini.v1=2e44421
-VERSION_macaron.v1=1c6dd87
-VERSION_redis.v2=v2.3.2
-VERSION_alexcesaro_quotedprintable.v3=2caba252f4dc53eaf6b553000885530023f54623
-VERSION_bradfitz_gomemcache=72a68649ba
-VERSION_go-macaron_inject=c5ab7bf
-VERSION_klauspost_compress=bbfa9dc
-VERSION_klauspost_cpuid=8d9fe96
-VERSION_klauspost_crc32=3e5c38b
-VERSION_mattn_go-sqlite3=5651a9d
-VERSION_msteinert_pam=6534f23b39
-VERSION_shurcooL_sanitized_anchor_name=10ef21a
-VERSION_Unknwon_cae=7f5e046
-VERSION_Unknwon_com=28b053d
-VERSION_Unknwon_i18n=7457d88830
-VERSION_Unknwon_paginater=7748a72
-VERSION_codegangsta_cli=0302d39
-VERSION_go-macaron_binding=864a5ce
-VERSION_go-macaron_cache=5617353
-VERSION_go-macaron_captcha=875ff77
-VERSION_go-macaron_csrf=3372b25
-VERSION_go-macaron_gzip=4938e9b
-VERSION_go-macaron_i18n=5e728b6
-VERSION_go-macaron_session=66031fc
-VERSION_go-macaron_toolbox=ab30a81
-VERSION_go-sql-driver_mysql=d512f20
-VERSION_go-xorm_core=3e10003353
-VERSION_go-xorm_xorm=c643188
-VERSION_gogits_chardet=2404f77725
-VERSION_gogits_go-drone-client=7c02c95
-VERSION_issue9_identicon=5a61672
-VERSION_lib_pq=83c4f41
-VERSION_mcuadros_go-version=d52711f
-VERSION_microcosm-cc_bluemonday=4ac6f27
-VERSION_nfnt_resize=dc93e1b98c
-VERSION_russross_blackfriday=300106c
-VERSION_x_crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
-VERSION_x_net=b092070472000b3147a7bdaf7cfc9515cf90514f
-VERSION_x_text=e6847002810c51f892a128333573eac5e2a62024
+# Drone dependancies versions
+VERSION_code.google.com/p/go.crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
+VERSION_github.com/Bugagazavr/go-gitlab-client=e5999f934dc45c41073fc57998a1224a75ff7d50
+VERSION_github.com/Sirupsen/logrus=v0.8.7
+VERSION_github.com/dgrijalva/jwt-go=v2.4.0
+VERSION_github.com/docker/docker=v1.9.1
+VERSION_github.com/eknkc/amber=144da19a9994994c069f0693294a66dd310e14a4
+VERSION_github.com/elazarl/go-bindata-assetfs=d5cac425555ca5cf00694df246e04f05e6a55150
+VERSION_github.com/gin-gonic/gin=v1.0rc1
+VERSION_github.com/go-sql-driver/mysql=v1.2
+VERSION_github.com/gogits/go-gogs-client=7c02c9529986c5f4a61db75b3a57500ba08c9278
+VERSION_github.com/google/go-github=47f2593dad1971eec2f0a0971aa007fef5edbc50
+VERSION_github.com/gorilla/securecookie=e95799a481bbcc3d01c2ad5178524cb8bec9f370
+VERSION_github.com/koding/cache=487fc0ca06f9aa1a02d796f5510784b47d5afae2
+VERSION_github.com/lib/pq=11fc39a580a008f1f39bb3d11d984fb34ed778d9
+VERSION_github.com/manucorporat/sse=fe6ea2c8e398672518ef204bf0fbd9af858d0e15
+VERSION_github.com/mattn/go-sqlite3=v1.1.0
+VERSION_github.com/rubenv/sql-migrate=53184e1edfb4f9655b0fa8dd2c23e7763f452bda
+VERSION_github.com/russross/meddler=f742b0f9424f3bfaffe189e921d734608929e84f
+VERSION_github.com/samalba/dockerclient=82381805d3533c97cec74e1cc79b00ef45774571
+VERSION_github.com/square/go-jose=37934a899dd03635373fd1e143936d32cfe48d31
+VERSION_golang.org/x/net=195180cfebf7362bd243a52477697895128c8777
+VERSION_golang.org/x/oauth2=442624c9ec9243441e83b374a9e22ac549b5c51d
+VERSION_gopkg.in/yaml.v2=f7716cbe52baa25d2e9b0d0da546fcf909fc16b4
 
 # Revision number 
 RELEASE = 1
@@ -81,10 +63,10 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-#include Makefile.meta
-#include Makefile.get
+include Makefile.meta
+include Makefile.get
 
-src_prepare_rpm:
+src_prepare_rpm: prepare_deps
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/drone-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/drone/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/drone/drone
