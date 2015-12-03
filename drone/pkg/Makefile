@@ -96,8 +96,8 @@ src_prepare_rpm: prepare_deps
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
 	sed -i 's|code.google.com/p/cascadia|github.com/andybalholm/cascadia|' \
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
-	sed -i 's|-ignore.*-pkg|-pkg|' \
-		$(BUILD_DIR)/src/static/static.go
+	#sed -i 's|-ignore.*-pkg|-pkg|' \
+	#	$(BUILD_DIR)/src/static/static.go
 	#rm -rf $(BUILD_DIR)/src/vendor
 
 # preparation hook for deb package.
