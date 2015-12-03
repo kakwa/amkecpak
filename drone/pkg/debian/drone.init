@@ -30,17 +30,20 @@ start_drone(){
     then
         log_end_msg 1 
         log_failure_msg \
-        "drone already started"
+            "drone already started"
         return 1
     fi
     mkdir -p `dirname $PIDFILE` -m 750
     chown $USER:$GROUP `dirname $PIDFILE`
     export USER=$USER
-    if start-stop-daemon -c $USER:$GROUP --start \
-        --quiet --pidfile $PIDFILE --make-pidfile \
-        --background --exec $BIN -- $OPTS
+    if start-stop-daemon -c drone:drone --start --quiet \
+        --pidfile /var/run/drone/drone.pid --make-pidfile \
+        --background --startas /usr/bin/pipexec -- -k -p /var/run/drone/drone.pid -- \
+        [ D /usr/bin/drone -config=/etc/drone/drone.env ] \
+        [ L1 /usr/bin/logger -t drone -p user.info ] \
+        '{D:2>L1:0}' '{D:1>L1:0}'
     then
-        wait_start 2
+        wait_start 3
         ret=$?
         log_end_msg $ret || true
         return $ret
@@ -87,29 +90,29 @@ wait_stop(){
 }
 
 case "$1" in
-  start)
-    start_drone
-    exit $?
-    ;;
-  stop)
-    stop_drone
-    exit $?
-    ;;
-  restart)
-    stop_drone
-    wait_stop 10
-    start_drone
-    exit $?
-    ;;
-  status)
-    status_of_proc -p $PIDFILE $BIN "drone" \
-        && exit 0 || exit $?
-    ;;
-  *)
-    log_action_msg \
-    "Usage: /etc/init.d/drone {start|stop|restart|status}" \
-    || true
-    exit 1
+    start)
+        start_drone
+        exit $?
+        ;;
+    stop)
+        stop_drone
+        exit $?
+        ;;
+    restart)
+        stop_drone
+        wait_stop 10
+        start_drone
+        exit $?
+        ;;
+    status)
+        status_of_proc -p $PIDFILE $BIN "drone" \
+            && exit 0 || exit $?
+        ;;
+    *)
+        log_action_msg \
+            "Usage: /etc/init.d/drone {start|stop|restart|status}" \
+            || true
+        exit 1
 esac
 
 exit 0
