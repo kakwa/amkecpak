@@ -1,6 +1,6 @@
 # meta variables for deps
-URL_code.google.com/p/go.crypto=https://github.com/golang/crypto/archive/$(VERSION_code.google.com/p/go.crypto).tar.gz
-PATH_code.google.com/p/go.crypto=code.google.com/p/go.crypto
+URL_golang.org/x/crypto=https://github.com/golang/crypto/archive/$(VERSION_golang.org/x/crypto).tar.gz
+PATH_golang.org/x/crypto=golang.org/x/crypto
 URL_github.com/Bugagazavr/go-gitlab-client=https://github.com/Bugagazavr/go-gitlab-client/archive/$(VERSION_github.com/Bugagazavr/go-gitlab-client).tar.gz
 PATH_github.com/Bugagazavr/go-gitlab-client=github.com/Bugagazavr/go-gitlab-client
 URL_github.com/Sirupsen/logrus=https://github.com/Sirupsen/logrus/archive/$(VERSION_github.com/Sirupsen/logrus).tar.gz

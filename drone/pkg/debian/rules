@@ -7,7 +7,7 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 DEST=$$(pwd)/debian/@NAME@
 
@@ -21,6 +21,7 @@ override_dh_auto_build:
 	mkdir ./tmpbin/
 	export PATH="`pwd`/tmpbin:$$PATH" && \
 	unset GOROOT && \
+	export GO15VENDOREXPERIMENT=1 && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
 	cd ./externals/src/github.com/jteeuwen/go-bindata/go-bindata/ && \
@@ -42,7 +43,7 @@ override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
 	install -m 755 drone $(DEST)/usr/bin/
 	mkdir -p  $(DEST)/etc/drone/
-	#mkdir -p  $(DEST)/var/lib/drone/
+	mkdir -p  $(DEST)/var/lib/drone/
 	#mkdir -p  $(DEST)/var/log/drone/
 	#mkdir -p  $(DEST)/usr/share/drone/
 	#cp -r templates $(DEST)/usr/share/drone/

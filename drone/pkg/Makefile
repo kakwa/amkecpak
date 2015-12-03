@@ -5,7 +5,7 @@ NAME = drone
 VERSION = 0.4.0
 
 # Drone dependancies versions
-VERSION_code.google.com/p/go.crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
+VERSION_golang.org/x/crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
 VERSION_github.com/Bugagazavr/go-gitlab-client=e5999f934dc45c41073fc57998a1224a75ff7d50
 VERSION_github.com/Sirupsen/logrus=v0.8.7
 VERSION_github.com/dgrijalva/jwt-go=v2.4.0
@@ -85,12 +85,12 @@ src_prepare_rpm: prepare_deps
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/drone-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/drone/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/drone/drone
-	mkdir -p $(BUILD_DIR)/src/externals/src/golang.org/x/
-	ln -s ../../code.google.com/p/go.crypto $(BUILD_DIR)/src/externals/src/golang.org/x/crypto
 	tar -xf $(BUILD_DIR)/drone-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/drone-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf $(BUILD_DIR)/drone-$(VERSION)/
 	rm -f $(BUILD_DIR)/drone-$(VERSION).tar.gz
+	sed -i 's|code.google.com/p/go.crypto|golang.org/x/crypto|' \
+		$(BUILD_DIR)/src/shared/crypto/crypto.go
 	sed -i 's|code.google.com/p/go.net|golang.org/x/net|' \
 		$(BUILD_DIR)/src/shared/crypto/crypto.go \
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go

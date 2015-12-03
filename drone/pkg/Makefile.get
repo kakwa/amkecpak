@@ -1,7 +1,7 @@
 prepare_deps:
-	$(WGS) -u $(URL_code.google.com/p/go.crypto) -o $(BUILD_DIR)/code.google.com-p-go.crypto-$(VERSION_code.google.com/p/go.crypto).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/code.google.com-p-go.crypto-$(VERSION_code.google.com/p/go.crypto).tar.gz -n $(PATH_code.google.com/p/go.crypto)
-	rm $(BUILD_DIR)/code.google.com-p-go.crypto-$(VERSION_code.google.com/p/go.crypto).tar.gz
+	$(WGS) -u $(URL_golang.org/x/crypto) -o $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz -n $(PATH_golang.org/x/crypto)
+	rm $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
 	$(WGS) -u $(URL_github.com/Bugagazavr/go-gitlab-client) -o $(BUILD_DIR)/github.com-Bugagazavr-go-gitlab-client-$(VERSION_github.com/Bugagazavr/go-gitlab-client).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-Bugagazavr-go-gitlab-client-$(VERSION_github.com/Bugagazavr/go-gitlab-client).tar.gz -n $(PATH_github.com/Bugagazavr/go-gitlab-client)
 	rm $(BUILD_DIR)/github.com-Bugagazavr-go-gitlab-client-$(VERSION_github.com/Bugagazavr/go-gitlab-client).tar.gz
