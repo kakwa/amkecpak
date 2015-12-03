@@ -10,11 +10,11 @@
 ### END INIT INFO
 
 PIDFILE=/var/run/drone/drone.pid
-CONF=/etc/drone/drone.ini
+CONF=/etc/drone/drone.env
 USER=drone
 GROUP=drone
 BIN=/usr/bin/drone
-OPTS="web --config=$CONF"
+OPTS="-config=$CONF"
 
 . /lib/lsb/init-functions
 

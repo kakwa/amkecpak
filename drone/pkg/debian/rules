@@ -47,7 +47,7 @@ override_dh_auto_install:
 	#mkdir -p  $(DEST)/usr/share/drone/
 	#cp -r templates $(DEST)/usr/share/drone/
 	#cp -r public $(DEST)/usr/share/drone/
-	#cp drone.ini $(DEST)/etc/drone/
+	cp drone.env $(DEST)/etc/drone/
 
 override_dh_auto_test:
 	true
