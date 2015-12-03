@@ -42,9 +42,12 @@ override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
 	install -m 755 drone $(DEST)/usr/bin/
 	mkdir -p  $(DEST)/etc/drone/
-	mkdir -p  $(DEST)/var/lib/drone/
-	mkdir -p  $(DEST)/var/log/drone/
-	mkdir -p  $(DEST)/usr/share/drone/
-	cp -r templates $(DEST)/usr/share/drone/
-	cp -r public $(DEST)/usr/share/drone/
-	cp drone.ini $(DEST)/etc/drone/
+	#mkdir -p  $(DEST)/var/lib/drone/
+	#mkdir -p  $(DEST)/var/log/drone/
+	#mkdir -p  $(DEST)/usr/share/drone/
+	#cp -r templates $(DEST)/usr/share/drone/
+	#cp -r public $(DEST)/usr/share/drone/
+	#cp drone.ini $(DEST)/etc/drone/
+
+override_dh_auto_test:
+	true
