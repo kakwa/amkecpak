@@ -1,25 +1,25 @@
 Misc documentation
 ------------------
 
-Add a prefix to all packages
-============================
-
-If you want to prefix all your packages, just uncomment and fill **PREFIX**
-at the beginning of **common/buildenv/Makefile.common**:
-
-.. sourcecode:: make
-
-    # general prefix, comment if not needed
-    PREFIX=kakwa-
-
-    PKGNAME=$(PREFIX)$(NAME)
-
-
-example with **PREFIX=kakwa-** for package dwm-desktop:
-
-.. sourcecode:: none
-
-    dwm-desktop_5.9.0-1_amd64.deb  -> kakwa-dwm-desktop_5.9.0-1_amd64.deb
+.. Add a prefix to all packages
+.. ============================
+.. 
+.. If you want to prefix all your packages, just uncomment and fill **PREFIX**
+.. at the beginning of **common/buildenv/Makefile.common**:
+.. 
+.. .. sourcecode:: make
+.. 
+..     # general prefix, comment if not needed
+..     PREFIX=kakwa-
+.. 
+..     PKGNAME=$(PREFIX)$(NAME)
+.. 
+.. 
+.. example with **PREFIX=kakwa-** for package dwm-desktop:
+.. 
+.. .. sourcecode:: none
+.. 
+..     dwm-desktop_5.9.0-1_amd64.deb  -> kakwa-dwm-desktop_5.9.0-1_amd64.deb
 
 
 GPG cheat sheet

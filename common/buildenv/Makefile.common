@@ -9,7 +9,7 @@ CACHE=cache
 
 DIST_TAG=$(shell ./buildenv/get_dist.sh)
 
-PREFIX=kakwa-
+#PREFIX=kakwa-
 PKGNAME=$(PREFIX)$(NAME)
 
 MANIFEST_FILE=$(shell pwd)/MANIFEST
