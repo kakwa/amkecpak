@@ -11,7 +11,7 @@ RELEASE = 1
 URL=https://github.com/sass/sassc
 
 # short summary of what the package provides
-SUMMARY="Not a package summary"
+SUMMARY="Sass CSS pre-processor command line utilities"
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
