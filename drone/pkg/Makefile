@@ -89,9 +89,7 @@ src_prepare_rpm: prepare_deps
 	mv $(BUILD_DIR)/drone-$(VERSION)/* $(BUILD_DIR)/src/
 	rm -rf $(BUILD_DIR)/drone-$(VERSION)/
 	rm -f $(BUILD_DIR)/drone-$(VERSION).tar.gz
-	sed -i 's|code.google.com/p/go.crypto|golang.org/x/crypto|' \
-		$(BUILD_DIR)/src/shared/crypto/crypto.go
-	sed -i 's|code.google.com/p/go.net|golang.org/x/net|' \
+	sed -i 's|code.google.com/p/go.|golang.org/x/|' \
 		$(BUILD_DIR)/src/shared/crypto/crypto.go \
 		$(BUILD_DIR)/src/externals/src/github.com/PuerkitoBio/goquery/*.go
 	sed -i 's|code.google.com/p/cascadia|github.com/andybalholm/cascadia|' \
