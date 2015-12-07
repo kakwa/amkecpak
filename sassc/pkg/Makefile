@@ -41,7 +41,7 @@ src_prepare_rpm:
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/sassc-$(VERSION).tar.gz
 	tar -vxf $(BUILD_DIR)/sassc-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/sassc-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf sassc-$(VERSION)
+	rm -rf $(BUILD_DIR)/sassc-$(VERSION)
 	rm -f $(BUILD_DIR)/sassc-$(VERSION).tar.gz
 	mv $(BUILD_DIR)/src/Makefile.new $(BUILD_DIR)/src/Makefile
 
