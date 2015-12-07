@@ -28,7 +28,6 @@ case "$1" in
             --group \
             ${USER}
         chown -R ${USER}:${USER} /var/lib/drone
-        chown -R ${USER}:${USER} /var/log/drone
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
