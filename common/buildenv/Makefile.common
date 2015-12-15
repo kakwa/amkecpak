@@ -55,7 +55,7 @@ rpm_prepare: prepare_soft src_prepare_rpm
 	cd -;\
 	cp $(BUILD_DIR)/$(PKGNAME)-$(VERSION).tar.gz $(BUILD_DIR)/rpm/SOURCES/ &&\
 	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
-	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/;s/@DESCRIPTION@/$(DESCRIPTION)/;s/@SUMMARY@/$(SUMMARY)/;s|@URL@|$(URL)|' \
+	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY@|$(SUMMARY)|;s|@URL@|$(URL)|' \
 	    $(BUILD_DIR)/rpm/SPEC/$(PKGNAME).spec 
 
 # build the rpm(s) and put the result inside OUT directory
@@ -86,7 +86,7 @@ deb_prepare: prepare_soft src_prepare_deb
 	tar -zcf ../$(PKGNAME)_$(VERSION).orig.tar.gz ./ --owner=root --group=root;\
 	cd -
 	rm -rf $(BUILD_DIR)/pkg $(BUILD_DIR)/src
-	sed -i 's/@NAME@/$(PKGNAME)/;s/@VERSION@/$(VERSION)/;s/@RELEASE@/$(RELEASE)/;s/@DESCRIPTION@/$(DESCRIPTION)/;s/@SUMMARY@/$(SUMMARY)/;s|@URL@|$(URL)|' \
+	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY@|$(SUMMARY)|;s|@URL@|$(URL)|' \
 	        $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/control \
 			$(BUILD_DIR)/$(PKGNAME)-$(VERSION)/debian/rules
 
