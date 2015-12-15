@@ -39,6 +39,14 @@ $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
+skip$(deb_PKG): force
+	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
+	-@$(MAKE) -C $(patsubst deb_%,%,$@) deb
+
+skip$(rpm_PKG): force
+	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+	-@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
 
@@ -48,7 +56,7 @@ clean_repo:
 clean_rpm_repo:
 	-rm -rf "$(OUTRPM)"
 
-deb_repo: $(deb_PKG) export_key
+deb_repo: $(ERROR)$(deb_PKG) export_key
 	@$(MAKE) clean_deb_repo
 	mkdir -p $(OUTDEB)
 	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/pkg/out/*.deb')" \
@@ -56,7 +64,7 @@ deb_repo: $(deb_PKG) export_key
 		-O $(ORIGIN) \
 		-k $(GPG_KEY)
 
-rpm_repo: $(rpm_PKG) export_key
+rpm_repo: $(ERROR)$(rpm_PKG) export_key
 	@$(MAKE) clean_rpm_repo
 	mkdir -p $(OUTRPM)/RPMS/
 	for r in $$(find `pwd` -type f -path '*/pkg/out/*.rpm'); do \

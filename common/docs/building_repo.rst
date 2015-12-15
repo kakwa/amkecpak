@@ -34,6 +34,9 @@ To build the repositories, just run:
 
 .. note:: use -j <number of jobs> to run multiple packaging jobs in parallele
 
+
+.. note:: use ERROR=skip in **make <pkg>_repo** to ignore package build failures and continue building the repo
+
 Build deb repository
 ~~~~~~~~~~~~~~~~~~~~
 

@@ -52,7 +52,8 @@ Packaging documentation in a nutshell
     $ vim Makefile
 
     # Building the repositories
-    $ make deb_repo -j 4
-    $ make rpm_repo -j 4
+    # Use ERROR=skip to ignore package build failures and continue building the repo
+    $ make deb_repo -j 4 # ERROR=skip
+    $ make rpm_repo -j 4 # ERROR=skip
 
 If you need more information, read the `detailed documentation <http://kakwa-packages.readthedocs.org/en/latest/>`_.
