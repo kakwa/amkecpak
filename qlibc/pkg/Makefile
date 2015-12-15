@@ -39,7 +39,7 @@ src_prepare_rpm:
 	tar -vxf $(BUILD_DIR)/qlibc-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/qlibc-$(VERSION)/* $(BUILD_DIR)/src/
 	mv $(BUILD_DIR)/src/Makefile.in.fix  $(BUILD_DIR)/src/src/Makefile.in
-	rm -rf qlibc-$(VERSION)
+	rm -rf $(BUILD_DIR)/qlibc-$(VERSION)
 	rm -f $(BUILD_DIR)/qlibc-$(VERSION).tar.gz
 
 
