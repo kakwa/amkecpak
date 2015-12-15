@@ -16,7 +16,7 @@ Description: @SUMMARY@
  @DESCRIPTION@ 
 
 Package: @NAME@-dev
-Architecture: all
+Architecture: amd64 i386
 Depends: ${misc:Depends}
 Description: @SUMMARY@ 
  @DESCRIPTION@
