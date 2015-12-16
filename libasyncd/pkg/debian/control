@@ -22,6 +22,6 @@ Description: @SUMMARY@
 
 Package: @NAME@-dev
 Architecture: amd64 i386
-Depends: ${misc:Depends}, qlibc, libevent, libssl
+Depends: ${misc:Depends}, qlibc, libevent-2.0-5, libssl1.0.0
 Description: @SUMMARY@, dev headers
  @DESCRIPTION@, dev headers
