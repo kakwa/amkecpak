@@ -35,7 +35,7 @@ To build the repositories, just run:
 .. note:: use -j <number of jobs> to run multiple packaging jobs in parallele
 
 
-.. note:: use ERROR=skip in **make <pkg>_repo** to ignore package build failures and continue building the repo
+.. note:: use **ERROR=skip** to ignore package build failures when calling **make <pkg>_repo** and keep continuing building the repo.
 
 Build deb repository
 ~~~~~~~~~~~~~~~~~~~~
@@ -45,8 +45,8 @@ Build deb repository
     # create the deb repository
     $ make deb_repo -j 4
     
-    # create everything
-    $ make all -j 4
+    # same ignoring individual package build errors
+    $ make deb_repo -j 4 ERROR=skip
 
 Build the rpm repository
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -63,6 +63,9 @@ Create both repo in one command
 
     # create everything
     $ make all -j 4
+
+    # same ignoring individual package build errors
+    $ make rpm_repo -j 4 ERROR=skip
 
 Result repositories
 ~~~~~~~~~~~~~~~~~~~
