@@ -4,19 +4,20 @@ Priority: extra
 Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
- rsync
+ rsync,
+ libc6-dev
 Standards-Version: 3.8.4
-Homepage: @URL@ 
+Homepage: @URL@
 X-Python-Version: >= 2.5
 
 Package: @NAME@
-Architecture: all
-Depends: ${misc:Depends}
+Architecture: amd64 i386
+Depends: ${misc:Depends}, libc6
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
 
 Package: @NAME@-dev
 Architecture: amd64 i386
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, @NAME@
 Description: @SUMMARY@ 
  @DESCRIPTION@
