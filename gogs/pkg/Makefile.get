@@ -23,6 +23,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/go-macaron/inject) -o $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz -n $(PATH_github.com/go-macaron/inject)
 	rm $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
+	$(WGS) -u $(URL_github.com/kardianos/minwinsvc) -o $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz -n $(PATH_github.com/kardianos/minwinsvc)
+	rm $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
 	$(WGS) -u $(URL_github.com/klauspost/compress) -o $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz -n $(PATH_github.com/klauspost/compress)
 	rm $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
@@ -95,6 +98,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/gogits/go-gogs-client) -o $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz -n $(PATH_github.com/gogits/go-gogs-client)
 	rm $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
+	$(WGS) -u $(URL_github.com/gogits/git-shell) -o $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz -n $(PATH_github.com/gogits/git-shell)
+	rm $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
 	$(WGS) -u $(URL_github.com/issue9/identicon) -o $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz -n $(PATH_github.com/issue9/identicon)
 	rm $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
@@ -128,6 +134,3 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
 	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
-	$(WGS) -u $(URL_github.com/gogits/git-shell) -o $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz -n $(PATH_github.com/gogits/git-shell)
-	rm $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz

@@ -2,7 +2,7 @@
 NAME = gogs
 
 # Version
-VERSION = 0.7.33
+VERSION = 0.8.0
 
 VERSION_gopkg.in/bufio.v1=v1
 VERSION_gopkg.in/gomail.v2=2.0.0
@@ -12,6 +12,7 @@ VERSION_gopkg.in/redis.v2=v2.3.2
 VERSION_github.com/alexcesaro/quotedprintable=2caba252f4dc53eaf6b553000885530023f54623
 VERSION_github.com/bradfitz/gomemcache=72a68649ba
 VERSION_github.com/go-macaron/inject=c5ab7bf
+VERSION_github.com/kardianos/minwinsvc=cad6b2b879b0970e4245a20ebf1a81a756e2bb70
 VERSION_github.com/klauspost/compress=bbfa9dc
 VERSION_github.com/klauspost/cpuid=8d9fe96
 VERSION_github.com/klauspost/crc32=3e5c38b
@@ -35,8 +36,8 @@ VERSION_github.com/go-sql-driver/mysql=d512f20
 VERSION_github.com/go-xorm/core=3e10003353
 VERSION_github.com/go-xorm/xorm=c643188
 VERSION_github.com/gogits/chardet=2404f77725
-VERSION_github.com/gogits/go-gogs-client=4b541faeee020042ccbbd517b38d236818d817d9
-VERSION_github.com/gogits/git-shell=de776272903ba731bbd3bc19ece6f46b74649d94
+VERSION_github.com/gogits/go-gogs-client=4b541fa
+VERSION_github.com/gogits/git-shell=1ffc4bc
 VERSION_github.com/issue9/identicon=5a61672
 VERSION_github.com/lib/pq=83c4f41
 VERSION_github.com/mcuadros/go-version=d52711f
