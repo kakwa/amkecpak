@@ -21,7 +21,7 @@ DESCRIPTION=$(SUMMARY)
 ########
 
 # example of source recovery url
-#URL_SRC=$(URL)/releases/$(VERSION).tar.gz
+#URL_SRC=$(URL)/archive/$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
@@ -36,11 +36,11 @@ include buildenv/Makefile.common
 
 src_prepare_rpm:
 # example of source archive handling:
-#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/src-$(VERSION).tar.gz
-#	tar -vxf $(BUILD_DIR)/src-$(VERSION).tar.gz -C $(BUILD_DIR)/
-#	mv $(BUILD_DIR)/src-$(VERSION)/* $(BUILD_DIR)/src/
-#	rm -rf src-$(VERSION)
-#	rm -f $(BUILD_DIR)/src-$(VERSION).tar.gz
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz
+#	tar -vxf $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz -C $(BUILD_DIR)/
+#	mv $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION)/* $(BUILD_DIR)/src/
+#	rm -rf $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION)
+#	rm -f $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz
 
 
 # preparation hook for deb package.
