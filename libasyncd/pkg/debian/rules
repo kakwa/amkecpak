@@ -16,7 +16,7 @@ DEST=$$(pwd)/debian/@NAME@
 	dh $@ 
 
 override_dh_auto_build:
-	dh_auto_build -- QLIBC=system
+	dh_auto_build -- QLIBC=system QLIBC_LIB=-lqlibc
 
 override_dh_auto_install:
 	dh_auto_install -- PREFIX=/usr/ QLIBC=system

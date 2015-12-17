@@ -38,6 +38,8 @@ src_prepare_rpm:
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/libasyncd-$(VERSION).tar.gz
 	tar -vxf $(BUILD_DIR)/libasyncd-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/libasyncd-$(VERSION)/* $(BUILD_DIR)/src/
+	sed -i 's|$$(CC) -shared -Wl,-soname,$$(SLIBNAME) -o $$(SLIBNAME) $$(OBJS)|$$(CC) -shared -Wl,-soname,$$(SLIBNAME) -o $$(SLIBNAME) $$(OBJS) $$(LIBS)|' \
+	    $(BUILD_DIR)/src/src/Makefile.in
 	rm -rf $(BUILD_DIR)/libasyncd-$(VERSION)
 	rm -f $(BUILD_DIR)/libasyncd-$(VERSION).tar.gz
 
