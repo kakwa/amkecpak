@@ -2,7 +2,7 @@
 NAME = qlibc
 
 # Version
-VERSION = 2.4.0
+VERSION = 2.4.1
 
 # Revision number 
 RELEASE = 1
@@ -21,7 +21,7 @@ DESCRIPTION=$(SUMMARY)
 ########
 
 # example of source recovery url
-URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
