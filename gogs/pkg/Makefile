@@ -2,13 +2,15 @@
 NAME = gogs
 
 # Version
-VERSION = 0.8.0
+VERSION = 0.8.10
 
 VERSION_gopkg.in/bufio.v1=v1
 VERSION_gopkg.in/gomail.v2=2.0.0
 VERSION_gopkg.in/ini.v1=2e44421
 VERSION_gopkg.in/macaron.v1=1c6dd87
 VERSION_gopkg.in/redis.v2=v2.3.2
+VERSION_gopkg.in/ldap.v2=v2.2
+VERSION_gopkg.in/asn1-ber.v1=v1.1
 VERSION_github.com/alexcesaro/quotedprintable=2caba252f4dc53eaf6b553000885530023f54623
 VERSION_github.com/bradfitz/gomemcache=72a68649ba
 VERSION_github.com/go-macaron/inject=c5ab7bf
@@ -36,8 +38,9 @@ VERSION_github.com/go-sql-driver/mysql=d512f20
 VERSION_github.com/go-xorm/core=3e10003353
 VERSION_github.com/go-xorm/xorm=c643188
 VERSION_github.com/gogits/chardet=2404f77725
-VERSION_github.com/gogits/go-gogs-client=4b541fa
+VERSION_github.com/gogits/go-gogs-client=2a795f081a1b780357d4809f3b1f0941f473e9b9
 VERSION_github.com/gogits/git-shell=1ffc4bc
+VERSION_github.com/gogits/git-module=261798320be2129843878d87ca441706cf8b3edf
 VERSION_github.com/issue9/identicon=5a61672
 VERSION_github.com/lib/pq=83c4f41
 VERSION_github.com/mcuadros/go-version=d52711f
@@ -47,8 +50,6 @@ VERSION_github.com/russross/blackfriday=300106c
 VERSION_golang.org/x/crypto=beef0f4390813b96e8e68fd78570396d0f4751fc
 VERSION_golang.org/x/net=b092070472000b3147a7bdaf7cfc9515cf90514f
 VERSION_golang.org/x/text=e6847002810c51f892a128333573eac5e2a62024
-VERSION_gopkg.in/ldap.v2=v2.2
-VERSION_gopkg.in/asn1-ber.v1=v1.1
 
 # Revision number 
 RELEASE = 1

@@ -14,6 +14,12 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/redis.v2) -o $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz -n $(PATH_gopkg.in/redis.v2)
 	rm $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
+	$(WGS) -u $(URL_gopkg.in/ldap.v2) -o $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz -n $(PATH_gopkg.in/ldap.v2)
+	rm $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
+	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
+	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
 	$(WGS) -u $(URL_github.com/alexcesaro/quotedprintable) -o $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz -n $(PATH_github.com/alexcesaro/quotedprintable)
 	rm $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz
@@ -101,6 +107,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/gogits/git-shell) -o $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz -n $(PATH_github.com/gogits/git-shell)
 	rm $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
+	$(WGS) -u $(URL_github.com/gogits/git-module) -o $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz -n $(PATH_github.com/gogits/git-module)
+	rm $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
 	$(WGS) -u $(URL_github.com/issue9/identicon) -o $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz -n $(PATH_github.com/issue9/identicon)
 	rm $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
@@ -128,9 +137,3 @@ prepare_deps:
 	$(WGS) -u $(URL_golang.org/x/text) -o $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz -n $(PATH_golang.org/x/text)
 	rm $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
-	$(WGS) -u $(URL_gopkg.in/ldap.v2) -o $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz -n $(PATH_gopkg.in/ldap.v2)
-	rm $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
-	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
-	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
