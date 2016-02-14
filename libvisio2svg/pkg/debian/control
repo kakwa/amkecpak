@@ -1,0 +1,31 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: Kakwa <carpentier.pf@gmail.com>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ libxml2-dev,
+ libemf2svg-dev,
+ librevenge-dev,
+ libvisio-dev
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@-conv
+Architecture: amd64 i386
+Depends: ${misc:Depends}, @NAME@
+Description: @SUMMARY@, command line converter
+ @DESCRIPTION@ 
+
+Package: @NAME@
+Architecture: amd64 i386
+Depends: ${misc:Depends}, libemf2svg, librevenge-0.0-0, libvisio-0.1-1, libxml2 
+Description: @SUMMARY@, headers
+ @DESCRIPTION@, headers
+
+Package: @NAME@-dev
+Architecture: amd64 i386
+Depends: ${misc:Depends}, @NAME@
+Description: @SUMMARY@, headers
+ @DESCRIPTION@, headers
