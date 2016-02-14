@@ -17,13 +17,13 @@ Description: @SUMMARY@, command line converter
 
 Package: @NAME@
 Architecture: amd64 i386
-Depends: ${misc:Depends}, libpng
+Depends: ${misc:Depends}, libpng12-0
 Description: @SUMMARY@, headers
  @DESCRIPTION@, headers
 
 Package: @NAME@-dev
 Architecture: amd64 i386
-Depends: ${misc:Depends}, libpng
+Depends: ${misc:Depends}, @NAME@
 Description: @SUMMARY@, headers
  @DESCRIPTION@, headers
 
