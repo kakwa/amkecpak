@@ -33,3 +33,9 @@ override_dh_auto_install:
 	cp -r templates $(DEST)/usr/share/gogs/
 	cp -r public $(DEST)/usr/share/gogs/
 	cp gogs.ini $(DEST)/etc/gogs/
+
+override_dh_auto_test:
+	true
+
+override_dh_installinit:
+	dh_installinit --no-start 

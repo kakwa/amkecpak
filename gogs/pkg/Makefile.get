@@ -1,67 +1,7 @@
 prepare_deps:
-	$(WGS) -u $(URL_gopkg.in/bufio.v1) -o $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz -n $(PATH_gopkg.in/bufio.v1)
-	rm $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
-	$(WGS) -u $(URL_gopkg.in/gomail.v2) -o $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz -n $(PATH_gopkg.in/gomail.v2)
-	rm $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
-	$(WGS) -u $(URL_gopkg.in/ini.v1) -o $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz -n $(PATH_gopkg.in/ini.v1)
-	rm $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz
-	$(WGS) -u $(URL_gopkg.in/macaron.v1) -o $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz -n $(PATH_gopkg.in/macaron.v1)
-	rm $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz
-	$(WGS) -u $(URL_gopkg.in/redis.v2) -o $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz -n $(PATH_gopkg.in/redis.v2)
-	rm $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
-	$(WGS) -u $(URL_gopkg.in/ldap.v2) -o $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz -n $(PATH_gopkg.in/ldap.v2)
-	rm $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
-	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
-	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
-	$(WGS) -u $(URL_github.com/alexcesaro/quotedprintable) -o $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz -n $(PATH_github.com/alexcesaro/quotedprintable)
-	rm $(BUILD_DIR)/github.com-alexcesaro-quotedprintable-$(VERSION_github.com/alexcesaro/quotedprintable).tar.gz
 	$(WGS) -u $(URL_github.com/bradfitz/gomemcache) -o $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz -n $(PATH_github.com/bradfitz/gomemcache)
 	rm $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
-	$(WGS) -u $(URL_github.com/go-macaron/inject) -o $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz -n $(PATH_github.com/go-macaron/inject)
-	rm $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
-	$(WGS) -u $(URL_github.com/kardianos/minwinsvc) -o $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz -n $(PATH_github.com/kardianos/minwinsvc)
-	rm $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
-	$(WGS) -u $(URL_github.com/klauspost/compress) -o $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz -n $(PATH_github.com/klauspost/compress)
-	rm $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
-	$(WGS) -u $(URL_github.com/klauspost/cpuid) -o $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz -n $(PATH_github.com/klauspost/cpuid)
-	rm $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz
-	$(WGS) -u $(URL_github.com/klauspost/crc32) -o $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz -n $(PATH_github.com/klauspost/crc32)
-	rm $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz
-	$(WGS) -u $(URL_github.com/mattn/go-sqlite3) -o $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz -n $(PATH_github.com/mattn/go-sqlite3)
-	rm $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz
-	$(WGS) -u $(URL_github.com/msteinert/pam) -o $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz -n $(PATH_github.com/msteinert/pam)
-	rm $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz
-	$(WGS) -u $(URL_github.com/shurcooL/sanitized_anchor_name) -o $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz -n $(PATH_github.com/shurcooL/sanitized_anchor_name)
-	rm $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
-	$(WGS) -u $(URL_github.com/Unknwon/cae) -o $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz -n $(PATH_github.com/Unknwon/cae)
-	rm $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz
-	$(WGS) -u $(URL_github.com/Unknwon/com) -o $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz -n $(PATH_github.com/Unknwon/com)
-	rm $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz
-	$(WGS) -u $(URL_github.com/Unknwon/i18n) -o $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz -n $(PATH_github.com/Unknwon/i18n)
-	rm $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz
-	$(WGS) -u $(URL_github.com/Unknwon/paginater) -o $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz -n $(PATH_github.com/Unknwon/paginater)
-	rm $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
 	$(WGS) -u $(URL_github.com/codegangsta/cli) -o $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz -n $(PATH_github.com/codegangsta/cli)
 	rm $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz
@@ -83,6 +23,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/go-macaron/i18n) -o $(BUILD_DIR)/github.com-go-macaron-i18n-$(VERSION_github.com/go-macaron/i18n).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-i18n-$(VERSION_github.com/go-macaron/i18n).tar.gz -n $(PATH_github.com/go-macaron/i18n)
 	rm $(BUILD_DIR)/github.com-go-macaron-i18n-$(VERSION_github.com/go-macaron/i18n).tar.gz
+	$(WGS) -u $(URL_github.com/go-macaron/inject) -o $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz -n $(PATH_github.com/go-macaron/inject)
+	rm $(BUILD_DIR)/github.com-go-macaron-inject-$(VERSION_github.com/go-macaron/inject).tar.gz
 	$(WGS) -u $(URL_github.com/go-macaron/session) -o $(BUILD_DIR)/github.com-go-macaron-session-$(VERSION_github.com/go-macaron/session).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-session-$(VERSION_github.com/go-macaron/session).tar.gz -n $(PATH_github.com/go-macaron/session)
 	rm $(BUILD_DIR)/github.com-go-macaron-session-$(VERSION_github.com/go-macaron/session).tar.gz
@@ -101,39 +44,93 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/gogits/chardet) -o $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz -n $(PATH_github.com/gogits/chardet)
 	rm $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz
-	$(WGS) -u $(URL_github.com/gogits/go-gogs-client) -o $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz -n $(PATH_github.com/gogits/go-gogs-client)
-	rm $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
-	$(WGS) -u $(URL_github.com/gogits/git-shell) -o $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz -n $(PATH_github.com/gogits/git-shell)
-	rm $(BUILD_DIR)/github.com-gogits-git-shell-$(VERSION_github.com/gogits/git-shell).tar.gz
 	$(WGS) -u $(URL_github.com/gogits/git-module) -o $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz -n $(PATH_github.com/gogits/git-module)
 	rm $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
+	$(WGS) -u $(URL_github.com/gogits/go-gogs-client) -o $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz -n $(PATH_github.com/gogits/go-gogs-client)
+	rm $(BUILD_DIR)/github.com-gogits-go-gogs-client-$(VERSION_github.com/gogits/go-gogs-client).tar.gz
 	$(WGS) -u $(URL_github.com/issue9/identicon) -o $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz -n $(PATH_github.com/issue9/identicon)
 	rm $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
+	$(WGS) -u $(URL_github.com/kardianos/minwinsvc) -o $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz -n $(PATH_github.com/kardianos/minwinsvc)
+	rm $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
+	$(WGS) -u $(URL_github.com/klauspost/compress) -o $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz -n $(PATH_github.com/klauspost/compress)
+	rm $(BUILD_DIR)/github.com-klauspost-compress-$(VERSION_github.com/klauspost/compress).tar.gz
+	$(WGS) -u $(URL_github.com/klauspost/cpuid) -o $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz -n $(PATH_github.com/klauspost/cpuid)
+	rm $(BUILD_DIR)/github.com-klauspost-cpuid-$(VERSION_github.com/klauspost/cpuid).tar.gz
+	$(WGS) -u $(URL_github.com/klauspost/crc32) -o $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz -n $(PATH_github.com/klauspost/crc32)
+	rm $(BUILD_DIR)/github.com-klauspost-crc32-$(VERSION_github.com/klauspost/crc32).tar.gz
 	$(WGS) -u $(URL_github.com/lib/pq) -o $(BUILD_DIR)/github.com-lib-pq-$(VERSION_github.com/lib/pq).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-lib-pq-$(VERSION_github.com/lib/pq).tar.gz -n $(PATH_github.com/lib/pq)
 	rm $(BUILD_DIR)/github.com-lib-pq-$(VERSION_github.com/lib/pq).tar.gz
+	$(WGS) -u $(URL_github.com/mattn/go-sqlite3) -o $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz -n $(PATH_github.com/mattn/go-sqlite3)
+	rm $(BUILD_DIR)/github.com-mattn-go-sqlite3-$(VERSION_github.com/mattn/go-sqlite3).tar.gz
 	$(WGS) -u $(URL_github.com/mcuadros/go-version) -o $(BUILD_DIR)/github.com-mcuadros-go-version-$(VERSION_github.com/mcuadros/go-version).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-mcuadros-go-version-$(VERSION_github.com/mcuadros/go-version).tar.gz -n $(PATH_github.com/mcuadros/go-version)
 	rm $(BUILD_DIR)/github.com-mcuadros-go-version-$(VERSION_github.com/mcuadros/go-version).tar.gz
 	$(WGS) -u $(URL_github.com/microcosm-cc/bluemonday) -o $(BUILD_DIR)/github.com-microcosm-cc-bluemonday-$(VERSION_github.com/microcosm-cc/bluemonday).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-microcosm-cc-bluemonday-$(VERSION_github.com/microcosm-cc/bluemonday).tar.gz -n $(PATH_github.com/microcosm-cc/bluemonday)
 	rm $(BUILD_DIR)/github.com-microcosm-cc-bluemonday-$(VERSION_github.com/microcosm-cc/bluemonday).tar.gz
+	$(WGS) -u $(URL_github.com/msteinert/pam) -o $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz -n $(PATH_github.com/msteinert/pam)
+	rm $(BUILD_DIR)/github.com-msteinert-pam-$(VERSION_github.com/msteinert/pam).tar.gz
 	$(WGS) -u $(URL_github.com/nfnt/resize) -o $(BUILD_DIR)/github.com-nfnt-resize-$(VERSION_github.com/nfnt/resize).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-nfnt-resize-$(VERSION_github.com/nfnt/resize).tar.gz -n $(PATH_github.com/nfnt/resize)
 	rm $(BUILD_DIR)/github.com-nfnt-resize-$(VERSION_github.com/nfnt/resize).tar.gz
 	$(WGS) -u $(URL_github.com/russross/blackfriday) -o $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz -n $(PATH_github.com/russross/blackfriday)
 	rm $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
-	$(WGS) -u $(URL_golang.org/x/crypto) -o $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz -n $(PATH_golang.org/x/crypto)
-	rm $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
+	$(WGS) -u $(URL_github.com/sergi/go-diff) -o $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz -n $(PATH_github.com/sergi/go-diff)
+	rm $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
+	$(WGS) -u $(URL_github.com/shurcooL/sanitized_anchor_name) -o $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz -n $(PATH_github.com/shurcooL/sanitized_anchor_name)
+	rm $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
+	$(WGS) -u $(URL_github.com/Unknwon/cae) -o $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz -n $(PATH_github.com/Unknwon/cae)
+	rm $(BUILD_DIR)/github.com-Unknwon-cae-$(VERSION_github.com/Unknwon/cae).tar.gz
+	$(WGS) -u $(URL_github.com/Unknwon/com) -o $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz -n $(PATH_github.com/Unknwon/com)
+	rm $(BUILD_DIR)/github.com-Unknwon-com-$(VERSION_github.com/Unknwon/com).tar.gz
+	$(WGS) -u $(URL_github.com/Unknwon/i18n) -o $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz -n $(PATH_github.com/Unknwon/i18n)
+	rm $(BUILD_DIR)/github.com-Unknwon-i18n-$(VERSION_github.com/Unknwon/i18n).tar.gz
+	$(WGS) -u $(URL_github.com/Unknwon/paginater) -o $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz -n $(PATH_github.com/Unknwon/paginater)
+	rm $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
 	$(WGS) -u $(URL_golang.org/x/net) -o $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz -n $(PATH_golang.org/x/net)
 	rm $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
 	$(WGS) -u $(URL_golang.org/x/text) -o $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz -n $(PATH_golang.org/x/text)
 	rm $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
+	$(WGS) -u $(URL_golang.org/x/crypto) -o $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz -n $(PATH_golang.org/x/crypto)
+	rm $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
+	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
+	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
+	$(WGS) -u $(URL_gopkg.in/gomail.v2) -o $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz -n $(PATH_gopkg.in/gomail.v2)
+	rm $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
+	$(WGS) -u $(URL_gopkg.in/ini.v1) -o $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz -n $(PATH_gopkg.in/ini.v1)
+	rm $(BUILD_DIR)/gopkg.in-ini.v1-$(VERSION_gopkg.in/ini.v1).tar.gz
+	$(WGS) -u $(URL_gopkg.in/ldap.v2) -o $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz -n $(PATH_gopkg.in/ldap.v2)
+	rm $(BUILD_DIR)/gopkg.in-ldap.v2-$(VERSION_gopkg.in/ldap.v2).tar.gz
+	$(WGS) -u $(URL_gopkg.in/macaron.v1) -o $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz -n $(PATH_gopkg.in/macaron.v1)
+	rm $(BUILD_DIR)/gopkg.in-macaron.v1-$(VERSION_gopkg.in/macaron.v1).tar.gz
+	$(WGS) -u $(URL_gopkg.in/redis.v2) -o $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz -n $(PATH_gopkg.in/redis.v2)
+	rm $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
+	$(WGS) -u $(URL_gopkg.in/bufio.v1) -o $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz -n $(PATH_gopkg.in/bufio.v1)
+	rm $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz

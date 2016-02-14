@@ -20,13 +20,7 @@ set -e
 USER=gogs
 
 case "$1" in
-    configure)
-        adduser \
-            --system \
-            --home /var/lib/gogs \
-            --quiet \
-            --group \
-            ${USER}
+    install|configure)
         chown -R ${USER}:${USER} /var/lib/gogs
         chown -R ${USER}:${USER} /var/log/gogs
     ;;
