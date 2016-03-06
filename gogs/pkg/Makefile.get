@@ -86,6 +86,12 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/russross/blackfriday) -o $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz -n $(PATH_github.com/russross/blackfriday)
 	rm $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
+	$(WGS) -u $(URL_github.com/gogits/cron) -o $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz -n $(PATH_github.com/gogits/cron)
+	rm $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
+	$(WGS) -u $(URL_github.com/satori/go.uuid) -o $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz -n $(PATH_github.com/satori/go.uuid)
+	rm $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz
 	$(WGS) -u $(URL_github.com/sergi/go-diff) -o $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz -n $(PATH_github.com/sergi/go-diff)
 	rm $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
