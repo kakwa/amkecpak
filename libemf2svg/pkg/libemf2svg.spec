@@ -10,27 +10,33 @@ License: See project
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-BuildArch: noarch
+
 #BuildRequires: sed
 #Requires: python
 
 %description
 @DESCRIPTION@
 
-%prep
+%package devel
+Summary: @SUMMARY@, headers
+%description devel
+@DESCRIPTION@, headers
 
+%package conv
+Summary: @SUMMARY@, command line converter 
+%description conv
+@DESCRIPTION@, command line converter
+
+%prep
 %setup -q -n %{pkgname}-%{version}
 
 %install
-
 rm -rf $RPM_BUILD_ROOT
-make install \
-    DESTDIR=$RPM_BUILD_ROOT \
-    PREFIX=%{_prefix}
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+make install DESTDIR=$RPM_BUILD_ROOT
 
 %post
 true
-
 
 %preun
 true
@@ -40,7 +46,14 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
+/usr/lib/*
+
+%files devel
+/usr/include/*.h
+
+%files conv
+%attr(755, root, root)/usr/bin/*
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
-- initial Version initiale
+- initial Version
