@@ -2,7 +2,7 @@
 NAME = dwm-desktop
 
 # Version
-VERSION = 5.9.0
+VERSION = 5.9.2
 
 # Revision number 
 RELEASE = 1
@@ -11,7 +11,7 @@ RELEASE = 1
 URL=https://github.com/kakwa/dwm-desktop/
 
 # short summary of what the package provides
-SUMMARY="Not a package summary"
+SUMMARY="Modified DWM with some helper scripts"
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
