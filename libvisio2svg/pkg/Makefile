@@ -2,7 +2,7 @@
 NAME = libvisio2svg
 
 # Version
-VERSION = 0.3.0
+VERSION = 0.4.0
 
 # Revision number 
 RELEASE = 1
