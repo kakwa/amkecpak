@@ -43,8 +43,7 @@ rm -rf \$RPM_BUILD_ROOT
 %defattr(644, root, root, 755)
 %config/etc/dwm-desktop/*
 %attr(755,-,-)/usr/bin/*
-/usr/lib/dwm-desktop/lib-dwm-desktop
-/usr/share/man/man1/dwm-desktop.1.gz
+/usr/share/
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1

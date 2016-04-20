@@ -5,12 +5,15 @@ Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
  rsync
+ libx11-dev
+ libxinerama-dev
+ libxft2-dev
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: i386 amd64 powerpc
-Depends: ${misc:Depends}, suckless-tools, libc6, libx11-6, libxinerama1
+Depends: ${misc:Depends}, suckless-tools, libc6, libx11-6, libxinerama1, x11-xserver-utils
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
