@@ -10,7 +10,7 @@ Homepage: @URL@
 X-Python-Version: >= 2.5
 
 Package: @NAME@
-Architecture: i386 amd64
+Architecture: i386 amd64 powerpc
 Depends: ${misc:Depends}, suckless-tools, libc6, libx11-6, libxinerama1
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
