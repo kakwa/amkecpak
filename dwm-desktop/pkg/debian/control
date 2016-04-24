@@ -4,7 +4,10 @@ Priority: extra
 Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
- rsync
+ rsync,
+ libx11-dev,
+ libxinerama-dev,
+ libxft2-dev
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
