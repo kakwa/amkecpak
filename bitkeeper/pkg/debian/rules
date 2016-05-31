@@ -1,0 +1,33 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEST=$$(pwd)/debian/@NAME@
+
+%:
+	dh $@ --parallel
+
+override_dh_auto_install:
+	mkdir -p src/tmp/bitkeeper/
+	find ./src/ -name 'bk*' -perm 755 -exec cp {} src/tmp/bitkeeper/ \;
+	$(MAKE) install BINDIR=$(DEST)/usr/lib/bitkeeper/ IMGDIR=$(DEST)/usr/share/doc/bitkeeper BK=/bin/true
+	mv $(DEST)/usr/share/doc/bitkeeper/man $(DEST)/usr/share/
+	find $(DEST)/usr/share/man/ -type f -not -name "bk-*" -exec rm {} \;
+	ln -fs $(DEST)/usr/share/man/man1/bk-bk.1.gz $(DEST)/usr/share/man/man1/bk.1.gz
+	mkdir -p $(DEST)/usr/lib/
+	mv $(DEST)/usr/share/doc/bitkeeper/gui/* $(DEST)/usr/lib/bitkeeper
+	mv $(DEST)/usr/share/doc/bitkeeper/bkhelp.txt $(DEST)/usr/lib/bitkeeper/
+	mv $(DEST)/usr/share/doc/bitkeeper/bkmsg.txt $(DEST)/usr/lib/bitkeeper/
+	mkdir -p $(DEST)/usr/bin
+	ln -fs /usr/lib/bitkeeper/bk $(DEST)/usr/bin/bk
+	ln -fs /usr/lib/bitkeeper/bkgui $(DEST)/usr/bin/bkgui
+
+override_dh_link:
+	true
