@@ -2,7 +2,7 @@
 NAME = dwm-desktop
 
 # Version
-VERSION = 6.1.2
+VERSION = 6.1.3
 
 # Revision number 
 RELEASE = 1
