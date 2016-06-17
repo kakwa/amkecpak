@@ -44,6 +44,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/gogits/chardet) -o $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz -n $(PATH_github.com/gogits/chardet)
 	rm $(BUILD_DIR)/github.com-gogits-chardet-$(VERSION_github.com/gogits/chardet).tar.gz
+	$(WGS) -u $(URL_github.com/gogits/cron) -o $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz -n $(PATH_github.com/gogits/cron)
+	rm $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
 	$(WGS) -u $(URL_github.com/gogits/git-module) -o $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz -n $(PATH_github.com/gogits/git-module)
 	rm $(BUILD_DIR)/github.com-gogits-git-module-$(VERSION_github.com/gogits/git-module).tar.gz
@@ -86,9 +89,6 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/russross/blackfriday) -o $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz -n $(PATH_github.com/russross/blackfriday)
 	rm $(BUILD_DIR)/github.com-russross-blackfriday-$(VERSION_github.com/russross/blackfriday).tar.gz
-	$(WGS) -u $(URL_github.com/gogits/cron) -o $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz -n $(PATH_github.com/gogits/cron)
-	rm $(BUILD_DIR)/github.com-gogits-cron-$(VERSION_github.com/gogits/cron).tar.gz
 	$(WGS) -u $(URL_github.com/satori/go.uuid) -o $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz -n $(PATH_github.com/satori/go.uuid)
 	rm $(BUILD_DIR)/github.com-satori-go.uuid-$(VERSION_github.com/satori/go.uuid).tar.gz
@@ -110,18 +110,27 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/Unknwon/paginater) -o $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz -n $(PATH_github.com/Unknwon/paginater)
 	rm $(BUILD_DIR)/github.com-Unknwon-paginater-$(VERSION_github.com/Unknwon/paginater).tar.gz
-	$(WGS) -u $(URL_golang.org/x/net) -o $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz -n $(PATH_golang.org/x/net)
-	rm $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
-	$(WGS) -u $(URL_golang.org/x/text) -o $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz -n $(PATH_golang.org/x/text)
-	rm $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
 	$(WGS) -u $(URL_golang.org/x/crypto) -o $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz -n $(PATH_golang.org/x/crypto)
 	rm $(BUILD_DIR)/golang.org-x-crypto-$(VERSION_golang.org/x/crypto).tar.gz
+	$(WGS) -u $(URL_golang.org/x/net) -o $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz -n $(PATH_golang.org/x/net)
+	rm $(BUILD_DIR)/golang.org-x-net-$(VERSION_golang.org/x/net).tar.gz
+	$(WGS) -u $(URL_golang.org/x/sys) -o $(BUILD_DIR)/golang.org-x-sys-$(VERSION_golang.org/x/sys).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-sys-$(VERSION_golang.org/x/sys).tar.gz -n $(PATH_golang.org/x/sys)
+	rm $(BUILD_DIR)/golang.org-x-sys-$(VERSION_golang.org/x/sys).tar.gz
+	$(WGS) -u $(URL_golang.org/x/text) -o $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz -n $(PATH_golang.org/x/text)
+	rm $(BUILD_DIR)/golang.org-x-text-$(VERSION_golang.org/x/text).tar.gz
+	$(WGS) -u $(URL_gopkg.in/alexcesaro/quotedprintable.v3) -o $(BUILD_DIR)/gopkg.in-alexcesaro-quotedprintable.v3-$(VERSION_gopkg.in/alexcesaro/quotedprintable.v3).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-alexcesaro-quotedprintable.v3-$(VERSION_gopkg.in/alexcesaro/quotedprintable.v3).tar.gz -n $(PATH_gopkg.in/alexcesaro/quotedprintable.v3)
+	rm $(BUILD_DIR)/gopkg.in-alexcesaro-quotedprintable.v3-$(VERSION_gopkg.in/alexcesaro/quotedprintable.v3).tar.gz
 	$(WGS) -u $(URL_gopkg.in/asn1-ber.v1) -o $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz -n $(PATH_gopkg.in/asn1-ber.v1)
 	rm $(BUILD_DIR)/gopkg.in-asn1-ber.v1-$(VERSION_gopkg.in/asn1-ber.v1).tar.gz
+	$(WGS) -u $(URL_gopkg.in/bufio.v1) -o $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz -n $(PATH_gopkg.in/bufio.v1)
+	rm $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
 	$(WGS) -u $(URL_gopkg.in/gomail.v2) -o $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz -n $(PATH_gopkg.in/gomail.v2)
 	rm $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
@@ -137,6 +146,3 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/redis.v2) -o $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz -n $(PATH_gopkg.in/redis.v2)
 	rm $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
-	$(WGS) -u $(URL_gopkg.in/bufio.v1) -o $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz -n $(PATH_gopkg.in/bufio.v1)
-	rm $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
