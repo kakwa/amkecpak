@@ -39,6 +39,7 @@ mkdir -p  $RPM_BUILD_ROOT/var/log/gogs/
 mkdir -p  $RPM_BUILD_ROOT/usr/share/gogs/
 cp -r templates $RPM_BUILD_ROOT/usr/share/gogs/
 cp -r public $RPM_BUILD_ROOT/usr/share/gogs/
+cp -r conf $RPM_BUILD_ROOT/etc/gogs/
 cp gogs.ini $RPM_BUILD_ROOT/etc/gogs/
 
 mkdir -p %{buildroot}%{_unitdir}

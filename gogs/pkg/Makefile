@@ -86,7 +86,7 @@ VERSION_gopkg.in/redis.v2=e617904
 #VERSION_gopkg.in/bufio.v1=v1
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/gogits/gogs

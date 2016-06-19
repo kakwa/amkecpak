@@ -10,6 +10,7 @@ User=gogs
 Group=gogs
 
 EnvironmentFile=/etc/sysconfig/gogs
+Environment=GOGS_CUSTOM=/etc/gogs/
 ExecStart=/usr/bin/gogs web $OPTIONS
 KillMode=process
 Restart=on-failure
