@@ -77,7 +77,9 @@ rm -rf \$RPM_BUILD_ROOT
 %attr(755,gogs,gogs)/var/lib/gogs/
 %attr(755,gogs,gogs)/var/log/gogs/
 /usr/share/gogs/
-/etc/gogs/
+%attr(755,gogs,gogs)/etc/gogs/
+%attr(640,gogs,gogs)/etc/gogs/gogs.ini
+%config{noreplace}/etc/gogs/gogs.ini
 /usr/lib/tmpfiles.d/*
 /etc/sysconfig/*
 %{_unitdir}/*
