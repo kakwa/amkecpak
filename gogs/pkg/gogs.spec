@@ -39,7 +39,7 @@ mkdir -p  $RPM_BUILD_ROOT/var/log/gogs/
 mkdir -p  $RPM_BUILD_ROOT/usr/share/gogs/
 cp -r templates $RPM_BUILD_ROOT/usr/share/gogs/
 cp -r public $RPM_BUILD_ROOT/usr/share/gogs/
-cp -r conf $RPM_BUILD_ROOT/etc/gogs/
+cp -r conf $RPM_BUILD_ROOT/usr/share/gogs/
 cp gogs.ini $RPM_BUILD_ROOT/etc/gogs/
 
 mkdir -p %{buildroot}%{_unitdir}
@@ -66,6 +66,7 @@ systemctl daemon-reload
 
 
 %preun
+systemctl stop gogs
 true
 
 %clean
@@ -79,7 +80,7 @@ rm -rf \$RPM_BUILD_ROOT
 /usr/share/gogs/
 %attr(755,gogs,gogs)/etc/gogs/
 %attr(640,gogs,gogs)/etc/gogs/gogs.ini
-%config{noreplace}/etc/gogs/gogs.ini
+%config(noreplace)/etc/gogs/gogs.ini
 /usr/lib/tmpfiles.d/*
 /etc/sysconfig/*
 %{_unitdir}/*

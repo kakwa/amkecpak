@@ -54,39 +54,8 @@ VERSION_gopkg.in/ldap.v2=07a7330
 VERSION_gopkg.in/macaron.v1=94a5ef7
 VERSION_gopkg.in/redis.v2=e617904
 
-#VERSION_github.com/issue9/identicon=f8c0d2c
-#VERSION_github.com/kardianos/minwinsvc=cad6b2b
-#VERSION_github.com/klauspost/compress=f962535
-#VERSION_github.com/klauspost/cpuid=2c698c6
-#VERSION_github.com/klauspost/crc32=19b0b33
-#VERSION_github.com/lib/pq=69552e5
-#VERSION_github.com/mattn/go-sqlite3=09d5c45
-#VERSION_github.com/mcuadros/go-version=d52711f
-#VERSION_github.com/microcosm-cc/bluemonday=4ac6f27
-#VERSION_github.com/msteinert/pam=02ccfbf
-#VERSION_github.com/nfnt/resize=4d93a29
-#VERSION_github.com/russross/blackfriday=006144a
-#VERSION_github.com/gogits/cron=3abc0f88
-#VERSION_github.com/satori/go.uuid=e673fdd
-#VERSION_github.com/sergi/go-diff=ec7fdbb
-#VERSION_github.com/shurcooL/sanitized_anchor_name=10ef21a
-#VERSION_github.com/Unknwon/cae=7f5e046
-#VERSION_github.com/Unknwon/com=28b053d
-#VERSION_github.com/Unknwon/i18n=3b48b66
-#VERSION_github.com/Unknwon/paginater=7748a72
-#VERSION_golang.org/x/net=4599ae7
-#VERSION_golang.org/x/text=07b9a78
-#VERSION_golang.org/x/crypto=1f22c01
-#VERSION_gopkg.in/asn1-ber.v1=4e86f43
-#VERSION_gopkg.in/gomail.v2=fbb71dd
-#VERSION_gopkg.in/ini.v1=776aa73
-#VERSION_gopkg.in/ldap.v2=07a7330
-#VERSION_gopkg.in/macaron.v1=b9eee38
-#VERSION_gopkg.in/redis.v2=e617904962
-#VERSION_gopkg.in/bufio.v1=v1
-
 # Revision number 
-RELEASE = 2
+RELEASE = 3
 
 # URL of the project 
 URL=https://github.com/gogits/gogs
