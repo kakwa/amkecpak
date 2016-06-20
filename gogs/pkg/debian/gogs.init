@@ -15,12 +15,15 @@ USER=gogs
 GROUP=gogs
 BIN=/usr/bin/gogs
 OPTS="web --config=$CONF"
+GOGS_RESOURCES="/usr/share/gogs/"
 
 . /lib/lsb/init-functions
 
 if [ -f /etc/default/gogs ]; then
     . /etc/default/gogs
 fi
+
+export GOGS_CUSTOM=$GOGS_RESOURCES
 
 start_gogs(){
     log_daemon_msg "Starting gogs" "gogs" || true
