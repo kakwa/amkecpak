@@ -22,9 +22,13 @@ USER=gogs
 
 case "$1" in
     purge)
+	/etc/init.d/gogs stop || true
         userdel $USER || true
-        ;;
-    remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+    remove)
+	/etc/init.d/gogs stop || true
+    ;;
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
     ;;
 
     *)

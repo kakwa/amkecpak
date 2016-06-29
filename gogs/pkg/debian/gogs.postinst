@@ -21,6 +21,12 @@ USER=gogs
 
 case "$1" in
     install|configure)
+        adduser \
+            --system \
+            --home /var/lib/ldapcherry \
+            --quiet \
+            --group \
+            ${USER}
         chown -R ${USER}:${USER} /var/lib/gogs
         chown -R ${USER}:${USER} /var/log/gogs
     ;;
