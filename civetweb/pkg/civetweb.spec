@@ -10,12 +10,22 @@ License: See project
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-BuildArch: noarch
+#BuildArch: noarch
 #BuildRequires: sed
 #Requires: python
 
 %description
 @DESCRIPTION@
+
+%package -n lib@NAME@-devel
+Summary: @SUMMARY@, headers
+%description -n lib@NAME@-devel
+@DESCRIPTION@, headers
+
+%package -n lib@NAME@
+Summary: @SUMMARY@, library 
+%description -n lib@NAME@
+@DESCRIPTION@, library
 
 %prep
 
@@ -24,13 +34,25 @@ BuildArch: noarch
 %install
 
 rm -rf $RPM_BUILD_ROOT
-make install \
-    DESTDIR=$RPM_BUILD_ROOT \
-    PREFIX=%{_prefix}
+cd src/
+cmake .. -DCMAKE_INSTALL_PREFIX=%{_prefix} \
+    -DCMAKE_C_COMPILER=gcc \
+    -DCMAKE_CXX_COMPILER=g++ \
+    -DCMAKE_VERBOSE_MAKEFILE=ON \
+    -DCMAKE_BUILD_TYPE=None \
+    -DCMAKE_INSTALL_SYSCONFDIR=/etc \
+    -DCMAKE_INSTALL_LOCALSTATEDIR=/var \
+    -DCIVETWEB_DISABLE_CGI=ON \
+    -DCIVETWEB_ENABLE_CXX=ON \
+    -DCIVETWEB_ENABLE_IPV6=ON \
+    -DCIVETWEB_ENABLE_WEBSOCKETS=ON \
+    -DBUILD_SHARED_LIBS=ON
+
+make
+make install DESTDIR=$RPM_BUILD_ROOT
 
 %post
 true
-
 
 %preun
 true
@@ -38,8 +60,16 @@ true
 %clean
 rm -rf \$RPM_BUILD_ROOT
 
-%files
+%files -n lib@NAME@
 %defattr(644, root, root, 755)
+/usr/lib/*
+
+%files -n lib@NAME@-devel
+%defattr(644, root, root, 755)
+/usr/include/*.h
+
+%files
+%attr(755, root, root)/usr/bin/*
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
