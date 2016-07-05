@@ -12,7 +12,7 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 #BuildRequires: sed
-#Requires: python
+Requires: git
 
 %description
 @DESCRIPTION@
