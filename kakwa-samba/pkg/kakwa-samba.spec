@@ -8,7 +8,7 @@
 %define _datadir /opt/kakwa-samba/
 %define _includedir /opt/kakwa-samba/usr/include
 
-##BuildRequires: sed
+#BuildRequires: sed
 #Requires: python
 
 # rpmbuild --rebuild --with testsuite --without clustering samba.src.rpm
@@ -158,80 +158,81 @@ Obsoletes: samba-swat < %{samba_depver}
 Provides: samba4-swat = %{samba_depver}
 Obsoletes: samba4-swat < %{samba_depver}
 
-#BuildRequires: cups-devel
-#BuildRequires: dbus-devel
-#BuildRequires: docbook-style-xsl
-#BuildRequires: e2fsprogs-devel
-#BuildRequires: gawk
-#BuildRequires: krb5-devel >= 1.10
-#BuildRequires: libacl-devel
-#BuildRequires: libaio-devel
-#BuildRequires: libarchive-devel
-#BuildRequires: libattr-devel
-#BuildRequires: libcap-devel
-#BuildRequires: libuuid-devel
-#BuildRequires: libxslt
-#BuildRequires: ncurses-devel
-#BuildRequires: openldap-devel
-#BuildRequires: pam-devel
+BuildRequires: cups-devel
+BuildRequires: dbus-devel
+BuildRequires: docbook-style-xsl
+BuildRequires: e2fsprogs-devel
+BuildRequires: gawk
+BuildRequires: krb5-devel >= 1.10
+BuildRequires: libacl-devel
+BuildRequires: libaio-devel
+BuildRequires: libarchive-devel
+BuildRequires: libattr-devel
+BuildRequires: libcap-devel
+BuildRequires: libuuid-devel
+BuildRequires: libxslt
+BuildRequires: ncurses-devel
+BuildRequires: openldap-devel
+BuildRequires: pam-devel
 #BuildRequires: perl-generators
-#BuildRequires: perl(ExtUtils::MakeMaker)
-#BuildRequires: perl(Parse::Yapp)
-#BuildRequires: popt-devel
-#BuildRequires: python-devel
-#BuildRequires: python-tevent
-#BuildRequires: quota-devel
-#BuildRequires: readline-devel
-#BuildRequires: sed
-#BuildRequires: xfsprogs-devel
-#BuildRequires: zlib-devel >= 1.2.3
+BuildRequires: perl(ExtUtils::MakeMaker)
+BuildRequires: perl(Parse::Yapp)
+BuildRequires: popt-devel
+BuildRequires: python-devel
+BuildRequires: python-tevent
+BuildRequires: quota-devel
+BuildRequires: readline-devel
+BuildRequires: sed
+BuildRequires: xfsprogs-devel
+BuildRequires: zlib-devel >= 1.2.3
 
 #BuildRequires: pkgconfig(libsystemd)
 
 %if %{with_vfs_glusterfs}
-#BuildRequires: glusterfs-api-devel >= 3.4.0.16
-#BuildRequires: glusterfs-devel >= 3.4.0.16
+BuildRequires: glusterfs-api-devel >= 3.4.0.16
+BuildRequires: glusterfs-devel >= 3.4.0.16
 %endif
 %if %{with_vfs_cephfs}
-#BuildRequires: libcephfs1-devel
+BuildRequires: libcephfs1-devel
 %endif
 %if %{with_dc}
 #BuildRequires: gnutls-devel >= 3.4.7
+BuildRequires: gnutls-devel
 %endif
 
 # pidl requirements
-#BuildRequires: perl(Parse::Yapp)
+BuildRequires: perl(Parse::Yapp)
 
 %if ! %with_internal_talloc
 %global libtalloc_version 2.1.6
 
-#BuildRequires: libtalloc-devel >= %{libtalloc_version}
-#BuildRequires: pytalloc-devel >= %{libtalloc_version}
+BuildRequires: libtalloc-devel >= %{libtalloc_version}
+BuildRequires: pytalloc-devel >= %{libtalloc_version}
 %endif
 
 %if ! %with_internal_tevent
 %global libtevent_version 0.9.28
 
-#BuildRequires: libtevent-devel >= %{libtevent_version}
-#BuildRequires: python-tevent >= %{libtevent_version}
+BuildRequires: libtevent-devel >= %{libtevent_version}
+BuildRequires: python-tevent >= %{libtevent_version}
 %endif
 
 %if ! %with_internal_ldb
 %global libldb_version 1.1.26
 
-#BuildRequires: libldb-devel >= %{libldb_version}
-#BuildRequires: pyldb-devel >= %{libldb_version}
+BuildRequires: libldb-devel >= %{libldb_version}
+BuildRequires: pyldb-devel >= %{libldb_version}
 %endif
 
 %if ! %with_internal_tdb
 %global libtdb_version 1.3.8
 
-#BuildRequires: libtdb-devel >= %{libtdb_version}
-#BuildRequires: python-tdb >= %{libtdb_version}
+BuildRequires: libtdb-devel >= %{libtdb_version}
+BuildRequires: python-tdb >= %{libtdb_version}
 %endif
 
 %if %{with testsuite}
-#BuildRequires: ldb-tools
+BuildRequires: ldb-tools
 %endif
 
 # filter out perl requirements pulled in from examples in the docdir.
