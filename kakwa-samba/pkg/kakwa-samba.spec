@@ -137,7 +137,7 @@ Requires: %{name}-common-tools = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 Requires: pam
@@ -257,7 +257,7 @@ Requires(pre): %{name}-common = %{samba_depver}
 Requires: %{name}-common-libs = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 %if %with_libsmbclient
-Requires: libsmbclient = %{samba_depver}
+Requires: kakwa-libsmbclient = %{samba_depver}
 %endif
 
 #Provides: samba4-client = %{samba_depver}
@@ -277,7 +277,7 @@ Summary: Samba client libraries
 Group: Applications/System
 Requires(pre): %{name}-common = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 %description client-libs
@@ -306,7 +306,7 @@ Group: Applications/System
 Requires(pre): samba-common = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 %description common-libs
@@ -317,11 +317,11 @@ SMB/CIFS clients.
 %package common-tools
 Summary: Tools for Samba servers and clients
 Group: Applications/System
-Requires: samba-common-libs = %{samba_depver}
-Requires: samba-client-libs = %{samba_depver}
-Requires: samba-libs = %{samba_depver}
+Requires: kakwa-samba-common-libs = %{samba_depver}
+Requires: kakwa-samba-client-libs = %{samba_depver}
+Requires: kakwa-samba-libs = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 %description common-tools
@@ -427,7 +427,7 @@ Group: Applications/System
 Requires: krb5-libs >= 1.10
 Requires: %{name}-client-libs = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 #Provides: samba4-libs = %{samba_depver}
@@ -439,21 +439,21 @@ against the SMB, RPC and other protocols provided by the Samba suite.
 
 ### LIBSMBCLIENT
 %if %with_libsmbclient
-%package -n libsmbclient
+%package -n kakwa-libsmbclient
 Summary: The SMB client library
 Group: Applications/System
 Requires(pre): %{name}-common = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 
-%description -n libsmbclient
+%description -n kakwa-libsmbclient
 The libsmbclient contains the SMB client library from the Samba suite.
 
-%package -n libsmbclient-devel
+%package -n kakwa-libsmbclient-devel
 Summary: Developer tools for the SMB client library
 Group: Development/Libraries
-Requires: libsmbclient = %{samba_depver}
+Requires: kakwa-libsmbclient = %{samba_depver}
 
-%description -n libsmbclient-devel
+%description -n kakwa-libsmbclient-devel
 The libsmbclient-devel package contains the header files and libraries needed
 to develop programs that link against the SMB client library in the Samba
 suite.
@@ -461,25 +461,25 @@ suite.
 
 ### LIBWBCLIENT
 %if %with_libwbclient
-%package -n libwbclient
+%package -n kakwa-libwbclient
 Summary: The winbind client library
 Group: Applications/System
 Requires: %{name}-client-libs = %{samba_depver}
 
-%description -n libwbclient
-The libwbclient package contains the winbind client library from the Samba
+%description -n kakwa-libwbclient
+The kakwa-libwbclient package contains the winbind client library from the Samba
 suite.
 
-%package -n libwbclient-devel
+%package -n kakwa-libwbclient-devel
 Summary: Developer tools for the winbind library
 Group: Development/Libraries
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 
 #Provides: samba-winbind-devel = %{samba_depver}
 #Obsoletes: samba-winbind-devel < %{samba_depver}
 
-%description -n libwbclient-devel
-The libwbclient-devel package provides developer tools for the wbclient
+%description -n kakwa-libwbclient-devel
+The kakwa-libwbclient-devel package provides developer tools for the wbclient
 library.
 %endif # with_libwbclient
 
@@ -533,10 +533,10 @@ Requires: %{name}-dc-libs = %{samba_depver}
 %endif
 Requires: %{name}-libs = %{samba_depver}
 %if %with_libsmbclient
-Requires: libsmbclient = %{samba_depver}
+Requires: kakwa-libsmbclient = %{samba_depver}
 %endif
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 #Provides: samba4-test = %{samba_depver}
@@ -588,7 +588,7 @@ Requires: %{name}-client-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 Requires: %{name}-winbind = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 
 #Provides: samba4-winbind-clients = %{samba_depver}
@@ -603,7 +603,7 @@ tool.
 Summary: Samba winbind krb5 locator
 Group: Applications/System
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 Requires: %{name}-winbind = %{samba_depver}
 %else
 Requires: %{name}-libs = %{samba_depver}
@@ -642,7 +642,7 @@ necessary to communicate to the Winbind Daemon
 
 ### CTDB
 %if %with_clustering_support
-%package -n ctdb
+%package -n kakwa-ctdb
 Summary: A Clustered Database based on Samba's Trivial Database (TDB)
 Group: System Environment/Daemons
 
@@ -670,18 +670,18 @@ Requires(post): systemd-units
 Requires(preun): systemd-units
 Requires(postun): systemd-units
 
-%description -n ctdb
+%description -n kakwa-ctdb
 CTDB is a cluster implementation of the TDB database used by Samba and other
 projects to store temporary data. If an application is already using TDB for
 temporary data it is very easy to convert that application to be cluster aware
 and use CTDB instead.
 
 ### CTDB-TEST
-%package -n ctdb-tests
+%package -n kakwa-ctdb-tests
 Summary: CTDB clustered database test suite
 Group: Development/Tools
 
-Requires: samba-client-libs = %{samba_depver}
+Requires: kakwa-samba-client-libs = %{samba_depver}
 
 Requires: ctdb = %{samba_depver}
 Requires: nc
@@ -689,7 +689,7 @@ Requires: nc
 #Provides: ctdb-devel = %{samba_depver}
 #Obsoletes: ctdb-devel < %{samba_depver}
 
-%description -n ctdb-tests
+%description -n kakwa-ctdb-tests
 Test suite for CTDB.
 CTDB is a cluster implementation of the TDB database used by Samba and other
 projects to store temporary data. If an application is already using TDB for
@@ -1004,28 +1004,28 @@ fi
 %postun libs -p /sbin/ldconfig
 
 %if %with_libsmbclient
-%post -n libsmbclient -p /sbin/ldconfig
+%post -n kakwa-libsmbclient -p /sbin/ldconfig
 
-%postun -n libsmbclient -p /sbin/ldconfig
+%postun -n kakwa-libsmbclient -p /sbin/ldconfig
 %endif
 
 %if %with_libwbclient
-%posttrans -n libwbclient
+%posttrans -n kakwa-libwbclient
 # It has to be posttrans here to make sure all files of a previous version
 # without alternatives support are removed
 %{_sbindir}/update-alternatives --install %{_libdir}/libwbclient.so.%{libwbc_alternatives_version} \
                                 libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so.%{libwbc_alternatives_version} 10
 /sbin/ldconfig
 
-%preun -n libwbclient
+%preun -n kakwa-libwbclient
 %{_sbindir}/update-alternatives --remove libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so.%{libwbc_alternatives_version}
 /sbin/ldconfig
 
-%posttrans -n libwbclient-devel
+%posttrans -n kakwa-libwbclient-devel
 %{_sbindir}/update-alternatives --install %{_libdir}/libwbclient.so \
                                 libwbclient.so%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so 10
 
-%preun -n libwbclient-devel
+%preun -n kakwa-libwbclient-devel
 # alternatives checks if the file which should be removed is a link or not, but
 # not if it points to the /etc/alternatives directory or to some other place.
 # When downgrading to a version where alternatives is not used and
@@ -1077,14 +1077,14 @@ fi
 %postun winbind-modules -p /sbin/ldconfig
 
 %if %with_clustering_support
-%post -n ctdb
+%post -n kakwa-ctdb
 /usr/bin/systemd-tmpfiles --create %{_tmpfilesdir}/ctdb.conf
 %systemd_post ctdb.service
 
-%preun -n ctdb
+%preun -n kakwa-ctdb
 %systemd_preun ctdb.service
 
-%postun -n ctdb
+%postun -n kakwa-ctdb
 %systemd_postun_with_restart ctdb.service
 %endif
 
