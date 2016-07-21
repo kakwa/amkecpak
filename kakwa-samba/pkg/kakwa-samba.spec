@@ -10,6 +10,9 @@
 %define python_sitearch /opt/kakwa-samba/lib64/python2.7/site-packages
 %define perl_vendorlib  /opt/kakwa-samba/perl5
 
+
+AutoReqProv: no
+
 #BuildRequires: sed
 #Requires: python
 
@@ -253,6 +256,7 @@ Unix.
 %package client
 Summary: Samba client programs
 Group: Applications/System
+AutoReqProv: no
 Requires(pre): %{name}-common = %{samba_depver}
 Requires: %{name}-common-libs = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
@@ -263,8 +267,8 @@ Requires: kakwa-libsmbclient = %{samba_depver}
 #Provides: samba4-client = %{samba_depver}
 #Obsoletes: samba4-client < %{samba_depver}
 
-Requires(post): %{_sbindir}/update-alternatives
-Requires(postun): %{_sbindir}/update-alternatives
+#Requires(post): %{_sbindir}/update-alternatives
+#Requires(postun): %{_sbindir}/update-alternatives
 
 %description client
 The %{name}-client package provides some SMB/CIFS clients to complement
@@ -275,6 +279,7 @@ of SMB/CIFS shares and printing to SMB/CIFS printers.
 %package client-libs
 Summary: Samba client libraries
 Group: Applications/System
+AutoReqProv: no
 Requires(pre): %{name}-common = %{samba_depver}
 %if %with_libwbclient
 Requires: kakwa-libwbclient = %{samba_depver}
@@ -290,6 +295,7 @@ Summary: Files used by both Samba servers and clients
 Group: Applications/System
 BuildArch: noarch
 
+AutoReqProv: no
 Requires(post): systemd
 
 #Provides: samba4-common = %{samba_depver}
@@ -303,7 +309,8 @@ packages of Samba.
 %package common-libs
 Summary: Libraries used by both Samba servers and clients
 Group: Applications/System
-Requires(pre): samba-common = %{samba_depver}
+AutoReqProv: no
+Requires(pre): kakwa-samba-common = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 %if %with_libwbclient
 Requires: kakwa-libwbclient = %{samba_depver}
@@ -317,6 +324,7 @@ SMB/CIFS clients.
 %package common-tools
 Summary: Tools for Samba servers and clients
 Group: Applications/System
+AutoReqProv: no
 Requires: kakwa-samba-common-libs = %{samba_depver}
 Requires: kakwa-samba-client-libs = %{samba_depver}
 Requires: kakwa-samba-libs = %{samba_depver}
@@ -332,6 +340,7 @@ SMB/CIFS clients.
 %package dc
 Summary: Samba AD Domain Controller
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name} = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 Requires: %{name}-dc-libs = %{samba_depver}
@@ -350,6 +359,7 @@ The samba-dc package provides AD Domain Controller functionality
 %package dc-libs
 Summary: Samba AD Domain Controller Libraries
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name}-common-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 
@@ -364,6 +374,7 @@ link against the SMB, RPC and other protocols.
 %package devel
 Summary: Developer tools for Samba libraries
 Group: Development/Libraries
+AutoReqProv: no
 Requires: %{name}-libs = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 
@@ -380,6 +391,7 @@ libraries in the Samba suite.
 %package vfs-cephfs
 Summary: Samba VFS module for Ceph distributed storage system
 Group: Applications/System
+AutoReqProv: no
 Requires: libcephfs1
 Requires: %{name} = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
@@ -393,6 +405,7 @@ Samba VFS module for Ceph distributed storage system integration.
 %package vfs-glusterfs
 Summary: Samba VFS module for GlusterFS
 Group: Applications/System
+AutoReqProv: no
 Requires: glusterfs-api >= 3.4.0.16
 Requires: glusterfs >= 3.4.0.16
 Requires: %{name} = %{samba_depver}
@@ -409,11 +422,12 @@ Samba VFS module for GlusterFS integration.
 ### KRB5-PRINTING
 %package krb5-printing
 Summary: Samba CUPS backend for printing with Kerberos
+AutoReqProv: no
 Group: Applications/System
 Requires(pre): %{name}-client
 
-Requires(post): %{_sbindir}/update-alternatives
-Requires(postun): %{_sbindir}/update-alternatives
+#Requires(post): %{_sbindir}/update-alternatives
+#Requires(postun): %{_sbindir}/update-alternatives
 
 %description krb5-printing
 If you need Kerberos for print jobs to a printer connection to cups via the SMB
@@ -424,7 +438,8 @@ the Kerberos credentials cache of the user issuing the print job.
 %package libs
 Summary: Samba libraries
 Group: Applications/System
-Requires: krb5-libs >= 1.10
+AutoReqProv: no
+#Requires: krb5-libs >= 1.10
 Requires: %{name}-client-libs = %{samba_depver}
 %if %with_libwbclient
 Requires: kakwa-libwbclient = %{samba_depver}
@@ -442,6 +457,7 @@ against the SMB, RPC and other protocols provided by the Samba suite.
 %package -n kakwa-libsmbclient
 Summary: The SMB client library
 Group: Applications/System
+AutoReqProv: no
 Requires(pre): %{name}-common = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 
@@ -451,6 +467,7 @@ The libsmbclient contains the SMB client library from the Samba suite.
 %package -n kakwa-libsmbclient-devel
 Summary: Developer tools for the SMB client library
 Group: Development/Libraries
+AutoReqProv: no
 Requires: kakwa-libsmbclient = %{samba_depver}
 
 %description -n kakwa-libsmbclient-devel
@@ -464,6 +481,7 @@ suite.
 %package -n kakwa-libwbclient
 Summary: The winbind client library
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name}-client-libs = %{samba_depver}
 
 %description -n kakwa-libwbclient
@@ -473,6 +491,7 @@ suite.
 %package -n kakwa-libwbclient-devel
 Summary: Developer tools for the winbind library
 Group: Development/Libraries
+AutoReqProv: no
 Requires: kakwa-libwbclient = %{samba_depver}
 
 #Provides: samba-winbind-devel = %{samba_depver}
@@ -487,6 +506,7 @@ library.
 %package python
 Summary: Samba Python libraries
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name} = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
@@ -506,6 +526,7 @@ that use SMB, RPC and other Samba provided protocols in Python programs.
 %package pidl
 Summary: Perl IDL compiler
 Group: Development/Tools
+AutoReqProv: no
 Requires: perl(Parse::Yapp)
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildArch: noarch
@@ -521,6 +542,7 @@ and Wireshark to parse IDL and similar protocols
 %package test
 Summary: Testing tools for Samba servers and clients
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name} = %{samba_depver}
 Requires: %{name}-common = %{samba_depver}
 Requires: %{name}-winbind = %{samba_depver}
@@ -550,6 +572,7 @@ packages of Samba.
 %package test-libs
 Summary: Libraries need by the testing tools for Samba servers and clients
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name}-client-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 
@@ -563,6 +586,7 @@ Requires: %{name}-libs = %{samba_depver}
 %package winbind
 Summary: Samba winbind
 Group: Applications/System
+AutoReqProv: no
 Requires(pre): %{name}-common = %{samba_depver}
 Requires: %{name}-common-libs = %{samba_depver}
 Requires: %{name}-common-tools = %{samba_depver}
@@ -582,6 +606,7 @@ Windows user and group accounts on Linux.
 %package winbind-clients
 Summary: Samba winbind clients
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name}-common = %{samba_depver}
 Requires: %{name}-common-libs = %{samba_depver}
 Requires: %{name}-client-libs = %{samba_depver}
@@ -602,6 +627,7 @@ tool.
 %package winbind-krb5-locator
 Summary: Samba winbind krb5 locator
 Group: Applications/System
+AutoReqProv: no
 %if %with_libwbclient
 Requires: kakwa-libwbclient = %{samba_depver}
 Requires: %{name}-winbind = %{samba_depver}
@@ -617,9 +643,9 @@ Requires: %{name}-libs = %{samba_depver}
 # The plugin will be diverted to /dev/null by the FreeIPA
 # freeipa-server-trust-ad subpackage due to higher priority
 # and restored to the proper one on uninstall
-Requires(post): %{_sbindir}/update-alternatives
-Requires(postun): %{_sbindir}/update-alternatives
-Requires(preun): %{_sbindir}/update-alternatives
+#Requires(post): %{_sbindir}/update-alternatives
+#Requires(postun): %{_sbindir}/update-alternatives
+#Requires(preun): %{_sbindir}/update-alternatives
 
 %description winbind-krb5-locator
 The winbind krb5 locator is a plugin for the system kerberos library to allow
@@ -629,10 +655,11 @@ the local kerberos library to use the same KDC as samba and winbind use
 %package winbind-modules
 Summary: Samba winbind modules
 Group: Applications/System
+AutoReqProv: no
 Requires: %{name}-client-libs = %{samba_depver}
 Requires: %{name}-libs = %{samba_depver}
 %if %with_libwbclient
-Requires: libwbclient = %{samba_depver}
+Requires: kakwa-libwbclient = %{samba_depver}
 %endif
 Requires: pam
 
@@ -645,7 +672,7 @@ necessary to communicate to the Winbind Daemon
 %package -n kakwa-ctdb
 Summary: A Clustered Database based on Samba's Trivial Database (TDB)
 Group: System Environment/Daemons
-
+AutoReqProv: no
 Requires: %{name}-client-libs = %{samba_depver}
 
 Requires: coreutils
@@ -680,10 +707,9 @@ and use CTDB instead.
 %package -n kakwa-ctdb-tests
 Summary: CTDB clustered database test suite
 Group: Development/Tools
-
+AutoReqProv: no
 Requires: kakwa-samba-client-libs = %{samba_depver}
-
-Requires: ctdb = %{samba_depver}
+Requires: kakwa-ctdb = %{samba_depver}
 Requires: nc
 
 #Provides: ctdb-devel = %{samba_depver}
