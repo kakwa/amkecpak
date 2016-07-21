@@ -1791,7 +1791,7 @@ rm -rf %{buildroot}
 %{_libdir}/libnss_winbind.so*
 %{_libdir}/libnss_wins.so*
 %{_libdir}/security/pam_winbind.so
-%config(noreplace) %{_sysconfdir}/security/pam_kakwa-winbind.conf
+%config(noreplace) /etc/security/pam_kakwa-winbind.conf
 
 %if %with_clustering_support
 %files -n kakwa-ctdb
