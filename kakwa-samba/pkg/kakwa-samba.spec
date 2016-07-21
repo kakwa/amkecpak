@@ -808,7 +808,6 @@ and use CTDB instead.
         --with-lockdir=/var/lib/kakwa-samba/lock \
         --with-statedir=/var/lib/kakwa-samba \
         --with-cachedir=/var/lib/kakwa-samba \
-        --disable-rpath-install \
 	--with-regedit \
 	--enable-cups \
 	--enable-iprint \
@@ -869,13 +868,13 @@ install -d -m 0755 %{buildroot}/%{_libdir}/pkgconfig
 
 # Move libwbclient.so* into private directory, it cannot be just libdir/samba
 # because samba uses rpath with this directory.
-install -d -m 0755 %{buildroot}/%{_libdir}/samba/wbclient
-mv %{buildroot}/%{_libdir}/libwbclient.so* %{buildroot}/%{_libdir}/samba/wbclient
-if [ ! -f %{buildroot}/%{_libdir}/samba/wbclient/libwbclient.so.%{libwbc_alternatives_version} ]
-then
-    echo "Expected libwbclient version not found, please check if version has changed."
-    exit -1
-fi
+#install -d -m 0755 %{buildroot}/%{_libdir}/samba
+#mv %{buildroot}/%{_libdir}/libwbclient.so* %{buildroot}/%{_libdir}/samba
+#if [ ! -f %{buildroot}/%{_libdir}/samba/libwbclient.so.%{libwbc_alternatives_version} ]
+#then
+#    echo "Expected libwbclient version not found, please check if version has changed."
+#    exit -1
+#fi
 
 install -d -m 0755 %{buildroot}/%{_sysconfdir}/samba/
 touch %{buildroot}/%{_sysconfdir}/samba/smb.conf
@@ -1033,16 +1032,16 @@ fi
 # It has to be posttrans here to make sure all files of a previous version
 # without alternatives support are removed
 %{_sbindir}/update-alternatives --install %{_libdir}/libwbclient.so.%{libwbc_alternatives_version} \
-                                libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so.%{libwbc_alternatives_version} 10
+                                libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/libwbclient.so.%{libwbc_alternatives_version} 10
 /sbin/ldconfig
 
 %preun -n kakwa-libwbclient
-%{_sbindir}/update-alternatives --remove libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so.%{libwbc_alternatives_version}
+%{_sbindir}/update-alternatives --remove libwbclient.so.%{libwbc_alternatives_version}%{libwbc_alternatives_suffix} %{_libdir}/samba/libwbclient.so.%{libwbc_alternatives_version}
 /sbin/ldconfig
 
 %posttrans -n kakwa-libwbclient-devel
 %{_sbindir}/update-alternatives --install %{_libdir}/libwbclient.so \
-                                libwbclient.so%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so 10
+                                libwbclient.so%{libwbc_alternatives_suffix} %{_libdir}/samba/libwbclient.so 10
 
 %preun -n kakwa-libwbclient-devel
 # alternatives checks if the file which should be removed is a link or not, but
@@ -1053,7 +1052,7 @@ fi
 if [ "`readlink %{_libdir}/libwbclient.so`" == "libwbclient.so.%{libwbc_alternatives_version}" ]; then
     /bin/rm -f /etc/alternatives/libwbclient.so%{libwbc_alternatives_suffix} /var/lib/alternatives/libwbclient.so%{libwbc_alternatives_suffix} 2> /dev/null
 else
-    %{_sbindir}/update-alternatives --remove libwbclient.so%{libwbc_alternatives_suffix} %{_libdir}/samba/wbclient/libwbclient.so
+    %{_sbindir}/update-alternatives --remove libwbclient.so%{libwbc_alternatives_suffix} %{_libdir}/samba/libwbclient.so
 fi
 
 %endif # with_libwbclient
@@ -1709,14 +1708,14 @@ rm -rf %{buildroot}
 %if %with_libwbclient
 %files -n kakwa-libwbclient
 %defattr(-,root,root)
-%{_libdir}/samba/wbclient/libwbclient.so.*
+%{_libdir}/libwbclient.so*
 %{_libdir}/samba/libwinbind-client-samba4.so
 
 ### LIBWBCLIENT-DEVEL
 %files -n kakwa-libwbclient-devel
 %defattr(-,root,root)
 %{_includedir}/samba-4.0/wbclient.h
-%{_libdir}/samba/wbclient/libwbclient.so
+#%{_libdir}/samba/libwbclient.so
 %{_libdir}/pkgconfig/wbclient.pc
 %endif # with_libwbclient
 
