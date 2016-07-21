@@ -38,6 +38,7 @@ src_prepare_rpm:
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/samba-$(VERSION).tar.gz
 	tar -vxf $(BUILD_DIR)/samba-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/samba-$(VERSION)/* $(BUILD_DIR)/src/
+	find $(BUILD_DIR)/src/ -name configure.rpm -exec rm {} \;
 	rm -rf $(BUILD_DIR)/samba-$(VERSION)
 	rm -f $(BUILD_DIR)/samba-$(VERSION).tar.gz
 

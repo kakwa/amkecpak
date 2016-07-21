@@ -822,6 +822,7 @@ rm -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 rsync -ap %{buildroot}/usr/ %{buildroot}/opt/kakwa-samba/usr/
 rm -rf %{buildroot}/usr
+mv %{buildroot}/%{_localstatedir}/lib/ctdb/ %{buildroot}/%{_localstatedir}/lib/kakwa-ctdb/
 
 #install -d -m 0755 %{buildroot}/usr/{sbin,bin}
 install -d -m 0755 %{buildroot}%{_libdir}/security
@@ -864,17 +865,17 @@ touch %{buildroot}/etc/logrotate.d/kakwa-samba
 #touch %{buildroot}%{_libexecdir}/samba/cups_backend_smb
 
 # Install other stuff
-#install -d -m 0755 %{buildroot}%{_sysconfdir}/logrotate.d
-#install -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/samba
-#
-#install -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/samba/smb.conf
-#install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/samba/smb.conf.example
-#
-#install -d -m 0755 %{buildroot}%{_sysconfdir}/security
-#install -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/security/pam_winbind.conf
-#
-#install -d -m 0755 %{buildroot}%{_sysconfdir}/pam.d
-#install -m 0644 %{SOURCE6} %{buildroot}%{_sysconfdir}/pam.d/samba
+install -d -m 0755 %{buildroot}/etc/logrotate.d
+install -m 0644 rhel/kakwa-samba.log %{buildroot}/etc/logrotate.d/kakwa-samba
+
+install -m 0644 rhel/smb.conf.vendor %{buildroot}%{_sysconfdir}/samba/smb.conf
+install -m 0644 rhel/smb.conf.example %{buildroot}%{_sysconfdir}/samba/smb.conf.example
+
+install -d -m 0755 %{buildroot}/etc//security
+install -m 0644 rhel/pam_kakwa-winbind.conf %{buildroot}/etc/security/pam_kakwa-winbind.conf
+
+install -d -m 0755 %{buildroot}/etc/pam.d
+install -m 0644 rhel/kakwa-samba.pamd %{buildroot}/etc/pam.d/kakwa-samba
 
 echo 127.0.0.1 localhost > %{buildroot}%{_sysconfdir}/samba/lmhosts
 
@@ -884,32 +885,24 @@ echo 127.0.0.1 localhost > %{buildroot}%{_sysconfdir}/samba/lmhosts
 #
 #install -m 0744 packaging/printing/smbprint %{buildroot}%{_bindir}/smbprint
 #
-#install -d -m 0755 %{buildroot}%{_tmpfilesdir}
-#install -m644 packaging/systemd/samba.conf.tmp %{buildroot}%{_tmpfilesdir}/samba.conf
-## create /run/samba too.
-#echo "d /run/samba  755 root root" >> %{buildroot}%{_tmpfilesdir}/samba.conf
+install -d -m 0755 %{buildroot}%{_tmpfilesdir}
+install -m644 rhel/systemd/kakwa-samba.conf.tmp %{buildroot}%{_tmpfilesdir}/kakwa-samba.conf
+
 #%if %with_clustering_support
 #echo "d /run/ctdb 755 root root" >> %{buildroot}%{_tmpfilesdir}/ctdb.conf
 #%endif
-#
-#install -d -m 0755 %{buildroot}%{_sysconfdir}/sysconfig
-#install -m 0644 packaging/systemd/samba.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/samba
+
+install -d -m 0755 %{buildroot}%{_sysconfdir}/sysconfig
+install -m 0644 rhel/systemd/kakwa-samba.sysconfig %{buildroot}/etc/sysconfig/kakwa-samba
+
 #%if %with_clustering_support
 #install -m 0644 ctdb/config/ctdb.sysconfig %{buildroot}%{_sysconfdir}/sysconfig/ctdb
 #%endif
-#
-#install -m 0644 %{SOURCE201} packaging/README.downgrade
-#
-#%if ! %with_dc
-#install -m 0644 %{SOURCE200} packaging/README.dc
-#install -m 0644 %{SOURCE200} packaging/README.dc-libs
-#%endif
 
-#install -d -m 0755 %{buildroot}%{_unitdir}
-#for i in nmb smb winbind ; do
-#    cat packaging/systemd/$i.service | sed -e 's@\[Service\]@[Service]\nEnvironment=KRB5CCNAME=FILE:/run/samba/krb5cc_samba@g' >tmp$i.service
-#    install -m 0644 tmp$i.service %{buildroot}%{_unitdir}/$i.service
-#done
+install -d -m 0755 %{buildroot}%{_unitdir}
+for i in nmb smb winbind ; do
+    install -m 0644 rhel/systemd/kakwa-$i.service %{buildroot}%{_unitdir}/
+done
 #%if %with_clustering_support
 #install -m 0755 ctdb/config/ctdb.service %{buildroot}%{_unitdir}
 #%endif
@@ -957,7 +950,7 @@ TDB_NO_FSYNC=1 make %{?_smp_mflags} test
 
 %post common
 /sbin/ldconfig
-/usr/bin/systemd-tmpfiles --create %{_tmpfilesdir}/samba.conf
+/usr/bin/systemd-tmpfiles --create %{_tmpfilesdir}/kakwa-samba.conf
 if [ -d /var/cache/samba ]; then
     mv /var/cache/samba/netsamlogon_cache.tdb /var/lib/samba/ 2>/dev/null
     mv /var/cache/samba/winbindd_cache.tdb /var/lib/samba/ 2>/dev/null
@@ -1147,12 +1140,12 @@ rm -rf %{buildroot}
 %{_libdir}/samba/vfs/worm.so
 %{_libdir}/samba/vfs/xattr_tdb.so
 
-#%{_unitdir}/nmb.service
-#%{_unitdir}/smb.service
+%{_unitdir}/kakwa-nmb.service
+%{_unitdir}/kakwa-smb.service
 %attr(1777,root,root) %dir /var/spool/kakwa-samba
 #%dir %{_sysconfdir}/openldap/schema
 #%config %{_sysconfdir}/openldap/schema/samba.schema
-#%config(noreplace) %{_sysconfdir}/pam.d/samba
+%config(noreplace) /etc/pam.d/kakwa-samba
 
 %dir /var/lib/kakwa-samba/drivers
 %dir /var/lib/kakwa-samba/lock
@@ -1344,15 +1337,17 @@ rm -rf %{buildroot}
 %config(noreplace) /etc/logrotate.d/kakwa-samba
 %attr(0700,root,root) %dir /var/log/kakwa-samba
 %attr(0700,root,root) %dir /var/log/kakwa-samba/old
-%ghost %dir /var/run/samba
-%ghost %dir /var/run/winbindd
-%dir /var/lib/samba
-%attr(700,root,root) %dir /var/lib/samba/private
+%ghost %dir /var/run/kakwa-samba
+%ghost %dir /var/run/kakwa-winbindd
+%dir /var/lib/kakwa-samba
+%attr(700,root,root) %dir /var/lib/kakwa-samba/private
 %attr(755,root,root) %dir %{_sysconfdir}/samba
 %config(noreplace) %{_sysconfdir}/samba/smb.conf
 %config(noreplace) %{_sysconfdir}/samba/lmhosts
 %config(noreplace) /etc/sysconfig/kakwa-samba
 %{_mandir}/*
+%{_sysconfdir}/samba/smb.conf.example
+%{_tmpfilesdir}/kakwa-samba.conf
 
 ### COMMON-libs
 %files common-libs
@@ -1775,7 +1770,7 @@ rm -rf %{buildroot}
 %{_libdir}/samba/libidmap-samba4.so
 %{_sbindir}/winbindd
 %attr(750,root,wbpriv) %dir /var/lib/kakwa-samba/winbindd_privileged
-#%{_unitdir}/winbind.service
+%{_unitdir}/kakwa-winbind.service
 #%{_sysconfdir}/NetworkManager/dispatcher.d/30-winbind
 
 ### WINBIND-CLIENTS
@@ -1796,7 +1791,7 @@ rm -rf %{buildroot}
 %{_libdir}/libnss_winbind.so*
 %{_libdir}/libnss_wins.so*
 %{_libdir}/security/pam_winbind.so
-#%config(noreplace) %{_sysconfdir}/security/pam_winbind.conf
+%config(noreplace) %{_sysconfdir}/security/pam_kakwa-winbind.conf
 
 %if %with_clustering_support
 %files -n kakwa-ctdb
@@ -1809,7 +1804,7 @@ rm -rf %{buildroot}
 %{_sysconfdir}/ctdb/gcore_trace.sh
 %{_sysconfdir}/ctdb/functions
 %{_sysconfdir}/ctdb/debug_locks.sh
-%dir %{_localstatedir}/lib/ctdb/
+%dir %{_localstatedir}/lib/kakwa-ctdb/
 
 #%{_unitdir}/ctdb.service
 
