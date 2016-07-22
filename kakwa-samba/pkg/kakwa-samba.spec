@@ -817,6 +817,12 @@ and use CTDB instead.
         --with-pie \
         --with-relro \
         --without-fam \
+	--with-statedir=/var/lib/kakwa-samba \
+	--with-privatedir=/var/lib/kakwa-samba/private \
+	--with-piddir=/var/run/kakwa-samba \
+	--with-cachedir=/var/cache/kakwa-samba \
+	--with-privileged-socket-dir=/var/lib/kakwa-samba \
+	--with-logfilebase=/var/log/kakwa-samba \
 %if (! %with_libsmbclient) || (! %with_libwbclient)
         --private-libraries=%{_samba4_private_libraries} \
 %endif
@@ -925,7 +931,7 @@ install -m 0644 rhel/systemd/kakwa-samba.sysconfig %{buildroot}/etc/sysconfig/ka
 #%endif
 
 install -d -m 0755 %{buildroot}%{_unitdir}
-for i in nmb smb winbind ; do
+for i in nmb smb winbind samba samba-ad-dc; do
     install -m 0644 rhel/systemd/kakwa-$i.service %{buildroot}%{_unitdir}/
 done
 #%if %with_clustering_support
@@ -1373,6 +1379,7 @@ rm -rf %{buildroot}
 %{_mandir}/*
 %{_sysconfdir}/samba/smb.conf.example
 %{_tmpfilesdir}/kakwa-samba.conf
+%{_unitdir}/kakwa-samba.service
 
 ### COMMON-libs
 %files common-libs
@@ -1460,6 +1467,7 @@ rm -rf %{buildroot}
 %{_libdir}/samba/ldb/wins_ldb.so
 %{_libdir}/samba/vfs/posix_eadb.so
 %dir /var/lib/kakwa-samba/sysvol
+%{_unitdir}/kakwa-samba-ad-dc.service
 %{_datadir}/samba/setup
 %else # with_dc
 %doc packaging/README.dc

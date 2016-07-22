@@ -5,10 +5,10 @@ After=syslog.target network.target
 [Service]
 Type=notify
 NotifyAccess=all
-PIDFile=/run/samba.pid
+PIDFile=/var/run/kakwa-samba/samba.pid
 LimitNOFILE=16384
-EnvironmentFile=-/etc/sysconfig/samba
-ExecStart=/usr/sbin/samba $SAMBAOPTIONS
+EnvironmentFile=-/etc/sysconfig/kakwa-samba
+ExecStart=/opt/kakwa-samba/sbin/samba $SAMBAOPTIONS
 ExecReload=/usr/bin/kill -HUP $MAINPID
 
 [Install]

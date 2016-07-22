@@ -5,10 +5,10 @@ After=syslog.target network.target nmb.service winbind.service
 [Service]
 Type=notify
 NotifyAccess=all
-PIDFile=/run/smbd.pid
+PIDFile=/var/run/kakwa-samba/smbd.pid
 LimitNOFILE=16384
-EnvironmentFile=-/etc/sysconfig/samba
-ExecStart=/usr/sbin/smbd $SMBDOPTIONS
+EnvironmentFile=-/etc/sysconfig/kakwa-samba
+ExecStart=/opt/kakwa-samba/sbin/smbd $SMBDOPTIONS
 ExecReload=/usr/bin/kill -HUP $MAINPID
 LimitCORE=infinity
 

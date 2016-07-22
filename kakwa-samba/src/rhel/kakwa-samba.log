@@ -1,6 +1,6 @@
-/var/log/samba/* {
+/var/log/kakwa-samba/* {
     notifempty
-    olddir /var/log/samba/old
+    olddir /var/log/kakwa-samba/old
     missingok
     sharedscripts
     copytruncate

@@ -5,9 +5,9 @@ After=syslog.target network.target
 [Service]
 Type=notify
 NotifyAccess=all
-PIDFile=/run/nmbd.pid
-EnvironmentFile=-/etc/sysconfig/samba
-ExecStart=/usr/sbin/nmbd $NMBDOPTIONS
+PIDFile=/var/run/kakwa-samba/nmbd.pid
+EnvironmentFile=-/etc/sysconfig/kakwa-samba
+ExecStart=/opt/kakwa-samba/sbin/nmbd $NMBDOPTIONS
 ExecReload=/usr/bin/kill -HUP $MAINPID
 LimitCORE=infinity
 
