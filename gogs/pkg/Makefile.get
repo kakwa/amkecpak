@@ -56,6 +56,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/issue9/identicon) -o $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz -n $(PATH_github.com/issue9/identicon)
 	rm $(BUILD_DIR)/github.com-issue9-identicon-$(VERSION_github.com/issue9/identicon).tar.gz
+	$(WGS) -u $(URL_github.com/jaytaylor/html2text) -o $(BUILD_DIR)/github.com-jaytaylor-html2text-$(VERSION_github.com/jaytaylor/html2text).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-jaytaylor-html2text-$(VERSION_github.com/jaytaylor/html2text).tar.gz -n $(PATH_github.com/jaytaylor/html2text)
+	rm $(BUILD_DIR)/github.com-jaytaylor-html2text-$(VERSION_github.com/jaytaylor/html2text).tar.gz
 	$(WGS) -u $(URL_github.com/kardianos/minwinsvc) -o $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz -n $(PATH_github.com/kardianos/minwinsvc)
 	rm $(BUILD_DIR)/github.com-kardianos-minwinsvc-$(VERSION_github.com/kardianos/minwinsvc).tar.gz
