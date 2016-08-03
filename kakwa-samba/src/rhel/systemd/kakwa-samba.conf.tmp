@@ -1,0 +1,2 @@
+d /var/run/kakwa-samba  755 root root
+d /run/kakwa-samba  755 root root

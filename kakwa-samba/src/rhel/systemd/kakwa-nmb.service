@@ -1,0 +1,15 @@
+[Unit]
+Description=Samba NMB Daemon
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+PIDFile=/var/run/kakwa-samba/nmbd.pid
+EnvironmentFile=-/etc/sysconfig/kakwa-samba
+ExecStart=/opt/kakwa-samba/sbin/nmbd $NMBDOPTIONS
+ExecReload=/usr/bin/kill -HUP $MAINPID
+LimitCORE=infinity
+
+[Install]
+WantedBy=multi-user.target

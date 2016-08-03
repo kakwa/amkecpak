@@ -1,0 +1,15 @@
+[Unit]
+Description=Samba AD Daemon
+After=syslog.target network.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+PIDFile=/var/run/kakwa-samba/samba.pid
+LimitNOFILE=16384
+EnvironmentFile=-/etc/sysconfig/kakwa-samba
+ExecStart=/opt/kakwa-samba/sbin/samba $SAMBAOPTIONS
+ExecReload=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

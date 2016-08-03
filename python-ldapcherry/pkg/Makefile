@@ -2,7 +2,7 @@
 NAME = python-ldapcherry
 
 # Version (idem)
-VERSION = 0.2.3
+VERSION = 0.4.0
 
 # release number 
 RELEASE = 1
