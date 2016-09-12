@@ -50,6 +50,10 @@ do
         then
             name_url=`echo $name | sed 's|asn1-ber.v1|go-asn1-ber/asn1-ber|'`
 
+        elif echo $name_url | grep -qe 'editorconfig-core-go.v1'
+        then
+            name_url=`echo $name | sed 's|editorconfig-core-go.v1|editorconfig-core-go|'`
+
         fi
 
         if echo $name_url | grep -qe 'gopkg.in'

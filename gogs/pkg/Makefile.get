@@ -2,9 +2,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/bradfitz/gomemcache) -o $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz -n $(PATH_github.com/bradfitz/gomemcache)
 	rm $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
-	$(WGS) -u $(URL_github.com/codegangsta/cli) -o $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz -n $(PATH_github.com/codegangsta/cli)
-	rm $(BUILD_DIR)/github.com-codegangsta-cli-$(VERSION_github.com/codegangsta/cli).tar.gz
+	$(WGS) -u $(URL_github.com/urfave/cli) -o $(BUILD_DIR)/github.com-urfave-cli-$(VERSION_github.com/urfave/cli).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-urfave-cli-$(VERSION_github.com/urfave/cli).tar.gz -n $(PATH_github.com/urfave/cli)
+	rm $(BUILD_DIR)/github.com-urfave-cli-$(VERSION_github.com/urfave/cli).tar.gz
 	$(WGS) -u $(URL_github.com/go-macaron/binding) -o $(BUILD_DIR)/github.com-go-macaron-binding-$(VERSION_github.com/go-macaron/binding).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-go-macaron-binding-$(VERSION_github.com/go-macaron/binding).tar.gz -n $(PATH_github.com/go-macaron/binding)
 	rm $(BUILD_DIR)/github.com-go-macaron-binding-$(VERSION_github.com/go-macaron/binding).tar.gz
@@ -98,6 +98,9 @@ prepare_deps:
 	$(WGS) -u $(URL_github.com/sergi/go-diff) -o $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz -n $(PATH_github.com/sergi/go-diff)
 	rm $(BUILD_DIR)/github.com-sergi-go-diff-$(VERSION_github.com/sergi/go-diff).tar.gz
+	$(WGS) -u $(URL_github.com/strk/go-libravatar) -o $(BUILD_DIR)/github.com-strk-go-libravatar-$(VERSION_github.com/strk/go-libravatar).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/github.com-strk-go-libravatar-$(VERSION_github.com/strk/go-libravatar).tar.gz -n $(PATH_github.com/strk/go-libravatar)
+	rm $(BUILD_DIR)/github.com-strk-go-libravatar-$(VERSION_github.com/strk/go-libravatar).tar.gz
 	$(WGS) -u $(URL_github.com/shurcooL/sanitized_anchor_name) -o $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz -n $(PATH_github.com/shurcooL/sanitized_anchor_name)
 	rm $(BUILD_DIR)/github.com-shurcooL-sanitized_anchor_name-$(VERSION_github.com/shurcooL/sanitized_anchor_name).tar.gz
@@ -134,6 +137,9 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/bufio.v1) -o $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz -n $(PATH_gopkg.in/bufio.v1)
 	rm $(BUILD_DIR)/gopkg.in-bufio.v1-$(VERSION_gopkg.in/bufio.v1).tar.gz
+	$(WGS) -u $(URL_gopkg.in/editorconfig/editorconfig-core-go.v1) -o $(BUILD_DIR)/gopkg.in-editorconfig-editorconfig-core-go.v1-$(VERSION_gopkg.in/editorconfig/editorconfig-core-go.v1).tar.gz
+	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-editorconfig-editorconfig-core-go.v1-$(VERSION_gopkg.in/editorconfig/editorconfig-core-go.v1).tar.gz -n $(PATH_gopkg.in/editorconfig/editorconfig-core-go.v1)
+	rm $(BUILD_DIR)/gopkg.in-editorconfig-editorconfig-core-go.v1-$(VERSION_gopkg.in/editorconfig/editorconfig-core-go.v1).tar.gz
 	$(WGS) -u $(URL_gopkg.in/gomail.v2) -o $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz -n $(PATH_gopkg.in/gomail.v2)
 	rm $(BUILD_DIR)/gopkg.in-gomail.v2-$(VERSION_gopkg.in/gomail.v2).tar.gz
