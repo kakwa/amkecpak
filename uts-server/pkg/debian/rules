@@ -17,3 +17,10 @@ DEST=$$(pwd)/debian/@NAME@
 override_dh_auto_install:
 	dh_auto_install
 	install -D -m 0644 debian/uts-server.cnf $(DEST)/etc/uts-server/uts-server.cnf
+
+
+override_dh_systemd_enable:
+	dh_systemd_enable  --no-enable
+override_dh_systemd_start:
+	dh_systemd_start --no-start
+
