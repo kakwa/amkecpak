@@ -1,0 +1,1 @@
+OPTIONS="-d -c /etc/uts-server/uts-server.cnf"

@@ -12,4 +12,8 @@
 DEST=$$(pwd)/debian/@NAME@
 
 %:
-	dh $@ 
+	dh $@ --with=systemd
+
+override_dh_auto_install:
+	dh_auto_install
+	install -D -m 0644 debian/uts-server.cnf $(DEST)/etc/uts-server/uts-server.cnf
