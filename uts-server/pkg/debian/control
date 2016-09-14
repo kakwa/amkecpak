@@ -5,13 +5,16 @@ Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
  rsync,
- dh-systemd
+ dh-systemd,
+ cmake,
+ libssl-dev,
+ libcivetweb-dev
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: amd64 i386 powerpc armhf
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, libcivetweb
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
