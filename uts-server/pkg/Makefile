@@ -2,7 +2,7 @@
 NAME = uts-server
 
 # Version
-VERSION = 0.1.0
+VERSION = 0.1.1
 
 # Revision number 
 RELEASE = 1
@@ -34,7 +34,16 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
+src_prepare_rpm: src_prepare_deb
+	cp -r debian/uts-server.tmpfile $(BUILD_DIR)/src/
+	cp -r debian/uts-server.default $(BUILD_DIR)/src/
+	sed -i 's/default/sysconf/' $(BUILD_DIR)/src/uts-server.default
+	cp -r debian/uts-server.service $(BUILD_DIR)/src/
+	cp -r debian/uts-server.cnf     $(BUILD_DIR)/src/
+
+# preparation hook for deb package.
+# by default, same as rpm package but could be override
+src_prepare_deb:
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/uts-server-$(VERSION).tar.gz
 	tar -vxf $(BUILD_DIR)/uts-server-$(VERSION).tar.gz -C $(BUILD_DIR)/
 	mv $(BUILD_DIR)/uts-server-$(VERSION)/* $(BUILD_DIR)/src/
@@ -42,6 +51,3 @@ src_prepare_rpm:
 	rm -f $(BUILD_DIR)/uts-server-$(VERSION).tar.gz
 
 
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm
