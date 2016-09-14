@@ -35,13 +35,13 @@ install -D -m 0644 ./uts-server.tmpfile %{buildroot}/usr/lib/tmpfiles.d/uts-serv
 %pre
 
 if ! getent passwd uts-server > /dev/null ; then
-  adduser --system --group --quiet --home /var/lib/uts-server \
-    --no-create-home --disabled-login --force-badname uts-server
+  adduser --system --home /var/lib/uts-server \
+    --no-create-home --shell /sbin/nologin uts-server
 fi
 
 %post
-true
-
+systemctl daemon-reload
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/uts-server.conf
 
 %preun
 true

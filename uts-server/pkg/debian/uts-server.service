@@ -4,7 +4,7 @@ After=network.target
 Wants=network.service
 
 [Service]
-EnvironmentFile=-/etc/default/uts-server
+EnvironmentFile=/etc/default/uts-server
 Type=forking
 PIDFile=/var/run/uts-server/uts-server.pid
 #User=uts-server
