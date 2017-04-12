@@ -2,7 +2,9 @@
 NAME = civetweb
 
 # Version
-VERSION = 1.8
+VERSION = 1.9.1.9999
+
+GIT_REV=60dc35a48650da02aa33d7b77388775104883119
 
 # Revision number 
 RELEASE = 1
@@ -21,7 +23,8 @@ DESCRIPTION="$(SUMMARY), under MIT (Mongoose fork)"
 ########
 
 # example of source recovery url
-URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
+#URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
+URL_SRC=$(URL)/archive/$(GIT_REV).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
@@ -37,8 +40,8 @@ include buildenv/Makefile.common
 src_prepare_rpm:
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/civetweb-$(VERSION).tar.gz
 	tar -vxf $(BUILD_DIR)/civetweb-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/civetweb-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf $(BUILD_DIR)/civetweb-$(VERSION)
+	mv $(BUILD_DIR)/civetweb-$(GIT_REV)/* $(BUILD_DIR)/src/
+	rm -rf $(BUILD_DIR)/civetweb-$(GIT_REV)
 	rm -f $(BUILD_DIR)/civetweb-$(VERSION).tar.gz
 
 
