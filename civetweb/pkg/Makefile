@@ -7,7 +7,7 @@ VERSION = 1.9.1.9999
 GIT_REV=60dc35a48650da02aa33d7b77388775104883119
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/civetweb/civetweb
