@@ -1,6 +1,0 @@
-#PIDFILE=/var/run/drone/drone.pid
-#CONF=/etc/drone/drone.ini
-#USER=drone
-#GROUP=drone
-#BIN=/usr/bin/drone
-#OPTS="-d -c $CONF -p 8080"
