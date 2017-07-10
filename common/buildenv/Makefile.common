@@ -6,6 +6,7 @@ OUT_DIR = out
 OUT_SRC = src-out
 BUILD_DIR = builddir
 CACHE=cache
+DEB_MIRROR=http://ftp.debian.org/debian/
 
 DIST_TAG=$(shell ./buildenv/get_dist.sh)
 
@@ -20,9 +21,31 @@ else
 WGS=./buildenv/wget_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 endif
 
-.NOTPARALLEL: deb rpm clean
+ifeq ($(MAKECMDGOALS), manifest)
+GS=./buildenv/git_sum.sh -c -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
+else
+GS=./buildenv/git_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
+endif
 
-.PHONY: all prepare_soft rpm_prepare rpm deb_prepare deb clean_build clean_cache clean rm_manifest_file manifest src_prepare_rpm src_prepare_deb
+COWDUILDER_DIR=/var/cache/pbuilder/
+ifeq ("$(DIST)", "")
+DIST=$(shell lsb_release -cs)
+else
+COWBUILDER_DIST=--distribution $(DIST_OS)
+endif
+
+DIST_OS=$(shell echo $(DIST) | sed 's/-backports//')
+COW_NAME=$(DIST).cow
+DIST_TAG=$(shell ./buildenv/get_dist.sh $(DIST_OS))
+
+ifneq ("$(DIST)", "sid")
+OTHERMIRROR=--othermirror "deb $(DEB_MIRROR) $(DIST_OS)-backports main"
+endif
+
+
+.NOTPARALLEL: deb rpm clean deb_chroot
+
+.PHONY: all prepare_soft rpm_prepare rpm deb_prepare deb clean_build clean_cache clean rm_manifest_file manifest src_prepare_rpm src_prepare_deb deb_chroot
 
 all:
 	$(MAKE) deb
@@ -76,7 +99,7 @@ rpm: rpm_prepare
 # * create source archive
 # * substitute version and package name in control file
 deb_prepare: prepare_soft src_prepare_deb
-	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)) unstable; urgency=low\\n"  > $(BUILD_DIR)/pkg/debian/changelog
+	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+deb$(DIST_TAG)) unstable; urgency=low\\n"  > $(BUILD_DIR)/pkg/debian/changelog
 	printf "\\n  * New version\\n\\n" >> $(BUILD_DIR)/pkg/debian/changelog
 	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $(BUILD_DIR)/pkg/debian/changelog
 	mkdir -p $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/
@@ -98,6 +121,20 @@ deb: deb_prepare
 	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
 	find $(BUILD_DIR)/ -type f -name "*.dsc" -exec mv {} $(OUT_SRC)/ \;
 	find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -exec mv {} $(OUT_SRC)/ \;
+
+deb_chroot: deb_prepare
+	+cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
+	     dpkg-source -b ./
+	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
+	then\
+	    cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	fi
+	cowbuilder build $(BUILD_DIR)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR)
+	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
+	find $(OUT_DIR)/ -type f -name "*.dsc" -exec mv {} $(OUT_SRC)/ \;
+	find $(OUT_DIR)/ -type f -name "*.changes" -exec mv {} $(OUT_SRC)/ \;
+	find $(OUT_DIR)/ -type f -name "*.buildinfo" -exec mv {} $(OUT_SRC)/ \;
+	find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -exec mv {} $(OUT_SRC)/ \;
 
 clean_build:
 	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi

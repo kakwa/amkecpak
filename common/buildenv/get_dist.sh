@@ -1,27 +1,18 @@
 #!/bin/sh
 
-DISTID=`lsb_release -is`
 
-RELEASE=`lsb_release -rs`
-MAJOR=`echo $RELEASE | sed 's/\..*$//'`
+case $1 in
+  wheezy)
+    echo 7;;
+  jessie)
+    echo 8;;
+  stretch)
+    echo 9;;
+  buster)
+    echo 10;;
+  sid)
+    echo 10;;
+  *)
+    echo $1;;
+esac
 
-if echo $DISTID | grep -iq 'Redhat\|CentOS'
-then
-    PKGDID='el'
-elif echo $DISTID | grep -iq 'Fedora'
-then
-    PKGDID='fc'
-elif echo $DISTID | grep -iq 'Debian'
-then
-    PKGDID='deb'
-else
-    PKGDID='unk'
-    MAJOR=''
-fi
-
-if echo $MAJOR | grep -iq 'unstable'
-then
-    MAJOR='U'
-fi
-
-echo "${PKGDID}${MAJOR}"
