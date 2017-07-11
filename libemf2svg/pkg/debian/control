@@ -4,6 +4,10 @@ Priority: extra
 Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
+ cmake,
+ gcc,
+ g++,
+ libpng-dev,
  rsync
 Standards-Version: 3.8.4
 Homepage: @URL@ 

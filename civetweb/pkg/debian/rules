@@ -7,13 +7,18 @@
 # This special exception was added by Craig Small in version 0.37 of dh-make.
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 DEST=$$(pwd)/debian/@NAME@
 
 %:
 	dh $@ --buildsystem=cmake
 
+override_dh_auto_build:
+	dh_auto_build  --sourcedirectory=src
+
+override_dh_auto_test:
+	true
 override_dh_auto_configure:
 	dh_auto_configure -- \
 	-DCIVETWEB_DISABLE_CGI=ON \
@@ -21,4 +26,5 @@ override_dh_auto_configure:
 	-DCIVETWEB_ENABLE_IPV6=ON \
 	-DCIVETWEB_ENABLE_WEBSOCKETS=ON \
 	-DBUILD_SHARED_LIBS=ON \
-	-DCIVETWEB_SSL_OPENSSL_API_1_1=ON
+	-DCIVETWEB_SSL_OPENSSL_API_1_1=ON \
+	-DBUILD_TESTING=OFF

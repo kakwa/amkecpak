@@ -128,6 +128,8 @@ deb_chroot: deb_prepare
 	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
 	then\
 	    cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	else\
+	    cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
 	fi
 	cowbuilder build $(BUILD_DIR)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR)
 	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
