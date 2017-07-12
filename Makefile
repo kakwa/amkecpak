@@ -22,9 +22,9 @@ all:
 
 clean_pkg: $(clean_PKG)
 
-deb: $(deb_PKG)
-deb_chroot: $(deb_chroot_PKG)
-rpm: $(rpm_PKG)
+deb: $(ERROR)$(deb_PKG)
+deb_chroot: $(ERROR)$(deb_chroot_PKG)
+rpm: $(ERROR)$(rpm_PKG)
 
 $(PKG): force
 	$(MAKE) -C $@
@@ -52,6 +52,10 @@ skip$(deb_PKG): force
 skip$(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	-@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+
+skip$(deb_chroot_PKG): force
+	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
+	-@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
