@@ -119,7 +119,6 @@ $(DEB_ARCHIVE): $(SOURCE_ARCHIVE)
 
 # Build the deb(s) and put it in out directory
 $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE)
-	tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
@@ -136,7 +135,7 @@ deb: $(BUILD_DIR)/pkg_built.deb.$(DIST)
 
 # Build the deb(s) in a chroot and put it in out directory
 $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
-	cd $(BUILD_DIR)/$(PKGNAME)-$(VERSION)/ && \
+	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	     dpkg-source -b ./
 	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
 	then\
@@ -144,7 +143,11 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
 	else\
 	    cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
 	fi
-	cowbuilder build $(BUILD_DIR)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR)
+	cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
+	if [ $$? -ne 0 ];\
+		then touch $(BUILD_DIR)/failure;exit 1;\
+		else rm -f $(BUILD_DIR)/failure;exit 0;\
+	fi
 	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
 	find $(OUT_DIR)/ -type f -name "*.dsc" -exec mv {} $(OUT_SRC)/ \;
 	find $(OUT_DIR)/ -type f -name "*.changes" -exec mv {} $(OUT_SRC)/ \;

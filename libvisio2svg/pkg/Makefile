@@ -35,4 +35,4 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
-    $(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
