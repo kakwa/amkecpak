@@ -13,6 +13,7 @@ clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
+manifest_PKG=$(addprefix manifest_,$(PKG))
 OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
 OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
 
@@ -25,6 +26,8 @@ clean_pkg: $(clean_PKG)
 deb: $(deb_PKG)
 deb_chroot: $(deb_chroot_PKG)
 rpm: $(rpm_PKG)
+
+manifest: $(manifest_PKG)
 
 $(PKG): force
 	$(MAKE) -C $@
@@ -41,17 +44,21 @@ $(deb_PKG): force
 	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
 	@$(MAKE) -C $(patsubst deb_%,%,$@) deb
 
+$(manifest_PKG): force
+	@+echo  $(MAKE) -C $(patsubst manifest_%,%,$@) manifest
+	@$(MAKE) -C $(patsubst manifest_%,%,$@) manifest
+
 $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
-skip$(deb_PKG): force
-	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
-	-@$(MAKE) -C $(patsubst deb_%,%,$@) deb
-
-skip$(rpm_PKG): force
-	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
-	-@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+#skip$(deb_PKG): force
+#	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
+#	-@$(MAKE) -C $(patsubst deb_%,%,$@) deb
+#
+#skip$(rpm_PKG): force
+#	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+#	-@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"

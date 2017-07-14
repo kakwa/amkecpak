@@ -1,5 +1,5 @@
 # Name of the package
-NAME = python-dnscherry
+NAME = dnscherry
 
 # Version (idem)
 VERSION = 0.1.3
@@ -22,13 +22,5 @@ DESCRIPTION=$(SUMMARY)
 # Including common rules
 include buildenv/Makefile.common
 
-# preparation hook for rpm 
-src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/dnscherry-$(VERSION).tar.gz
-	tar -vxf $(BUILD_DIR)/dnscherry-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/dnscherry-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf dnscherry-$(VERSION)
-	rm -f $(BUILD_DIR)/dnscherry-$(VERSION).tar.gz
-
-# preparation hook for deb (same as rpm  by default)
-src_prepare_deb: src_prepare_rpm
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)

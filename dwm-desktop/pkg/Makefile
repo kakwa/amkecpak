@@ -34,14 +34,5 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz
-	tar -vxf $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/dwm-desktop-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf $(BUILD_DIR)/dwm-desktop-$(VERSION)
-	rm -f $(BUILD_DIR)/dwm-desktop-$(VERSION).tar.gz
-
-
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)

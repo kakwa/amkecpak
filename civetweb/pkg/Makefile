@@ -37,7 +37,7 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-$(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST $(CACHE)
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/tmp
 	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp

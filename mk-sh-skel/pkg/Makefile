@@ -46,7 +46,3 @@ $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
 #	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
 #	$(SOURCE_TAR_CMD)
 #
-
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm
