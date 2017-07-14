@@ -36,7 +36,7 @@ include buildenv/Makefile.common
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST $(CACHE)
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/tmp
-	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
 	mv $(BUILD_DIR)/tmp/py-ascii-graph-$(VERSION)/* $(SOURCE_DIR)
 	rm -rf $(BUILD_DIR)/tmp
 	rm -f $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz
