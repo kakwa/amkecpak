@@ -37,13 +37,14 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/civetweb-$(VERSION).tar.gz
-	tar -vxf $(BUILD_DIR)/civetweb-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/civetweb-$(GIT_REV)/* $(BUILD_DIR)/src/
-	rm -rf $(BUILD_DIR)/civetweb-$(GIT_REV)
-	rm -f $(BUILD_DIR)/civetweb-$(VERSION).tar.gz
-
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/$(NAME)-$(GIT_REV)/* $(SOURCE_DIR)
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override

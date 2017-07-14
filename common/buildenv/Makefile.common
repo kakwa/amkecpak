@@ -50,14 +50,14 @@ SOURCE_DIR=$(BUILD_DIR)/$(PKGNAME)-$(VERSION)
 # Name of the source archive
 SOURCE_ARCHIVE=$(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
 # Command used to build the source archive
-SOURCE_TAR_CMD=tar -zcf $(SOURCE_ARCHIVE) $(SOURCE_DIR) -C `dirname $(SOURCE_DIR)` --owner=root --group=root
+SOURCE_TAR_CMD=cd `dirname $(SOURCE_DIR)` && tar -zcf $(PKGNAME)_$(VERSION).orig.tar.gz `basename $(SOURCE_DIR)` --owner=root --group=root
 
 # Some targets
 DIRECTORIES=$(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
 DEB_CONTENT=$(BUILD_DIR)/debian/changelog $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
 DEB_CONTENT_IN=$(filter-out debian/changelog debian/control debian/rules, $(wildcard debian/*))
-DEB_CONTENT_OUT=$(addprefix $(BUILD_DIR)/deb.$(DIST)/, $(DEB_CONTENT_IN))
-DEB_PREPARE=$(DIRECTORIES) $(SOURCE_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/debian/control $(BUILD_DIR)/deb.$(DIST)/debian/rules
+DEB_CONTENT_OUT=$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN))
+DEB_PREPARE=$(DIRECTORIES) $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
 
 #### START common targets
 
@@ -97,24 +97,30 @@ manifest: rm_manifest_file clean_cache $(SOURCE_ARCHIVE)
 
 # Copy all the files of debian/ packaging directory
 $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
-	mkdir -p $(BUILD_DIR)/deb.$(DIST)/debian/
-	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/,,$@) $(BUILD_DIR)/deb.$(DIST)/debian/
+	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
+	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
 
 # Substitute version and package name in control file
-$(BUILD_DIR)/deb.$(DIST)/debian/control $(BUILD_DIR)/deb.$(DIST)/debian/rules: ./debian/control debian/rules
-	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/,,$@) $(BUILD_DIR)/deb.$(DIST)/debian/
+$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules: ./debian/control debian/rules
+	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY@|$(SUMMARY)|;s|@URL@|$(URL)|' $@
 
 # Generate generic changelog
-$(BUILD_DIR)/deb.$(DIST)/debian/changelog: ./debian/changelog
-	mkdir -p $(BUILD_DIR)/deb.$(DIST)/debian
+$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog: ./debian/changelog
+	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
 	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+deb$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
 	printf "\\n  * New version\\n\\n" >> $@
 	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
 
+DEB_ARCHIVE=$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
+
+$(DEB_ARCHIVE): $(SOURCE_ARCHIVE)
+	cp $(SOURCE_ARCHIVE) $(DEB_ARCHIVE)
+
 # Build the deb(s) and put it in out directory
 $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE)
-	cd $(BUILD_DIR)/deb.$(DIST) && \
+	tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
+	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
 		then touch $(OUT_DIR)/failure;exit 1;\
