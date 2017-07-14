@@ -1,13 +1,13 @@
 # Name of the package
-NAME = mksh-skel
+NAME = mk-sh-skel
 
 # Version
 VERSION = 1.0.0
 
-# Revision number 
+# Revision number
 RELEASE = 1
 
-# URL of the project 
+# URL of the project
 URL=https://github.com/kakwa/mk-sh-skel
 
 # short summary of what the package provides
@@ -23,7 +23,7 @@ DESCRIPTION=$(SUMMARY)
 # example of source recovery url
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
 
-# Including common rules and targets 
+# Including common rules and targets
 include buildenv/Makefile.common
 
 # preparation hook for rpm package
@@ -34,13 +34,18 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz
-	tar -vxf $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/mk-sh-skel-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf mk-sh-skel-$(VERSION)
-	rm -f $(BUILD_DIR)/mk-sh-skel-$(VERSION).tar.gz
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
 
+#$(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+#	mkdir -p $(BUILD_DIR)/tmp
+#	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+#	mv $(BUILD_DIR)/tmp/$(NAME)-$(VERSION)/* $(SOURCE_DIR)
+#	rm -rf $(BUILD_DIR)/tmp
+#	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+#	$(SOURCE_TAR_CMD)
+#
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override
