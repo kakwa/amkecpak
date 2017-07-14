@@ -5,7 +5,7 @@ Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
  rsync,
- cmake,
+ cmake (> 2.8.10),
  libssl-dev
 Standards-Version: 3.8.4
 Homepage: @URL@ 
