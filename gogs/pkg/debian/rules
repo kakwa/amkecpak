@@ -17,7 +17,7 @@ DEST=$$(pwd)/debian/@NAME@
 override_dh_auto_clean:
 
 override_dh_auto_build:
-	mkdir ./tmpgobuild
+	mkdir -p ./tmpgobuild
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \

@@ -33,14 +33,12 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/src.tar.gz
-	tar -vxf $(BUILD_DIR)/src.tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/py-ascii-graph-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf py-ascii-graph-$(VERSION)
-	rm -f $(BUILD_DIR)/src.tar.gz
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST $(CACHE)
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/py-ascii-graph-$(VERSION)/* $(SOURCE_DIR)
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)
 
-
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm

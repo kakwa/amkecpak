@@ -13,8 +13,13 @@ clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
+manifest_PKG=$(addprefix manifest_,$(PKG))
 OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
 OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
+
+ifeq ($(ERROR), skip)
+SKIP=-
+endif
 
 all:
 	$(MAKE) rpm_repo
@@ -26,6 +31,8 @@ deb: $(ERROR)$(deb_PKG)
 deb_chroot: $(ERROR)$(deb_chroot_PKG)
 rpm: $(ERROR)$(rpm_PKG)
 
+manifest: $(manifest_PKG)
+
 $(PKG): force
 	$(MAKE) -C $@
 
@@ -35,23 +42,19 @@ $(clean_PKG): force
 
 $(deb_chroot_PKG): force
 	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
-	@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
+	$(SKIP)@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 
 $(deb_PKG): force
 	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
-	@$(MAKE) -C $(patsubst deb_%,%,$@) deb
+	$(SKIP)@$(MAKE) -C $(patsubst deb_%,%,$@) deb
+
+$(manifest_PKG): force
+	@+echo  $(MAKE) -C $(patsubst manifest_%,%,$@) manifest
+	$(SKIP)@$(MAKE) -C $(patsubst manifest_%,%,$@) manifest
 
 $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
-	@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
-
-skip$(deb_PKG): force
-	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
-	-@$(MAKE) -C $(patsubst deb_%,%,$@) deb
-
-skip$(rpm_PKG): force
-	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
-	-@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
 skip$(deb_chroot_PKG): force
 	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
@@ -66,7 +69,7 @@ clean_repo:
 clean_rpm_repo:
 	-rm -rf "$(OUTRPM)"
 
-deb_repo: $(ERROR)$(deb_PKG) export_key
+deb_repo: $(deb_PKG) export_key
 	@$(MAKE) clean_deb_repo
 	mkdir -p $(OUTDEB)
 	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/pkg/out/*.deb')" \
@@ -74,7 +77,7 @@ deb_repo: $(ERROR)$(deb_PKG) export_key
 		-O $(ORIGIN) \
 		-k $(GPG_KEY)
 
-rpm_repo: $(ERROR)$(rpm_PKG) export_key
+rpm_repo: $(rpm_PKG) export_key
 	@$(MAKE) clean_rpm_repo
 	mkdir -p $(OUTRPM)/RPMS/
 	for r in $$(find `pwd` -type f -path '*/pkg/out/*.rpm'); do \

@@ -34,15 +34,14 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
-	tar -vxf $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	rm -rf $(BUILD_DIR)/python-rfc3161-$(VERSION)/debian
-	mv $(BUILD_DIR)/python-rfc3161-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf $(BUILD_DIR)/python-rfc3161-$(VERSION)
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	rm -rf $(BUILD_DIR)/tmp/python-rfc3161-$(VERSION)/debian
+	mv $(BUILD_DIR)/tmp/python-rfc3161-$(VERSION)/* $(SOURCE_DIR)
+	rm -rf $(BUILD_DIR)/tmp
 	rm -f $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)
 
 
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm

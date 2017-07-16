@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "# meta variables for deps" >Makefile.meta
-echo "prepare_deps:" >Makefile.get
+echo "define GODEPS" >Makefile.get
 cat Makefile | while read line
 do
     if echo $line | grep -qe '^VERSION_'
@@ -56,3 +56,4 @@ do
         printf "\trm \$(BUILD_DIR)/$name_under-\$(${var_version}).tar.gz\n" >> Makefile.get
     fi
 done
+echo "endef" >Makefile.get

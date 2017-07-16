@@ -50,6 +50,21 @@ include buildenv/Makefile.common
 include Makefile.meta
 include Makefile.get
 
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(REVISION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(REVISION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/$(NAME)-$(REVISION)/* $(SOURCE_DIR)
+	$(GODEPS)
+	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/danderson/
+	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/danderson/pixiecore
+	mv $(BUILD_DIR)/src/externals $(SOURCE_DIR)/
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/$(NAME)-$(REVISION).tar.gz
+	$(SOURCE_TAR_CMD)
+
+
+
 src_prepare_rpm: prepare_deps
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/pixiecore-$(REVISION).tar.gz
 	$(WGS) -u $(TCL_URL)/vmlinuz -o $(BUILD_DIR)/src/vmlinuz

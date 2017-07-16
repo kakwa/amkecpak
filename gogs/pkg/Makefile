@@ -95,14 +95,29 @@ include buildenv/Makefile.common
 include Makefile.meta
 include Makefile.get
 
-src_prepare_rpm: prepare_deps
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/gogs-$(VERSION).tar.gz
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST Makefile.get Makefile.meta src/gogs.ini
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/$(NAME)-$(VERSION)/* $(SOURCE_DIR)
+	cp src/gogs.ini $(SOURCE_DIR)
+	$(GODEPS)
 	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/gogits/
 	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/gogits/gogs
-	tar -xf $(BUILD_DIR)/gogs-$(VERSION).tar.gz -C $(BUILD_DIR)/
-	mv $(BUILD_DIR)/gogs-$(VERSION)/* $(BUILD_DIR)/src/
-	rm -rf $(BUILD_DIR)/gogs-$(VERSION)/
-	rm -f $(BUILD_DIR)/gogs-$(VERSION).tar.gz
+	mv $(BUILD_DIR)/src/externals $(SOURCE_DIR)/
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)
+
+#src_prepare_rpm: prepare_deps
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/gogs-$(VERSION).tar.gz
+#	$(GODEPS)
+#	mkdir -p $(BUILD_DIR)/src/externals/src/github.com/gogits/
+#	ln -s ../../../../ $(BUILD_DIR)/src/externals/src/github.com/gogits/gogs
+#	tar -xf $(BUILD_DIR)/gogs-$(VERSION).tar.gz -C $(BUILD_DIR)/
+#	mv $(BUILD_DIR)/gogs-$(VERSION)/* $(BUILD_DIR)/src/
+#	rm -rf $(BUILD_DIR)/gogs-$(VERSION)/
+#	rm -f $(BUILD_DIR)/gogs-$(VERSION).tar.gz
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override
