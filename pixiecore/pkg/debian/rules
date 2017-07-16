@@ -27,8 +27,6 @@ override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
 	install -m 755 pixiecore $(DEST)/usr/bin/pixiecore
 	mkdir -p  $(DEST)/var/lib/pixiecore/tcl/
-	install -m 644 vmlinuz $(DEST)/var/lib/pixiecore/tcl/
-	install -m 644 core.gz $(DEST)/var/lib/pixiecore/tcl/
 #	mkdir -p  $(DEST)/var/log/pixiecore/
 #	mkdir -p  $(DEST)/usr/share/pixiecore/
 #	cp -r templates $(DEST)/usr/share/pixiecore/
