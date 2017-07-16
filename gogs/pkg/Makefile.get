@@ -1,4 +1,4 @@
-prepare_deps:
+define GODEPS
 	$(WGS) -u $(URL_github.com/bradfitz/gomemcache) -o $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz -n $(PATH_github.com/bradfitz/gomemcache)
 	rm $(BUILD_DIR)/github.com-bradfitz-gomemcache-$(VERSION_github.com/bradfitz/gomemcache).tar.gz
@@ -155,3 +155,4 @@ prepare_deps:
 	$(WGS) -u $(URL_gopkg.in/redis.v2) -o $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
 	$(GO_EXT) -a $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz -n $(PATH_gopkg.in/redis.v2)
 	rm $(BUILD_DIR)/gopkg.in-redis.v2-$(VERSION_gopkg.in/redis.v2).tar.gz
+endef
