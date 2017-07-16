@@ -119,6 +119,7 @@ $(DEB_ARCHIVE): $(SOURCE_ARCHIVE)
 
 # Build the deb(s) and put it in out directory
 $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE)
+	tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
@@ -139,11 +140,11 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
 	     dpkg-source -b ./
 	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
 	then\
-	    cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	    export TMPDIR=/tmp/; cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
 	else\
-	    cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
+	    export TMPDIR=/tmp/; cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
 	fi
-	cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
+	export TMPDIR=/tmp/; cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure;exit 1;\
 		else rm -f $(BUILD_DIR)/failure;exit 0;\
