@@ -19,6 +19,7 @@ EOF
 
 exit_error(){
     echo "$1"
+    rm -f "${OUTFILE}"
     exit 1
 }
 
