@@ -56,10 +56,6 @@ $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
-skip$(deb_chroot_PKG): force
-	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
-	-@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
-
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
 
