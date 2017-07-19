@@ -183,7 +183,7 @@ $(RPM_ARCHIVE): $(SOURCE_ARCHIVE)
 
 $(RPM_SPEC):
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
-	cp $(NAME).spec $(RPM_SPEC)
+	cp rpm/component.spec $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY|$(SUMMARY)|;s|@URL@|$(URL)|' \
 		$(RPM_SPEC) || rm -f $(RPM_SPEC)
 
