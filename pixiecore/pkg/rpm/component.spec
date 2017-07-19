@@ -4,7 +4,10 @@
 Name: %{pkgname}
 Version: @VERSION@
 Release: @RELEASE@%{?dist}
-Source: %{pkgname}-%{version}.tar.gz
+Source0: %{pkgname}-%{version}.tar.gz
+Source1: pixiecore
+Source2: pixiecore.conf
+Source3: pixiecore.service
 URL: @URL@ 
 Vendor: Kakwa
 License: See project
@@ -31,27 +34,19 @@ export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
 go build -o pixiecore
 
+
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 install -m 755 pixiecore $RPM_BUILD_ROOT/usr/bin/
-#mkdir -p  $RPM_BUILD_ROOT/etc/pixiecore/
-#mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
-#mkdir -p  $RPM_BUILD_ROOT/var/log/pixiecore/
-#mkdir -p  $RPM_BUILD_ROOT/usr/share/pixiecore/
-#cp -r templates $RPM_BUILD_ROOT/usr/share/pixiecore/
-#cp -r public $RPM_BUILD_ROOT/usr/share/pixiecore/
-#cp pixiecore.ini $RPM_BUILD_ROOT/etc/pixiecore/
-mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
-install -m 644 vmlinuz $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
-install -m 644 core.gz $RPM_BUILD_ROOT/var/lib/pixiecore/tcl/
+mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
 
 
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 rhel/pixiecore.service %{buildroot}%{_unitdir}
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
-install -pm644 rhel/pixiecore %{buildroot}/etc/sysconfig/
-install -pm644 rhel/pixiecore.conf %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
 
 %post
 setcap 'cap_net_bind_service=+ep' /usr/bin/pixiecore
@@ -77,7 +72,6 @@ rm -rf \$RPM_BUILD_ROOT
 %files
 %defattr(644, root, root, 755)
 %attr(755,-,-)/usr/bin/pixiecore
-/var/lib/pixiecore/tcl/
 /usr/lib/tmpfiles.d/*
 /etc/sysconfig/*
 %{_unitdir}/*
