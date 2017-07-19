@@ -59,6 +59,7 @@ DEB_CONTENT_IN=$(filter-out debian/changelog debian/control debian/rules, $(wild
 DEB_CONTENT_OUT=$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN))
 DEB_PREPARE=$(DIRECTORIES) $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
 
+
 #### START common targets
 
 all: deb rpm
@@ -173,6 +174,11 @@ RPM_SPEC=$(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 
 RPM_ARCHIVE=$(BUILD_DIR)/rpm.$(DIST)/SOURCES/$(PKGNAME)-$(VERSION).tar.gz
 
+RPM_CONTENT_IN=$(filter-out rpm/component.spec, $(wildcard rpm/*))
+
+RPM_CONTENT_OUT=$(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, $(subst rpm/,,$(RPM_CONTENT_IN)))
+
+
 $(RPM_DIR): $(BUILD_DIR)/rpm.$(DIST) 
 	mkdir $@
 
@@ -181,14 +187,20 @@ $(RPM_ARCHIVE): $(SOURCE_ARCHIVE)
 	rm -f $(RPM_ARCHIVE)
 	cp -r $(SOURCE_ARCHIVE) $(RPM_ARCHIVE)
 
-$(RPM_SPEC):
+$(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
+	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
+	cp -r rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@) $(BUILD_DIR)/rpm.$(DIST)/SOURCES
+
+
+
+$(RPM_SPEC): rpm/component.spec
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
 	cp rpm/component.spec $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY|$(SUMMARY)|;s|@URL@|$(URL)|' \
 		$(RPM_SPEC) || rm -f $(RPM_SPEC)
 
 # build the rpm(s) and put the result inside OUT directory
-$(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
+$(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
 	rpmbuild -ba --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)" \
                                 --define "_sourcedir %{_topdir}/SOURCES" \
                                 --define "_specdir %{_topdir}/SPEC" \
