@@ -5,6 +5,9 @@ Name: %{pkgname}
 Version: @VERSION@
 Release: @RELEASE@%{?dist}
 Source: %{pkgname}-%{version}.tar.gz
+Source1: ldapcherry 
+Source2: ldapcherry.conf
+Source3: ldapcherry.service
 URL: @URL@ 
 Vendor: Kakwa
 License: See project
@@ -25,12 +28,14 @@ Requires: python-cherrypy, python-ldap, PyYAML, python-mako
 
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
+
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 rhel/ldapcherryd.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
-install -pm644 rhel/ldapcherryd %{buildroot}/etc/sysconfig/
-install -pm644 rhel/ldapcherryd.conf %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
+
 
 %post
 getent group ldapcherry >/dev/null || groupadd -r ldapcherry
@@ -38,7 +43,7 @@ getent passwd ldapcherry >/dev/null || \
     useradd -r -g ldapcherry -d /var/lib/ldapcherry -s /sbin/nologin \
     -c "LdapCherry daemon user" ldapcherry
 
-systemd-tmpfiles --create /usr/lib/tmpfiles.d/ldapcherryd.conf
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/ldapcherry.conf
 
 systemctl daemon-reload
 
@@ -53,10 +58,10 @@ rm -rf \$RPM_BUILD_ROOT
 %attr(755, root, root) /usr/bin/ldapcherryd
 /usr/share/ldapcherry/
 /usr/lib/python2.7/site-packages/ldapcherry*
-/usr/lib/systemd/system/ldapcherryd.service
+/usr/lib/systemd/system/ldapcherry.service
 /usr/lib/tmpfiles.d/*
 %config /etc/ldapcherry/*
-%config /etc/sysconfig/ldapcherryd
+%config /etc/sysconfig/ldapcherry
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1

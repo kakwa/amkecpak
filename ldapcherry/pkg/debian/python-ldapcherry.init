@@ -1,7 +1,7 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:        ldapcherryd
+# Provides:        ldapcherry
 # Required-Start:    $remote_fs $network $syslog
 # Required-Stop:    $remote_fs $network $syslog
 # Default-Start:    2 3 4 5
@@ -9,7 +9,7 @@
 # Short-Description:    ldapcherry
 ### END INIT INFO
 
-PIDFILE=/var/run/ldapcherryd/ldapcherryd.pid
+PIDFILE=/var/run/ldapcherry/ldapcherry.pid
 CONF=/etc/ldapcherry/ldapcherry.ini
 USER=ldapcherry
 GROUP=ldapcherry
@@ -18,19 +18,19 @@ OPTS="-d -c $CONF -p $PIDFILE"
 
 . /lib/lsb/init-functions
 
-if [ -f /etc/default/ldapcherryd ]; then
-    . /etc/default/ldapcherryd
+if [ -f /etc/default/ldapcherry ]; then
+    . /etc/default/ldapcherry
 fi
 
-start_ldapcherryd(){
-    log_daemon_msg "Starting ldapcherryd" "ldapcherryd" || true
+start_ldapcherry(){
+    log_daemon_msg "Starting ldapcherry" "ldapcherry" || true
     pidofproc -p $PIDFILE $BIN >/dev/null
     status="$?"
     if [ $status -eq 0 ]
     then
         log_end_msg 1 
         log_failure_msg \
-        "ldapcherryd already started"
+        "ldapcherry already started"
         return 1
     fi
     mkdir -p `dirname $PIDFILE` -m 750
@@ -48,8 +48,8 @@ start_ldapcherryd(){
 
 }
 
-stop_ldapcherryd(){
-    log_daemon_msg "Stopping ldapcherryd" "ldapcherryd" || true
+stop_ldapcherry(){
+    log_daemon_msg "Stopping ldapcherry" "ldapcherry" || true
     if start-stop-daemon --stop --quiet \
         --pidfile $PIDFILE
     then
@@ -72,26 +72,26 @@ wait_stop(){
 
 case "$1" in
   start)
-    start_ldapcherryd
+    start_ldapcherry
     exit $?
     ;;
   stop)
-    stop_ldapcherryd
+    stop_ldapcherry
     exit $?
     ;;
   restart)
-    stop_ldapcherryd
+    stop_ldapcherry
     wait_stop
-    start_ldapcherryd
+    start_ldapcherry
     exit $?
     ;;
   status)
-    status_of_proc -p $PIDFILE $BIN "ldapcherryd" \
+    status_of_proc -p $PIDFILE $BIN "ldapcherry" \
         && exit 0 || exit $?
     ;;
   *)
     log_action_msg \
-    "Usage: /etc/init.d/ldapcherryd {start|stop|restart|status}" \
+    "Usage: /etc/init.d/ldapcherry {start|stop|restart|status}" \
     || true
     exit 1
 esac

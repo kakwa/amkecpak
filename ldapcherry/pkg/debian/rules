@@ -14,4 +14,4 @@ export DH_VERBOSE=1
 	dh $@ --without dh_installinit
 
 override_dh_installinit:
-	dh_installinit --init-script=ldapcherryd
+	dh_installinit --init-script=ldapcherry
