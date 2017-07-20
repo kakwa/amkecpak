@@ -33,6 +33,12 @@ else
 COWBUILDER_DIST=--distribution $(DIST_OS)
 endif
 
+ifeq ($(shell id -u), 1)
+  SUDO=
+else
+  SUDO=sudo
+endif
+
 DIST_OS=$(shell echo $(DIST) | sed 's/-backports//')
 COW_NAME=$(DIST).cow
 DIST_TAG=$(shell ./buildenv/get_dist.sh $(DIST_OS))
@@ -141,11 +147,11 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
 	     dpkg-source -b ./
 	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
 	then\
-	    export TMPDIR=/tmp/; cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	    export TMPDIR=/tmp/; $(SUDO) cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
 	else\
-	    export TMPDIR=/tmp/; cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
+	    export TMPDIR=/tmp/; $(SUDO) cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
 	fi
-	export TMPDIR=/tmp/; cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
+	export TMPDIR=/tmp/; $(SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure;exit 1;\
 		else rm -f $(BUILD_DIR)/failure;exit 0;\
