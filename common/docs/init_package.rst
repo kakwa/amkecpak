@@ -4,11 +4,12 @@ Create a package
 Creating a package *foo* involves the following steps:
 
 * Initialize the packaging directories.
-* Fill **foo**/pkg/Makefile (used for common metadata and upstream source recovery and preparation).
+* Fill **foo**/Makefile (used for common metadata and upstream source recovery and preparation).
 * Do the distribution specific stuff (dependencies in *debian/control* and *foo.spec*, pre/post install scripts, init scripts, etc)
+* Building the package
 
-Initialize packaging directories
-================================
+Initialize package skeleton
+===========================
 
 To create the package skeleton:
 
@@ -21,7 +22,7 @@ This script will create the following tree:
 .. sourcecode:: none
 
     foo
-    ├── buildenv -> ../../common/buildenv
+    ├── buildenv -> ../common/buildenv
     ├── debian
     │   ├── changelog
     │   ├── compat
@@ -46,16 +47,12 @@ This script will create the following tree:
 This tree contains two main directories, two main files, and a symlink:
 
 * **debian**: deb packaging stuff 
-* **rpm**: rpm packaging stuff (*component.spec and optionally additionnal content like .service*)
+* **rpm**: rpm packaging stuff (*component.spec* and optionally additional content like *.service* files)
 * **Makefile**: (used to download and prepare upstream sources)
 * **MANIFEST**: (listing the downloaded files and their hash)
-* **buildenv**: symlink to the shared build resources (Makefile.common, and various scripts) 
+* **buildenv**: symlink to the shared build resources (Makefile.common, and various helper scripts) 
 
-.. note:: don't rename component.spec, build script for rpm expect this file to exist.
-
-.. note:: additionnal content in rpm/ directory are put in the SOURCES directory of rpmbuild, which means this additional
-   files can be added as additional source in component.spec (Source[0-9]+: param and %{SOURCE[0-9]+} macro).
-   A typical usage for this in the .service file and associated files like sysconfig file or tmpfile.d file.
+.. note:: Don't rename component.spec, build script for rpm expect this file to exist.
 
 Package metadata
 ================
@@ -121,17 +118,8 @@ Example:
     # Version
     VERSION = 1.0.1
     
-    # Revision number 
-    RELEASE = 1
-    
     # URL of the project 
     URL=https://github.com/kakwa/libemf2svg
-    
-    # short summary of what the package provides
-    SUMMARY="EMF to SVG conversion library"
-    
-    # long version of the summary, but I'm lazy
-    DESCRIPTION=$(SUMMARY)
     
     # example of source recovery url
     URL_SRC=$(URL)/archive/$(VERSION).tar.gz
@@ -194,8 +182,8 @@ But in some cases, it might be necessary to modify the upstream sources content.
 
 For that two helper variables are provided:
 
-* **$(SOURCE_DIR)**: source directory (with proper naming convention) where to put sources
-* **$(SOURCE_TAR_CMD)**: once **$(SOURCE_DIR)** is filled with content, just call this variable, it will generate the *$(SOURCE_ARCHIVE)* tar.gz
+* **$(SOURCE_DIR)**: source directory (with proper naming convention) where to put sources before building the source archive.
+* **$(SOURCE_TAR_CMD)**: once **$(SOURCE_DIR)** is filled with content, just call this variable, it will generate the **$(SOURCE_ARCHIVE)** tar.gz and do some cleanup
 
 For example:
 
@@ -218,6 +206,7 @@ For example:
     # * move remaining stuff to $(SOURCE_DIR)
     # * do some cleanup
     # * build the archive
+
     $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
             $(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
             mkdir -p $(BUILD_DIR)/tmp
@@ -228,15 +217,79 @@ For example:
             rm -f $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
             $(SOURCE_TAR_CMD)
 
-.. warning::
-
-    The preparation steps must not modify, delete or add files outside **$(BUILD_DIR)**, everything must be done inside
-    this directory.
-
 Distribution specific packaging
 ===============================
 
-Nothing special here, just package according to deb/rpm documentation.
+For the most part, just package according to deb/rpm documentation,
+filling the *rpm/component.spec*, *debian/rules*, *debian/control*, or any other packaging files if necessary.
+
+.. note::
+
+     I would advise you to try to respect the distributions guidelines and standards such
+     as the `FHS<https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard>`_.
+
+deb
+~~~
+
+For debian packages, just leverage the usual packaging patterns such as
+the *PKG.init*, *PKG.default*, *PKG.service*, ... files and the *override_dh_** targets in *debian/rules*, and then,
+add your dependencies in *debian/control* file.
+
+.. note::
+
+    In many cases, with clean upstreams, there is nearly nothing to do except dependencies and architectures,
+    the various dh_helpers will do their magic and build a clean package.
+
+    If you are unlucky, uncomment the *export DH_VERBOSE=1* and customize the build as necessary
+    using the *override_dh_** targets.
+
+rpm
+~~~
+
+For rpm, fill the various sections of the *rpm/component.spec* file such
+as *BuildRequires:*, *Requires:* or *BuildArch:* parameters and the various sections like *%install*.
+
+If additional files a required for packaging, an init script for example, put these files
+in the *rpm/* directory.
+
+All additional files in the *rpm/* directory are copied in the rpmbuild *SOURCES* directory.
+This means that it's possible to treat them as additional source files in the *component.spec* file with the *Source[0-9]:* directive.
+
+Example for ldapcherry.service and associated files:
+
+.. sourcecode:: bash
+
+   # rpm/ directory content
+   tree rpm/
+   rpm/
+   ├── component.spec
+   ├── ldapcherry
+   ├── ldapcherry.conf
+   └── ldapcherry.service
+
+.. sourcecode:: bash
+
+   # component.spec relevant sections
+   Source: %{pkgname}-%{version}.tar.gz
+   Source1: ldapcherry
+   Source2: ldapcherry.conf
+   Source3: ldapcherry.service
+
+   # install section
+   %install
+
+   # install the .service, the sysconfig file and tmpfiles.d (for pid file creation as non-root user)
+   mkdir -p %{buildroot}%{_unitdir}
+   mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
+   mkdir -p %{buildroot}/etc/sysconfig/
+   install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+   install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
+   install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
+
+Distribution version specific packaging files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. warning:: not implemented yet
 
 General packaging workflow
 ==========================

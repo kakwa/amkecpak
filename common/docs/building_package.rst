@@ -47,7 +47,9 @@ Here are the results:
 Build rpm inside a clean chroot
 ===============================
 
-Not implemented yet
+.. warning::
+
+     Not implemented yet
 
 Build deb package
 =================
@@ -85,7 +87,7 @@ This is the recommended way to build packages targeted to be used in production.
 Building in chroot is heavier but has multiple gains:
 
 * It permits to build in a clean environment every time
-* It rapidely exits in error if the build dependencies are not properly declared
+* It rapidly exits in error if the build dependencies are not properly declared
 * It permits to target different version of Debian (stretch, jessie, wheezy)
 * It manages build dependencies, installing them automatically (if properly declared)
 * It permits to avoid having to install all build dependencies on your main system
@@ -102,5 +104,12 @@ Building in chroot is heavier but has multiple gains:
 .. warning::
 
     Building in chroot requires root permission (it's necessary for creating the chroot environment).
+
     If make deb_chroot is run as a standard user, sudo will be used for cowbuilder calls.
-    The only command that needs to be white listed in sudo is cowbuilder.
+
+    The only command that needs to be white listed in sudoers configuration is cowbuilder:
+
+    .. sourcecode:: bash
+
+        # replace build-user with the user used to generate the packages
+        build-user ALL=(ALL) NOPASSWD: /usr/sbin/cowbuilder

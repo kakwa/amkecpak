@@ -27,7 +27,7 @@ GPG cheat sheet
 
 Package are signed by a gpg key.
 
-Here are some usefull commands to manage this key:
+Here are some useful commands to manage this key:
 
 Generate the GPG key:
 

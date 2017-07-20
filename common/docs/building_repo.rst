@@ -18,7 +18,7 @@ The repository has a few metadata which must be filled:
 Clean before build
 ==================
 
-Optionnally, it's possible to clean everything before build:
+Optionally, it's possible to clean everything before build:
 
 
 .. sourcecode:: bash

@@ -11,7 +11,8 @@ This packaging infrastructure relies on few basic tools.
 .. warning::
 
     What is detailed here is only the common tools used to build packages and repo.
-    For each package, you need to install its own build dependancies (stuff like gcc, python-setuptools, etc).
+    For each package, you need to install its own build dependencies (stuff like gcc,
+    python-setuptools, etc) if building outside a chroot.
 
 Debian/Ubuntu tools
 ===================
@@ -21,7 +22,7 @@ To install the Debian requirements:
 .. sourcecode:: bash
 
     # Debian/Ubuntu (deb)
-    $ apt-get install make debhelper reprepro lsb-release rsync cowbuilder
+    $ apt-get install make debhelper reprepro cowbuilder
 
 RHEL/CentOS/Fedora tools
 ========================
@@ -31,8 +32,8 @@ To install the RHEL requirements:
 .. sourcecode:: bash
 
     # CentOS/RHEL (rpm)
-    $ yum install rpm-sign expect rpm-build createrepo rsync make mock
+    $ yum install rpm-sign expect rpm-build createrepo make mock
 
     # Fedora (rpm)
-    $ dnf install rpm-sign expect rpm-build createrepo rsync make mock
+    $ dnf install rpm-sign expect rpm-build createrepo make mock
 
