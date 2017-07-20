@@ -17,11 +17,16 @@ EOF
   exit 1
 }
 
+
 exit_error(){
     echo "$1"
     rm -f "${OUTFILE}"
+    rm -f "${CACHE_DIR}/${SOURCE_FILE}"
     exit 1
 }
+
+
+trap -- 'exit_error "[ERROR] Download interrupted"' INT TERM
 
 [ -z "$CREATE_SUM" ] && CREATE_SUM=1
 
