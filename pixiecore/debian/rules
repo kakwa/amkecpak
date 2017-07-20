@@ -17,11 +17,12 @@ DEST=$$(pwd)/debian/@NAME@
 override_dh_auto_clean:
 
 override_dh_auto_build:
-	mkdir ./tmpgobuild
+	mkdir -p ./tmpgobuild
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
 	go build -o pixiecore
+	rm -rf ./tmpgobuild
 
 override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
@@ -32,3 +33,8 @@ override_dh_auto_install:
 #	cp -r templates $(DEST)/usr/share/pixiecore/
 #	cp -r public $(DEST)/usr/share/pixiecore/
 #	cp pixiecore.ini $(DEST)/etc/pixiecore/
+#
+override_dh_clean:
+	dh_clean
+	rm -f pixiecore
+	rm -rf ./tmpgobuild

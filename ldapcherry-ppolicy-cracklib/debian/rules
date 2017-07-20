@@ -11,3 +11,8 @@
 
 %:
 	dh $@ 
+
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -rf *.egg-info
+

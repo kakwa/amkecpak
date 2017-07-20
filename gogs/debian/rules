@@ -22,6 +22,7 @@ override_dh_auto_build:
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
 	go build -o gogs
+	rm -rf ./tmpgobuild
 
 override_dh_auto_install:
 	mkdir -p  $(DEST)/usr/bin/
@@ -40,3 +41,8 @@ override_dh_auto_test:
 
 override_dh_installinit:
 	dh_installinit --no-start 
+
+override_dh_clean:
+	dh_clean
+	rm -f gogs
+	rm -rf ./tmpgobuild
