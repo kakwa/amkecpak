@@ -1,47 +1,46 @@
 # vim: set noet ts=4:
 
-# define global build and output directories
-
+# Various global variables
 OUT_DIR = out
 OUT_SRC = src-out
 BUILD_DIR = builddir
 CACHE=cache
 DEB_MIRROR=http://ftp.debian.org/debian/
-
-DIST_TAG=$(shell ./buildenv/get_dist.sh)
-
+DIST_TAG=$(shell ./buildenv/get_dist.sh $(DIST_OS))
 PKGNAME=$(NAME)
-
 MANIFEST_FILE=$(shell pwd)/MANIFEST
 CACHE_DIR=$(shell pwd)/$(CACHE)/
+
+# wget_sum.sh helper variable
+# handles the manifest target (building of the MANIFEST file with checksums)
 ifeq ($(MAKECMDGOALS), manifest)
 WGS=./buildenv/wget_sum.sh -c -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 else
 WGS=./buildenv/wget_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 endif
 
+# git_sum.sh helper variable
+# handles the manifest target (building of the MANIFEST file with checksums)
 ifeq ($(MAKECMDGOALS), manifest)
 GS=./buildenv/git_sum.sh -c -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 else
 GS=./buildenv/git_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 endif
 
-COWDUILDER_DIR=/var/cache/pbuilder/
+# Some variables for cowbuilder
+DIST_OS=$(shell echo $(DIST) | sed 's/-backports//')
+COW_DIR=/var/cache/pbuilder/
 ifeq ("$(DIST)", "")
 DIST=unknown
 else
-COWBUILDER_DIST=--distribution $(DIST_OS)
+COW_DIST=--distribution $(DIST_OS)
 endif
-
 ifeq ($(shell id -u), 1)
-  SUDO=
+  COW_SUDO=
 else
-  SUDO=sudo
+  COW_SUDO=sudo
 endif
-
-DIST_OS=$(shell echo $(DIST) | sed 's/-backports//')
 COW_NAME=$(DIST).cow
-DIST_TAG=$(shell ./buildenv/get_dist.sh $(DIST_OS))
 
 ifneq ("$(DIST)", "sid")
 OTHERMIRROR=--othermirror "deb $(DEB_MIRROR) $(DIST_OS)-backports main"
@@ -49,7 +48,7 @@ endif
 
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
-.PHONY: all rpm_prepare rpm deb clean_build clean_cache clean rm_manifest_file manifest deb_chroot
+.PHONY: all rpm_prepare rpm deb clean_build clean_cache clean rm_manifest_file manifest deb_chroot help
 
 # Name of the root directory of the archive
 SOURCE_DIR=$(BUILD_DIR)/$(PKGNAME)-$(VERSION)
@@ -60,11 +59,6 @@ SOURCE_TAR_CMD=cd `dirname $(SOURCE_DIR)` && tar -zcf $(PKGNAME)_$(VERSION).orig
 
 # Some targets
 DIRECTORIES=$(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
-DEB_CONTENT=$(BUILD_DIR)/debian/changelog $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
-DEB_CONTENT_IN=$(filter-out debian/changelog debian/control debian/rules, $(wildcard debian/*))
-DEB_CONTENT_OUT=$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN))
-DEB_PREPARE=$(DIRECTORIES) $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
-
 
 #### START common targets
 
@@ -102,6 +96,13 @@ manifest: rm_manifest_file clean_cache $(SOURCE_ARCHIVE)
 
 #### START DEB targets
 
+# Some variables
+DEB_CONTENT=$(BUILD_DIR)/debian/changelog $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
+DEB_CONTENT_IN=$(filter-out debian/changelog debian/control debian/rules, $(wildcard debian/*))
+DEB_CONTENT_OUT=$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN))
+DEB_PREPARE=$(DIRECTORIES) $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+DEB_ARCHIVE=$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
+
 # Copy all the files of debian/ packaging directory
 $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
@@ -119,8 +120,7 @@ $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog: ./debian/change
 	printf "\\n  * New version\\n\\n" >> $@
 	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
 
-DEB_ARCHIVE=$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
-
+# put the archive in the proper directory
 $(DEB_ARCHIVE): $(SOURCE_ARCHIVE)
 	cp $(SOURCE_ARCHIVE) $(DEB_ARCHIVE)
 
@@ -139,19 +139,20 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE)
 	find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -exec mv {} $(OUT_SRC)/ \;
 	touch $(BUILD_DIR)/pkg_built.deb.$(DIST)
 
+# the target to be called for building .deb
 deb: $(BUILD_DIR)/pkg_built.deb.$(DIST)
 
-# Build the deb(s) in a chroot and put it in out directory
+# Build the deb(s) in a chroot (cowbuilder) and put it in out directory
 $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	     dpkg-source -b ./
-	if ! [ -e $(COWDUILDER_DIR)/$(COW_NAME) ];\
+	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
-	    export TMPDIR=/tmp/; $(SUDO) cowbuilder create --debootstrap debootstrap $(COWBUILDER_DIST) $(OTHERMIRROR) --basepath $(COWDUILDER_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
 	else\
-	    export TMPDIR=/tmp/; $(SUDO) cowbuilder update --basepath $(COWDUILDER_DIR)/$(COW_NAME);\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update --basepath $(COW_DIR)/$(COW_NAME);\
 	fi
-	export TMPDIR=/tmp/; $(SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COWDUILDER_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
+	export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COW_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure;exit 1;\
 		else rm -f $(BUILD_DIR)/failure;exit 0;\
@@ -163,49 +164,43 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE)
 	find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -exec mv {} $(OUT_SRC)/ \;
 	touch $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 
+# The target to be called for building .deb in chroot
 deb_chroot: $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 
 #### END DEB targets
 
 #### START RPM targets
 
-# * prepare the sub-directories for rpmbuild
-# * create the tar.gz source archive and put it in SOURCES directory
-# * clean unwanted directory
-# * substitute version and package name in spec file
-
+# Some variables for rpm build
 RPM_DIR=$(BUILD_DIR)/rpm.$(DIST)/BUILDROOT $(BUILD_DIR)/rpm.$(DIST)/RPMS  $(BUILD_DIR)/rpm.$(DIST)/SRPMS 
-
 RPM_SPEC=$(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
-
 RPM_ARCHIVE=$(BUILD_DIR)/rpm.$(DIST)/SOURCES/$(PKGNAME)-$(VERSION).tar.gz
-
 RPM_CONTENT_IN=$(filter-out rpm/component.spec, $(wildcard rpm/*))
-
 RPM_CONTENT_OUT=$(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, $(subst rpm/,,$(RPM_CONTENT_IN)))
 
-
+# Create the various rpmbuild directories
 $(RPM_DIR): $(BUILD_DIR)/rpm.$(DIST) 
 	mkdir $@
 
+# Copy the upstream sources archive to SOURCES with correct name
 $(RPM_ARCHIVE): $(SOURCE_ARCHIVE)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
 	rm -f $(RPM_ARCHIVE)
 	cp -r $(SOURCE_ARCHIVE) $(RPM_ARCHIVE)
 
+# Copy the additional content of the rpm/ directory in SOURCES (use for stuff like .service files)
 $(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
 	cp -r rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@) $(BUILD_DIR)/rpm.$(DIST)/SOURCES
 
-
-
+# Copy the spec file and do the various substitutions in it
 $(RPM_SPEC): rpm/component.spec
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
 	cp rpm/component.spec $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY|$(SUMMARY)|;s|@URL@|$(URL)|' \
 		$(RPM_SPEC) || rm -f $(RPM_SPEC)
 
-# build the rpm(s) and put the result inside OUT directory
+# Build the rpm(s) and put the result inside out directories
 $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
 	rpmbuild -ba --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)" \
                                 --define "_sourcedir %{_topdir}/SOURCES" \
@@ -220,5 +215,58 @@ $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \;
 	touch $(BUILD_DIR)/pkg_built.rpm.$(DIST)
 
+# The rpm target to be called
 rpm: $(BUILD_DIR)/pkg_built.rpm.$(DIST)
+
 #### END RPM targets
+
+#### START help target ####
+
+define MAKE_HELP
+Available targets:
+
+* help       : Display this help
+
+
+* manifest   : Download the upstream sources
+               and (re)build the MANIFEST file
+               with the checksum of the upstream sources.
+
+               Running "make clean" is advisable before running
+	       "make manifest".
+
+
+* clean      : Remove various work directories:
+               - builddir/ (build directory),
+               - cache/ (upstream sources cache directory),
+               - out/ (output directory for packages),
+               - src-out/ (output directory for source packages)
+
+               It's possible to keep the cache directory
+               with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
+
+
+* deb        : Build the .deb packages
+
+
+* rpm        : Build the .rpm packages
+
+
+* deb_chroot : Build the .deb packages in a clean chroot (using cowbuilder)
+
+               The targeted distribution version can be specified using
+               the "DIST=<code name>", for example "make deb_chroot DIST=stretch"
+
+               this target requires root permission for cowbuilder
+               (sudo or run directly as root)
+
+
+* rpm_chroot : not implemented yet
+
+endef
+
+export MAKE_HELP
+help:
+	@echo "$$MAKE_HELP"
+
+#### END help target ####

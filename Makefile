@@ -89,4 +89,58 @@ export_key:
 
 clean: clean_pkg clean_repo
 
-.PHONY: force rpm deb deb_repo rpm_repo export_key clean_pkg clean_repo clean_rpm_repo clean_deb_repo
+.PHONY: force rpm deb deb_repo rpm_repo export_key clean_pkg clean_repo clean_rpm_repo clean_deb_repo help
+
+#### START help target ####
+
+define MAKE_HELP
+
+General advices:
+
+If you want to speed-up build, use the usual -j parameter, for example:
+
+make clean -j 10
+make deb -j 10
+
+If you want to ignore package build failures, add ERROR=skip, for example:
+
+make deb ERROR=skip
+
+
+Available targets:
+
+* help       : Display this help
+
+
+* clean      : Remove all packages work directories.
+
+               It's possible to keep the cache directories
+               with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
+
+
+* deb        : Build all the .deb packages
+
+
+* rpm        : Build all the .rpm packages
+
+
+* deb_chroot : Build all the .deb packages in a clean chroot (using cowbuilder)
+
+               The targeted distribution version can be specified using
+               the "DIST=<code name>", for example "make deb_chroot DIST=stretch"
+
+               this target requires root permission for cowbuilder
+               (sudo or run directly as root)
+
+
+* rpm_chroot : not implemented yet
+
+endef
+
+export MAKE_HELP_MAIN
+help:
+	@echo "$$MAKE_HELP_MAIN"
+
+
+#### END help target ####
+
