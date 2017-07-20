@@ -26,23 +26,30 @@ DESCRIPTION=$(SUMMARY)
 # Including common rules and targets 
 include buildenv/Makefile.common
 
-# preparation hook for rpm package
-# source archives must recovered here
-# and their content put inside $(BUILD_DIR)/src
+# preparation hook for sources
+# source archive must be recovered here, optionaly reworked, and
+# moved to $(SOURCE_ARCHIVE) (the expected path of the source archive for the
+# rest of the build)
 #
 # $(WGS) should be the prefered way to recover archives
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-src_prepare_rpm:
-# example of source archive handling:
-#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz
-#	tar -vxf $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz -C $(BUILD_DIR)/
-#	mv $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION)/* $(BUILD_DIR)/src/
-#	rm -rf $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION)
-#	rm -f $(BUILD_DIR)/@@COMPONENT_NAME@@-$(VERSION).tar.gz
+# mock target that actually does nothing, remove it please
+$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	$(SOURCE_TAR_CMD)
 
+# Example of simple recovery, with good upstream
+#$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+#	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
 
-# preparation hook for deb package.
-# by default, same as rpm package but could be override
-src_prepare_deb: src_prepare_rpm
+# more complex case with upstream source rework and rebuilding of the tar
+#$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+#	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+#	mkdir -p $(BUILD_DIR)/tmp
+#	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+#	rm -rf $(BUILD_DIR)/tmp/$(NAME)-$(VERSION)/debian
+#	mv $(BUILD_DIR)/tmp/$(NAME)-$(VERSION)/* $(SOURCE_DIR)
+#	rm -rf $(BUILD_DIR)/tmp
+#	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+#	$(SOURCE_TAR_CMD)

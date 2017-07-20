@@ -28,9 +28,8 @@ create_new_soft(){
     do
        sed -i "s/@@COMPONENT_NAME@@/${NAME}/" $f
     done
-    mv ./pkg/debian/componant.cron.d.ex ./pkg/debian/${NAME}.cron.d.ex
-    mv ./pkg/debian/componant.default.ex ./pkg/debian/${NAME}.default.ex
-    mv ./pkg/componant.spec ./pkg/${NAME}.spec
+    mv ./debian/componant.cron.d.ex ./debian/${NAME}.cron.d.ex
+    mv ./debian/componant.default.ex ./debian/${NAME}.default.ex
     
     cd -
     git add "${SOFT_PATH}"
