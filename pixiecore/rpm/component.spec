@@ -43,10 +43,10 @@ mkdir -p  $RPM_BUILD_ROOT/var/lib/pixiecore/
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
 install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
 install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 
 %post
 setcap 'cap_net_bind_service=+ep' /usr/bin/pixiecore
