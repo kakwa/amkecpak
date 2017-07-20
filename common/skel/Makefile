@@ -37,6 +37,7 @@ include buildenv/Makefile.common
 
 # mock target that actually does nothing, remove it please
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+	touch $(SOURCE_DIR)/nothing
 	$(SOURCE_TAR_CMD)
 
 # Example of simple recovery, with good upstream
