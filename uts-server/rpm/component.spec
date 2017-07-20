@@ -5,6 +5,10 @@ Name: %{pkgname}
 Version: @VERSION@
 Release: @RELEASE@%{?dist}
 Source: %{pkgname}-%{version}.tar.gz
+Source1: uts-server
+Source2: uts-server.conf
+Source3: uts-server.service
+Source4: uts-server.cnf
 URL: @URL@ 
 Vendor: Kakwa
 License: See project
@@ -27,10 +31,14 @@ Requires: openssl-libs, libcivetweb
 rm -rf $RPM_BUILD_ROOT
 cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
 make install DESTDIR=$RPM_BUILD_ROOT
-install -D -m 0644 ./uts-server.cnf $RPM_BUILD_ROOT/etc/uts-server/uts-server.cnf
-install -D -m 0644 ./uts-server.service %{buildroot}%{_unitdir}/uts-server.service
-install -D -m 0644 ./uts-server.default %{buildroot}/etc/sysconfig/uts-server
-install -D -m 0644 ./uts-server.tmpfile %{buildroot}/usr/lib/tmpfiles.d/uts-server.conf
+install -D -m 0640 %{SOURCE4} $RPM_BUILD_ROOT/etc/uts-server/uts-server.cnf
+
+mkdir -p %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
+mkdir -p %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 
 %pre
 
