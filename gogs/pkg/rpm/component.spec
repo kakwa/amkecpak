@@ -5,6 +5,9 @@ Name: %{pkgname}
 Version: @VERSION@
 Release: @RELEASE@%{?dist}
 Source: %{pkgname}-%{version}.tar.gz
+Source1: gogs 
+Source2: gogs.conf
+Source3: gogs.service
 URL: @URL@ 
 Vendor: Kakwa
 License: See project
@@ -44,11 +47,10 @@ cp gogs.ini $RPM_BUILD_ROOT/etc/gogs/
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 rhel/gogs.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
-install -pm644 rhel/gogs %{buildroot}/etc/sysconfig/
-install -pm644 rhel/gogs.conf %{buildroot}/usr/lib/tmpfiles.d/
-
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
+install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
 
 %post
 true
