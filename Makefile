@@ -8,7 +8,7 @@ ORIGIN=kakwa
 #####################################################################
 
 DIST_TAG=$(shell ./common/buildenv/get_dist.sh)
-PKG=$(shell find ./* -maxdepth 1 -type d -name pkg |grep -v '^common')
+PKG=$(shell find ./* -maxdepth 0 -type d |grep -v '^./common')
 clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
@@ -27,9 +27,9 @@ all:
 
 clean_pkg: $(clean_PKG)
 
-deb: $(ERROR)$(deb_PKG)
+deb: $(deb_PKG)
 deb_chroot: $(ERROR)$(deb_chroot_PKG)
-rpm: $(ERROR)$(rpm_PKG)
+rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
 
@@ -68,7 +68,7 @@ clean_rpm_repo:
 deb_repo: $(deb_PKG) export_key
 	@$(MAKE) clean_deb_repo
 	mkdir -p $(OUTDEB)
-	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/pkg/out/*.deb')" \
+	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/out/*.deb')" \
 		-o $(OUTDEB) \
 		-O $(ORIGIN) \
 		-k $(GPG_KEY)
@@ -76,7 +76,7 @@ deb_repo: $(deb_PKG) export_key
 rpm_repo: $(rpm_PKG) export_key
 	@$(MAKE) clean_rpm_repo
 	mkdir -p $(OUTRPM)/RPMS/
-	for r in $$(find `pwd` -type f -path '*/pkg/out/*.rpm'); do \
+	for r in $$(find `pwd` -type f -path '*/out/*.rpm'); do \
 		cp $$r $(OUTRPM)/RPMS/ && \
 		./common/rpmsign.exp $(OUTRPM)/RPMS/`basename $$r` --key-id=$(GPG_KEY) || exit 1; \
 	done
