@@ -28,7 +28,7 @@ endif
 
 COWDUILDER_DIR=/var/cache/pbuilder/
 ifeq ("$(DIST)", "")
-DIST=$(shell lsb_release -cs)
+DIST=unknown
 else
 COWBUILDER_DIST=--distribution $(DIST_OS)
 endif
@@ -56,7 +56,7 @@ SOURCE_DIR=$(BUILD_DIR)/$(PKGNAME)-$(VERSION)
 # Name of the source archive
 SOURCE_ARCHIVE=$(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
 # Command used to build the source archive
-SOURCE_TAR_CMD=cd `dirname $(SOURCE_DIR)` && tar -zcf $(PKGNAME)_$(VERSION).orig.tar.gz `basename $(SOURCE_DIR)` --owner=root --group=root
+SOURCE_TAR_CMD=cd `dirname $(SOURCE_DIR)` && tar -zcf $(PKGNAME)_$(VERSION).orig.tar.gz `basename $(SOURCE_DIR)` --owner=root --group=root && rm -r `basename $(SOURCE_DIR)`/* || rm -f $(PKGNAME)_$(VERSION).orig.tar.gz; touch $(PKGNAME)_$(VERSION).orig.tar.gz
 
 # Some targets
 DIRECTORIES=$(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
@@ -85,7 +85,7 @@ clean_build:
 	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
 
 clean_cache:
-	if [ -d $(CACHE) ]; then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
+	if [ -d $(CACHE) ] && ! [ "$(KEEP_CACHE)" = "true" ]; then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
 
 clean: clean_build clean_cache
 	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi

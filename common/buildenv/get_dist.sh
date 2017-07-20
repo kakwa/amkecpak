@@ -12,6 +12,8 @@ case $1 in
     echo 10;;
   sid)
     echo 10;;
+  unknown)
+    echo 00;;
   *)
     echo $1;;
 esac
