@@ -32,18 +32,18 @@ Packaging documentation in a nutshell
     # Init a package foo
     $ ./common/init_pkg.sh -n foo
 
-    $ cd foo/pkg/
+    $ cd foo/
 
     # Implementing the package
     $ vim Makefile
     $ vim debian/rules ; vim debian/control
-    $ vim foo.spec
+    $ vim rpm/component.spec
 
     # Building the package
     $ make deb
     $ make rpm
 
-    $ cd ../../ 
+    $ cd ../
 
     # gpg key generation (one time thing)
     $ gpg --gen-key
