@@ -33,14 +33,14 @@ upstream source recovery, package initialization, or determining OS version.
 I've also stolen some patterns I really liked from Gentoo.
 
 Most upstream normalize how they ship sources. It's generally a tar.gz file with a fixed
-pattern like <NAME>-<VERSION>.tar.gz, this pattern is even automatically implemented
+pattern like **<NAME>-<VERSION>.tar.gz**, this pattern is even automatically implemented
 by hosting solution like GitHub.
 
-Consequently it's relatively easy to "templatize" a download URL with a $(VERSION) variable, 
+Consequently it's relatively easy to "templatize" a download URL with a **$(VERSION)** variable, 
 this variable could also be used for setting the package version.
 This is generally how .ebuild files in Gentoo point to their respective upstreams.
 
-Another thing I liked was that they keep a manifest file with the hashes of upstream sources.
+Another thing I liked was that they keep a **manifest** file with the **hashes** of upstream sources.
 It permits to have a safe guard against modification of an existing upstream release, gaining some
 basic guaranties about build reproductibility and avoiding surprises...
 

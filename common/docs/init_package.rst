@@ -1,12 +1,21 @@
 Create a package
 ----------------
 
-Creating a package *foo* involves the following steps:
+Creating a package **foo** involves the following steps:
 
 * Initialize the packaging directories.
 * Fill **foo**/Makefile (used for common metadata and upstream source recovery and preparation).
-* Do the distribution specific stuff (dependencies in *debian/control* and *foo.spec*, pre/post install scripts, init scripts, etc)
-* Building the package
+* Do the distribution specific stuff (dependencies in **debian/control** and **foo.spec**,
+  pre/post install scripts, init scripts, etc)
+* Build the package
+
+Here is the general packaging workflow:
+
+.. figure:: img/pkg_diagram.png
+    :scale: 80
+
+* The steps in orange are common for all packages and must not be modified.
+* The steps in green are package specific, it's those steps which must be customized for each package.
 
 Initialize package skeleton
 ===========================
@@ -47,12 +56,22 @@ This script will create the following tree:
 This tree contains two main directories, two main files, and a symlink:
 
 * **debian**: deb packaging stuff 
-* **rpm**: rpm packaging stuff (*component.spec* and optionally additional content like *.service* files)
+* **rpm**: rpm packaging stuff (**component.spec** and optionally additional content like **.service** files)
 * **Makefile**: (used to download and prepare upstream sources)
 * **MANIFEST**: (listing the downloaded files and their hash)
 * **buildenv**: symlink to the shared build resources (Makefile.common, and various helper scripts) 
 
 .. note:: Don't rename component.spec, build script for rpm expect this file to exist.
+
+At this point, with default content, you should be able to build empty .rpm and .deb packages:
+
+.. sourcecode:: bash
+
+    $ cd foo # go in dir
+    $ make deb # build deb
+    $ make rpm # build rpm
+    $ dpkg -c out/foo_0.0.1-1\~up+deb00_all.deb # look .deb content
+    $ rpm -qpl out/foo-0.0.1-1.00.noarch.rpm # look .rpm content
 
 Package metadata
 ================
@@ -85,19 +104,19 @@ The package metadata (version, name, description, etc) are declared at the top o
 
     This is done by simple running sed -s 's|@VAR@|$(VAR)|' on these files.
 
-    Don't remove the @VAR@ (ex: @SUMMARY@ or @URL@) in the packaging files.
+    Don't remove the @VAR@ (ex: @SUMMARY@, @URL@, @VERSIO@) in the packaging files.
 
 Download upstream sources
 =========================
 
-This packaging infrastructure comes with a small tool (*./common/buildenv/wget_sum.sh*) to handle downloads.
+This packaging infrastructure comes with a small tool, **./common/buildenv/wget_sum.sh** to handle downloads.
 
 This tool role is:
 
 * Download upstream sources.
 * Check the integrity of the upstream source against the *MANIFEST* file (sha512 sum).
-* Build the *MANIFEST* file if requested
-* Handling a local download cache to avoid downloading sources at each build
+* Build the *MANIFEST* file if requested.
+* Handle a local download cache to avoid downloading sources at each build.
 
 Download tool usage
 ~~~~~~~~~~~~~~~~~~~
@@ -121,7 +140,7 @@ Example:
     # URL of the project 
     URL=https://github.com/kakwa/libemf2svg
     
-    # example of source recovery url
+    # Source recovery url
     URL_SRC=$(URL)/archive/$(VERSION).tar.gz
     
     # Including common rules and targets 
@@ -221,39 +240,40 @@ Distribution specific packaging
 ===============================
 
 For the most part, just package according to deb/rpm documentation,
-filling the *rpm/component.spec*, *debian/rules*, *debian/control*, or any other packaging files if necessary.
+filling the **rpm/component.spec**, **debian/rules**, **debian/control**, or any other packaging files if necessary.
 
 .. note::
 
      I would advise you to try to respect the distributions guidelines and standards such
-     as the `FHS<https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard>`_.
+     as the FHS (https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard).
 
 deb
 ~~~
 
 For debian packages, just leverage the usual packaging patterns such as
-the *PKG.init*, *PKG.default*, *PKG.service*, ... files and the *override_dh_** targets in *debian/rules*, and then,
-add your dependencies in *debian/control* file.
+the **PKG.init**, **PKG.default**, **PKG.service**, ... files and the **override_dh_*** targets in **debian/rules**, and then,
+add your dependencies and architecture(s) in the **debian/control** file.
 
 .. note::
 
-    In many cases, with clean upstreams, there is nearly nothing to do except dependencies and architectures,
+    In many cases, with clean upstreams, there is nearly nothing to do except dependencies and architecture,
     the various dh_helpers will do their magic and build a clean package.
 
-    If you are unlucky, uncomment the *export DH_VERBOSE=1* and customize the build as necessary
-    using the *override_dh_** targets.
+    If you are unlucky, uncomment the **export DH_VERBOSE=1** and customize the build as necessary
+    using the **override_dh_*** targets.
 
 rpm
 ~~~
 
-For rpm, fill the various sections of the *rpm/component.spec* file such
-as *BuildRequires:*, *Requires:* or *BuildArch:* parameters and the various sections like *%install*.
+For rpm, fill the various sections of the **rpm/component.spec** file such
+as **BuildRequires:**, **Requires:** or **BuildArch:** parameters and the various sections like **%install**.
 
 If additional files a required for packaging, an init script for example, put these files
-in the *rpm/* directory.
+in the **rpm/** directory.
 
-All additional files in the *rpm/* directory are copied in the rpmbuild *SOURCES* directory.
-This means that it's possible to treat them as additional source files in the *component.spec* file with the *Source[0-9]:* directive.
+All additional files in the **rpm/** directory are copied in the rpmbuild **SOURCES** directory.
+This means that it's possible to treat them as additional source files in the **component.spec**
+file with the **Source[0-9]:** directive.
 
 Example for ldapcherry.service and associated files:
 
@@ -290,14 +310,3 @@ Distribution version specific packaging files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. warning:: not implemented yet
-
-General packaging workflow
-==========================
-
-Here is the general packaging workflow:
-
-.. figure:: img/pkg_diagram.png
-    :scale: 80
-
-* The steps in orange are common for all packages and must not be modified.
-* The steps in green are package specific, it's those steps which must be customized for each package.
