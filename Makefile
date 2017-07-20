@@ -93,7 +93,7 @@ clean: clean_pkg clean_repo
 
 #### START help target ####
 
-define MAKE_HELP
+define MAKE_HELP_MAIN
 
 General advices:
 
