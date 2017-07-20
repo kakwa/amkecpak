@@ -1,6 +1,3 @@
-Packages
-========
-
 Stuff I package for fun and profit.
 
 .. .. image:: https://travis-ci.org/kakwa/packages.svg?branch=master
@@ -25,9 +22,9 @@ Packaging documentation in a nutshell
 .. sourcecode:: bash
     
     # Install the packaing tools
-    $ apt-get install make debhelper reprepro lsb-release rsync
+    $ apt-get install make debhelper reprepro
     # or
-    $ yum install rpm-sign expect rpm-build createrepo rsync make
+    $ yum install rpm-sign expect rpm-build createrepo make
 
     # Init a package foo
     $ ./common/init_pkg.sh -n foo
@@ -39,7 +36,10 @@ Packaging documentation in a nutshell
     $ vim debian/rules ; vim debian/control
     $ vim rpm/component.spec
 
-    # Building the package
+    # Help for the various targets
+    $ make help
+
+    # Building the packages
     $ make deb
     $ make rpm
 
@@ -47,9 +47,6 @@ Packaging documentation in a nutshell
 
     # gpg key generation (one time thing)
     $ gpg --gen-key
-
-    # Preparing the repositories metadata
-    $ vim Makefile
 
     # Building the repositories
     # Use ERROR=skip to ignore package build failures and continue building the repo
