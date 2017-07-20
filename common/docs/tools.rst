@@ -21,7 +21,7 @@ To install the Debian requirements:
 .. sourcecode:: bash
 
     # Debian/Ubuntu (deb)
-    $ apt-get install make debhelper reprepro lsb-release rsync
+    $ apt-get install make debhelper reprepro lsb-release rsync cowbuilder
 
 RHEL/CentOS/Fedora tools
 ========================
@@ -31,9 +31,8 @@ To install the RHEL requirements:
 .. sourcecode:: bash
 
     # CentOS/RHEL (rpm)
-    $ yum install rpm-sign expect rpm-build createrepo rsync make
+    $ yum install rpm-sign expect rpm-build createrepo rsync make mock
 
     # Fedora (rpm)
-    $ dnf install rpm-sign expect rpm-build createrepo rsync make
-
+    $ dnf install rpm-sign expect rpm-build createrepo rsync make mock
 

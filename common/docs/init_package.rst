@@ -21,36 +21,41 @@ This script will create the following tree:
 .. sourcecode:: none
 
     foo
-    ├── pkg
-    │   ├── buildenv -> ../../common/buildenv
-    │   ├── debian
-    │   │   ├── changelog
-    │   │   ├── compat
-    │   │   ├── conffiles
-    │   │   ├── control
-    │   │   ├── copyright
-    │   │   ├── foo.cron.d.ex
-    │   │   ├── foo.default.ex
-    │   │   ├── init.d.ex
-    │   │   ├── postinst.ex
-    │   │   ├── postrm.ex
-    │   │   ├── preinst.ex
-    │   │   ├── prerm.ex
-    │   │   ├── rules
-    │   │   └── source
-    │   │       └── format
-    │   ├── foo.spec
-    │   ├── Makefile
-    │   └── MANIFEST
-    └── src
+    ├── buildenv -> ../../common/buildenv
+    ├── debian
+    │   ├── changelog
+    │   ├── compat
+    │   ├── conffiles
+    │   ├── control
+    │   ├── copyright
+    │   ├── foo.cron.d.ex
+    │   ├── foo.default.ex
+    │   ├── init.d.ex
+    │   ├── postinst.ex
+    │   ├── postrm.ex
+    │   ├── preinst.ex
+    │   ├── prerm.ex
+    │   ├── rules
+    │   └── source
+    │       └── format
+    ├── rpm
+    │   └── component.spec
+    ├── Makefile
+    └── MANIFEST
 
-This tree contains two main directories:
+This tree contains two main directories, two main files, and a symlink:
 
-* **pkg**: this directory contains:
-    * the packaging stuff (*debian/* directory, *.spec* file)
-    * *Makefile* (used to download and prepare upstream sources)
-    * *MANIFEST* (listing the downloaded files and their hash)
-* **src**: this directory contains all the files added to the sources (ex: launcher script)
+* **debian**: deb packaging stuff 
+* **rpm**: rpm packaging stuff (*component.spec and optionally additionnal content like .service*)
+* **Makefile**: (used to download and prepare upstream sources)
+* **MANIFEST**: (listing the downloaded files and their hash)
+* **buildenv**: symlink to the shared build resources (Makefile.common, and various scripts) 
+
+.. note:: don't rename component.spec, build script for rpm expect this file to exist.
+
+.. note:: additionnal content in rpm/ directory are put in the SOURCES directory of rpmbuild, which means this additional
+   files can be added as additional source in component.spec (Source[0-9]+: param and %{SOURCE[0-9]+} macro).
+   A typical usage for this in the .service file and associated files like sysconfig file or tmpfile.d file.
 
 Package metadata
 ================
@@ -110,25 +115,33 @@ Example:
 
 .. sourcecode:: make
 
-    # declare the upstream version
-    VERSION = 1.1.3
+    # Name of the package
+    NAME = libemf2svg
     
-    # URL of the project
-    URL=https://github.com/kakwa/py-ascii-graph
+    # Version
+    VERSION = 1.0.1
     
-    # declare the upstream url
-    # avoid hardcoding version in upstream names if possible
+    # Revision number 
+    RELEASE = 1
+    
+    # URL of the project 
+    URL=https://github.com/kakwa/libemf2svg
+    
+    # short summary of what the package provides
+    SUMMARY="EMF to SVG conversion library"
+    
+    # long version of the summary, but I'm lazy
+    DESCRIPTION=$(SUMMARY)
+    
+    # example of source recovery url
     URL_SRC=$(URL)/archive/$(VERSION).tar.gz
     
-    # recover the file
-    # use $(WGS) -u <url> -o <output file> as this utility handles checksum and caching
-    src_prepare_rpm:
-        $(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz
-        tar -vxf $(BUILD_DIR)/py-ascii-graph-$(VERSION).tar.gz -C $(BUILD_DIR)/
-        mv $(BUILD_DIR)/py-ascii-graph-$(VERSION)/* $(BUILD_DIR)/src/
-        rm -rf $(BUILD_DIR)/py-ascii-graph-$(VERSION)*
+    # Including common rules and targets 
+    include buildenv/Makefile.common
+    
+    $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+            $(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
 
-    src_prepare_deb: src_prepare_rpm
 
 Building the MANIFEST file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -137,19 +150,83 @@ To create the MANIFEST file, just run the following command:
 
 .. sourcecode:: bash
 
-    $ make manifest
+    make manifest
 
 Source preparation
 ~~~~~~~~~~~~~~~~~~
 
-The source preparation is made in the **src_prepare_rpm** and **src_prepare_deb** (depending on the target).
+The source preparation is made in the **$(SOURCE_ARCHIVE)** target.
 
-By default, both targets will do the same thing  as **src_prepare_rpm** is a dependancy of **src_prepare_deb**.
-However, this behaviour could be changed if necessary.
+The goal of this rule is to create the **tar.gz** archive **$(SOURCE_ARCHIVE)**.
+
+The root directory of the source archive should be **$(NAME)-$(VERSION)**, for example:
+
+.. sourcecode:: bash
+
+    tar -tvf cache/mk-sh-skel_1.0.0.orig.tar.gz 
+    drwxrwxr-x root/root         0 2015-11-27 00:26 mk-sh-skel-1.0.0/
+    -rw-rw-r-- root/root      1135 2015-11-27 00:26 mk-sh-skel-1.0.0/LICENSE
+    -rw-rw-r-- root/root       145 2015-11-27 00:26 mk-sh-skel-1.0.0/Makefile
+    -rw-rw-r-- root/root       972 2015-11-27 00:26 mk-sh-skel-1.0.0/README.md
+    -rw-rw-r-- root/root      1037 2015-11-27 00:26 mk-sh-skel-1.0.0/mksh-skel
 
 
-The goal of these rules is basically to fill the **$(BUILD_DIR)/src/** directory with the upstream sources and 
-insert the package specific sutff.
+In ideal cases, it's only a matter of downloading the upstream sources as these conventions are quite standards.
+For example:
+
+.. sourcecode:: make
+
+    # Version
+    VERSION = 1.0.1
+    
+    # URL of the project 
+    URL=https://github.com/kakwa/mk-sh-skel
+    
+    # example of source recovery url
+    URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+    
+    # Basic source archive recovery,
+    # this works fine if upstream is clean
+    $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+            $(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
+
+But in some cases, it might be necessary to modify the upstream sources content.
+
+For that two helper variables are provided:
+
+* **$(SOURCE_DIR)**: source directory (with proper naming convention) where to put sources
+* **$(SOURCE_TAR_CMD)**: once **$(SOURCE_DIR)** is filled with content, just call this variable, it will generate the *$(SOURCE_ARCHIVE)* tar.gz
+
+For example:
+
+.. sourcecode:: make
+
+    # Version
+    VERSION = 1.0.7
+    
+    # URL of the project 
+    URL=http://repos.entrouvert.org/python-rfc3161.git
+    
+    # example of source recovery url
+    URL_SRC=$(URL)/snapshot/python-rfc3161-$(VERSION).tar.gz
+    
+    # preparation of the sources with removal of upstream, unwanted debian/ packaging
+    # it does the following:
+    # * recover upstream archive
+    # * uncompress it
+    # * remove the unwanted debian/ dir from upstream source
+    # * move remaining stuff to $(SOURCE_DIR)
+    # * do some cleanup
+    # * build the archive
+    $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+            $(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
+            mkdir -p $(BUILD_DIR)/tmp
+            tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+            rm -rf $(BUILD_DIR)/tmp/python-rfc3161-$(VERSION)/debian
+            mv $(BUILD_DIR)/tmp/python-rfc3161-$(VERSION)/* $(SOURCE_DIR)
+            rm -rf $(BUILD_DIR)/tmp
+            rm -f $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
+            $(SOURCE_TAR_CMD)
 
 .. warning::
 
