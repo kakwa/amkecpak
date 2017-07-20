@@ -5,12 +5,12 @@ Wants=network.service
 
 [Service]
 Type=forking
-PIDFile=/var/run/dnscherryd/dnscherryd.pid
+PIDFile=/var/run/dnscherry/dnscherry.pid
 User=dnscherry
 Group=dnscherry
 
-EnvironmentFile=/etc/sysconfig/dnscherryd
-ExecStart=/usr/bin/dnscherryd $OPTIONS -p /var/run/dnscherryd/dnscherryd.pid
+EnvironmentFile=/etc/sysconfig/dnscherry
+ExecStart=/usr/bin/dnscherryd $OPTIONS -p /var/run/dnscherry/dnscherry.pid
 KillMode=process
 Restart=on-failure
 RestartSec=42s

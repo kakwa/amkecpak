@@ -5,6 +5,10 @@ Name: %{pkgname}
 Version: @VERSION@
 Release: @RELEASE@%{?dist}
 Source: %{pkgname}-%{version}.tar.gz
+Source1: dnscherry
+Source2: dnscherry.conf
+Source3: dnscherry.service
+
 URL: @URL@ 
 Vendor: Kakwa
 License: See project
@@ -25,20 +29,22 @@ Requires: python-cherrypy, python-ldap, python-mako, python-dns
 
 rm -rf $RPM_BUILD_ROOT
 python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
+
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
-install -pm644 rhel/dnscherryd.service %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/etc/sysconfig/
-install -pm644 rhel/dnscherryd %{buildroot}/etc/sysconfig/
-install -pm644 rhel/dnscherryd.conf %{buildroot}/usr/lib/tmpfiles.d/
+install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
+install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/
+install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
+
 
 %post
 getent group dnscherry >/dev/null || groupadd -r dnscherry
 getent passwd dnscherry >/dev/null || \
     useradd -r -g dnscherry -d /var/lib/dnscherry -s /sbin/nologin \
-    -c "LdapCherry daemon user" dnscherry
+    -c "DnsCherry daemon user" dnscherry
 
-systemd-tmpfiles --create /usr/lib/tmpfiles.d/dnscherryd.conf
+systemd-tmpfiles --create /usr/lib/tmpfiles.d/dnscherry.conf
 
 systemctl daemon-reload
 
@@ -53,10 +59,10 @@ rm -rf \$RPM_BUILD_ROOT
 %attr(755, root, root) /usr/bin/dnscherryd
 /usr/share/dnscherry/
 /usr/lib/python2.7/site-packages/dnscherry*
-/usr/lib/systemd/system/dnscherryd.service
+/usr/lib/systemd/system/dnscherry.service
 /usr/lib/tmpfiles.d/*
 %config /etc/dnscherry/*
-%config /etc/sysconfig/dnscherryd
+%config /etc/sysconfig/dnscherry
 
 %changelog
 * Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1

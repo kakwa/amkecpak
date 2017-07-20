@@ -1,7 +1,7 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:        dnscherryd
+# Provides:        dnscherry
 # Required-Start:    $remote_fs $network $syslog
 # Required-Stop:    $remote_fs $network $syslog
 # Default-Start:    2 3 4 5
@@ -9,7 +9,7 @@
 # Short-Description:    dnscherry
 ### END INIT INFO
 
-PIDFILE=/var/run/dnscherryd/dnscherryd.pid
+PIDFILE=/var/run/dnscherry/dnscherry.pid
 CONF=/etc/dnscherry/dnscherry.ini
 USER=dnscherry
 GROUP=dnscherry
@@ -18,19 +18,19 @@ OPTS="-d -c $CONF -p $PIDFILE"
 
 . /lib/lsb/init-functions
 
-if [ -f /etc/default/dnscherryd ]; then
-    . /etc/default/dnscherryd
+if [ -f /etc/default/dnscherry ]; then
+    . /etc/default/dnscherry
 fi
 
-start_dnscherryd(){
-    log_daemon_msg "Starting dnscherryd" "dnscherryd" || true
+start_dnscherry(){
+    log_daemon_msg "Starting dnscherry" "dnscherry" || true
     pidofproc -p $PIDFILE $BIN >/dev/null
     status="$?"
     if [ $status -eq 0 ]
     then
         log_end_msg 1 
         log_failure_msg \
-        "dnscherryd already started"
+        "dnscherry already started"
         return 1
     fi
     mkdir -p `dirname $PIDFILE` -m 750
@@ -48,8 +48,8 @@ start_dnscherryd(){
 
 }
 
-stop_dnscherryd(){
-    log_daemon_msg "Stopping dnscherryd" "dnscherryd" || true
+stop_dnscherry(){
+    log_daemon_msg "Stopping dnscherry" "dnscherry" || true
     if start-stop-daemon --stop --quiet \
         --pidfile $PIDFILE
     then
@@ -72,26 +72,26 @@ wait_stop(){
 
 case "$1" in
   start)
-    start_dnscherryd
+    start_dnscherry
     exit $?
     ;;
   stop)
-    stop_dnscherryd
+    stop_dnscherry
     exit $?
     ;;
   restart)
-    stop_dnscherryd
+    stop_dnscherry
     wait_stop
-    start_dnscherryd
+    start_dnscherry
     exit $?
     ;;
   status)
-    status_of_proc -p $PIDFILE $BIN "dnscherryd" \
+    status_of_proc -p $PIDFILE $BIN "dnscherry" \
         && exit 0 || exit $?
     ;;
   *)
     log_action_msg \
-    "Usage: /etc/init.d/dnscherryd {start|stop|restart|status}" \
+    "Usage: /etc/init.d/dnscherry {start|stop|restart|status}" \
     || true
     exit 1
 esac

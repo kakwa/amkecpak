@@ -10,8 +10,8 @@
 export DH_VERBOSE=1
 
 %:
-	#dh_installinit --init-script=dnscherryd
+	#dh_installinit --init-script=dnscherry
 	dh $@ --without dh_installinit
 
 override_dh_installinit:
-	dh_installinit --init-script=dnscherryd
+	dh_installinit --init-script=dnscherry
