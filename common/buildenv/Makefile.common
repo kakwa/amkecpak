@@ -98,19 +98,43 @@ manifest: rm_manifest_file clean_cache $(SOURCE_ARCHIVE)
 
 # Some variables
 DEB_CONTENT := $(BUILD_DIR)/debian/changelog $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
-DEB_CONTENT_IN := $(filter-out debian/changelog debian/control debian/rules, $(wildcard debian/*))
-DEB_CONTENT_OUT := $(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN))
+DEB_CONTENT_DIST := $(filter-out debian/control.dist.$(DIST) debian/rules.dist.$(DIST), $(wildcard debian/*.dist.$(DIST)))
+DEB_CONTENT_BASE := $(filter-out $(wildcard debian/*.dist.*) debian/changelog debian/control debian/rules, $(wildcard debian/*))
+DEB_CONTENT_IN := $(DEB_CONTENT_DIST) $(shell for f in $(DEB_CONTENT_BASE);do if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;done)
+DEB_CONTENT_OUT := $(subst .dist.$(DIST),,$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN)))
+ifneq ("$(wildcard debian/rules.dist.$(DIST))","")
+DEB_RULE_IN := debian/rules.dist.$(DIST)
+else
+DEB_RULE_IN := debian/rules
+endif
+ifneq ("$(wildcard debian/control.dist.$(DIST))","")
+DEB_CONTROL_IN := debian/control.dist.$(DIST)
+else
+DEB_CONTROL_IN := debian/control
+endif
 DEB_ARCHIVE := $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
 DEB_PREPARE := $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
 
 # Copy all the files of debian/ packaging directory
 $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
-	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
+	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@);\
+	if [ -e $$f.dist.$(DIST) ];\
+	then\
+	    cp -r $$f.dist.$(DIST) $@;\
+	else\
+	    cp -r $$f $@;\
+	fi
 
 # Substitute version and package name in control file
-$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules: ./debian/control debian/rules
-	cp -r $(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
+$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules: $(DEB_CONTROL_IN) $(DEB_RULE_IN)
+	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@);\
+	if [ -e $$f.dist.$(DIST) ];\
+	then\
+	    cp -r $$f.dist.$(DIST) $@;\
+	else\
+	    cp -r $$f $@;\
+	fi
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY@|$(SUMMARY)|;s|@URL@|$(URL)|' $@
 
 # Generate generic changelog
@@ -176,8 +200,23 @@ deb_chroot: $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 RPM_DIR := $(BUILD_DIR)/rpm.$(DIST)/BUILDROOT $(BUILD_DIR)/rpm.$(DIST)/RPMS  $(BUILD_DIR)/rpm.$(DIST)/SRPMS 
 RPM_SPEC := $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 RPM_ARCHIVE := $(BUILD_DIR)/rpm.$(DIST)/SOURCES/$(PKGNAME)-$(VERSION).tar.gz
-RPM_CONTENT_IN := $(filter-out rpm/component.spec, $(wildcard rpm/*))
-RPM_CONTENT_OUT := $(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, $(subst rpm/,,$(RPM_CONTENT_IN)))
+RPM_CONTENT_DIST := $(filter-out rpm/component.spec.dist.$(DIST), $(wildcard rpm/*.dist.$(DIST)))
+RPM_CONTENT_BASE := $(filter-out $(wildcard rpm/*.dist.*) rpm/component.spec, $(wildcard rpm/*))
+RPM_CONTENT_IN := $(RPM_CONTENT_DIST) $(shell for f in $(RPM_CONTENT_BASE);do if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;done)
+RPM_CONTENT_OUT := $(subst .dist.$(DIST),,$(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, $(subst rpm/,,$(RPM_CONTENT_IN))))
+ifneq ("$(wildcard rpm/component.spec.dist.$(DIST))","")
+RPM_SPEC_IN := rpm/component.spec.dist.$(DIST)
+else
+RPM_SPEC_IN := rpm/component.spec
+endif
+
+fake:
+	@echo "BASE"
+	@echo $(RPM_CONTENT_BASE)
+	@echo "IN"
+	@echo $(RPM_CONTENT_IN)
+	@echo "OUT"
+	@echo $(RPM_CONTENT_OUT)
 
 # Create the various rpmbuild directories
 $(RPM_DIR): $(BUILD_DIR)/rpm.$(DIST) 
@@ -192,12 +231,19 @@ $(RPM_ARCHIVE): $(SOURCE_ARCHIVE)
 # Copy the additional content of the rpm/ directory in SOURCES (use for stuff like .service files)
 $(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
-	cp -r rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@) $(BUILD_DIR)/rpm.$(DIST)/SOURCES
+	f=rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@);\
+	if [ -e $$f.dist.$(DIST) ];\
+	then\
+	    cp -r $$f.dist.$(DIST) $@;\
+	else\
+	    cp -r $$f $@;\
+	fi
+
 
 # Copy the spec file and do the various substitutions in it
-$(RPM_SPEC): rpm/component.spec
+$(RPM_SPEC): $(RPM_SPEC_IN)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
-	cp rpm/component.spec $(RPM_SPEC)
+	cp $(RPM_SPEC_IN) $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY|$(SUMMARY)|;s|@URL@|$(URL)|' \
 		$(RPM_SPEC) || rm -f $(RPM_SPEC)
 
