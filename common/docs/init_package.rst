@@ -312,4 +312,20 @@ Example for ldapcherry.service systemd service file and it's associated files:
 Distribution version specific packaging files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. warning:: not implemented yet
+Depending on the OS version targeted, there might be some differences in packaging.
+A common difference is the dependency names.
+
+For handling those cases, the present packaging framework provides a simple mechanism.
+
+To override any file **<FILE>** in either the **rpm/** or **debian/** directories if
+targeting distribution version **<DIST>**, just create a new version of the **<FILE>**
+with the following name: **<FILE>.dist.<DIST>**.
+
+For example, with the **debian/control** file and distribution **jessie**:
+
+.. sourcecode:: bash
+
+    debian/control             # will be used as default
+    debian/control.dist.jessie # will be used build is called with DIST=jessie
+
+It also permits to handle additional files for specific distribution versions.
