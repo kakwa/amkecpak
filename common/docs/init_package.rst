@@ -20,7 +20,7 @@ Here is the general packaging workflow:
 Initialize package skeleton
 ===========================
 
-To create the package skeleton:
+To create a package "foo" skeleton, run the follwing command:
 
 .. sourcecode:: bash
 
@@ -55,28 +55,29 @@ This script will create the following tree:
 
 This tree contains two main directories, two main files, and a symlink:
 
-* **debian**: deb packaging stuff 
-* **rpm**: rpm packaging stuff (**component.spec** and optionally additional content like **.service** files)
-* **Makefile**: (used to download and prepare upstream sources)
-* **MANIFEST**: (listing the downloaded files and their hash)
-* **buildenv**: symlink to the shared build resources (Makefile.common, and various helper scripts) 
+* **debian**: deb packaging stuff.
+* **rpm**: rpm packaging stuff (**component.spec** and optionally additional content like **.service** files).
+* **Makefile**: used to download and prepare upstream sources.
+* **MANIFEST**: listing the downloaded files and their hash.
+* **buildenv**: symlink to the shared build resources (Makefile.common, and various helper scripts).
 
 .. note:: Don't rename component.spec, build script for rpm expect this file to exist.
 
-At this point, with default content, you should be able to build empty .rpm and .deb packages:
+At this point, with default content, "empty" .rpm and .deb packages can be built:
 
 .. sourcecode:: bash
 
-    $ cd foo # go in dir
-    $ make deb # build deb
-    $ make rpm # build rpm
+    $ cd foo/   # go in dir
+    # make help # display Makefile help
+    $ make deb  # build deb
+    $ make rpm  # build rpm
     $ dpkg -c out/foo_0.0.1-1\~up+deb00_all.deb # look .deb content
-    $ rpm -qpl out/foo-0.0.1-1.00.noarch.rpm # look .rpm content
+    $ rpm -qpl out/foo-0.0.1-1.00.noarch.rpm    # look .rpm content
 
 Package metadata
 ================
 
-The package metadata (version, name, description, etc) are declared at the top of the package Makefile:
+It's necessary to setup the package metadata (version, description) to their proper values. Package metadata are declared at the top of the package Makefile:
 
 .. sourcecode:: make
 
@@ -86,7 +87,7 @@ The package metadata (version, name, description, etc) are declared at the top o
     
     # Revision number
     # increment it when fixing packaging for a given release
-    # reset it to one if version bump
+    # reset it to 1 if VERSION is increased
     RELEASE=1
     
     # URL of the upstream project
@@ -101,10 +102,9 @@ The package metadata (version, name, description, etc) are declared at the top o
 .. note::
 
     During the package build, these variables are automatically substitute in packaging files. 
-
     This is done by simple running sed -s 's|@VAR@|$(VAR)|' on these files.
 
-    Don't remove the @VAR@ (ex: @SUMMARY@, @URL@, @VERSIO@) in the packaging files.
+    Don't remove the @VAR@ (ex: @SUMMARY@, @URL@, @VERSION@) in the packaging files.
 
 Download upstream sources
 =========================
@@ -115,7 +115,7 @@ This tool role is:
 
 * Download upstream sources.
 * Check the integrity of the upstream source against the *MANIFEST* file (sha512 sum).
-* Build the *MANIFEST* file if requested.
+* (Re)Build the *MANIFEST* file if requested.
 * Handle a local download cache to avoid downloading sources at each build.
 
 Download tool usage
@@ -166,7 +166,8 @@ The source preparation is made in the **$(SOURCE_ARCHIVE)** target.
 
 The goal of this rule is to create the **tar.gz** archive **$(SOURCE_ARCHIVE)**.
 
-The root directory of the source archive should be **$(NAME)-$(VERSION)**, for example:
+The root directory of the source archive should be **$(NAME)-$(VERSION)**.
+For example:
 
 .. sourcecode:: bash
 
@@ -202,7 +203,9 @@ But in some cases, it might be necessary to modify the upstream sources content.
 For that two helper variables are provided:
 
 * **$(SOURCE_DIR)**: source directory (with proper naming convention) where to put sources before building the source archive.
-* **$(SOURCE_TAR_CMD)**: once **$(SOURCE_DIR)** is filled with content, just call this variable, it will generate the **$(SOURCE_ARCHIVE)** tar.gz and do some cleanup
+* **$(SOURCE_TAR_CMD)**: once **$(SOURCE_DIR)** is filled with content, just call this variable,
+  it will generate the **$(SOURCE_ARCHIVE)** tar.gz and do some cleanup.
+  If present, **$(SOURCE_TAR_CMD)** should be the last step in **$(SOURCE_ARCHIVE)** target.
 
 For example:
 
@@ -221,7 +224,7 @@ For example:
     # it does the following:
     # * recover upstream archive
     # * uncompress it
-    # * remove the unwanted debian/ dir from upstream source
+    # * upstream modification (remove the unwanted debian/ dir from upstream source)
     # * move remaining stuff to $(SOURCE_DIR)
     # * do some cleanup
     # * build the archive
@@ -250,7 +253,7 @@ filling the **rpm/component.spec**, **debian/rules**, **debian/control**, or any
 deb
 ~~~
 
-For debian packages, just leverage the usual packaging patterns such as
+For Debian packages, just leverage the usual packaging patterns such as
 the **PKG.init**, **PKG.default**, **PKG.service**, ... files and the **override_dh_*** targets in **debian/rules**, and then,
 add your dependencies and architecture(s) in the **debian/control** file.
 
@@ -259,8 +262,8 @@ add your dependencies and architecture(s) in the **debian/control** file.
     In many cases, with clean upstreams, there is nearly nothing to do except dependencies and architecture,
     the various dh_helpers will do their magic and build a clean package.
 
-    If you are unlucky, uncomment the **export DH_VERBOSE=1** and customize the build as necessary
-    using the **override_dh_*** targets.
+    If you are unlucky, uncomment the **export DH_VERBOSE=1** in **debian/rules** and customize
+    the build as necessary using the **override_dh_*** targets.
 
 rpm
 ~~~
@@ -272,10 +275,10 @@ If additional files a required for packaging, an init script for example, put th
 in the **rpm/** directory.
 
 All additional files in the **rpm/** directory are copied in the rpmbuild **SOURCES** directory.
-This means that it's possible to treat them as additional source files in the **component.spec**
-file with the **Source[0-9]:** directive.
+This means that it's possible to treat them as additional source files in **component.spec**
+with the **Source[0-9]:** directives.
 
-Example for ldapcherry.service and associated files:
+Example for ldapcherry.service systemd service file and it's associated files:
 
 .. sourcecode:: bash
 
