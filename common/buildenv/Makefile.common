@@ -6,6 +6,7 @@ OUT_SRC := src-out
 BUILD_DIR := builddir
 CACHE := cache
 DEB_MIRROR := http://ftp.debian.org/debian/
+DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
 DIST_TAG := $(shell ./buildenv/get_dist.sh $(DIST_OS))
 PKGNAME := $(NAME)
 MANIFEST_FILE := $(shell pwd)/MANIFEST
@@ -28,7 +29,6 @@ GS := ./buildenv/git_sum.sh -m $(MANIFEST_FILE) -C "$(CACHE_DIR)"
 endif
 
 # Some variables for cowbuilder
-DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
 COW_DIR := /var/cache/pbuilder/
 ifeq ("$(DIST)", "")
 DIST := unknown
