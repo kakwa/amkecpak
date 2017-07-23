@@ -28,7 +28,7 @@ all:
 clean_pkg: $(clean_PKG)
 
 deb: $(deb_PKG)
-deb_chroot: $(ERROR)$(deb_chroot_PKG)
+deb_chroot: $(deb_chroot_PKG)
 rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
