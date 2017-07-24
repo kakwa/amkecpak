@@ -8,7 +8,7 @@ ORIGIN=kakwa
 #####################################################################
 
 DIST_TAG=$(shell ./common/buildenv/get_dist.sh)
-PKG=$(shell find ./* -maxdepth 0 -type d |grep -v '^./common')
+PKG=$(shell find ./* -maxdepth 0 -type d |grep -v '^./common\|^./out')
 clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
@@ -55,6 +55,20 @@ $(manifest_PKG): force
 $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
+
+deb_chroot_retry:
+	mkdir -p out/deb.$(DIST)
+	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
+	old=99998;\
+	new=99999;\
+	while [ $$new -ne $$old ] || [ $$new -ne 0 ];\
+	do\
+		$(MAKE) deb_chroot ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ LOCAL_REPO_PATH=`pwd`/out/deb.$(DIST)/;\
+		old=$$new;\
+		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
+		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;\
+	done
+	$(MAKE) deb_chroot OUT_DIR=`pwd`/out/deb.$(DIST)/ LOCAL_REPO_PATH=`pwd`/out/deb.$(DIST)/;\
 
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
