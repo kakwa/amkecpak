@@ -4,6 +4,9 @@ Priority: extra
 Maintainer: Kakwa <carpentier.pf@gmail.com>
 Build-Depends:
  debhelper (>= 7.0.50~),
+ cmake,
+ libfreetype6-dev,
+ libwmf-dev,
  libxml2-dev,
  libemf2svg-dev,
  librevenge-dev,
