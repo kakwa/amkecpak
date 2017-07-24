@@ -165,8 +165,8 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
-		then touch $(BUILD_DIR)/failure;exit 1;\
-		else rm -f $(BUILD_DIR)/failure;exit 0;\
+		then touch $(BUILD_DIR)/failure.$(DIST);exit 1;\
+		else rm -f $(BUILD_DIR)/failure.$(DIST);exit 0;\
 	fi
 	find $(BUILD_DIR)/ -type f -name "*.deb" -exec mv {} $(OUT_DIR)/ \;
 	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -exec cp {} $(OUT_SRC)/ \;
@@ -184,14 +184,16 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	     dpkg-source -b ./
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR) $(BINDMOUNT);\
+	    lockfile -l 300 /tmp/cowbuilder.$(DIST).lock;\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR) $(BINDMOUNT); ret=$$?;\
+	    rm -f /tmp/cowbuilder.$(DIST).lock;\
 	else\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update --basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);\
-	fi
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update --basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT); ret=$$?;\
+	fi;exit $$ret
 	export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COW_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR) $(BINDMOUNT); \
 	if [ $$? -ne 0 ];\
-		then touch $(BUILD_DIR)/failure;exit 1;\
-		else rm -f $(BUILD_DIR)/failure;exit 0;\
+		then touch $(BUILD_DIR)/failure.chroot.$(DIST);exit 1;\
+		else rm -f $(BUILD_DIR)/failure.chroot.$(DIST);exit 0;\
 	fi
 	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -exec mv {} $(OUT_SRC)/ \;
 	find $(OUT_DIR)/ -type f -name "*.dsc" -exec mv {} $(OUT_SRC)/ \;
