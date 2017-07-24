@@ -21,7 +21,7 @@ Description: @SUMMARY@, command line converter
 
 Package: @NAME@
 Architecture: amd64 i386
-Depends: ${misc:Depends}, libpng16-16
+Depends: ${misc:Depends}, libpng12-0
 Description: @SUMMARY@, headers
  @DESCRIPTION@, headers
 
