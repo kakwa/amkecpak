@@ -8,6 +8,7 @@ Build-Depends:
  dh-systemd,
  cmake,
  libssl-dev,
+ libcivetweb,
  libcivetweb-dev
 Standards-Version: 3.8.4
 Homepage: @URL@ 
