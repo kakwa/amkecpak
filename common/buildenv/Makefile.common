@@ -43,8 +43,19 @@ endif
 COW_NAME := $(DIST).cow
 
 ifneq ("$(DIST)", "sid")
-OTHERMIRROR := --othermirror "deb $(DEB_MIRROR) $(DIST_OS)-backports main"
+OTHERMIRROR := deb $(DEB_MIRROR) $(DIST_OS)-backports main
 endif
+
+ifneq ("$(LOCAL_REPO_PATH)", "")
+  ifneq ("$(LOCAL_REPO_PATH)", "")
+    OTHERMIRROR := $(OTHERMIRROR)|
+  endif
+  OTHERMIRROR := $(OTHERMIRROR)deb [trusted=yes] file://$(LOCAL_REPO_PATH) /
+  BINDMOUNT := --bindmounts "$(LOCAL_REPO_PATH)"
+endif
+
+
+OTHERMIRROR := --othermirror "$(OTHERMIRROR)"
 
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
@@ -173,11 +184,11 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	     dpkg-source -b ./
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR);\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) --mirror $(DEB_MIRROR) $(BINDMOUNT);\
 	else\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update --basepath $(COW_DIR)/$(COW_NAME);\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update --basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);\
 	fi
-	export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COW_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR); \
+	export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COW_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR) $(BINDMOUNT); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure;exit 1;\
 		else rm -f $(BUILD_DIR)/failure;exit 0;\
