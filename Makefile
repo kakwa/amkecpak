@@ -17,6 +17,39 @@ manifest_PKG=$(addprefix manifest_,$(PKG))
 OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
 OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
 
+
+DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
+DEB_MIRROR := http://ftp.debian.org/debian/
+LOCAL_REPO_PATH=$(shell pwd)/out/deb.$(DIST)/
+# Some variables for cowbuilder
+COW_DIR := /var/cache/pbuilder/
+ifeq ("$(DIST)", "")
+DIST := unknown
+else
+COW_DIST := --distribution $(DIST_OS)
+endif
+ifeq ($(shell id -u), 1)
+  COW_SUDO :=
+else
+  COW_SUDO := sudo
+endif
+COW_NAME := $(DIST).all.cow
+
+ifneq ("$(DIST)", "sid")
+OTHERMIRROR := deb $(DEB_MIRROR) $(DIST_OS)-backports main
+endif
+
+ifneq ("$(LOCAL_REPO_PATH)", "")
+  ifneq ("$(LOCAL_REPO_PATH)", "")
+    OTHERMIRROR := $(OTHERMIRROR)|
+  endif
+  OTHERMIRROR := $(OTHERMIRROR)deb [trusted=yes] file://$(LOCAL_REPO_PATH) /
+  BINDMOUNT := --bindmounts "$(LOCAL_REPO_PATH)"
+endif
+
+
+OTHERMIRROR := --othermirror "$(OTHERMIRROR)"
+
 ifeq ($(ERROR), skip)
 SKIP=-
 endif
@@ -59,16 +92,30 @@ $(rpm_PKG): force
 deb_chroot_retry:
 	mkdir -p out/deb.$(DIST)
 	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
+	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
+	then\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap \
+			$(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) \
+			--mirror $(DEB_MIRROR) $(BINDMOUNT);ret=$$?;\
+	else\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
+		--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);ret=$$?;\
+	fi; exit $$ret
 	old=99998;\
 	new=99999;\
 	while [ $$new -ne $$old ] || [ $$new -ne 0 ];\
 	do\
-		$(MAKE) deb_chroot ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ LOCAL_REPO_PATH=`pwd`/out/deb.$(DIST)/;\
+		$(MAKE) deb_chroot ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ \
+			LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
+			COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
-		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;\
+		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;cd -;\
+	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
+		--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);ret=$$?;\
 	done
-	$(MAKE) deb_chroot OUT_DIR=`pwd`/out/deb.$(DIST)/ LOCAL_REPO_PATH=`pwd`/out/deb.$(DIST)/;\
+	$(MAKE) deb_chroot OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
+		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
