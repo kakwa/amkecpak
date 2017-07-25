@@ -6,11 +6,14 @@ OUT_SRC := src-out
 BUILD_DIR := builddir
 CACHE := cache
 DEB_MIRROR := http://ftp.debian.org/debian/
-DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
-DIST_TAG := $(shell ./buildenv/get_dist.sh $(DIST_OS))
 PKGNAME := $(NAME)
 MANIFEST_FILE := $(shell pwd)/MANIFEST
 CACHE_DIR := $(shell pwd)/$(CACHE)/
+ifeq ("$(DIST)", "")
+  DIST := unknown
+endif
+DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
+DIST_TAG := $(shell ./buildenv/get_dist.sh $(DIST_OS))
 
 # wget_sum.sh helper variable
 # handles the manifest target (building of the MANIFEST file with checksums)
@@ -30,11 +33,10 @@ endif
 
 # Some variables for cowbuilder
 COW_DIR := /var/cache/pbuilder/
-ifeq ("$(DIST)", "")
-DIST := unknown
-else
-COW_DIST := --distribution $(DIST_OS)
+ifneq ("$(DIST)", "unknown")
+  COW_DIST := --distribution $(DIST_OS)
 endif
+
 ifeq ($(shell id -u), 1)
   COW_SUDO := 
 else
@@ -59,17 +61,24 @@ OTHERMIRROR := --othermirror "$(OTHERMIRROR)"
 
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
-.PHONY: all rpm_prepare rpm deb clean_build clean_cache clean rm_manifest_file manifest deb_chroot help
+.PHONY: all rpm_prepare rpm deb clean_build clean_cache \
+  clean rm_manifest_file manifest deb_chroot help
 
 # Name of the root directory of the archive
 SOURCE_DIR := $(BUILD_DIR)/$(PKGNAME)-$(VERSION)
 # Name of the source archive
 SOURCE_ARCHIVE := $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
 # Command used to build the source archive
-SOURCE_TAR_CMD := cd `dirname $(SOURCE_DIR)` && tar -zcf $(PKGNAME)_$(VERSION).orig.tar.gz `basename $(SOURCE_DIR)` --owner=root --group=root && rm -r `basename $(SOURCE_DIR)`/* || rm -f $(PKGNAME)_$(VERSION).orig.tar.gz; touch $(PKGNAME)_$(VERSION).orig.tar.gz
+SOURCE_TAR_CMD := cd `dirname $(SOURCE_DIR)` &&\
+  tar -zcf $(PKGNAME)_$(VERSION).orig.tar.gz \
+  	`basename $(SOURCE_DIR)` --owner=root --group=root &&\
+  rm -r `basename $(SOURCE_DIR)`/* || \
+  rm -f $(PKGNAME)_$(VERSION).orig.tar.gz; \
+  touch $(PKGNAME)_$(VERSION).orig.tar.gz
 
 # Some targets
-DIRECTORIES := $(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
+DIRECTORIES := $(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) \
+  $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
 
 #### START common targets
 
@@ -87,18 +96,23 @@ $(DIRECTORIES):
 
 # Cleaning targets
 clean_build:
-	if [ -d $(BUILD_DIR) ]; then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
+	if [ -d $(BUILD_DIR) ];\
+	then chmod 700 -R $(BUILD_DIR);rm -rf $(BUILD_DIR);fi
 
 clean_cache:
-	if [ -d $(CACHE) ] && ! [ "$(KEEP_CACHE)" = "true" ]; then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
+	if [ -d $(CACHE) ] && ! [ "$(KEEP_CACHE)" = "true" ];\
+	then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
 
 clean: clean_build clean_cache
-	if [ -d $(OUT_DIR) ]; then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
-	if [ -d $(OUT_SRC) ]; then chmod 700 -R $(OUT_SRC);rm -rf $(OUT_SRC);fi
+	if [ -d $(OUT_DIR) ];\
+	then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
+	if [ -d $(OUT_SRC) ];\
+	then chmod 700 -R $(OUT_SRC);rm -rf $(OUT_SRC);fi
 
 # Build MANIFEST target
 rm_manifest_file:
-	if [ -f $(MANIFEST_FILE) ]; then  rm $(MANIFEST_FILE);fi
+	if [ -f $(MANIFEST_FILE) ];\
+	then  rm $(MANIFEST_FILE);fi
 	touch MANIFEST
 
 manifest: rm_manifest_file clean_cache $(SOURCE_ARCHIVE)
@@ -108,23 +122,58 @@ manifest: rm_manifest_file clean_cache $(SOURCE_ARCHIVE)
 #### START DEB targets
 
 # Some variables
-DEB_CONTENT := $(BUILD_DIR)/debian/changelog $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
-DEB_CONTENT_DIST := $(filter-out debian/control.dist.$(DIST) debian/rules.dist.$(DIST), $(wildcard debian/*.dist.$(DIST)))
-DEB_CONTENT_BASE := $(filter-out $(wildcard debian/*.dist.*) debian/changelog debian/control debian/rules, $(wildcard debian/*))
-DEB_CONTENT_IN := $(DEB_CONTENT_DIST) $(shell for f in $(DEB_CONTENT_BASE);do if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;done)
-DEB_CONTENT_OUT := $(subst .dist.$(DIST),,$(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, $(DEB_CONTENT_IN)))
+DEB_CONTENT := $(BUILD_DIR)/debian/changelog \
+  $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
+
+DEB_CONTENT_DIST := $(filter-out debian/control.dist.$(DIST) \
+  debian/rules.dist.$(DIST), \
+  $(wildcard debian/*.dist.$(DIST)) \
+)
+
+DEB_CONTENT_BASE := $(filter-out $(wildcard debian/*.dist.*) \
+  debian/changelog \
+  debian/control \
+  debian/rules, \
+  $(wildcard debian/*) \
+)
+
+DEB_CONTENT_IN := $(DEB_CONTENT_DIST) \
+  $(shell for f in $(DEB_CONTENT_BASE);\
+    do \
+      if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi; \
+    done \
+  )
+DEB_CONTENT_OUT := $(subst .dist.$(DIST),,\
+  $(addprefix $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/, \
+    $(DEB_CONTENT_IN) \
+  ) \
+)
+
 ifneq ("$(wildcard debian/rules.dist.$(DIST))","")
 DEB_RULE_IN := debian/rules.dist.$(DIST)
 else
 DEB_RULE_IN := debian/rules
 endif
+
 ifneq ("$(wildcard debian/control.dist.$(DIST))","")
 DEB_CONTROL_IN := debian/control.dist.$(DIST)
 else
 DEB_CONTROL_IN := debian/control
 endif
+
 DEB_ARCHIVE := $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
-DEB_PREPARE := $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+
+DEB_PREPARE := $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+
+DEB_CONTROL_RULE := \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+
+DEB_CHANGELOG := \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog
 
 # Copy all the files of debian/ packaging directory
 $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
@@ -138,7 +187,7 @@ $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	fi
 
 # Substitute version and package name in control file
-$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules: $(DEB_CONTROL_IN) $(DEB_RULE_IN)
+$(DEB_CONTROL_RULE): $(DEB_CONTROL_IN) $(DEB_RULE_IN)
 	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@);\
 	if [ -e $$f.dist.$(DIST) ];\
 	then\
@@ -146,10 +195,15 @@ $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$
 	else\
 	    cp -r $$f $@;\
 	fi
-	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY@|$(SUMMARY)|;s|@URL@|$(URL)|' $@
+	sed -i 's|@NAME@|$(PKGNAME)|'            $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@VERSION@|$(VERSION)|'         $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@RELEASE@|$(RELEASE)|'         $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@URL@|$(URL)|'                 $@ || (rm -f $@ ; exit 1)
 
 # Generate generic changelog
-$(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog: ./debian/changelog
+$(DEB_CHANGELOG): ./debian/changelog
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
 	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+deb$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
 	printf "\\n  * New version\\n\\n" >> $@
@@ -183,17 +237,29 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	     dpkg-source -b ./
 	if ! [ "$(SKIP_COWBUILDER_SETUP)" = "true" ];then\
-	    flock -x /tmp/cowbuilder.$(DIST).lock -c 'if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
+	    flock -x /tmp/cowbuilder.$(DIST).lock -c '\
+	    if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	    then\
-	        export TMPDIR=/tmp/;$(COW_SUDO) cowbuilder create --debootstrap\
-	       		debootstrap $(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) \
-			--mirror $(DEB_MIRROR) $(BINDMOUNT); ret=$$?;\
+	        export TMPDIR=/tmp/;\
+		$(COW_SUDO) cowbuilder create --debootstrap\
+			debootstrap $(COW_DIST) \
+			$(OTHERMIRROR) \
+			--basepath $(COW_DIR)/$(COW_NAME) \
+			--mirror $(DEB_MIRROR) \
+			$(BINDMOUNT); ret=$$?;\
 	    else\
-	        export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
-		--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT); ret=$$?;\
+	        export TMPDIR=/tmp/;\
+		$(COW_SUDO) cowbuilder update \
+			--basepath $(COW_DIR)/$(COW_NAME) \
+			$(BINDMOUNT); ret=$$?;\
 	    fi ; exit $$ret;';\
 	fi
-	export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder build $(BUILD_DIR)/deb.$(DIST)/*.dsc  --basepath $(COW_DIR)/$(COW_NAME) --buildresult $(OUT_DIR)/ $(OTHERMIRROR) --mirror $(DEB_MIRROR) $(BINDMOUNT); \
+	export TMPDIR=/tmp/;\
+	  $(COW_SUDO) cowbuilder build \
+	  	$(BUILD_DIR)/deb.$(DIST)/*.dsc  \
+	  	--basepath $(COW_DIR)/$(COW_NAME) \
+	  	--buildresult $(OUT_DIR)/ $(OTHERMIRROR) \
+	  	--mirror $(DEB_MIRROR) $(BINDMOUNT); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure.chroot.$(DIST);exit 1;\
 		else rm -f $(BUILD_DIR)/failure.chroot.$(DIST);exit 0;\
@@ -213,13 +279,37 @@ deb_chroot: $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 #### START RPM targets
 
 # Some variables for rpm build
-RPM_DIR := $(BUILD_DIR)/rpm.$(DIST)/BUILDROOT $(BUILD_DIR)/rpm.$(DIST)/RPMS  $(BUILD_DIR)/rpm.$(DIST)/SRPMS 
+RPM_DIR := $(BUILD_DIR)/rpm.$(DIST)/BUILDROOT \
+  $(BUILD_DIR)/rpm.$(DIST)/RPMS \
+  $(BUILD_DIR)/rpm.$(DIST)/SRPMS
+
 RPM_SPEC := $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
+
 RPM_ARCHIVE := $(BUILD_DIR)/rpm.$(DIST)/SOURCES/$(PKGNAME)-$(VERSION).tar.gz
-RPM_CONTENT_DIST := $(filter-out rpm/component.spec.dist.$(DIST), $(wildcard rpm/*.dist.$(DIST)))
-RPM_CONTENT_BASE := $(filter-out $(wildcard rpm/*.dist.*) rpm/component.spec, $(wildcard rpm/*))
-RPM_CONTENT_IN := $(RPM_CONTENT_DIST) $(shell for f in $(RPM_CONTENT_BASE);do if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;done)
-RPM_CONTENT_OUT := $(subst .dist.$(DIST),,$(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, $(subst rpm/,,$(RPM_CONTENT_IN))))
+
+RPM_CONTENT_DIST := $(filter-out \
+  rpm/component.spec.dist.$(DIST), \
+  $(wildcard rpm/*.dist.$(DIST)) \
+)
+
+RPM_CONTENT_BASE := $(filter-out $(wildcard rpm/*.dist.*) \
+  rpm/component.spec, \
+  $(wildcard rpm/*) \
+)
+RPM_CONTENT_IN := $(RPM_CONTENT_DIST) \
+  $(shell \
+    for f in $(RPM_CONTENT_BASE);\
+    do\
+      if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;\
+      done\
+  )
+
+RPM_CONTENT_OUT := $(subst .dist.$(DIST),,\
+  $(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, \
+    $(subst rpm/,,$(RPM_CONTENT_IN))\
+  )\
+)
+
 ifneq ("$(wildcard rpm/component.spec.dist.$(DIST))","")
 RPM_SPEC_IN := rpm/component.spec.dist.$(DIST)
 else
@@ -244,7 +334,8 @@ $(RPM_ARCHIVE): $(SOURCE_ARCHIVE)
 	rm -f $(RPM_ARCHIVE)
 	cp -r $(SOURCE_ARCHIVE) $(RPM_ARCHIVE)
 
-# Copy the additional content of the rpm/ directory in SOURCES (use for stuff like .service files)
+# Copy the additional content of the rpm/ directory
+# in SOURCES (use for stuff like .service files)
 $(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
 	f=rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@);\
@@ -260,8 +351,12 @@ $(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
 $(RPM_SPEC): $(RPM_SPEC_IN)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
 	cp $(RPM_SPEC_IN) $(RPM_SPEC)
-	sed -i 's|@NAME@|$(PKGNAME)|;s|@VERSION@|$(VERSION)|;s|@RELEASE@|$(RELEASE)|;s|@DESCRIPTION@|$(DESCRIPTION)|;s|@SUMMARY|$(SUMMARY)|;s|@URL@|$(URL)|' \
-		$(RPM_SPEC) || rm -f $(RPM_SPEC)
+	sed -i 's|@NAME@|$(PKGNAME)|'            $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@VERSION@|$(VERSION)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@RELEASE@|$(RELEASE)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@URL@|$(URL)|'                 $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 
 # Build the rpm(s) and put the result inside out directories
 $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
