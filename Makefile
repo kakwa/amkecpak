@@ -7,7 +7,7 @@ ORIGIN=kakwa
 
 #####################################################################
 
-DIST_TAG=$(shell ./common/buildenv/get_dist.sh)
+
 PKG=$(shell find ./* -maxdepth 0 -type d |grep -v '^./common\|^./out')
 clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
@@ -17,38 +17,12 @@ manifest_PKG=$(addprefix manifest_,$(PKG))
 OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
 OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
 
+# Must be declared before the include
+LOCAL_REPO_PATH := $(shell pwd)/out/deb.$(DIST)/
+COW_NAME := $(DIST).$(shell pwd | md5sum | sed 's/\ .*//').all.cow
 
-DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
-DEB_MIRROR := http://ftp.debian.org/debian/
-LOCAL_REPO_PATH=$(shell pwd)/out/deb.$(DIST)/
-# Some variables for cowbuilder
-COW_DIR := /var/cache/pbuilder/
-ifeq ("$(DIST)", "")
-DIST := unknown
-else
-COW_DIST := --distribution $(DIST_OS)
-endif
-ifeq ($(shell id -u), 1)
-  COW_SUDO :=
-else
-  COW_SUDO := sudo
-endif
-COW_NAME := $(DIST).all.cow
+include ./common/buildenv/Makefile.vars
 
-ifneq ("$(DIST)", "sid")
-OTHERMIRROR := deb $(DEB_MIRROR) $(DIST_OS)-backports main
-endif
-
-ifneq ("$(LOCAL_REPO_PATH)", "")
-  ifneq ("$(LOCAL_REPO_PATH)", "")
-    OTHERMIRROR := $(OTHERMIRROR)|
-  endif
-  OTHERMIRROR := $(OTHERMIRROR)deb [trusted=yes] file://$(LOCAL_REPO_PATH) /
-  BINDMOUNT := --bindmounts "$(LOCAL_REPO_PATH)"
-endif
-
-
-OTHERMIRROR := --othermirror "$(OTHERMIRROR)"
 
 ifeq ($(ERROR), skip)
 SKIP=-
@@ -103,7 +77,7 @@ deb_chroot:
 	fi; exit $$ret
 	old=99998;\
 	new=99999;\
-	while [ $$new -ne $$old ] || [ $$new -ne 0 ];\
+	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
 		$(MAKE) deb_chroot_internal ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ \
 			LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
@@ -116,6 +90,7 @@ deb_chroot:
 			export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
 			--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);\
 		fi;\
+		echo $$old $$new; sleep 20;\
 	done
 	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
