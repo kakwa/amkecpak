@@ -185,7 +185,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	    if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	    then\
 	        export TMPDIR=/tmp/;\
-		$(COW_SUDO) cowbuilder create --debootstrap\
+		$(COW_SUDO) cowbuilder --create --debootstrap\
 			debootstrap $(COW_DIST) \
 			$(OTHERMIRROR) \
 			--basepath $(COW_DIR)/$(COW_NAME) \
@@ -193,13 +193,13 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 			$(BINDMOUNT) $(COW_OPTS); ret=$$?;\
 	    else\
 	        export TMPDIR=/tmp/;\
-		$(COW_SUDO) cowbuilder update \
+		$(COW_SUDO) cowbuilder --update \
 			--basepath $(COW_DIR)/$(COW_NAME) \
 			$(BINDMOUNT); ret=$$?;\
 	    fi ; exit $$ret;';\
 	fi
 	export TMPDIR=/tmp/;\
-	  $(COW_SUDO) cowbuilder build \
+	  $(COW_SUDO) cowbuilder --build \
 	  	$(BUILD_DIR)/deb.$(DIST)/*.dsc  \
 	  	--basepath $(COW_DIR)/$(COW_NAME) \
 	  	--buildresult $(OUT_DIR)/ $(OTHERMIRROR) \
