@@ -2,7 +2,8 @@ sudo: required
 
 before_install:
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get update -qq'
-  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install rpm createrepo mock debian-archive-keyring'
+  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install rpm createrepo mock'
+  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install debian-keyring debian-archive-keyring'
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install make debhelper reprepro cowbuilder'
 
 matrix:
