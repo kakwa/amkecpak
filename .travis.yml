@@ -5,7 +5,8 @@ before_install:
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install rpm createrepo mock'
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install debian-keyring debian-archive-keyring'
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install make debhelper reprepro cowbuilder'
-  - '[ "$TEST_PEP8" == "1" ] || wget http://cz.archive.ubuntu.com/ubuntu/pool/universe/d/debian-keyring/debian-keyring_2017.05.28_all.deb && sudo dpkg -i debian-keyring_2017.05.28_all.deb'
+  - '[ "$TEST_PEP8" == "1" ] || wget http://ftp.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb && sudo dpkg -i debian-archive-keyring_2017.5_all.deb'
+  - '[ "$TEST_PEP8" == "1" ] || wget http://ftp.debian.org/debian/pool/main/d/debian-keyring/debian-keyring_2017.05.28_all.deb && sudo dpkg -i debian-keyring_2017.05.28_all.deb'
 
 matrix:
   fast_finish: false
