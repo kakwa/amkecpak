@@ -69,10 +69,10 @@ deb_chroot:
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
 		export TMPDIR=/tmp/; \
-	    	$(COW_SUDO) cowbuilder create \
+		$(COW_SUDO) cowbuilder create \
+		  --basepath $(COW_DIR)/$(COW_NAME) \
 		  --debootstrap debootstrap \
 		  $(COW_DIST) $(OTHERMIRROR) \
-		  --basepath $(COW_DIR)/$(COW_NAME) \
 		  --mirror $(DEB_MIRROR) \
 		  $(BINDMOUNT) \
 		  $(COW_OPTS);\
