@@ -5,9 +5,9 @@ OUT_DIR := out
 OUT_SRC := src-out
 BUILD_DIR := builddir
 CACHE := cache
-DEB_MIRROR := http://ftp.debian.org/debian/
 DIST_OS := $(shell echo $(DIST) | sed 's/-backports//')
-DIST_TAG := $(shell ./buildenv/get_dist.sh $(DIST_OS))
+DIST_TAG := $(shell ./buildenv/get_dist.sh $(DIST_OS) | cut -d ':' -f 1)
+DIST_CODE := $(shell ./buildenv/get_dist.sh $(DIST_OS) | cut -d ':' -f 2)
 PKGNAME := $(NAME)
 MANIFEST_FILE := $(shell pwd)/MANIFEST
 CACHE_DIR := $(shell pwd)/$(CACHE)/
@@ -41,6 +41,13 @@ else
   COW_SUDO := sudo
 endif
 COW_NAME := $(DIST).cow
+
+ifeq ("$(DIST_CODE)", "ubu")
+  COW_OPTS := --components "main universe multiverse"
+  DEB_MIRROR := http://ftp.uni-stuttgart.de/ubuntu/
+else
+  DEB_MIRROR := http://ftp.debian.org/debian/
+endif
 
 ifneq ("$(DIST)", "sid")
 OTHERMIRROR := deb $(DEB_MIRROR) $(DIST_OS)-backports main
@@ -151,7 +158,7 @@ $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control $(BUILD_DIR)/deb.$
 # Generate generic changelog
 $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog: ./debian/changelog
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
-	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+deb$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
+	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
 	printf "\\n  * New version\\n\\n" >> $@
 	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
 
@@ -269,7 +276,7 @@ $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
                                 --define "_srcrpmdir %{_topdir}/SRPMS" \
                                 --define "_tmppath %{_topdir}/BUILDROOT" \
                                 --define "_builddir %{_topdir}/BUILD" \
-                                --define "dist .$(DIST_TAG)" \
+                                --define "dist .$(DIST_CODE)$(DIST_TAG)" \
                                 $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.src.rpm" -exec mv {} $(OUT_SRC)/ \;
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \;
