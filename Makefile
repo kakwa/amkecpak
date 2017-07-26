@@ -61,7 +61,7 @@ all:
 clean_pkg: $(clean_PKG)
 
 deb: $(deb_PKG)
-deb_chroot: $(deb_chroot_PKG)
+deb_chroot_internal: $(deb_chroot_PKG)
 rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
@@ -89,7 +89,7 @@ $(rpm_PKG): force
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
-deb_chroot_retry:
+deb_chroot:
 	mkdir -p out/deb.$(DIST)
 	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
@@ -105,16 +105,19 @@ deb_chroot_retry:
 	new=99999;\
 	while [ $$new -ne $$old ] || [ $$new -ne 0 ];\
 	do\
-		$(MAKE) deb_chroot ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ \
+		$(MAKE) deb_chroot_internal ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ \
 			LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 			COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
 		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;cd -;\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
-		--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);ret=$$?;\
+		if [ $$new -ne 0 ];\
+		then\
+			export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
+			--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);\
+		fi;\
 	done
-	$(MAKE) deb_chroot OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
+	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
 clean_deb_repo:
@@ -150,7 +153,9 @@ export_key:
 
 clean: clean_pkg clean_repo
 
-.PHONY: force rpm deb deb_repo rpm_repo export_key clean_pkg clean_repo clean_rpm_repo clean_deb_repo help
+.PHONY: force rpm deb deb_repo rpm_repo export_key\
+  clean_pkg clean_repo clean_rpm_repo clean_deb_repo help \
+  deb_chroot deb_chroot_internal
 
 #### START help target ####
 
