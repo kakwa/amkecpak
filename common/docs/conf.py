@@ -40,8 +40,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Kakwa\'s packages'
-copyright = u'2015 Pierre-Francois Carpentier'
+project = u'amkecpak'
+copyright = u'2017 Pierre-Francois Carpentier'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -173,7 +173,7 @@ html_last_updated_fmt = '%Y-%m-%d'
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Kakwa\'s packages doc'
+htmlhelp_basename = 'amkecpak doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -192,7 +192,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Kakwa\'s packages.tex', u'Kakwa\'s packages Documentation',
+  ('index', 'amkecpak.tex', u'amkecpak Documentation',
    u'Author', 'manual'),
 ]
 
@@ -222,7 +222,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'Kakwa\'s packages', u'Kakwa\'s packages Documentation',
+    ('index', 'amkecpak', u'amkecpak Documentation',
      [u'Author'], 1)
 ]
 
@@ -236,8 +236,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Kakwa\'s packages', u'Kakwa\'s packages Documentation',
-   u'Author', 'Kakwa\'s packages', 'One line description of project.',
+  ('index', 'amkecpak', u'amkecpak Documentation',
+   u'Author', 'amkecpak', 'Make based packaging framework',
    'Miscellaneous'),
 ]
 
@@ -257,10 +257,10 @@ texinfo_documents = [
 # -- Options for Epub output ---------------------------------------------------
 
 # Bibliographic Dublin Core info.
-epub_title = u'Kakwa\'s packages'
+epub_title = u'amkecpak'
 epub_author = u'Pierre-Francois Carpentier'
 epub_publisher = u'Pierre-Francois Carpentier'
-epub_copyright = u'2015 Pierre-Francois Carpentier'
+epub_copyright = u'2017 Pierre-Francois Carpentier'
 
 # The language of the text. It defaults to the language option
 # or en if the language is not set.

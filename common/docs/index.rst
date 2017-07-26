@@ -10,6 +10,11 @@ Contents
    building_repo
    misc 
 
+Name
+====
+
+amkecpak is just an anagram of makepack (for Make Package).
+
 Motivation
 ==========
 

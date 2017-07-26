@@ -1,4 +1,4 @@
-Stuff I package for fun and profit.
+Amkecpak, a makefile based packaging framework.
 
 .. .. image:: https://travis-ci.org/kakwa/packages.svg?branch=master
 ..    :target: https://travis-ci.org/kakwa/packages
@@ -53,4 +53,4 @@ Packaging documentation in a nutshell
     $ make deb_repo -j 4 # ERROR=skip
     $ make rpm_repo -j 4 # ERROR=skip
 
-If you need more information, read the `detailed documentation <http://kakwa-packages.readthedocs.org/en/latest/>`_.
+If you need more information, read the `detailed documentation <http://amkecpak.readthedocs.org/en/latest/>`_.
