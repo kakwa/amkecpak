@@ -9,9 +9,9 @@ Amkecpak, a makefile based packaging framework.
 
 ----
 
-:Doc:    `Documentation on ReadTheDoc <http://kakwa-packages.readthedocs.org/en/latest/>`_
-:Dev:    `GitHub <https://github.com/kakwa/packages>`_
-:Author:  Pierre-Francois Carpentier - copyright © 2015
+:Doc:    `Documentation on ReadTheDoc <http://amkecpak.readthedocs.org/en/latest/>`_
+:Dev:    `GitHub <https://github.com/kakwa/amkecpak>`_
+:Author:  Pierre-Francois Carpentier - copyright © 2017
 
 ----
 
