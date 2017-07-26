@@ -68,29 +68,41 @@ deb_chroot:
 	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder create --debootstrap debootstrap \
-			$(COW_DIST) $(OTHERMIRROR) --basepath $(COW_DIR)/$(COW_NAME) \
-			--mirror $(DEB_MIRROR) $(BINDMOUNT);ret=$$?;\
+		export TMPDIR=/tmp/; \
+	    	$(COW_SUDO) cowbuilder create \
+		  --debootstrap debootstrap \
+		  $(COW_DIST) $(OTHERMIRROR) \
+		  --basepath $(COW_DIR)/$(COW_NAME) \
+		  --mirror $(DEB_MIRROR) \
+		  $(BINDMOUNT) \
+		  $(COW_OPTS);\
+		ret=$$?;\
 	else\
-	    export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
-		--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);ret=$$?;\
+		export TMPDIR=/tmp/;\
+		$(COW_SUDO) cowbuilder update \
+	      	  --basepath $(COW_DIR)/$(COW_NAME) \
+		  $(BINDMOUNT);\
+		ret=$$?;\
 	fi; exit $$ret
 	old=99998;\
 	new=99999;\
 	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
-		$(MAKE) deb_chroot_internal ERROR=skip OUT_DIR=`pwd`/out/deb.$(DIST)/ \
+		$(MAKE) deb_chroot_internal ERROR=skip \
+		        OUT_DIR=$(LOCAL_REPO_PATH) \
 			LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
-			COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true;\
+			COW_NAME=$(COW_NAME) \
+			SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
 		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;cd -;\
 		if [ $$new -ne 0 ];\
 		then\
-			export TMPDIR=/tmp/; $(COW_SUDO) cowbuilder update \
-			--basepath $(COW_DIR)/$(COW_NAME) $(BINDMOUNT);\
+			export TMPDIR=/tmp/;\
+			$(COW_SUDO) cowbuilder update \
+			  --basepath $(COW_DIR)/$(COW_NAME) \
+			  $(BINDMOUNT);\
 		fi;\
-		echo $$old $$new; sleep 20;\
 	done
 	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
