@@ -1,0 +1,24 @@
+sudo: required
+
+before_install:
+  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get update -qq'
+  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get rpm createrepo mock debian-archive-keyring'
+  - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install make debhelper reprepro cowbuilder'
+
+matrix:
+  fast_finish: false
+  include:
+
+  -
+    os: linux
+    env:
+      N=jessie
+      DIST=jessie
+  -
+    os: linux
+    env:
+      N=stretch
+      DIST=stretch
+
+script:
+  - make deb_chroot DIST=${DIST}
