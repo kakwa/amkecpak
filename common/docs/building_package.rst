@@ -101,6 +101,29 @@ Building in chroot is heavier but has multiple gains:
    # build deb package for dist jessie
    $ make deb_chroot DIST=jessie
 
+.. note::
+
+    Building the chroot can be a long and heavy step but there are several way to accelerate it.
+
+    The first is to used a local mirror, this can be done using the DEB_MIRROR option when calling deb_chroot:
+
+    .. sourcecode:: bash
+        
+        make deb_chroot DEB_MIRROR=http://your.local.mirror/debian
+
+    The second is to use a tmpfs for building, it requires a few GB of RAM however (at least 1.5GB per distro
+    version targeted, but this may vary depending on the number packages and the size of their dependencies):
+
+    .. sourcecode:: bash
+
+        # as root
+        mount -t tmpfs -o size=16G tmpfs /var/cache/pbuilder/
+
+    .. sourcecode:: bash
+
+        # in fstab
+        tmpfs /var/cache/pbuilder/ tmpfs defaults,size=16G 0 0
+
 .. warning::
 
     Building in chroot requires root permission (it's necessary for creating the chroot environment).
