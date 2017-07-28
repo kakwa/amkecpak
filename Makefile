@@ -75,6 +75,7 @@ deb_chroot:
 		  $(COW_DIST) $(OTHERMIRROR) \
 		  --mirror $(DEB_MIRROR) \
 		  $(BINDMOUNT) \
+		  $(COW_UBUNTU) \
 		  $(COW_OPTS);\
 		ret=$$?;\
 	else\
