@@ -12,14 +12,14 @@ matrix:
   fast_finish: false
   include:
 
-  -
-    os: linux
-    env:
-      DIST=jessie
-  -
-    os: linux
-    env:
-      DIST=stretch
+#  -
+#    os: linux
+#    env:
+#      DIST=jessie
+#  -
+#    os: linux
+#    env:
+#      DIST=stretch
   -
     os: linux
     env:
