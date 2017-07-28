@@ -1,6 +1,7 @@
 # vim: set noet ts=4:
 
 include buildenv/Makefile.vars
+include buildenv/Makefile.config
 
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
@@ -76,7 +77,8 @@ DEB_CONTENT_DIST := $(filter-out debian/control.dist.$(DIST) \
 DEB_CONTENT_BASE := $(filter-out $(wildcard debian/*.dist.*) \
   debian/changelog \
   debian/control \
-  debian/rules, \
+  debian/rules \
+  debian/copyright, \
   $(wildcard debian/*) \
 )
 
@@ -104,16 +106,26 @@ else
 DEB_CONTROL_IN := debian/control
 endif
 
+
+ifneq ("$(wildcard debian/copyright.dist.$(DIST))","")
+DEB_COPYRIGHT_IN := debian/copyright.dist.$(DIST)
+else
+DEB_COPYRIGHT_IN := debian/copyright
+endif
+
+
 DEB_ARCHIVE := $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)_$(VERSION).orig.tar.gz
 
 DEB_PREPARE := $(DEB_ARCHIVE) $(DEB_CONTENT_OUT) \
   $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog \
   $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control \
-  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/copyright
 
-DEB_CONTROL_RULE := \
+DEB_CONTROL_RULE_COPYRIGHT := \
   $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/control \
-  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/rules \
+  $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/copyright
 
 DEB_CHANGELOG := \
   $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/changelog
@@ -130,7 +142,7 @@ $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	fi
 
 # Substitute version and package name in control file
-$(DEB_CONTROL_RULE): $(DEB_CONTROL_IN) $(DEB_RULE_IN)
+$(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_IN)
 	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@);\
 	if [ -e $$f.dist.$(DIST) ];\
 	then\
@@ -144,14 +156,17 @@ $(DEB_CONTROL_RULE): $(DEB_CONTROL_IN) $(DEB_RULE_IN)
 	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@URL@|$(URL)|'                 $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@MAINTAINER@|$(MAINTAINER)|'   $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@MAINTAINER_EMAIL@|$(MAINTAINER_EMAIL)|' \
+	    $@ || (rm -f $@ ; exit 1)
 
 # Generate generic changelog
 $(DEB_CHANGELOG): ./debian/changelog
 	echo $(DIST_CODE) $(DIST_TAG)
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
-	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~up+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
+	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
 	printf "\\n  * New version\\n\\n" >> $@
-	printf " -- kakwa <carpentier.pf@gmail.com>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
+	printf " -- $(MAINTAINER) <$(MAINTAINER_EMAIL)>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
 
 # put the archive in the proper directory
 $(DEB_ARCHIVE): $(SOURCE_ARCHIVE) | $(DIRECTORIES)
@@ -261,14 +276,6 @@ else
 RPM_SPEC_IN := rpm/component.spec
 endif
 
-fake:
-	@echo "BASE"
-	@echo $(RPM_CONTENT_BASE)
-	@echo "IN"
-	@echo $(RPM_CONTENT_IN)
-	@echo "OUT"
-	@echo $(RPM_CONTENT_OUT)
-
 # Create the various rpmbuild directories
 $(RPM_DIR): $(BUILD_DIR)/rpm.$(DIST) 
 	mkdir $@
@@ -302,6 +309,10 @@ $(RPM_SPEC): $(RPM_SPEC_IN)
 	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 	sed -i 's|@URL@|$(URL)|'                 $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@MAINTAINER@|$(MAINTAINER)|'   $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@MAINTAINER_EMAIL@|$(MAINTAINER_EMAIL)|' \
+	    $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+
 
 # Build the rpm(s) and put the result inside out directories
 $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
@@ -312,7 +323,7 @@ $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
                                 --define "_srcrpmdir %{_topdir}/SRPMS" \
                                 --define "_tmppath %{_topdir}/BUILDROOT" \
                                 --define "_builddir %{_topdir}/BUILD" \
-                                --define "dist .$(DIST_CODE)$(DIST_TAG)" \
+                                --define "dist .$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)" \
                                 $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.src.rpm" -exec mv {} $(OUT_SRC)/ \;
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -exec mv {} $(OUT_DIR)/ \;
@@ -336,7 +347,7 @@ Available targets:
                with the checksum of the upstream sources.
 
                Running "make clean" is advisable before running
-	       "make manifest".
+               "make manifest".
 
 
 * clean      : Remove various work directories:

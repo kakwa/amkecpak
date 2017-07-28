@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Kakwa\'s packages documentation build configuration file, created by
+# amkecpak documentation build configuration file, created by
 # sphinx-quickstart on Fri Aug 30 20:00:29 2013.
 #
 # This file is execfile()d with the current directory set to its containing dir.

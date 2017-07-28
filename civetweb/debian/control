@@ -1,7 +1,7 @@
 Source: @NAME@
 Section: misc
 Priority: extra
-Maintainer: Kakwa <carpentier.pf@gmail.com>
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
  rsync,

@@ -22,7 +22,7 @@ LOCAL_REPO_PATH := $(shell pwd)/out/deb.$(DIST)/
 COW_NAME := $(DIST).$(shell pwd | md5sum | sed 's/\ .*//').all.cow
 
 include ./common/buildenv/Makefile.vars
-
+include ./common/buildenv/Makefile.config
 
 ifeq ($(ERROR), skip)
 SKIP=-

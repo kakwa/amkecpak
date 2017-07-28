@@ -10,7 +10,7 @@ Source2: dnscherry.conf
 Source3: dnscherry.service
 
 URL: @URL@ 
-Vendor: Kakwa
+Vendor: @MAINTAINER@
 License: See project
 Group: System/Servers
 Summary: @SUMMARY@ 
@@ -65,5 +65,5 @@ rm -rf \$RPM_BUILD_ROOT
 %config /etc/sysconfig/dnscherry
 
 %changelog
-* Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
+* Wed Feb 01 2013 @MAINTAINER@ <@MAINTAINER_EMAIL@> 0.0.1-1
 - initial Version initiale

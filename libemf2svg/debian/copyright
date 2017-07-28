@@ -1,6 +1,6 @@
 This work was packaged for Debian by:
 
-    Kakwa <carpentier.pf@gmail.com> on Tue, 29 Jan 2013 10:50:50 +0000
+    @MAINTAINER@ <@MAINTAINER_EMAIL@> on Tue, 29 Jan 2013 10:50:50 +0000
 
 It was downloaded from:
 
@@ -22,7 +22,7 @@ License:
 
 The Debian packaging is:
 
-    Copyright (C) 2015 Kakwa <carpentier.pf@gmail.com>
+    Copyright (C) 2015 @MAINTAINER@ <@MAINTAINER_EMAIL@>
 
 # Please chose a license for your packaging work. If the program you package
 # uses a mainstream license, using the same license is the safest choice.

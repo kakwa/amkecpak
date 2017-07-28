@@ -9,7 +9,7 @@ Source1: gogs
 Source2: gogs.conf
 Source3: gogs.service
 URL: @URL@ 
-Vendor: Kakwa
+Vendor: @MAINTAINER@
 License: See project
 Group: System/Servers
 Summary: @SUMMARY@ 
@@ -88,5 +88,5 @@ rm -rf \$RPM_BUILD_ROOT
 %{_unitdir}/*
 
 %changelog
-* Wed Feb 01 2013 Kakwa <carpentier.pf@gmail.com> 0.0.1-1
+* Wed Feb 01 2013 @MAINTAINER@ <@MAINTAINER_EMAIL@> 0.0.1-1
 - initial Version initiale

@@ -2,5 +2,5 @@ python-ldapcherry (0.0.1-1) unstable; urgency=low
 
   * Another Release.
 
- -- Kakwa <carpentier.pf@gmail.com>  Mon, 16 Nov 2015 12:00:00 +1000
+ -- @MAINTAINER@ <@MAINTAINER_EMAIL@>  Mon, 16 Nov 2015 12:00:00 +1000
 
