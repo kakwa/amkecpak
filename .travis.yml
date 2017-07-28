@@ -20,6 +20,10 @@ matrix:
     os: linux
     env:
       DIST=stretch
+  -
+    os: linux
+    env:
+      DIST=zesty
 
 script:
   - make deb_chroot DIST=${DIST}
