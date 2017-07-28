@@ -31,8 +31,6 @@ create_new_soft(){
     mv ./debian/componant.cron.d.ex ./debian/${NAME}.cron.d.ex
     mv ./debian/componant.default.ex ./debian/${NAME}.default.ex
     
-    cd -
-    git add "${SOFT_PATH}"
 }
 
 while getopts ":hin:" opt; do
