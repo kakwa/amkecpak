@@ -126,6 +126,42 @@ Building in chroot is heavier but has multiple gains:
 
 .. warning::
 
+    To create the cowbuilder chroot, it's required to have the GPG keys of the targeted DIST.
+
+    If you get errors like:
+
+    .. sourcecode:: bash
+
+        I: Checking Release signature
+        E: Release signed by unknown key (key id EF0F382A1A7B6500)
+        E: debootstrap failed
+
+    it means that you don't have the required keys.
+
+    The debian-archive-keyring and ubuntu-archive-keyring packages provides these keys. However
+    it might be necessary to use a newer keyring than the one available in your environment, specially
+    if crossing from an old Ubuntu to a new Debian or an old Debian to a new Ubuntu.
+
+    For example, with Ubuntu Trusty (14.04), targeting Debian stretch, the following hack is necessary:
+
+    .. sourcecode:: bash
+
+        wget http://cz.archive.ubuntu.com/ubuntu/pool/universe/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb && sudo dpkg -i debian-archive-keyring_2017.5_all.deb
+
+        ls /etc/apt/trusted.gpg.d/
+        debian-archive-jessie-automatic.gpg           debian-archive-stretch-security-automatic.gpg
+        debian-archive-jessie-security-automatic.gpg  debian-archive-stretch-stable.gpg
+        debian-archive-jessie-stable.gpg              debian-archive-wheezy-automatic.gpg
+        debian-archive-stretch-automatic.gpg          debian-archive-wheezy-stable.gpg
+
+    It might also be necessary to pass additionnal parameters to make cowbuilder use this keyring:
+
+    .. sourcecode:: bash
+
+        make deb_chroot DIST=stretch COW_OPTS=--debootstrapopts=--keyring=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
+
+.. warning::
+
     Building in chroot requires root permission (it's necessary for creating the chroot environment).
 
     If make deb_chroot is run as a standard user, sudo will be used for cowbuilder calls.
