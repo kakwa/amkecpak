@@ -15,12 +15,12 @@ matrix:
     os: linux
     env:
       DIST=jessie
-      OPTS=COW_OPTS\=--debootstrapopts="--keyring=/etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg"
+      OPTS=COW_OPTS\=--debootstrapopts\="--keyring\=/etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg"
   -
     os: linux
     env:
       DIST=stretch
-      OPTS=COW_OPTS\=--debootstrapopts="--keyring=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg"
+      OPTS=COW_OPTS\=--debootstrapopts\="--keyring\=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg"
   -
     os: linux
     env:
