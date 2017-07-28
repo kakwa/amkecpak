@@ -5,25 +5,26 @@ before_install:
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install rpm createrepo mock'
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install debian-keyring debian-archive-keyring'
   - '[ "$TEST_PEP8" == "1" ] || sudo apt-get install make debhelper reprepro cowbuilder'
-  - '[ "$TEST_PEP8" == "1" ] || wget http://ftp.debian.org/debian/pool/main/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb && sudo dpkg -i debian-archive-keyring_2017.5_all.deb'
-  - '[ "$TEST_PEP8" == "1" ] || wget http://ftp.debian.org/debian/pool/main/d/debian-keyring/debian-keyring_2017.05.28_all.deb && sudo dpkg -i debian-keyring_2017.05.28_all.deb'
+  - '[ "$TEST_PEP8" == "1" ] || wget http://cz.archive.ubuntu.com/ubuntu/pool/universe/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb && sudo dpkg -i debian-archive-keyring_2017.5_all.deb' 
 
 matrix:
   fast_finish: false
   include:
 
-#  -
-#    os: linux
-#    env:
-#      DIST=jessie
-#  -
-#    os: linux
-#    env:
-#      DIST=stretch
+  -
+    os: linux
+    env:
+      DIST=jessie
+      OPTS='COW_OPTS="--debootstrapopts=\'--keyring=/etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg\'"'
+  -
+    os: linux
+    env:
+      DIST=stretch
+      OPTS='COW_OPTS="--debootstrapopts=\'--keyring=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg\'"'
   -
     os: linux
     env:
       DIST=zesty
 
 script:
-  - make deb_chroot DIST=${DIST}
+  - make deb_chroot DIST=${DIST} ${OPTS}
