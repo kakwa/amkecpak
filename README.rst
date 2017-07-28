@@ -1,10 +1,10 @@
 Amkecpak, a makefile based packaging framework.
 
-.. .. image:: https://travis-ci.org/kakwa/packages.svg?branch=master
-..    :target: https://travis-ci.org/kakwa/packages
+.. image:: https://travis-ci.org/kakwa/amkecpak.svg?branch=master
+   :target: https://travis-ci.org/kakwa/amkecpak
     
-.. image:: https://readthedocs.org/projects/kakwa-packages/badge/?version=latest
-    :target: http://kakwa-packages.readthedocs.org/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/amkecpak/badge/?version=latest
+    :target: http://amkecpak.readthedocs.org/en/latest/?badge=latest
     :alt: Documentation Status
 
 ----
