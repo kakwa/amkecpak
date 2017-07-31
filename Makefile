@@ -40,26 +40,26 @@ rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
 
-$(PKG): force
+$(PKG):
 	$(MAKE) -C $@
 
-$(clean_PKG): force
+$(clean_PKG):
 	@+echo  $(MAKE) -C $(patsubst clean_%,%,$@) clean
 	@$(MAKE) -C $(patsubst clean_%,%,$@) clean
 
-$(deb_chroot_PKG): force
+$(deb_chroot_PKG):
 	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 	$(SKIP)@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 
-$(deb_PKG): force
+$(deb_PKG):
 	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
 	$(SKIP)@$(MAKE) -C $(patsubst deb_%,%,$@) deb
 
-$(manifest_PKG): force
+$(manifest_PKG):
 	@+echo  $(MAKE) -C $(patsubst manifest_%,%,$@) manifest
 	$(SKIP)@$(MAKE) -C $(patsubst manifest_%,%,$@) manifest
 
-$(rpm_PKG): force
+$(rpm_PKG):
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
@@ -141,7 +141,7 @@ export_key:
 
 clean: clean_pkg clean_repo
 
-.PHONY: force rpm deb deb_repo rpm_repo export_key\
+.PHONY: rpm deb deb_repo rpm_repo export_key\
   clean_pkg clean_repo clean_rpm_repo clean_deb_repo help \
   deb_chroot deb_chroot_internal
 
