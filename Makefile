@@ -63,6 +63,18 @@ $(rpm_PKG):
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
+# build all the .deb packages
+# logic:
+# * init the out directory (as a local repo)
+# * init or update the cowbuilder chroot
+# * loop over building the packages:
+#   - try to build all packages (output in out directory/local repo)
+#   - count package build failures
+#   - if there are build failures (but no more than last iteration)
+#     update the local repo, and loop to retry failed package builds
+# * do a last build iteration to make sure every packages are build correctly
+#
+# The loop iteration permits to handle dependencies between built packages
 deb_chroot:
 	mkdir -p out/deb.$(DIST)
 	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
