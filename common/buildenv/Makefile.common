@@ -6,7 +6,8 @@ include buildenv/Makefile.config
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
 .PHONY: all rpm_prepare rpm deb clean_build clean_cache \
-  clean rm_manifest_file manifest deb_chroot help
+  clean rm_manifest_file manifest deb_chroot help \
+  deb_get_chroot_path
 
 # Name of the root directory of the archive
 SOURCE_DIR := $(BUILD_DIR)/$(PKGNAME)-$(VERSION)
@@ -233,6 +234,9 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 
 # The target to be called for building .deb in chroot
 deb_chroot: $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
+
+deb_get_chroot_path:
+	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
 
 #### END DEB targets
 

@@ -4,49 +4,141 @@ Build the complete repositories
 Repository metadata
 ===================
 
-The repository has a few metadata which must be filled:
+The repository has a few parameters which must be filled in **common/buildenv/Makefile.config**:
 
 .. sourcecode:: make
 
-    # Name of the gpg key to use
-    GPG_KEY="kakwa"
-    # Output directory for the repos
-    OUTPUT="out/"
-    # Package provider
-    ORIGIN="kakwa"
+    # Name of the maintainer
+    MAINTAINER := Name of the Maintainer
+    
+    # Email of the maintainer
+    MAINTAINER_EMAIL := somebody@example.com
+    
+    # Origin ID (2 or 3 letters ID of origin)
+    PKG_ORG := or
+    
+    # Origin of the packages (full name)
+    PKG_ORIGIN := organization
+    
+    # The gpg key used to sign the packages
+    GPG_KEY := GPG_SIGNKEY
+    
+    # repo component (main/contrib/non-free/universe/etc)
+    DEB_REPO_COMPONENT := main
+    
+    # Definition of the debian repository configuration
+    # "Codename: $(DIST)" and "Components: $(DEB_REPO_COMPONENT)"
+    # should not be modified.
+    define DEB_REPO_CONFIG
+    Origin: $(PKG_ORIGIN)
+    Label: $(PKG_ORIGIN)
+    Suite: $(DIST)
+    Codename: $(DIST)
+    Version: 3.1
+    Architectures: $(shell dpkg --print-architecture)
+    Components: $(DEB_REPO_COMPONENT)
+    Description: Repository containing misc packages
+    SignWith: $(GPG_KEY)
+    endef
+    
+    export DEB_REPO_CONFIG
 
 Clean before build
 ==================
 
-Optionally, it's possible to clean everything before build:
+Optionally, it's possible to clean everything before building:
 
 
 .. sourcecode:: bash
 
-    # optionnally, cleaning everything
+    # use KEEP_CACHE=true if you want to keep cached upstream sources
     $ make clean
  
 
 Create the repositories
 =======================
 
-To build the repositories, just run:
-
 .. note:: use -j <number of jobs> to run multiple packaging jobs in parallele
 
 
 .. note:: use **ERROR=skip** to ignore package build failures when calling **make <pkg>_repo** and keep continuing building the repo.
 
-Build deb repository
-~~~~~~~~~~~~~~~~~~~~
+Build .deb repositories
+~~~~~~~~~~~~~~~~~~~~~~~
+
+To build the .deb repository, run:
 
 .. sourcecode:: bash
 
-    # create the deb repository
-    $ make deb_repo -j 4
+    # Creating the deb repository (using chroots)
+    # Replace stretch by the distro code name targeted
+    $ make deb_repo -j 4 DIST=stretch 
     
+    # Building without chroot, directly on the host
+    $ make deb_repo -j 4 DIST=stretch NOCHROOT=true
+
     # same ignoring individual package build errors
-    $ make deb_repo -j 4 ERROR=skip
+    $ make deb_repo -j 4 DIST=stretch NOCHROOT=true SKIP=true
+
+.. note::
+
+    **deb_repo** target supports the same variables as the **deb_chroot** target, like for example **DEB_MIRROR**
+
+
+result:
+
+.. sourcecode:: bash
+    out
+    ├── deb.jessie
+    │   ├── conf
+    │   │   └── distributions
+    │   ├── db
+    │   │   ├── checksums.db
+    │   │   ├── contents.cache.db
+    │   │   ├── packages.db
+    │   │   ├── references.db
+    │   │   ├── release.caches.db
+    │   │   └── version
+    │   ├── dists
+    │   │   └── jessie
+    │   │       ├── InRelease
+    │   │       ├── main
+    │   │       │   └── binary-amd64
+    │   │       │       ├── Packages
+    │   │       │       ├── Packages.gz
+    │   │       │       └── Release
+    │   │       ├── Release
+    │   │       └── Release.gpg
+    │   ├── pool
+    │   │   └── main
+    │   │       ├── c
+    │   │       │   └── civetweb
+    │   │       │       ├── civetweb_1.9.1.9999-2~kw+deb8_amd64.deb
+    │   │       │       ├── libcivetweb_1.9.1.9999-2~kw+deb8_amd64.deb
+    │   │       │       └── libcivetweb-dev_1.9.1.9999-2~kw+deb8_all.deb
+    │   │       ├── p
+    │   │       │   ├── pixiecore
+    │   │       │   │   └── pixiecore_0.0~2016.02.29-1~kw+deb8_amd64.deb
+    │   │       │   ├── python-asciigraph
+    │   │       │   │   └── python-asciigraph_1.1.3-1~kw+deb8_all.deb
+    │   │       │   ├── python-pygraph-redis
+    │   │       │   │   └── python-pygraph-redis_0.2.1-1~kw+deb8_all.deb
+    │   │       │   └── python-rfc3161
+    │   │       │       └── python-rfc3161_1.0.7-1~kw+deb8_all.deb
+    │   │       └── u
+    │   │           └── uts-server
+    │   │               └── uts-server_0.1.9-1~kw+deb8_amd64.deb
+    │   └── raw
+    │       ├── civetweb_1.9.1.9999-2~kw+deb8_amd64.deb
+    │       ├── Packages
+    │       ├── pixiecore_0.0~2016.02.29-1~kw+deb8_amd64.deb
+    │       ├── python-asciigraph_1.1.3-1~kw+deb8_all.deb
+    │       ├── python-pygraph-redis_0.2.1-1~kw+deb8_all.deb
+    │       ├── python-rfc3161_1.0.7-1~kw+deb8_all.deb
+    │       ├── uts-server_0.1.9-1~kw+deb8_amd64.deb
+    │       └── uts-server-dbgsym_0.1.9-1~kw+deb8_amd64.deb
+    └── GPG-KEY.pub
+
 
 Build the rpm repository
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -56,17 +148,6 @@ Build the rpm repository
     # create the rpm repository
     $ make rpm_repo -j 4
     
-Create both repo in one command
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. sourcecode:: bash
-
-    # create everything
-    $ make all -j 4
-
-    # same ignoring individual package build errors
-    $ make rpm_repo -j 4 ERROR=skip
-
 Result repositories
 ~~~~~~~~~~~~~~~~~~~
 
@@ -75,45 +156,6 @@ The resulting repositories will look like that:
 .. sourcecode:: none
 
     out
-    ├── deb
-    │   └── sid
-    │       └── amd64
-    │           ├── conf
-    │           │   └── distributions
-    │           ├── db
-    │           │   ├── checksums.db
-    │           │   ├── contents.cache.db
-    │           │   ├── packages.db
-    │           │   ├── references.db
-    │           │   ├── release.caches.db
-    │           │   └── version
-    │           ├── dists
-    │           │   └── sid
-    │           │       └── contrib
-    │           │           └── binary-amd64
-    │           └── pool
-    │               └── contrib
-    │                   ├── d
-    │                   │   └── dwm-desktop
-    │                   │       └── dwm-desktop_5.9.0-1_amd64.deb
-    │                   ├── g
-    │                   │   └── gogs
-    │                   │       └── gogs_0.7.22-1_amd64.deb
-    │                   ├── m
-    │                   │   └── mksh-skel
-    │                   │       └── mksh-skel_1.0.0-1_all.deb
-    │                   └── p
-    │                       ├── python-asciigraph
-    │                       │   └── python-asciigraph_1.1.3-1_all.deb
-    │                       ├── python-dnscherry
-    │                       │   └── python-dnscherry_0.1.3-1_all.deb
-    │                       ├── python-ldapcherry
-    │                       │   └── python-ldapcherry_0.2.2-1_all.deb
-    │                       ├── python-ldapcherry-ppolicy-cracklib
-    │                       │   └── python-ldapcherry-ppolicy-cracklib_0.1.0-1_all.deb
-    │                       └── python-pygraph-redis
-    │                           └── python-pygraph-redis_0.2.1-1_all.deb
-    ├── pub.gpg
     └── rpm
         └── debU
             └── x86_64

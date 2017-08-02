@@ -20,16 +20,17 @@ Here is the general packaging workflow:
 Initialize package skeleton
 ===========================
 
-To create a package "foo" skeleton, run the follwing command:
+To create a package "**foo**" skeleton, run the follwing command:
 
 .. sourcecode:: bash
 
     $ ./common/init_pkg.sh -n foo
 
-This script will create the following tree:
+This script will create the following subtree:
 
 .. sourcecode:: none
 
+    tree foo/
     foo
     ├── buildenv -> ../common/buildenv
     ├── debian
@@ -55,10 +56,10 @@ This script will create the following tree:
 
 This tree contains two main directories, two main files, and a symlink:
 
+* **Makefile**: used to download and prepare upstream sources.
+* **MANIFEST**: listing of the downloaded files and their hash.
 * **debian**: deb packaging stuff.
 * **rpm**: rpm packaging stuff (**component.spec** and optionally additional content like **.service** files).
-* **Makefile**: used to download and prepare upstream sources.
-* **MANIFEST**: listing the downloaded files and their hash.
 * **buildenv**: symlink to the shared build resources (Makefile.common, and various helper scripts).
 
 .. note:: Don't rename component.spec, build script for rpm expect this file to exist.
@@ -67,10 +68,10 @@ At this point, with default content, "empty" .rpm and .deb packages can be built
 
 .. sourcecode:: bash
 
-    $ cd foo/   # go in dir
-    # make help # display Makefile help
-    $ make deb  # build deb
-    $ make rpm  # build rpm
+    $ cd foo/                                   # go in dir
+    # make help                                 # display Makefile help
+    $ make deb                                  # build deb
+    $ make rpm                                  # build rpm
     $ dpkg -c out/foo_0.0.1-1\~up+deb00_all.deb # look .deb content
     $ rpm -qpl out/foo-0.0.1-1.00.noarch.rpm    # look .rpm content
 
@@ -116,7 +117,7 @@ This tool role is:
 * Download upstream sources.
 * Check the integrity of the upstream source against the *MANIFEST* file (sha512 sum).
 * (Re)Build the *MANIFEST* file if requested.
-* Handle a local download cache to avoid downloading sources at each build.
+* Handle a local download cache to avoid downloading sources for each build.
 
 Download tool usage
 ~~~~~~~~~~~~~~~~~~~
@@ -150,14 +151,37 @@ Example:
             $(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
 
 
+.. note::
+
+    Please note the templatization of the download url "$(URL_SRC)".
+    Specifically the "$(VERSION)" part. This way, when a new upstream
+    version is available, simply updating the "VERSION" variable and
+    updating the manifest is necessary if upstream has not changed
+    drastically.
+
 Building the MANIFEST file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create the MANIFEST file, just run the following command:
+To create or update the MANIFEST file, just run the following command:
 
 .. sourcecode:: bash
 
     make manifest
+
+.. note::
+
+    In case of checksum error, an error like the following one will be displayed:
+
+    .. sourcecode:: bash
+
+        [ERROR] Bad checksum for 'https://github.com/kakwa/mk-sh-skel/archive/1.0.0.tar.gz'
+        expected: 2cdeaa0cd4ddf624b5bc7ka5dbdeb4c3dbe77df09eb58bac7621ee7b64868e0d916a1318e4d13e1ee8f50d470d58dd285ed579632046189ac7717d7def962fddf
+        got:     1cdea044ddf624b5bc7465dbdeb4c3dbe77df09eb58bac7621ee7b64868e0d916a1318e4d13e1ee8f50d470d58dd285ed579632046189ac7717d7def962fddfaa
+        Makefile:38: recipe for target 'builddir/mk-sh-skel_1.0.0.orig.tar.gz' failed
+        make: *** [builddir/mk-sh-skel_1.0.0.orig.tar.gz] Error 1
+
+    If it happens, either it's a "legitimate" mismatch (because you have changed the version for example), and you should rebuild the MANIFEST file.
+    Or it's upstream doing weird things like re-releasing reusing the same version number which is generally bad practice and should be investigated.
 
 Source preparation
 ~~~~~~~~~~~~~~~~~~
@@ -243,7 +267,7 @@ Distribution specific packaging
 ===============================
 
 For the most part, just package according to deb/rpm documentation,
-filling the **rpm/component.spec**, **debian/rules**, **debian/control**, or any other packaging files if necessary.
+filling the **rpm/component.spec**, **debian/rules**, **debian/control**, and any other packaging files if necessary.
 
 .. note::
 
@@ -254,12 +278,12 @@ deb
 ~~~
 
 For Debian packages, just leverage the usual packaging patterns such as
-the **PKG.init**, **PKG.default**, **PKG.service**, ... files and the **override_dh_*** targets in **debian/rules**, and then,
-add your dependencies and architecture(s) in the **debian/control** file.
+the **PKG.init**, **PKG.default**, **PKG.service**, (...) files and use the **override_dh_*** targets in **debian/rules** if necessary.
+Finally, add your dependencies and architecture(s) in the **debian/control** file.
 
 .. note::
 
-    In many cases, with clean upstreams, there is nearly nothing to do except dependencies and architecture,
+    In many cases, with clean upstreams, there is nearly nothing to do except setting dependencies and architecture,
     the various dh_helpers will do their magic and build a clean package.
 
     If you are unlucky, uncomment the **export DH_VERBOSE=1** in **debian/rules** and customize
