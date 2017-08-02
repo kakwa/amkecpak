@@ -36,6 +36,8 @@ GO_EXT=./buildenv/go_extract.sh -d $(BUILD_DIR)/src/externals/
 
 TCL_URL=http://tinycorelinux.net/6.x/x86/archive/$(VERSION_tinycorelinux)/distribution_files/
 
+LICENSE=GPLv2
+
 # Including common rules and targets 
 include buildenv/Makefile.common
 

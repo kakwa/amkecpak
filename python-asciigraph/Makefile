@@ -11,12 +11,14 @@ RELEASE = 1
 URL=https://github.com/kakwa/py-ascii-graph
 
 # short summary of what the package provides
-SUMMARY="ascii histogram library"
+SUMMARY=ascii histogram library
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #

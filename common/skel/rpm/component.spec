@@ -13,7 +13,7 @@ Source: %{pkgname}-%{version}.tar.gz
 
 URL: @URL@ 
 Vendor: @MAINTAINER@
-License: See project
+License: @LICENSE@
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build

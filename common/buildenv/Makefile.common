@@ -153,6 +153,7 @@ $(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_
 	fi
 	sed -i 's|@NAME@|$(PKGNAME)|'            $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@VERSION@|$(VERSION)|'         $@ || (rm -f $@ ; exit 1)
+	sed -i 's|@LICENSE@|$(LICENSE)|'         $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@RELEASE@|$(RELEASE)|'         $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $@ || (rm -f $@ ; exit 1)
 	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $@ || (rm -f $@ ; exit 1)
@@ -308,6 +309,7 @@ $(RPM_SPEC): $(RPM_SPEC_IN)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
 	cp $(RPM_SPEC_IN) $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|'            $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@LICENSE@|$(LICENSE)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 	sed -i 's|@VERSION@|$(VERSION)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 	sed -i 's|@RELEASE@|$(RELEASE)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
 	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)

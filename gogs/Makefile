@@ -70,6 +70,8 @@ SUMMARY=Gogs (Go Git Service) is a painless self-hosted Git service.
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
+LICENSE=MIT
+
 ###############################################################################
 # Rule #
 ########

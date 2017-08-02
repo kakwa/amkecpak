@@ -11,9 +11,11 @@ RELEASE = 1
 URL=https://github.com/kakwa/dnscherry
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
 
-SUMMARY="DNS management web UI"
+SUMMARY=DNS management web UI
 
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=MIT
 
 ###############################################################################
 # Rules #

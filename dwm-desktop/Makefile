@@ -11,10 +11,12 @@ RELEASE = 1
 URL=https://github.com/kakwa/dwm-desktop/
 
 # short summary of what the package provides
-SUMMARY="Modified DWM with some helper scripts"
+SUMMARY=Modified DWM with some helper scripts
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #

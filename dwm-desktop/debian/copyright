@@ -4,21 +4,20 @@ This work was packaged for Debian by:
 
 It was downloaded from:
 
-    <url://example.com>
+    @URL@
 
 Upstream Author(s):
 
-    <put author's name and email here>
-    <likewise for another author>
+    See upstream url
 
 Copyright:
 
-    <Copyright (C) YYYY Firstname Lastname>
-    <likewise for another author>
+
+    See upstream url
 
 License:
 
-    <Put the license of the package here indented by 4 spaces>
+    @LICENSE@
 
 The Debian packaging is:
 
@@ -30,7 +29,7 @@ The Debian packaging is:
 # packaged work, as it may make Debian's contributions unacceptable upstream.
 # If you just want it to be GPL version 3, leave the following lines in.
 
-and is licensed under the Custom License.
+Same as upstream
 
 # Please also look if there are files or directories which have a
 # different copyright/license attached and list them here.

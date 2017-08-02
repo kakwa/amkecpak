@@ -11,10 +11,12 @@ RELEASE = 1
 URL=https://github.com/kakwa/libemf2svg
 
 # short summary of what the package provides
-SUMMARY="EMF to SVG conversion library"
+SUMMARY=MS EMF to SVG conversion library
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=GPLv2
 
 ###############################################################################
 # Rule #

@@ -11,10 +11,12 @@ RELEASE = 1
 URL=http://repos.entrouvert.org/python-rfc3161.git
 
 # short summary of what the package provides
-SUMMARY="Python implementation of the RFC3161 specification, using pyasn1"
+SUMMARY=Python implementation of the RFC3161 specification, using pyasn1
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #

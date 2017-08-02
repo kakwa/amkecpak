@@ -11,10 +11,12 @@ RELEASE = 1
 URL=https://github.com/kakwa/uts-server/
 
 # short summary of what the package provides
-SUMMARY="Micro RFC 3161 Time-Stamp server written in C"
+SUMMARY=Micro RFC 3161 Time-Stamp server written in C
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #
