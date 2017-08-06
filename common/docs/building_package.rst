@@ -1,11 +1,6 @@
 Build a package
 ---------------
 
-To build a package **foo**, just go in **foo/pkg** directory and run **make deb** and/or **make rpm**.
-
-The resulting package(s) are located in the **out** directory. 
-Source package(s) are in the **src-out** directory.
-
 Cleaning cache, out and src-out directories
 ===========================================
 
@@ -16,19 +11,22 @@ Example with with package python-asciigraph:
     # go inside the component directory
     $ cd python-asciigraph
 
-    # optionnally, clean cache/ and out/ directory
+    # clean everything
     $ make clean
+
+    # clean, but keep upstream sources to avoid re-downloading them
+    $ make clean KEEP_CACHE=true
  
 Build rpm package
 =================
 
-Example with with package python-asciigraph:
+Example with package python-asciigraph:
 
 .. sourcecode:: bash
 
     # go inside the component directory
     $ cd python-asciigraph
-   
+
     # build rpm package
     $ make rpm
     
@@ -38,11 +36,11 @@ Here are the results:
 
     # output packages:
     $ ls out/
-    python-asciigraph-1.1.3-1.unk.noarch.rpm
+    python-asciigraph-1.1.3-1.kw+unk0.noarch.rpm 
     
     # output source package
     $ ls src-out/
-    python-asciigraph-1.1.3-1.unk.src.rpm
+    python-asciigraph-1.1.3-1.kw+unk0.src.rpm
 
 Build rpm inside a clean chroot
 ===============================
@@ -54,7 +52,7 @@ Build rpm inside a clean chroot
 Build deb package
 =================
 
-Example with with package python-asciigraph:
+Example with package python-asciigraph:
 
 .. sourcecode:: bash
 
@@ -70,12 +68,12 @@ Here are the results:
 
     # output packages:
     $ ls out/
-    python-asciigraph_1.1.3-1_all.deb
+    python-asciigraph_1.1.3-1~kw+unk0_all.deb 
     
     # output source package
     $ ls src-out/
-    python-asciigraph_1.1.3-1.debian.tar.xz  python-asciigraph_1.1.3.orig.tar.gz
-    python-asciigraph_1.1.3-1.dsc            
+    python-asciigraph_1.1.3-1~kw+unk0.debian.tar.xz  python-asciigraph_1.1.3-1~kw+unk0.dsc 
+    python-asciigraph_1.1.3.orig.tar.gz
 
 Build deb package inside a clean chroot
 =======================================
@@ -126,6 +124,23 @@ Building in chroot is heavier but has multiple gains:
 
 .. warning::
 
+    If there is an issue or when modifying the chroot (changing the mirror used for example),
+    it may be necessary to removing an existing cowbuilder chroot.
+
+    For that, use the **deb_get_chroot_path** target:
+
+    .. sourcecode:: bash
+
+        
+        # show the chroot path:
+        make deb_get_chroot_path DIST=<code name>
+
+        # as root
+        # remove the chroot
+        rm -rf `make deb_get_chroot_path DIST=<code name>`
+
+.. warning::
+
     To create the cowbuilder chroot, it's required to have the GPG keys of the targeted DIST.
 
     If you get errors like:
@@ -146,7 +161,8 @@ Building in chroot is heavier but has multiple gains:
 
     .. sourcecode:: bash
 
-        wget http://cz.archive.ubuntu.com/ubuntu/pool/universe/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb && sudo dpkg -i debian-archive-keyring_2017.5_all.deb
+        wget http://cz.archive.ubuntu.com/ubuntu/pool/universe/d/debian-archive-keyring/debian-archive-keyring_2017.5_all.deb \
+                && sudo dpkg -i debian-archive-keyring_2017.5_all.deb
 
         ls /etc/apt/trusted.gpg.d/
         debian-archive-jessie-automatic.gpg           debian-archive-stretch-security-automatic.gpg
@@ -164,9 +180,10 @@ Building in chroot is heavier but has multiple gains:
 
     Building in chroot requires root permission (it's necessary for creating the chroot environment).
 
-    If make deb_chroot is run as a standard user, sudo will be used for cowbuilder calls.
+    If **make deb_chroot** is run as a standard user, **sudo** will be used for cowbuilder calls.
 
-    The only command that needs to be white listed in sudoers configuration is cowbuilder:
+    If you want to avoid password promt, the only command that needs to be white listed
+    in sudoers configuration is **cowbuilder**:
 
     .. sourcecode:: bash
 

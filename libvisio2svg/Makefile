@@ -11,10 +11,12 @@ RELEASE = 1
 URL=https://github.com/kakwa/libvisio2svg
 
 # short summary of what the package provides
-SUMMARY="visio to SVG conversion library"
+SUMMARY=VSS/VSD (MS Visio) to SVG conversion library
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+LICENSE=GPLv2
 
 ###############################################################################
 # Rule #

@@ -193,7 +193,7 @@ latex_elements = {
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('index', 'amkecpak.tex', u'amkecpak Documentation',
-   u'Author', 'manual'),
+   u'Pierre-Francois Carpentier', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -223,7 +223,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'amkecpak', u'amkecpak Documentation',
-     [u'Author'], 1)
+     [u'Pierre-Francois Carpentier'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -237,7 +237,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'amkecpak', u'amkecpak Documentation',
-   u'Author', 'amkecpak', 'Make based packaging framework',
+   u'Pierre-Francois Carpentier', 'amkecpak', 'Make based packaging framework',
    'Miscellaneous'),
 ]
 

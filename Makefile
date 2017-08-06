@@ -1,7 +1,7 @@
 # Name of the gpg key to use
 GPG_KEY=kakwa
 # Output directory for the repos
-OUTPUT=out/
+OUT_DIR=out/
 # Package provider
 ORIGIN=kakwa
 
@@ -14,18 +14,28 @@ deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
 manifest_PKG=$(addprefix manifest_,$(PKG))
-OUTDEB=$(shell echo $(OUTPUT)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
-OUTRPM=$(shell echo $(OUTPUT)/rpm/$(DIST_TAG)/`uname -m`/)
+OUTDEB=$(shell echo $(OUT_DIR)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
+OUTRPM=$(shell echo $(OUT_DIR)/rpm/$(DIST_TAG)/`uname -m`/)
 
 # Must be declared before the include
-LOCAL_REPO_PATH := $(shell pwd)/out/deb.$(DIST)/
-COW_NAME := $(DIST).$(shell pwd | md5sum | sed 's/\ .*//').all.cow
+DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST)/
+LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
+COW_NAME := $(DIST).$(shell echo $(LOCAL_REPO_PATH) | md5sum | sed 's/\ .*//').all.cow
 
 include ./common/buildenv/Makefile.vars
 include ./common/buildenv/Makefile.config
 
+export $(DEB_REPO_CONFIG)
+
 ifeq ($(ERROR), skip)
 SKIP=-
+endif
+
+
+ifeq ($(NOCHROOT), true)
+DEB_REPO_DEP=deb
+else
+DEB_REPO_DEP=deb_chroot
 endif
 
 all:
@@ -34,38 +44,53 @@ all:
 
 clean_pkg: $(clean_PKG)
 
-deb: $(deb_PKG)
+deb_internal: $(deb_PKG)
 deb_chroot_internal: $(deb_chroot_PKG)
 rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
 
-$(PKG): force
+$(PKG):
 	$(MAKE) -C $@
 
-$(clean_PKG): force
+$(clean_PKG):
 	@+echo  $(MAKE) -C $(patsubst clean_%,%,$@) clean
 	@$(MAKE) -C $(patsubst clean_%,%,$@) clean
 
-$(deb_chroot_PKG): force
+$(deb_chroot_PKG):
 	@+echo  $(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 	$(SKIP)@$(MAKE) -C $(patsubst deb_chroot_%,%,$@) deb_chroot
 
-$(deb_PKG): force
+$(deb_PKG):
 	@+echo  $(MAKE) -C $(patsubst deb_%,%,$@) deb
 	$(SKIP)@$(MAKE) -C $(patsubst deb_%,%,$@) deb
 
-$(manifest_PKG): force
+$(manifest_PKG):
 	@+echo  $(MAKE) -C $(patsubst manifest_%,%,$@) manifest
 	$(SKIP)@$(MAKE) -C $(patsubst manifest_%,%,$@) manifest
 
-$(rpm_PKG): force
+$(rpm_PKG):
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
+
+deb:
+	$(MAKE) deb_internal OUT_DIR=$(LOCAL_REPO_PATH)
+# build all the .deb packages
+# logic:
+# * init the out directory (as a local repo)
+# * init or update the cowbuilder chroot
+# * loop over building the packages:
+#   - try to build all packages (output in out directory/local repo)
+#   - count package build failures
+#   - if there are build failures (but no more than last iteration)
+#     update the local repo, and loop to retry failed package builds
+# * do a last build iteration to make sure every packages are build correctly
+#
+# The loop iteration permits to handle dependencies between built packages
 deb_chroot:
-	mkdir -p out/deb.$(DIST)
-	cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages
+	mkdir -p $(LOCAL_REPO_PATH)
+	cd $(LOCAL_REPO_PATH); dpkg-scanpackages . /dev/null >Packages
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
 		export TMPDIR=/tmp/; \
@@ -96,7 +121,7 @@ deb_chroot:
 			SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
-		cd out/deb.$(DIST)/; dpkg-scanpackages . /dev/null >Packages;cd -;\
+		cd $(LOCAL_REPO_PATH); dpkg-scanpackages . /dev/null >Packages;cd -;\
 		if [ $$new -ne 0 ];\
 		then\
 			export TMPDIR=/tmp/;\
@@ -108,22 +133,39 @@ deb_chroot:
 	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
+deb_get_chroot_path:
+	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
+
 clean_deb_repo:
 	-rm -rf "$(OUTDEB)"
 
 clean_repo:
-	-rm -rf "$(OUTPUT)"
+	-rm -rf "$(OUT_DIR)"
 
 clean_rpm_repo:
 	-rm -rf "$(OUTRPM)"
 
-deb_repo: $(deb_PKG) export_key
-	@$(MAKE) clean_deb_repo
-	mkdir -p $(OUTDEB)
-	common/deb_repos.sh -p "$$(find `pwd` -type f -path '*/out/*.deb')" \
-		-o $(OUTDEB) \
-		-O $(ORIGIN) \
-		-k $(GPG_KEY)
+deb_repo: $(DEB_REPO_DEP) export_key
+	$(MAKE) internal_deb_repo
+
+$(DEB_OUT_DIR)/conf/distributions: common/buildenv/Makefile.config
+	mkdir -p $(DEB_OUT_DIR)/conf/
+	echo "$$DEB_REPO_CONFIG" >$(DEB_OUT_DIR)/conf/distributions
+
+DEBS = $(wildcard find $(LOCAL_REPO_PATH)/*.deb)
+
+$(DEB_OUT_DIR)/dists/$(DIST)/InRelease: $(DEBS) $(DEB_OUT_DIR)/conf/distributions
+	ls $(LOCAL_REPO_PATH)/*.deb
+	echo $(DEBS)
+	cd $(DEB_OUT_DIR) &&\
+	for deb in $(DEBS);\
+	do\
+	  reprepro -P optional -S $(PKG_ORIGIN) -C $(DEB_REPO_COMPONENT) \
+	  -Vb . includedeb $(DIST) $$deb || exit 1;\
+	done
+
+
+internal_deb_repo: $(DEB_OUT_DIR)/dists/$(DIST)/InRelease
 
 rpm_repo: $(rpm_PKG) export_key
 	@$(MAKE) clean_rpm_repo
@@ -134,16 +176,17 @@ rpm_repo: $(rpm_PKG) export_key
 	done
 	createrepo -o $(OUTRPM) $(OUTRPM)
 
-export_key:
-	mkdir -p $(OUTPUT)
-	-rm -f $(OUTPUT)/pub.gpg
-	gpg --armor --output $(OUTPUT)/pub.gpg --export "$(GPG_KEY)"
+export_key: $(OUT_DIR)/GPG-KEY.pub
+
+$(OUT_DIR)/GPG-KEY.pub:
+	mkdir -p $(OUT_DIR)
+	gpg --armor --output $(OUT_DIR)/GPG-KEY.pub --export "$(GPG_KEY)"
 
 clean: clean_pkg clean_repo
 
-.PHONY: force rpm deb deb_repo rpm_repo export_key\
+.PHONY: internal_deb_repo rpm deb deb_repo rpm_repo export_key\
   clean_pkg clean_repo clean_rpm_repo clean_deb_repo help \
-  deb_chroot deb_chroot_internal
+  deb_chroot deb_chroot_internal deb_get_chroot_path
 
 #### START help target ####
 
@@ -163,31 +206,58 @@ make deb ERROR=skip
 
 Available targets:
 
-* help       : Display this help
+Common targets:
+
+* help                : Display this help
 
 
-* clean      : Remove all packages work directories.
+* clean               : Remove all packages work directories.
 
-               It's possible to keep the cache directories
-               with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
+                        It's possible to keep the cache directories
+                        with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
 
+DEB targets:
 
-* deb        : Build all the .deb packages
-
-
-* rpm        : Build all the .rpm packages
+* deb                 : Build all the .deb packages
 
 
-* deb_chroot : Build all the .deb packages in a clean chroot (using cowbuilder)
+* deb_chroot          : Build all the .deb packages in a clean chroot (using cowbuilder)
 
-               The targeted distribution version can be specified using
-               the "DIST=<code name>", for example "make deb_chroot DIST=stretch"
+                        The targeted distribution version must be specified using
+                        option "DIST=<code name>", for example "make deb_chroot DIST=stretch"
 
-               this target requires root permission for cowbuilder
-               (sudo or run directly as root)
+                        this target requires root permission for cowbuilder
+                        (sudo or run directly as root)
 
 
-* rpm_chroot : not implemented yet
+* deb_repo            : Build the .deb repository from the .deb generated by target deb or deb_chroot
+
+                        Option "DIST=<code name>" must be specified correctly.
+
+                        By default, all packages will be built in individual, clean chroots.
+	                However, if you want to build directly from host (no chroot) setting
+	                the option NOCHROOT=true.
+
+	                This will speed-up the build, but it requires having the proper build 
+                        depedencies on the host for every packages.
+
+
+* deb_get_chroot_path : Display path of the chroot that will be used.
+
+                        If changing some elements of the chroot (the mirror used for example)
+                        it may be necessary to remove an existing chroot:
+
+                        rm -rf `make deb_get_chroot_path DIST=<code name>` # as root
+
+RPM targets:
+
+* rpm                 : Build all the .rpm packages
+
+* rpm_chroot          : not implemented yet
+
+* rpm_repo            : not implemented yet
+
+* deb_get_chroot_path : not implemented yet
 
 endef
 

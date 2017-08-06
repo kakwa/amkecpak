@@ -11,10 +11,13 @@ RELEASE = 1
 URL=http://example.org/stuff
 
 # short summary of what the package provides
-SUMMARY="Not a package summary"
+SUMMARY=Not a package summary
 
-# long version of the summary, but I'm lazy
+# Long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+# License of the upstream project
+LICENSE=Upstream License
 
 ###############################################################################
 # Rule #

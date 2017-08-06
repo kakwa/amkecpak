@@ -13,10 +13,10 @@ RELEASE = 2
 URL=https://github.com/civetweb/civetweb
 
 # short summary of what the package provides
-SUMMARY="Embedded C/C++ web server"
+SUMMARY=Embedded C/C++ web server
 
 # long version of the summary, but I'm lazy
-DESCRIPTION="$(SUMMARY), under MIT (Mongoose fork)"
+DESCRIPTION=$(SUMMARY), under MIT (Mongoose fork)
 
 ###############################################################################
 # Rule #

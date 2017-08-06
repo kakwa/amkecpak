@@ -11,10 +11,13 @@ RELEASE = 1
 URL=https://github.com/kakwa/mk-sh-skel
 
 # short summary of what the package provides
-SUMMARY="Simple script to create script skeleton"
+SUMMARY=Simple script to create script skeleton
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
+
+# License of the package
+LICENSE=MIT
 
 ###############################################################################
 # Rule #

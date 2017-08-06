@@ -10,11 +10,13 @@ RELEASE = 1
 # external url where to recover the sources
 URL=https://github.com/kakwa/ldapcherry
 
-SUMMARY="Directory management web UI"
+SUMMARY=User directory management web UI
 
 DESCRIPTION=$(SUMMARY)
 
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+
+LICENSE=MIT
 
 ###############################################################################
 # Rules #

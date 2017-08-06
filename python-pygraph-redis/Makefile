@@ -11,12 +11,14 @@ RELEASE = 1
 URL=https://github.com/kakwa/pygraph_redis
 
 # short summary of what the package provides
-SUMMARY="python directed graph library for redis in python"
+SUMMARY=python directed graph library for redis
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #

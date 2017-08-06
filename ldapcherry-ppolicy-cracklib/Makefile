@@ -11,12 +11,14 @@ RELEASE = 1
 URL=https://github.com/kakwa/ldapcherry-ppolicy-cracklib
 
 # short summary of what the package provides
-SUMMARY="cracklib ppolicy module for ldapcherry"
+SUMMARY=cracklib ppolicy module for ldapcherry
 
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 URL_SRC=$(URL)/archive/$(VERSION).tar.gz
+
+LICENSE=MIT
 
 ###############################################################################
 # Rule #
