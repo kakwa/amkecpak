@@ -26,10 +26,12 @@ create_new_soft(){
     cd "${SOFT_PATH}"
     for f in `find ./ -type f`
     do
-       sed -i "s/@@COMPONENT_NAME@@/${NAME}/" $f
+       sed -i "s/@@COMPONENT_NAME@@/${NAME}/g" $f
     done
     mv ./debian/componant.cron.d.ex ./debian/${NAME}.cron.d.ex
     mv ./debian/componant.default.ex ./debian/${NAME}.default.ex
+    mv ./debian/componant.service.ex ./debian/${NAME}.service.ex
+    mv ./debian/componant.init.ex ./debian/${NAME}.init.ex
     
 }
 
