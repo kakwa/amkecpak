@@ -141,6 +141,21 @@ Building in chroot is heavier but has multiple gains:
 
 .. warning::
 
+    Some recent distributions may disable the **vsyscall** syscall which is used by older libc (ex: CentOS/RHEL <= 6).
+
+    The problem can be diagnosed by running **dmesg** after a failure to create or run anything in the chroot. You
+    would get errors like:
+
+    .. sourcecode:: bash
+
+        [  578.456176] sh[15402]: vsyscall attempted with vsyscall=none ip:ffffffffff600400 cs:33 sp:7ffd469c5aa8 ax:ffffffffff600400 si:7ffd469c6f23 di:0
+        [  578.456180] sh[15402]: segfault at ffffffffff600400 ip ffffffffff600400 sp 00007ffd469c5aa8 error 15
+
+    In most cases this syscall can be reenabled with **vsyscall=emulate** option in the kernel command line.
+
+
+.. warning::
+
     To create the cowbuilder chroot, it's required to have the GPG keys of the targeted DIST.
 
     If you get errors like:
