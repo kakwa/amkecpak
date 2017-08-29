@@ -50,6 +50,9 @@ rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
 
+list_dist:
+	@sed -e 's/  \(.*\).*/\1/;tx;d;:x' ./common/buildenv/get_dist.sh | grep -v echo | sed 's/\(.*\))/* \1/'
+
 $(PKG):
 	$(MAKE) -C $@
 
@@ -186,7 +189,7 @@ clean: clean_pkg clean_repo
 
 .PHONY: internal_deb_repo rpm deb deb_repo rpm_repo export_key\
   clean_pkg clean_repo clean_rpm_repo clean_deb_repo help \
-  deb_chroot deb_chroot_internal deb_get_chroot_path
+  deb_chroot deb_chroot_internal deb_get_chroot_path list_dist
 
 #### START help target ####
 
@@ -215,6 +218,10 @@ Common targets:
 
                         It's possible to keep the cache directories
                         with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
+
+
+* list_dist           : List distribution code names  
+
 
 DEB targets:
 
