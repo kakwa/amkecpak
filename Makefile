@@ -128,7 +128,7 @@ deb_chroot:
 		if [ $$new -ne 0 ];\
 		then\
 			export TMPDIR=/tmp/;\
-			$(COW_SUDO) cowbuilder --update \
+			$(SUDO) cowbuilder --update \
 			  --basepath $(COW_DIR)/$(COW_NAME) \
 			  $(BINDMOUNT);\
 		fi;\
