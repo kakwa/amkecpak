@@ -12,6 +12,7 @@ PKG=$(shell find ./* -maxdepth 0 -type d |grep -v '^./common\|^./out')
 clean_PKG=$(addprefix clean_,$(PKG))
 deb_PKG=$(addprefix deb_,$(PKG))
 deb_chroot_PKG=$(addprefix deb_chroot_,$(PKG))
+rpm_chroot_PKG=$(addprefix rpm_chroot_,$(PKG))
 rpm_PKG=$(addprefix rpm_,$(PKG))
 manifest_PKG=$(addprefix manifest_,$(PKG))
 OUTDEB=$(shell echo $(OUT_DIR)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
@@ -46,6 +47,7 @@ clean_pkg: $(clean_PKG)
 
 deb_internal: $(deb_PKG)
 deb_chroot_internal: $(deb_chroot_PKG)
+rpm_chroot: $(rpm_chroot_PKG)
 rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
@@ -76,6 +78,9 @@ $(rpm_PKG):
 	@+echo  $(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_%,%,$@) rpm
 
+$(rpm_chroot_PKG):
+	@+echo  $(MAKE) -C $(patsubst rpm_chroot_%,%,$@) rpm_chroot
+	$(SKIP)@$(MAKE) -C $(patsubst rpm_chroot_%,%,$@) rpm_chroot
 
 deb:
 	$(MAKE) deb_internal OUT_DIR=$(LOCAL_REPO_PATH)
@@ -220,7 +225,7 @@ Common targets:
                         with "KEEP_CACHE=true": "make clean KEEP_CACHE=true"
 
 
-* list_dist           : List distribution code names  
+* list_dist           : List distribution code names
 
 
 DEB targets:
@@ -245,7 +250,7 @@ DEB targets:
 	                However, if you want to build directly from host (no chroot) setting
 	                the option NOCHROOT=true.
 
-	                This will speed-up the build, but it requires having the proper build 
+	                This will speed-up the build, but it requires having the proper build
                         depedencies on the host for every packages.
 
 
