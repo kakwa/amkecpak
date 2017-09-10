@@ -13,6 +13,7 @@ BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
 #BuildRequires: sed
 Requires: python m2crypto python-pyasn1-modules
+BuildRequires: python-setuptools
 
 %description
 @DESCRIPTION@

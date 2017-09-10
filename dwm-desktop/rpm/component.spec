@@ -11,7 +11,7 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 #BuildArch: noarch
-#BuildRequires: sed
+BuildRequires: make, gcc, libX11-devel, libXinerama-devel, libXft-devel
 Requires: dmenu, libXinerama, libXft, libX11
 
 %description

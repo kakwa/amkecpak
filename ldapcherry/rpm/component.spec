@@ -16,6 +16,7 @@ Summary: @SUMMARY@
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
 Requires: python-cherrypy, python-ldap, PyYAML, python-mako
+BuildRequires: python-setuptools
 
 %description
 @DESCRIPTION@

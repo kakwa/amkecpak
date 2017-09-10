@@ -18,6 +18,8 @@ SUMMARY=Embedded C/C++ web server
 # long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY), under MIT (Mongoose fork)
 
+LICENSE=MIT
+
 ###############################################################################
 # Rule #
 ########

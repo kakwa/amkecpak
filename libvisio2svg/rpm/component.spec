@@ -11,8 +11,8 @@ Group: System/Servers
 Summary: @SUMMARY@
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 
-#BuildRequires: sed
-#Requires: python
+BuildRequires: libemf2svg-devel, libwmf-devel, libxml2-devel, libvisio-devel, librevenge-devel, cmake, gcc
+Requires: libemf2svg, libwmf, libxml2, libvisio, librevenge
 
 %description
 @DESCRIPTION@

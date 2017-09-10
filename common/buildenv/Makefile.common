@@ -360,6 +360,12 @@ $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST
 	mv $(OUT_DIR)/*.src.rpm $(OUT_SRC)/
 	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 
+$(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
+	cp $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*.rpm $(SRC_RPMS_DIR)
+	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
+
+rpm_src_internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
+
 rpm_chroot: $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 
 # The rpm target to be called

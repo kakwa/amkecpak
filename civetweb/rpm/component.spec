@@ -11,7 +11,7 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 #BuildArch: noarch
-#BuildRequires: sed
+BuildRequires: cmake, openssl-devel, clang
 #Requires: python
 
 %description

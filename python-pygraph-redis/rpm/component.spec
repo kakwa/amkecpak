@@ -12,6 +12,7 @@ Summary: @SUMMARY@
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
 Requires: python, python-redis
+BuildRequires: python-setuptools
 
 %description
 @DESCRIPTION@
