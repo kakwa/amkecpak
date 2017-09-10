@@ -102,7 +102,7 @@ deb_chroot:
 	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
 	then\
 		export TMPDIR=/tmp/; \
-		$(COW_SUDO) cowbuilder --create \
+		$(SUDO) cowbuilder --create \
 		  --basepath $(COW_DIR)/$(COW_NAME) \
 		  --debootstrap debootstrap \
 		  $(COW_DIST) $(OTHERMIRROR) \
@@ -113,7 +113,7 @@ deb_chroot:
 		ret=$$?;\
 	else\
 		export TMPDIR=/tmp/;\
-		$(COW_SUDO) cowbuilder --update \
+		$(SUDO) cowbuilder --update \
 	      	  --basepath $(COW_DIR)/$(COW_NAME) \
 		  $(BINDMOUNT);\
 		ret=$$?;\
@@ -133,7 +133,7 @@ deb_chroot:
 		if [ $$new -ne 0 ];\
 		then\
 			export TMPDIR=/tmp/;\
-			$(COW_SUDO) cowbuilder --update \
+			$(SUDO) cowbuilder --update \
 			  --basepath $(COW_DIR)/$(COW_NAME) \
 			  $(BINDMOUNT);\
 		fi;\
