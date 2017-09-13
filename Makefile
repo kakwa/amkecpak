@@ -23,6 +23,10 @@ DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST)/
 LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
 COW_NAME := $(DIST).$(shell echo $(LOCAL_REPO_PATH) | md5sum | sed 's/\ .*//').all.cow
 
+RPM_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST)/
+RPM_LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
+
+
 include ./common/buildenv/Makefile.vars
 include ./common/buildenv/Makefile.config
 
@@ -47,7 +51,7 @@ clean_pkg: $(clean_PKG)
 
 deb_internal: $(deb_PKG)
 deb_chroot_internal: $(deb_chroot_PKG)
-rpm_chroot: $(rpm_chroot_PKG)
+rpm_chroot_internal: $(rpm_chroot_PKG)
 rpm: $(rpm_PKG)
 
 manifest: $(manifest_PKG)
@@ -140,6 +144,19 @@ deb_chroot:
 	done
 	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
+
+rpm_chroot:
+	old=99998;\
+	new=99999;\
+	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
+	do\
+		$(MAKE) rpm_chroot_internal ERROR=skip \
+		        OUT_DIR=$(RPM_LOCAL_REPO_PATH) ;\
+		old=$$new;\
+		new=$$(find ./ -type f -name "failure.rpm.chroot.$(DIST)" | wc -l);\
+		echo $$new -ne $$old;\
+	done
+	$(MAKE) rpm_chroot_internal OUT_DIR=$(RPM_LOCAL_REPO_PATH)
 
 deb_get_chroot_path:
 	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
