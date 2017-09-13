@@ -145,8 +145,9 @@ Build the rpm repository
 
 .. sourcecode:: bash
 
-    # create the rpm repository
-    $ make rpm_repo -j 4
+    # Create the rpm repository
+    # Replace el7 by the distro code name targeted
+    $ make rpm_repo DIST=el7
     
 Result repositories
 ~~~~~~~~~~~~~~~~~~~
@@ -156,24 +157,77 @@ The resulting repositories will look like that:
 .. sourcecode:: none
 
     out
-    └── rpm
-        └── debU
-            └── x86_64
-                ├── repodata
-                │   ├── 454e22ec768a30aa8e0c169454729501bbcd60f4365ce920d8125f2f4692d987-primary.xml.gz
-                │   ├── 8f0383e61bd158979fd85db8a8e26a269b65f2327b183f99ba5139b559dd0336-other.xml.gz
-                │   ├── a91c0afbd9bfef2cfb0a00fb3fe5a7490520dbf6d55ea098826cc6f253354552-other.sqlite.bz2
-                │   ├── b49576332c4b8277aa173f57ee86b94db25edf2790e5712a39f22044c4c31669-filelists.xml.gz
-                │   ├── b7cc2998becaa1b7c4592c3fa81fe5eca4bb522726d8634362cf2054ef01fae2-filelists.sqlite.bz2
-                │   ├── e6e5b087813b07eef01de6cbfa9df8ec496affb79141cef026c28a812096dd4b-primary.sqlite.bz2
-                │   └── repomd.xml
-                └── RPMS
-                    ├── dwm-desktop-5.9.0-1.debU.x86_64.rpm
-                    ├── gogs-0.7.22-1.debU.x86_64.rpm
-                    ├── mksh-skel-1.0.0-1.debU.noarch.rpm
-                    ├── python-asciigraph-1.1.3-1.debU.noarch.rpm
-                    ├── python-dnscherry-0.1.3-1.debU.noarch.rpm
-                    ├── python-ldapcherry-0.2.2-1.debU.noarch.rpm
-                    ├── python-ldapcherry-ppolicy-cracklib-0.1.0-1.debU.noarch.rpm
-                    └── python-pygraph-redis-0.2.1-1.debU.noarch.rpm
-
+    ├── GPG-KEY.pub
+    └── rpm.el7
+        ├── 7
+        │   └── x86_64
+        │       ├── civetweb-1.9.1.9999-3.el7.centos.x86_64.rpm
+        │       ├── dnscherry-0.1.3-1.el7.centos.noarch.rpm
+        │       ├── python-asciigraph-1.1.3-1.el7.centos.noarch.rpm
+        │       ├── python-pygraph-redis-0.2.1-1.el7.centos.noarch.rpm
+        │       ├── python-rfc3161-1.0.7-1.el7.centos.noarch.rpm
+        │       ├── repodata
+        │       │   ├── 279156abfa1a5611056b66b7b6481e531977699ee9b5b06462fc58848408cb88-filelists.xml.gz
+        │       │   ├── 3221e073b2d2d0a4176d591db070b479975e1341336a96e1c3507366743e4969-other.sqlite.bz2
+        │       │   ├── a718d20219a56321fb7c981944d671a6ab79379f064388a5bad4ec9f0d2e6b39-other.xml.gz
+        │       │   ├── ab2d5c7943cb6fea596116dc841be8da02f5057903b8e4314de9f302cd20e59f-primary.xml.gz
+        │       │   ├── ec4c86e1cf1c6e36c8020b650066db23c112f2357803eb8dfc327aff8197e2c2-filelists.sqlite.bz2
+        │       │   ├── fbc3d4f1d6831239ca0a138e24dcbb6ed5b08f5521bae5c5c41d0e46f56e34b2-primary.sqlite.bz2
+        │       │   └── repomd.xml
+        │       └── uts-server-0.1.9-1.el7.centos.x86_64.rpm
+        └── raw
+            ├── configs
+            │   └── epel-7-x86_64
+            │       ├── epel-7-x86_64.cfg
+            │       ├── logging.ini
+            │       └── site-defaults.cfg
+            └── results
+                └── epel-7-x86_64
+                    ├── civetweb-1.9.1.9999-3.kw+el7
+                    │   ├── build.log
+                    │   ├── civetweb-1.9.1.9999-3.el7.centos.src.rpm
+                    │   ├── civetweb-1.9.1.9999-3.el7.centos.x86_64.rpm
+                    │   ├── libcivetweb-1.9.1.9999-3.el7.centos.x86_64.rpm
+                    │   ├── libcivetweb-devel-1.9.1.9999-3.el7.centos.x86_64.rpm
+                    │   ├── root.log
+                    │   ├── state.log
+                    │   └── success
+                    ├── python-asciigraph-1.1.3-1.kw+el7
+                    │   ├── build.log
+                    │   ├── python-asciigraph-1.1.3-1.el7.centos.noarch.rpm
+                    │   ├── python-asciigraph-1.1.3-1.el7.centos.src.rpm
+                    │   ├── root.log
+                    │   ├── state.log
+                    │   └── success
+                    ├── python-pygraph-redis-0.2.1-1.kw+el7
+                    │   ├── build.log
+                    │   ├── python-pygraph-redis-0.2.1-1.el7.centos.noarch.rpm
+                    │   ├── python-pygraph-redis-0.2.1-1.el7.centos.src.rpm
+                    │   ├── root.log
+                    │   ├── state.log
+                    │   └── success
+                    ├── python-rfc3161-1.0.7-1.kw+el7
+                    │   ├── build.log
+                    │   ├── python-rfc3161-1.0.7-1.el7.centos.noarch.rpm
+                    │   ├── python-rfc3161-1.0.7-1.el7.centos.src.rpm
+                    │   ├── root.log
+                    │   ├── state.log
+                    │   └── success
+                    ├── repodata
+                    │   ├── 21289fde781204ae80d8b5ccb6409f15298f3d131c5d9b6c83a559023d66117b-primary.sqlite.bz2
+                    │   ├── 4a058e025303cbaa07d36b869cfa275d3c34eb8d8ce03b973544f449185b6971-primary.xml.gz
+                    │   ├── 64b282083531afc79e552b977c591e381cded3ace188e35a12f922b6f63e9bd3-filelists.xml.gz
+                    │   ├── 9efa0da5d3d74511206cfba49adca7179bcd13bf9e48bb39582cce9e4ccdc1a6-filelists.sqlite.bz2
+                    │   ├── bb3775aea68d9c6de66a7d466d0af65f0e19a4d0e036cf6df341f2d7f56c16dd-other.xml.gz
+                    │   ├── c22678232ad81e43413ccc4e5ac8a3966b7ea70697b499b35dd4c9ad457386fa-other.sqlite.bz2
+                    │   ├── filelists.xml.gz
+                    │   ├── other.xml.gz
+                    │   └── repomd.xml
+                    └── uts-server-0.1.9-1.kw+el7
+                        ├── build.log
+                        ├── root.log
+                        ├── state.log
+                        ├── success
+                        ├── uts-server-0.1.9-1.el7.centos.src.rpm
+                        └── uts-server-0.1.9-1.el7.centos.x86_64.rpm
+    

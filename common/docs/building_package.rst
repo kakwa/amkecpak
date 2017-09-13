@@ -45,9 +45,15 @@ Here are the results:
 Build rpm inside a clean chroot
 ===============================
 
-.. warning::
+.. sourcecode:: bash
 
-     Not implemented yet
+    # go inside the component directory
+    $ cd python-asciigraph
+    
+    # Build the rpm in a chroot (using mockchain)
+    # Replace el7 by the dist version targeted
+    $ make rpm_chroot DIST=el7
+ 
 
 Build deb package
 =================
