@@ -10,8 +10,7 @@ License: @LICENSE@
 Group: System/Servers
 Summary: @SUMMARY@
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-
-BuildRequires: libemf2svg-devel, libwmf-devel, libxml2-devel, libvisio-devel, librevenge-devel, cmake, gcc
+BuildRequires: libemf2svg-devel, libwmf-devel, libxml2-devel, libvisio-devel, librevenge-devel, cmake, gcc, freetype-devel
 Requires: libemf2svg, libwmf, libxml2, libvisio, librevenge
 
 %description
@@ -32,7 +31,7 @@ Summary: @SUMMARY@, command line converter
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DUNSAFE_FILENAME=ON
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %post

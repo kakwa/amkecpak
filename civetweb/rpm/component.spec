@@ -10,15 +10,16 @@ License: @LICENSE@
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
+Requires: lib@NAME@
 #BuildArch: noarch
 BuildRequires: cmake, openssl-devel, clang
-#Requires: python
 
 %description
 @DESCRIPTION@
 
 %package -n lib@NAME@-devel
 Summary: @SUMMARY@, headers
+Requires: lib@NAME@
 %description -n lib@NAME@-devel
 @DESCRIPTION@, headers
 

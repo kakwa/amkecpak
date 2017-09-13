@@ -18,11 +18,13 @@ Requires: libpng
 
 %package devel
 Summary: @SUMMARY@, headers
+Requires: @NAME@
 %description devel
 @DESCRIPTION@, headers
 
 %package conv
 Summary: @SUMMARY@, command line converter 
+Requires: @NAME@
 %description conv
 @DESCRIPTION@, command line converter
 
