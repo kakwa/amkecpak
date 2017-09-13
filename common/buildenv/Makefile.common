@@ -184,7 +184,7 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure.$(DIST);exit 1;\
-		else rm -f $(BUILD_DIR)/failure.$(DIST);exit 0;\
+		else rm -f $(BUILD_DIR)/failure.$(DIST);\
 	fi
 	find $(BUILD_DIR)/ -type f -name "*.deb" -print0 | xargs -i -n 1 -0 mv {} $(OUT_DIR)/
 	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -i -n 1 -0 cp {} $(OUT_SRC)/
@@ -227,7 +227,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	  	--mirror $(DEB_MIRROR) $(BINDMOUNT); \
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure.chroot.$(DIST);exit 1;\
-		else rm -f $(BUILD_DIR)/failure.chroot.$(DIST);exit 0;\
+		else rm -f $(BUILD_DIR)/failure.chroot.$(DIST);\
 	fi
 	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	find $(OUT_DIR)/ -type f -name "*.dsc" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
@@ -352,16 +352,14 @@ $(BUILD_DIR)/pkg_built.src.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_S
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
 
 $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
-	$(SUDO) mock -r $(DIST_FULL)-$(ARCH) --rebuild $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*.rpm --resultdir $(OUT_DIR)/
+	mockchain -l $(OUT_DIR)/ -r $(DIST_FULL)-$(ARCH) -m --rebuild $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm ;\
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 1;\
-		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 0;\
+		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);\
 	fi
-	mv $(OUT_DIR)/*.src.rpm $(OUT_SRC)/
 	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 
 $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
-	cp $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*.rpm $(SRC_RPMS_DIR)
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
 
 rpm_src_internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
