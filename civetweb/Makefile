@@ -2,12 +2,10 @@
 NAME = civetweb
 
 # Version
-VERSION = 1.9.1.9999
-
-GIT_REV=60dc35a48650da02aa33d7b77388775104883119
+VERSION = 1.10
 
 # Revision number 
-RELEASE = 3
+RELEASE = 1
 
 # URL of the project 
 URL=https://github.com/civetweb/civetweb
@@ -25,8 +23,7 @@ LICENSE=MIT
 ########
 
 # example of source recovery url
-#URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
-URL_SRC=$(URL)/archive/$(GIT_REV).tar.gz
+URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
@@ -40,13 +37,7 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) Makefile MANIFEST $(CACHE)
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
-	mkdir -p $(BUILD_DIR)/tmp
-	tar -xf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
-	mv $(BUILD_DIR)/tmp/$(NAME)-$(GIT_REV)/* $(SOURCE_DIR)
-	rm -rf $(BUILD_DIR)/tmp
-	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
-	$(SOURCE_TAR_CMD)
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
 
 # preparation hook for deb package.
 # by default, same as rpm package but could be override
