@@ -2,7 +2,7 @@
 NAME = python-asciigraph
 
 # Version
-VERSION = 1.1.3
+VERSION = 1.4.1
 
 # Revision number 
 RELEASE = 1
