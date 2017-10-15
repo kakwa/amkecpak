@@ -207,8 +207,8 @@ $(DEB_OUT_DIR)/dists/$(DIST)/InRelease: $(DEBS) $(DEB_OUT_DIR)/conf/distribution
 
 internal_deb_repo: $(DEB_OUT_DIR)/dists/$(DIST)/InRelease
 
-RPMS = $(shell find $(RPM_LOCAL_REPO_PATH) -name '*.rpm' -not -name '*.src.rpm')
-SRC_RPMS = $(shell find $(RPM_LOCAL_REPO_PATH) -name '*.src.rpm')
+RPMS = $(shell find $(RPM_LOCAL_REPO_PATH) -name '*.rpm' -not -name '*.src.rpm' 2>/dev/null)
+SRC_RPMS = $(shell find $(RPM_LOCAL_REPO_PATH) -name '*.src.rpm' 2>/dev/null)
 
 OUT_RPMS = $(shell echo $(RPMS) | tr ' ' '\n' | sed 's|.*/|$(RPM_OUT_REPO)|g')
 
