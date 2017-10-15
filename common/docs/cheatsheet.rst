@@ -60,13 +60,13 @@ Building .deb (chroot):
 
 .. sourcecode:: bash
 
-    $ make deb DIST=<VERSION>
+    $ make deb_chroot DIST=<VERSION>
 
 Building .rpm (chroot):
 
 .. sourcecode:: bash
 
-    $ make rpm DIST=<VERSION>
+    $ make rpm_chroot DIST=<VERSION>
 
 Global Makefile
 ===============
@@ -87,13 +87,13 @@ Building  all.deb (chroot):
 
 .. sourcecode:: bash
 
-    $ make deb DIST=<VERSION>
+    $ make deb_chroot DIST=<VERSION>
 
 Building all .rpm (chroot):
 
 .. sourcecode:: bash
 
-    $ make rpm DIST=<VERSION>
+    $ make rpm_chroot DIST=<VERSION>
 
 Building the .deb repository:
 
