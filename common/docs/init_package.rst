@@ -3,19 +3,12 @@ Create a package
 
 Creating a package **foo** involves the following steps:
 
-* Initialize the packaging directories.
-* Fill **foo**/Makefile (used for common metadata and upstream source recovery and preparation).
-* Do the distribution specific stuff (dependencies in **debian/control** and **foo.spec**,
+* Initialize the packaging directories for **foo**.
+* Fill **foo/Makefile** (used for metadata and upstream source recovery/preparation).
+* Generate the **MANIFEST** file (checksum of upstream source)
+* Do distribution specific packaging (dependencies in **debian/control**, **rpm/component.spec**,
   pre/post install scripts, init scripts, etc)
 * Build the package
-
-Here is the general packaging workflow:
-
-.. figure:: img/pkg_diagram.png
-    :scale: 80
-
-* The steps in orange are common for all packages and must not be modified.
-* The steps in green are package specific, it's those steps which must be customized for each package.
 
 Initialize package skeleton
 ===========================
@@ -159,8 +152,8 @@ Example:
     updating the manifest is necessary if upstream has not changed
     drastically.
 
-Building the MANIFEST file
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Build MANIFEST file
+~~~~~~~~~~~~~~~~~~~
 
 To create or update the MANIFEST file, just run the following command:
 
@@ -181,6 +174,7 @@ To create or update the MANIFEST file, just run the following command:
         make: *** [builddir/mk-sh-skel_1.0.0.orig.tar.gz] Error 1
 
     If it happens, either it's a "legitimate" mismatch (because you have changed the version for example), and you should rebuild the MANIFEST file.
+
     Or it's upstream doing weird things like re-releasing reusing the same version number which is generally bad practice and should be investigated.
 
 Source preparation
@@ -333,17 +327,17 @@ Example for ldapcherry.service systemd service file and it's associated files:
    install -pm644 %{SOURCE2} %{buildroot}/usr/lib/tmpfiles.d/
    install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 
-Distribution version specific packaging files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Version specific packaging files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Depending on the OS version targeted, there might be some differences in packaging.
 A common difference is the dependency names.
 
 For handling those cases, the present packaging framework provides a simple mechanism.
 
-To override any file **<FILE>** in either the **rpm/** or **debian/** directories if
-targeting distribution version **<DIST>**, just create a new version of the **<FILE>**
-with the following name: **<FILE>.dist.<DIST>**.
+To override any file **<FILE>** in either the **rpm/** or **debian/** directories
+for a specific distribution version **<DIST>**, 
+create a file **<FILE>.dist.<DIST>** with the specific content for version **<DIST>**.
 
 For example, with the **debian/control** file and distribution **jessie**:
 

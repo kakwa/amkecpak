@@ -60,11 +60,16 @@ Create the repositories
 
 .. note:: use -j <number of jobs> to run multiple packaging jobs in parallele
 
-
 .. note:: use **ERROR=skip** to ignore package build failures when calling **make <pkg>_repo** and keep continuing building the repo.
 
-Build .deb repositories
-~~~~~~~~~~~~~~~~~~~~~~~
+.. note:: this framework handles build dependencies needing themself to be built.
+
+    This is done by a simple retry loop: if packages fails to build, retry with the freeshly generated packages available as installable dependencies.
+    
+    This should converge to all packages being built. It will stop in error if an iterration doesn't manage to build any new package.
+
+Build .deb repository
+~~~~~~~~~~~~~~~~~~~~~
 
 To build the .deb repository, run:
 
@@ -85,7 +90,7 @@ To build the .deb repository, run:
     **deb_repo** target supports the same variables as the **deb_chroot** target, like for example **DEB_MIRROR**
 
 
-result:
+Result:
 
 .. sourcecode:: bash
     out
@@ -143,14 +148,18 @@ result:
 Build the rpm repository
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+To build the .rpm repository, run:
+
 .. sourcecode:: bash
 
     # Create the rpm repository
     # Replace el7 by the distro code name targeted
     $ make rpm_repo DIST=el7
     
-Result repositories
-~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+    mock doesn't support building 2 packages in parallele, don't use -j N with N > 1.
 
 The resulting repositories will look like that:
 

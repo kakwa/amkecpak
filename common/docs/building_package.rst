@@ -1,6 +1,15 @@
 Build a package
 ---------------
 
+Here is the general building workflow:
+
+.. figure:: img/pkg_diagram.png
+    :scale: 80
+
+* The steps in orange are common for all packages and must not be modified.
+* The steps in green are package specific, it's those steps which must be customized for each package.
+
+
 Cleaning cache, out and src-out directories
 ===========================================
 
@@ -55,6 +64,11 @@ Build rpm inside a clean chroot
     $ make rpm_chroot DIST=el7
  
 
+.. warning::
+
+    In Debian/Ubuntu, mockchain may fail because **/usr/bin/createrepo_c** is not available, (Debian bug #875701).
+    A work around is to symlink **/usr/bin/createrepo_c** to **/usr/bin/createrepo**.
+
 Build deb package
 =================
 
@@ -105,28 +119,89 @@ Building in chroot is heavier but has multiple gains:
    # build deb package for dist jessie
    $ make deb_chroot DIST=jessie
 
+Chroot building tips
+====================
+
+Common tips
+~~~~~~~~~~~
+
+
 .. note::
 
     Building the chroot can be a long and heavy step but there are several way to accelerate it.
 
-    The first is to used a local mirror, this can be done using the DEB_MIRROR option when calling deb_chroot:
+    The first is to used a local mirror.
+   
+    For deb/cowbuilder this can be done using the **DEB_MIRROR** option when calling deb_chroot:
 
     .. sourcecode:: bash
         
-        make deb_chroot DEB_MIRROR=http://your.local.mirror/debian
+        $ make deb_chroot DIST=jessie DEB_MIRROR=http://your.local.mirror/debian
 
-    The second is to use a tmpfs for building, it requires a few GB of RAM however (at least 1.5GB per distro
+    For rpm/mock, this can be done by changing the appropriate configuration file in **/etc/mock**
+
+    .. sourcecode:: bash
+
+       $ vim /etc/mock/epel-7-x86_64.cfg
+    
+    The second is to use a tmpfs for building, it requires a few GB of RAM however (at least 2GB per distro
     version targeted, but this may vary depending on the number packages and the size of their dependencies):
+
+    For deb/cowbuilder:
 
     .. sourcecode:: bash
 
         # as root
-        mount -t tmpfs -o size=16G tmpfs /var/cache/pbuilder/
+        $ mount -t tmpfs -o size=16G tmpfs /var/cache/pbuilder/
 
     .. sourcecode:: bash
 
         # in fstab
         tmpfs /var/cache/pbuilder/ tmpfs defaults,size=16G 0 0
+
+    For rpm/mock:
+
+    .. sourcecode:: bash
+
+        # as root
+        $ mount -t tmpfs -o size=16G tmpfs /var/lib/mock
+
+    .. sourcecode:: bash
+
+        # in fstab
+        tmpfs /var/lib/mock tmpfs defaults,size=16G 0 0
+
+
+.. warning::
+
+    Some recent distributions may disable the **vsyscall** syscall which is used by older libc (ex: CentOS/RHEL <= 6).
+
+    The problem can be diagnosed by running **dmesg** after a failure to create or run anything in the chroot. You
+    would get errors like:
+
+    .. sourcecode:: bash
+
+        [  578.456176] sh[15402]: vsyscall attempted with vsyscall=none ip:ffffffffff600400 cs:33 sp:7ffd469c5aa8 ax:ffffffffff600400 si:7ffd469c6f23 di:0
+        [  578.456180] sh[15402]: segfault at ffffffffff600400 ip ffffffffff600400 sp 00007ffd469c5aa8 error 15
+
+    In most cases this syscall can be reenabled with **vsyscall=emulate** option in the kernel command line.
+
+Deb/cowbuilder tips
+~~~~~~~~~~~~~~~~~~~
+
+.. warning::
+
+    Building in chroot requires root permission (it's necessary for creating the chroot environment).
+
+    If **make deb_chroot** is run as a standard user, **sudo** will be used for cowbuilder calls.
+
+    If you want to avoid password promt, the only command that needs to be white listed
+    in sudoers configuration is **cowbuilder**:
+
+    .. sourcecode:: bash
+
+        # replace build-user with the user used to generate the packages
+        build-user ALL=(ALL) NOPASSWD: /usr/sbin/cowbuilder
 
 .. warning::
 
@@ -144,21 +219,6 @@ Building in chroot is heavier but has multiple gains:
         # as root
         # remove the chroot
         rm -rf `make deb_get_chroot_path DIST=<code name>`
-
-.. warning::
-
-    Some recent distributions may disable the **vsyscall** syscall which is used by older libc (ex: CentOS/RHEL <= 6).
-
-    The problem can be diagnosed by running **dmesg** after a failure to create or run anything in the chroot. You
-    would get errors like:
-
-    .. sourcecode:: bash
-
-        [  578.456176] sh[15402]: vsyscall attempted with vsyscall=none ip:ffffffffff600400 cs:33 sp:7ffd469c5aa8 ax:ffffffffff600400 si:7ffd469c6f23 di:0
-        [  578.456180] sh[15402]: segfault at ffffffffff600400 ip ffffffffff600400 sp 00007ffd469c5aa8 error 15
-
-    In most cases this syscall can be reenabled with **vsyscall=emulate** option in the kernel command line.
-
 
 .. warning::
 
@@ -197,16 +257,10 @@ Building in chroot is heavier but has multiple gains:
 
         make deb_chroot DIST=stretch COW_OPTS=--debootstrapopts=--keyring=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg
 
+Rpm/mock tips
+~~~~~~~~~~~~~
+
 .. warning::
 
-    Building in chroot requires root permission (it's necessary for creating the chroot environment).
-
-    If **make deb_chroot** is run as a standard user, **sudo** will be used for cowbuilder calls.
-
-    If you want to avoid password promt, the only command that needs to be white listed
-    in sudoers configuration is **cowbuilder**:
-
-    .. sourcecode:: bash
-
-        # replace build-user with the user used to generate the packages
-        build-user ALL=(ALL) NOPASSWD: /usr/sbin/cowbuilder
+    To get the necessary permission to build a package using mock, a **mock** group must be present on the system and
+    the user building the package must be a member of this group.

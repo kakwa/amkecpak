@@ -1,7 +1,7 @@
-Required tools
---------------
+Requirements
+------------
 
-This section details the tools necessary for this packaging framework to work.
+This section details the tools needed by this packaging framework.
 
 .. warning::
 
@@ -9,8 +9,8 @@ This section details the tools necessary for this packaging framework to work.
     Each individual package requires it's own build dependencies (gcc, cmake...).
     You must either install those dependencies or build in chroot (make *rpm_chroot* or *deb_chroot*).
 
-Debian/Ubuntu tools
-===================
+Debian/Ubuntu
+=============
 
 To install the Debian requirements:
 
@@ -25,10 +25,10 @@ Here are the additionnal packages to install if you want to produce rpms on a De
 .. sourcecode:: bash
 
     # Debian/Ubuntu (rpm)
-    # apt-get install createrepo rpm mock expect
+    $ apt-get install createrepo rpm mock expect
 
-RHEL/CentOS/Fedora tools
-========================
+RHEL/CentOS/Fedora
+==================
 
 To install the RHEL requirements:
 
@@ -44,4 +44,3 @@ To install the RHEL requirements:
     
     CentOS/RHEL doesn't distribute the .deb tooling. Contrary to Debian/Ubuntu, it's not
     possible to produce .deb on a CentOS/RHEL.
-
