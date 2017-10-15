@@ -344,6 +344,6 @@ For example, with the **debian/control** file and distribution **jessie**:
 .. sourcecode:: bash
 
     debian/control             # will be used as default
-    debian/control.dist.jessie # will be used build is called with DIST=jessie
+    debian/control.dist.jessie # will be used if build is called with DIST=jessie
 
 It also permits to handle additional files for specific distribution versions.

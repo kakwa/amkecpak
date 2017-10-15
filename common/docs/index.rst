@@ -5,6 +5,7 @@ Contents
    :maxdepth: 4
 
    tools 
+   cheatsheet
    init_package 
    building_package
    building_repo
