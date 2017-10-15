@@ -1,18 +1,13 @@
 Required tools
 --------------
 
-This packaging infrastructure relies on few basic tools.
-
-.. note::
-    
-    Debian has all the necessary tooling build rpm and create the rpm repo.
-    However CentOS doesn't have the debian tooling.
+This section details the tools necessary for this packaging framework to work.
 
 .. warning::
 
-    What is detailed here is only the common tools used to build packages and repo.
-    For each package, you need to install its own build dependencies (stuff like gcc,
-    python-setuptools, etc) if building outside a chroot.
+    Only the tools necessary for building packages are detailed here.
+    Each individual package requires it's own build dependencies (gcc, cmake...).
+    You must either install those dependencies or build in chroot (make *rpm_chroot* or *deb_chroot*).
 
 Debian/Ubuntu tools
 ===================
@@ -22,7 +17,15 @@ To install the Debian requirements:
 .. sourcecode:: bash
 
     # Debian/Ubuntu (deb)
-    $ apt-get install make debhelper reprepro cowbuilder
+    $ apt-get install make debhelper reprepro cowbuilder wget
+
+Debian/Ubuntu also distributes rpm packaging tools.
+Here are the additionnal packages to install if you want to produce rpms on a Debian based system:
+
+.. sourcecode:: bash
+
+    # Debian/Ubuntu (rpm)
+    # apt-get install createrepo rpm mock expect
 
 RHEL/CentOS/Fedora tools
 ========================
@@ -32,8 +35,13 @@ To install the RHEL requirements:
 .. sourcecode:: bash
 
     # CentOS/RHEL (rpm)
-    $ yum install rpm-sign expect rpm-build createrepo make mock
+    $ yum install rpm-sign expect rpm-build createrepo make mock wget
 
     # Fedora (rpm)
-    $ dnf install rpm-sign expect rpm-build createrepo make mock
+    $ dnf install rpm-sign expect rpm-build createrepo make mock wget
+
+.. note::
+    
+    CentOS/RHEL doesn't distribute the .deb tooling. Contrary to Debian/Ubuntu, it's not
+    possible to produce .deb on a CentOS/RHEL.
 
