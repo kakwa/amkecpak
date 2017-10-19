@@ -22,9 +22,9 @@ Packaging documentation in a nutshell
 .. sourcecode:: bash
     
     # Install the packaing tools
-    $ apt-get install make debhelper reprepro
+    $ apt-get install make debhelper reprepro cowbuilder wget
     # or
-    $ yum install rpm-sign expect rpm-build createrepo make
+    $ yum install make rpm-sign expect rpm-build createrepo mock wget
 
     # Init a package foo
     $ ./common/init_pkg.sh -n foo
@@ -42,15 +42,22 @@ Packaging documentation in a nutshell
     # Building the packages
     $ make deb
     $ make rpm
+    
+    # Same in chroots, targeting specific distribution versions
+    $ make deb_chroot DIST=jessie
+    $ make rpm_chroot DIST=el7
 
     $ cd ../
 
     # gpg key generation (one time thing)
     $ gpg --gen-key
+    
+    # editing the global configuration
+    $ vim common/buildenv/Makefile.config
 
     # Building the repositories
     # Use ERROR=skip to ignore package build failures and continue building the repo
-    $ make deb_repo -j 4 # ERROR=skip
-    $ make rpm_repo -j 4 # ERROR=skip
+    $ make deb_repo -j 4 DIST=jessie # ERROR=skip
+    $ make rpm_repo -j 1 DIST=el7    # ERROR=skip
 
 If you need more information, read the `detailed documentation <http://amkecpak.readthedocs.org/en/latest/>`_.
