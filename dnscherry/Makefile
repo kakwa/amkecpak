@@ -5,7 +5,7 @@ NAME = dnscherry
 VERSION = 0.1.3
 
 # release number 
-RELEASE = 1
+RELEASE = 2
 
 # external url where to recover the sources
 URL=https://github.com/kakwa/dnscherry
