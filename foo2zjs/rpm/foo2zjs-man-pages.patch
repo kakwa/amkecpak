@@ -1,0 +1,23 @@
+diff -rupN foo2zjs.orig/icc2ps/foo2zjs-icc2ps.1in foo2zjs/icc2ps/foo2zjs-icc2ps.1in
+--- foo2zjs.orig/icc2ps/foo2zjs-icc2ps.1in	2011-01-22 15:42:40.000000000 -0500
++++ foo2zjs/icc2ps/foo2zjs-icc2ps.1in	2015-11-11 21:52:35.635303544 -0500
+@@ -27,7 +27,7 @@ Input profile: Generates Color Space Arr
+ Alternate way to set precision, number of CLUT points (CRD only)
+ .TP
+ .BI \-o\  profile
+-.p
++.P
+ Output profile: Generates Color Rendering Dictionary(CRD).
+ .TP
+ .B \-t <0,1,2,3>
+@@ -48,7 +48,7 @@ Do NOT generate resource name on CRD.
+ Rick Richardson <rick.richardson@comcast.net>
+ .br
+ http://foo2zjs.rkkda.com/
+-'/"
+-'/"
+-'/"
++'\"
++'\"
++'\"
+ .em pdf_outline

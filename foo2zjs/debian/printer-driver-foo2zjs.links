@@ -1,0 +1,11 @@
+lib/udev/hplj1000 lib/udev/hplj1005
+lib/udev/hplj1000 lib/udev/hplj1018
+lib/udev/hplj1000 lib/udev/hplj1020
+lib/udev/hplj1000 lib/udev/hpljP1005
+lib/udev/hplj1000 lib/udev/hpljP1006
+lib/udev/hplj1000 lib/udev/hpljP1007
+lib/udev/hplj1000 lib/udev/hpljP1008
+lib/udev/hplj1000 lib/udev/hpljP1505
+lib/udev/hplj1000 lib/udev/hpljP1505n
+
+usr/bin/psicc usr/bin/foo2zjs-icc2ps

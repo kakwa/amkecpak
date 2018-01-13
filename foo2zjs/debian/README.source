@@ -1,0 +1,10 @@
+Debian foo2zjs source
+---------------------
+
+This package uses quilt to manage all modifications to the upstream
+source.  Changes are stored in the source package as diffs in
+debian/patches and applied during the build.
+
+Read /usr/share/doc/quilt/README.source for further explanations.
+
+ -- Luca Capello <luca@pca.it>, Sat, 13 Mar 2010 15:28:40 +0100

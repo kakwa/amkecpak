@@ -1,0 +1,66 @@
+diff -rupN foo2zjs.orig/foomatic-db/printer/Minolta-magicolor_2300_DL.xml foo2zjs/foomatic-db/printer/Minolta-magicolor_2300_DL.xml
+--- foo2zjs.orig/foomatic-db/printer/Minolta-magicolor_2300_DL.xml	2015-11-11 21:29:24.103263183 -0500
++++ foo2zjs/foomatic-db/printer/Minolta-magicolor_2300_DL.xml	2015-11-11 21:31:15.474654465 -0500
+@@ -48,9 +48,18 @@
+ 	    <model>magicolor 2300 DL</model>
+ 	    <commandset>ZJS,PJL</commandset>
+ 	</parallel>
++	<parallel>
++	    <ieee1284>CLASS:PRINTER;MODEL:magicolor 2300 DL;MANUFACTURER:KONICA MINOLTA;COMMAND SET:ZJS,PJL;</ieee1284>
++	    <manufacturer>KONICA MINOLTA</manufacturer>
++	    <model>magicolor 2300 DL</model>
++	    <commandset>ZJS,PJL</commandset>
++	</parallel>
+ 	<snmp>
+ 	    <description>MINOLTA-QMS magicolor 2300 DL</description>
+ 	</snmp>
++	<snmp>
++	    <description>KONICA MINOLTA magicolor 2300 DL</description>
++	</snmp>
+     </autodetect>
+     <functionality>B</functionality>
+     <driver>foo2zjs</driver>
+diff -rupN foo2zjs.orig/foomatic-db/printer/Minolta-magicolor_2430_DL.xml foo2zjs/foomatic-db/printer/Minolta-magicolor_2430_DL.xml
+--- foo2zjs.orig/foomatic-db/printer/Minolta-magicolor_2430_DL.xml	2015-11-11 21:29:24.103263183 -0500
++++ foo2zjs/foomatic-db/printer/Minolta-magicolor_2430_DL.xml	2015-11-11 21:32:02.899670477 -0500
+@@ -46,9 +46,18 @@
+ 	    <model>magicolor 2430 DL</model>
+ 	    <commandset>ZJS,PJL</commandset>
+ 	</parallel>
++	<parallel>
++	    <ieee1284>CLASS:PRINTER;MODEL:magicolor 2430 DL;MANUFACTURER:KONICA MINOLTA;COMMAND SET:ZJS,PJL;</ieee1284>
++	    <manufacturer>KONICA MINOLTA</manufacturer>
++	    <model>magicolor 2430 DL</model>
++	    <commandset>ZJS,PJL</commandset>
++	</parallel>
+ 	<snmp>
+ 	    <description>MINOLTA-QMS magicolor 2430 DL</description>
+ 	</snmp>
++	<snmp>
++	    <description>KONICA MINOLTA magicolor 2430 DL</description>
++	</snmp>
+     </autodetect>
+     <functionality>B</functionality>
+     <driver>foo2zjs</driver>
+diff -rupN foo2zjs.orig/PPD/Minolta-magicolor_2300_DL.ppd foo2zjs/PPD/Minolta-magicolor_2300_DL.ppd
+--- foo2zjs.orig/PPD/Minolta-magicolor_2300_DL.ppd	2015-11-11 21:29:24.078262644 -0500
++++ foo2zjs/PPD/Minolta-magicolor_2300_DL.ppd	2015-11-11 21:33:03.284974335 -0500
+@@ -52,6 +52,7 @@
+ *Throughput:	"1"
+ *LandscapeOrientation: Plus90
+ *TTRasterizer:	Type42
++*1284DeviceID: "MANUFACTURER:KONICA MINOLTA;MODEL:magicolor 2300 DL;COMMAND SET:ZJS,PJL;DRV:Dfoo2zjs,R1,M0,TF;"
+ *1284DeviceID: "MANUFACTURER:MINOLTA-QMS;MODEL:magicolor 2300 DL;COMMAND SET:ZJS,PJL;DRV:Dfoo2zjs,R1,M0,TF;"
+ 
+ *driverName foo2zjs/foo2zjs: ""
+diff -rupN foo2zjs.orig/PPD/Minolta-magicolor_2430_DL.ppd foo2zjs/PPD/Minolta-magicolor_2430_DL.ppd
+--- foo2zjs.orig/PPD/Minolta-magicolor_2430_DL.ppd	2015-11-11 21:29:24.079262666 -0500
++++ foo2zjs/PPD/Minolta-magicolor_2430_DL.ppd	2015-11-11 21:33:22.478389611 -0500
+@@ -52,6 +52,7 @@
+ *Throughput:	"1"
+ *LandscapeOrientation: Plus90
+ *TTRasterizer:	Type42
++*1284DeviceID: "MANUFACTURER:KONICA MINOLTA;MODEL:magicolor 2430 DL;COMMAND SET:ZJS,PJL;DRV:Dfoo2zjs,R1,M0,TF;"
+ *1284DeviceID: "MANUFACTURER:MINOLTA-QMS;MODEL:magicolor 2430 DL;COMMAND SET:ZJS,PJL;DRV:Dfoo2zjs,R1,M0,TF;"
+ 
+ *driverName foo2zjs/foo2zjs: ""

@@ -1,0 +1,408 @@
+diff -rupN foo2zjs.orig/crd/zjs/prolog.ps foo2zjs/crd/zjs/prolog.ps
+--- foo2zjs.orig/crd/zjs/prolog.ps	2004-07-02 07:45:14.000000000 -0400
++++ foo2zjs/crd/zjs/prolog.ps	2015-11-11 21:46:00.429105225 -0500
+@@ -16,7 +16,7 @@
+ %
+ % You should have received a copy of the GNU General Public License
+ % along with this program; if not, write to the Free Software
+-% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++% Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ %
+ 
+ % setup initial clipping,
+diff -rupN foo2zjs.orig/crd/zjs/screen1200.ps foo2zjs/crd/zjs/screen1200.ps
+--- foo2zjs.orig/crd/zjs/screen1200.ps	2004-07-02 07:45:14.000000000 -0400
++++ foo2zjs/crd/zjs/screen1200.ps	2015-11-11 21:46:00.415104919 -0500
+@@ -14,7 +14,7 @@
+ %
+ % You should have received a copy of the GNU General Public License
+ % along with this program; if not, write to the Free Software
+-% Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++% Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ %
+ 
+ <<
+diff -rupN foo2zjs.orig/foo2hbpl2.c foo2zjs/foo2hbpl2.c
+--- foo2zjs.orig/foo2hbpl2.c	2015-10-11 15:24:50.000000000 -0400
++++ foo2zjs/foo2hbpl2.c	2015-11-11 21:46:00.463105966 -0500
+@@ -41,7 +41,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2hbpl2-wrapper.in foo2zjs/foo2hbpl2-wrapper.in
+--- foo2zjs.orig/foo2hbpl2-wrapper.in	2015-10-11 15:24:50.000000000 -0400
++++ foo2zjs/foo2hbpl2-wrapper.in	2015-11-11 21:46:00.387104308 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2hiperc.c foo2zjs/foo2hiperc.c
+--- foo2zjs.orig/foo2hiperc.c	2013-12-01 15:13:58.000000000 -0500
++++ foo2zjs/foo2hiperc.c	2015-11-11 21:46:00.560108082 -0500
+@@ -32,7 +32,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2hiperc-wrapper.in foo2zjs/foo2hiperc-wrapper.in
+--- foo2zjs.orig/foo2hiperc-wrapper.in	2013-12-01 15:25:17.000000000 -0500
++++ foo2zjs/foo2hiperc-wrapper.in	2015-11-11 21:46:00.448105639 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2hp2600-wrapper.in foo2zjs/foo2hp2600-wrapper.in
+--- foo2zjs.orig/foo2hp2600-wrapper.in	2011-01-19 20:01:09.000000000 -0500
++++ foo2zjs/foo2hp2600-wrapper.in	2015-11-11 21:46:00.455105792 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2hp.c foo2zjs/foo2hp.c
+--- foo2zjs.orig/foo2hp.c	2011-06-09 09:58:50.000000000 -0400
++++ foo2zjs/foo2hp.c	2015-11-11 21:46:00.450105683 -0500
+@@ -26,7 +26,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2lava.c foo2zjs/foo2lava.c
+--- foo2zjs.orig/foo2lava.c	2014-06-27 10:34:46.000000000 -0400
++++ foo2zjs/foo2lava.c	2015-11-11 21:46:00.556107995 -0500
+@@ -42,7 +42,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2lava-wrapper.in foo2zjs/foo2lava-wrapper.in
+--- foo2zjs.orig/foo2lava-wrapper.in	2014-06-27 10:34:46.000000000 -0400
++++ foo2zjs/foo2lava-wrapper.in	2015-11-11 21:46:00.443105530 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2oak.c foo2zjs/foo2oak.c
+--- foo2zjs.orig/foo2oak.c	2011-11-08 15:25:27.000000000 -0500
++++ foo2zjs/foo2oak.c	2015-11-11 21:46:00.460105901 -0500
+@@ -37,7 +37,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2oak-wrapper.in foo2zjs/foo2oak-wrapper.in
+--- foo2zjs.orig/foo2oak-wrapper.in	2011-08-07 12:49:30.000000000 -0400
++++ foo2zjs/foo2oak-wrapper.in	2015-11-11 21:46:00.461105923 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2qpdl.c foo2zjs/foo2qpdl.c
+--- foo2zjs.orig/foo2qpdl.c	2014-01-26 21:23:29.000000000 -0500
++++ foo2zjs/foo2qpdl.c	2015-11-11 21:46:00.439105443 -0500
+@@ -44,7 +44,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2qpdl-wrapper.in foo2zjs/foo2qpdl-wrapper.in
+--- foo2zjs.orig/foo2qpdl-wrapper.in	2014-01-26 21:34:29.000000000 -0500
++++ foo2zjs/foo2qpdl-wrapper.in	2015-11-11 21:46:00.445105574 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2slx.c foo2zjs/foo2slx.c
+--- foo2zjs.orig/foo2slx.c	2011-06-09 09:02:24.000000000 -0400
++++ foo2zjs/foo2slx.c	2015-11-11 21:46:00.436105377 -0500
+@@ -26,7 +26,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2slx-wrapper.in foo2zjs/foo2slx-wrapper.in
+--- foo2zjs.orig/foo2slx-wrapper.in	2011-01-14 18:21:39.000000000 -0500
++++ foo2zjs/foo2slx-wrapper.in	2015-11-11 21:46:00.554107951 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2xqx.c foo2zjs/foo2xqx.c
+--- foo2zjs.orig/foo2xqx.c	2011-06-09 09:50:09.000000000 -0400
++++ foo2zjs/foo2xqx.c	2015-11-11 21:46:00.356103632 -0500
+@@ -32,7 +32,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2xqx-wrapper.in foo2zjs/foo2xqx-wrapper.in
+--- foo2zjs.orig/foo2xqx-wrapper.in	2013-12-25 16:00:11.000000000 -0500
++++ foo2zjs/foo2xqx-wrapper.in	2015-11-11 21:46:00.391104396 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/foo2zjs.c foo2zjs/foo2zjs.c
+--- foo2zjs.orig/foo2zjs.c	2011-11-12 11:39:53.000000000 -0500
++++ foo2zjs/foo2zjs.c	2015-11-11 21:46:00.470106119 -0500
+@@ -51,7 +51,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/foo2zjs-wrapper.in foo2zjs/foo2zjs-wrapper.in
+--- foo2zjs.orig/foo2zjs-wrapper.in	2012-02-23 20:25:15.000000000 -0500
++++ foo2zjs/foo2zjs-wrapper.in	2015-11-11 21:46:00.457105835 -0500
+@@ -14,7 +14,7 @@
+ #*
+ #* You should have received a copy of the GNU General Public License
+ #* along with this program; if not, write to the Free Software
+-#* Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #*
+ #* Authors: Rick Richardson <rick.richardson@comcast.net>
+ 
+diff -rupN foo2zjs.orig/gipddecode.c foo2zjs/gipddecode.c
+--- foo2zjs.orig/gipddecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/gipddecode.c	2015-11-11 21:46:00.437105399 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/hbpldecode.c foo2zjs/hbpldecode.c
+--- foo2zjs.orig/hbpldecode.c	2014-09-25 10:28:15.000000000 -0400
++++ foo2zjs/hbpldecode.c	2015-11-11 21:46:00.465106010 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Authors: Rick Richardson <rick.richardson@comcast.net>
+  * 	    Peter Korf <peter@niendo.de> (HBPL version 2)
+diff -rupN foo2zjs.orig/hipercdecode.c foo2zjs/hipercdecode.c
+--- foo2zjs.orig/hipercdecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/hipercdecode.c	2015-11-11 21:46:00.457105835 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/lavadecode.c foo2zjs/lavadecode.c
+--- foo2zjs.orig/lavadecode.c	2014-06-27 10:41:37.000000000 -0400
++++ foo2zjs/lavadecode.c	2015-11-11 21:46:00.441105486 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/msexpand foo2zjs/msexpand
+--- foo2zjs.orig/msexpand	2003-06-30 01:11:17.000000000 -0400
++++ foo2zjs/msexpand	2015-11-11 21:46:00.549107842 -0500
+@@ -16,7 +16,7 @@
+ #
+ #    You should have received a copy of the GNU General Public License
+ #    along with this program; if not, write to the Free Software
+-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++#    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ #
+ # Microsoft compress file structure:
+ # Uses a 12 bit (4k) sliding window Lempel Ziv variant.
+diff -rupN foo2zjs.orig/oakdecode.c foo2zjs/oakdecode.c
+--- foo2zjs.orig/oakdecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/oakdecode.c	2015-11-11 21:46:00.446105596 -0500
+@@ -26,7 +26,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/opldecode.c foo2zjs/opldecode.c
+--- foo2zjs.orig/opldecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/opldecode.c	2015-11-11 21:46:00.454105770 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/osx-hotplug/osx-hplj-hotplug.m foo2zjs/osx-hotplug/osx-hplj-hotplug.m
+--- foo2zjs.orig/osx-hotplug/osx-hplj-hotplug.m	2011-07-22 14:59:04.000000000 -0400
++++ foo2zjs/osx-hotplug/osx-hplj-hotplug.m	2015-11-11 21:46:00.358103676 -0500
+@@ -17,7 +17,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ */
+ 
+diff -rupN foo2zjs.orig/qpdldecode.c foo2zjs/qpdldecode.c
+--- foo2zjs.orig/qpdldecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/qpdldecode.c	2015-11-11 21:46:00.471106141 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/README foo2zjs/README
+--- foo2zjs.orig/README	2015-10-11 15:25:08.000000000 -0400
++++ foo2zjs/README	2015-11-11 21:46:00.439105443 -0500
+@@ -209,7 +209,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/README.in foo2zjs/README.in
+--- foo2zjs.orig/README.in	2015-10-11 15:23:51.000000000 -0400
++++ foo2zjs/README.in	2015-11-11 21:46:00.470106119 -0500
+@@ -209,7 +209,7 @@ GNU General Public License for more deta
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+-Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+ 
+ If you want to use this program under different license conditions,
+ then contact the author for an arrangement.
+diff -rupN foo2zjs.orig/slxdecode.c foo2zjs/slxdecode.c
+--- foo2zjs.orig/slxdecode.c	2014-01-24 14:25:47.000000000 -0500
++++ foo2zjs/slxdecode.c	2015-11-11 21:46:00.447105617 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/xqxdecode.c foo2zjs/xqxdecode.c
+--- foo2zjs.orig/xqxdecode.c	2014-01-24 14:25:48.000000000 -0500
++++ foo2zjs/xqxdecode.c	2015-11-11 21:46:00.442105508 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/
+diff -rupN foo2zjs.orig/zjsdecode.c foo2zjs/zjsdecode.c
+--- foo2zjs.orig/zjsdecode.c	2014-01-24 14:25:48.000000000 -0500
++++ foo2zjs/zjsdecode.c	2015-11-11 21:46:00.443105530 -0500
+@@ -17,7 +17,7 @@
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+- * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
++ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110 USA.
+  *
+  * Author: Rick Richardson <rick.richardson@comcast.net>
+ b*/

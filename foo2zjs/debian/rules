@@ -1,0 +1,104 @@
+#!/usr/bin/make -f
+
+derives_from_ubuntu := $(shell (dpkg-vendor --derives-from Ubuntu && echo "yes") || echo "no")
+DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+
+%:
+	dh $@ 
+
+override_dh_auto_build:
+	cp printer-profile.in printer-profile
+	dh_auto_build -- all ppd
+
+override_dh_auto_install:
+	dh_auto_install -- PREFIX=$(CURDIR)/debian/tmp/usr MODEL=$(CURDIR)/debian/tmp/usr/share/cups/model FOODB=$(CURDIR)/debian/tmp/usr/share/foomatic/db/source PPD=$(CURDIR)/debian/tmp/usr/share/ppd CUPS_SERVERBIN=$(CURDIR)/debian/tmp/usr/lib/cups DOCDIR=$(CURDIR)/debian/tmp/usr/share/doc/printer-driver-foo2zjs
+
+override_dh_install:
+	### patches/20-honour-papersize.patch
+	# Add support for /etc/papersize to all wrapper scripts. In contrary
+	# to a patch this will automatically apply to every new wrapper script
+	# which gets added to this package in the future.
+	perl -p -i -e 's/^PAPER=(\d+)\s*$$/test -r \/etc\/papersize && PAPER=\x24\(cat \/etc\/papersize\)\ntest "\x24PAPER" || PAPER=\1\n/' $(CURDIR)/debian/tmp/usr/bin/*-wrapper
+	# Add "-dNOINTERPOLATE" to the Ghostscript command lines to make
+	# Ghostscript rendering the pages significantly faster
+	perl -p -i -e 's/dNOPAUSE/dNOPAUSE -dNOINTERPOLATE/g' $(CURDIR)/debian/tmp/usr/bin/*-wrapper
+	# Legacy dh_install
+	dh_install --list-missing \
+		-Xusb_printerid \
+		-Xhplj10xx.rules \
+		-XINSTALL \
+		-XINSTALL.OSX \
+		-XCOPYING \
+		-XChangeLog \
+		-Xcups/filter/command2foo2lava-pjl 
+
+ifneq (,$(filter printer-driver-foo2zjs, $(shell dh_listpackages)))
+ifeq ($(DEB_HOST_ARCH_OS),linux)
+	# usb_printerid is Linux-specific
+	install -D -m 644 usb_printerid $(CURDIR)/debian/printer-driver-foo2zjs/usr/bin/usb_printerid
+	install -D -m 644 usb_printerid.1 $(CURDIR)/debian/printer-driver-foo2zjs-common/usr/share/man/man1/usb_printerid.1
+	# Use a policy-numbered name for the Linux-specific udev rules file
+	install -D -m 644 hplj10xx.rules $(CURDIR)/debian/printer-driver-foo2zjs/lib/udev/rules.d/85-hplj10xx.rules
+endif
+ifeq ($(DEB_HOST_ARCH_OS),kfreebsd)
+	# /etc/devd/hplj10xx.conf is kFreeBSD-specific
+	install -D -m 644 hplj10xx.conf $(CURDIR)/debian/printer-driver-foo2zjs/etc/devd/hplj10xx.conf
+endif
+endif
+
+ifneq (,$(filter printer-driver-foo2zjs-common, $(shell dh_listpackages)))
+	### patches/20-PDF-input-data-in-PPDs.patch
+	# Add "*cupsFilter" line to accept PDF input data to the PPDs and compress them
+	( cd $(CURDIR)/debian/printer-driver-foo2zjs-common/usr/share/ppd/foo2zjs; \
+	  find -name '*.ppd.gz' -exec gunzip {} \; ; \
+	  find -name '*.ppd' -exec perl -p -i -e 's,^\*cupsFilter:\s*\"application/vnd.cups-postscript\s+0\s+foomatic-rip\",*cupsFilter: "application/vnd.cups-postscript 100 foomatic-rip"\n*cupsFilter: "application/vnd.cups-pdf 0 foomatic-rip",' {} \; ; \
+	)
+	# Correct the name of the pyppd-compressed PPD set to correspond to the earlier ppd-updater driver name
+	dh_pyppd --archive-filename=foo2zjs
+endif
+	# Install the apport hook on Ubuntu and derivatives
+ifeq ($(derives_from_ubuntu),yes)
+	install -D -m 644 debian/ubuntu/apport-hook.py $(CURDIR)/debian/printer-driver-foo2zjs/usr/share/apport/package-hooks/source_foo2zjs.py
+endif
+
+override_dh_auto_test:
+	# Run the tests in non-failing mode (they fail…)
+	- dh_auto_test
+
+override_dh_compress:
+	dh_compress -X.pdf
+
+override_dh_gencontrol:
+ifeq ($(derives_from_ubuntu),yes)
+	# Ubuntu considers mscompress to be a Depends of printer-driver-foo2zjs
+	echo "ubuntu:mscompress=mscompress" >> debian/printer-driver-foo2zjs.substvars
+else
+	# Debian considers mscompress to be a Recommends of printer-driver-foo2zjs
+	echo "debian:mscompress=mscompress" >> debian/printer-driver-foo2zjs.substvars
+endif
+ifeq ($(derives_from_ubuntu),yes)
+	# Ubuntu considers tix to be a Suggest of printer-driver-foo2zjs
+	echo "ubuntu:tix=tix" >> debian/printer-driver-foo2zjs.substvars
+else
+	# Debian considers tix to be a Depends of printer-driver-foo2zjs
+	echo "debian:tix=tix" >> debian/printer-driver-foo2zjs.substvars
+endif
+	dh_gencontrol
+
+override_dh_auto_clean:
+	dh_auto_clean
+	- rm -f 85-hplj10xx.rules
+
+UPSTREAM_VERSION ?= `date +%Y%m%d`
+
+get-orig-source:
+	- quilt pop -af ; rm -Rf .pc
+	git checkout -f upstream/latest
+	wget -O ../foo2zjs_$(UPSTREAM_VERSION).orig.tar.gz 'http://foo2zjs.rkkda.com/foo2zjs.tar.gz'
+	gbp import-orig --no-pristine-tar --upstream-version=$(UPSTREAM_VERSION) --no-merge --upstream-branch=upstream/nodfsg ../foo2zjs_$(UPSTREAM_VERSION).orig.tar.gz
+	git merge upstream/$(UPSTREAM_VERSION)
+	git tag upstream/$(UPSTREAM_VERSION)dfsg0
+	git archive --format=tar --prefix=foo2zjs-$(UPSTREAM_VERSION)dfsg0/ upstream/$(UPSTREAM_VERSION)dfsg0 | xz -6e > ../foo2zjs_$(UPSTREAM_VERSION)dfsg0.orig.tar.xz
+	pristine-tar commit ../foo2zjs_$(UPSTREAM_VERSION)dfsg0.orig.tar.xz upstream/$(UPSTREAM_VERSION)dfsg0
+	git checkout -f debian/master
+	git merge upstream/$(UPSTREAM_VERSION)dfsg0

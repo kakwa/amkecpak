@@ -1,0 +1,39 @@
+From 11ab90b6a6c2e67f38ccebbf944b377fa7c18718 Mon Sep 17 00:00:00 2001
+From: Didier Raboud <odyx@debian.org>
+Date: Tue, 4 Oct 2016 11:44:04 +0200
+Subject: Build manpages reproducibly, through reading the MODTIME from
+
+ debian/changelog exclusively, and giving LC_ALL=C.UTF-8 TZ=UTC to various
+ commands
+---
+ Makefile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 4410c6f..2420cd3 100644
+--- a/Makefile
++++ b/Makefile
+@@ -80,6 +80,8 @@ endif
+ ifeq ($(UNAME),SunOS)
+     MODTIME= `ls -e $$1 | cut -c42-61`
+ endif
++# Define modtime from the debian changelog, for all files
++MODTIME= LC_ALL=C.UTF-8 TZ=UTC date -d "$$(dpkg-parsechangelog -SDate)" "+%a %b %d %T %Y"
+ 
+ #
+ # Files for tarball
+@@ -1578,12 +1580,12 @@ install-doc: doc
+ 	$(INSTALL) -c -m 644 ChangeLog $(DOCDIR)
+ 
+ GROFF=/usr/local/test/bin/groff
+-GROFF=groff
++GROFF=LC_ALL=C.UTF-8 TZ=UTC groff
+ manual.pdf: $(MANPAGES) osx-hotplug/osx-hplj-hotplug.1
+ 	-$(GROFF) -t -man \
+ 	    `ls $(MANPAGES) \
+ 		osx-hotplug/osx-hplj-hotplug.1 \
+-		| sort` \
++		| LC_ALL=C.UTF-8 sort` \
+ 	    | ps2pdf - $@
+ 
+ README: README.in

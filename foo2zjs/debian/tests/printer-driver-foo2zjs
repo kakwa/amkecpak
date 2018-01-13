@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -e
+
+. /usr/share/cups/ppd-updaters/printer-driver-foo2zjs-common.ppd-updater
+
+/usr/share/cups/test-drivers -n adt-test-foo2zjs-0 -r $DRIVER_REGEXP
