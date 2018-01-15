@@ -23,7 +23,7 @@ override_dh_install:
 	# Ghostscript rendering the pages significantly faster
 	perl -p -i -e 's/dNOPAUSE/dNOPAUSE -dNOINTERPOLATE/g' $(CURDIR)/debian/tmp/usr/bin/*-wrapper
 	# Legacy dh_install
-	dh_install --list-missing \
+	dh_install --fail-missing \
 		-Xusb_printerid \
 		-Xhplj10xx.rules \
 		-XINSTALL \
@@ -88,6 +88,9 @@ endif
 override_dh_auto_clean:
 	dh_auto_clean
 	- rm -f 85-hplj10xx.rules
+	- make clean
+	- rm -f foomatic-db/db foomatic-db/source
+	- rm -f foo2ddst.o
 
 UPSTREAM_VERSION ?= `date +%Y%m%d`
 

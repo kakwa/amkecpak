@@ -1,8 +1,7 @@
 Source: foo2zjs
 Section: text
 Priority: optional
-Maintainer: Debian Printing Team <debian-printing@lists.debian.org>
-Uploaders: Luca Capello <luca@pca.it>, Didier Raboud <odyx@debian.org>
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@> 
 Build-Depends: debhelper (>= 9),
  ghostscript,
  cups-filters | foomatic-filters,
@@ -16,8 +15,6 @@ Build-Depends: debhelper (>= 9),
 XS-Testsuite: autopkgtest
 Standards-Version: 3.9.8
 Homepage: http://foo2zjs.rkkda.com/
-Vcs-Git: https://anonscm.debian.org/git/printing/foo2zjs.git
-Vcs-Browser: https://anonscm.debian.org/cgit/printing/foo2zjs.git
 
 Package: printer-driver-foo2zjs
 Architecture: any

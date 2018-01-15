@@ -8,7 +8,8 @@ Release:        @RELEASE@%{?dist}
 Summary:        Linux printer driver for ZjStream protocol
 
 Group:          System Environment/Libraries
-License:        GPLv2
+License:        @LICENSE@
+Vendor:         @MAINTAINER@
 
 URL:            http://foo2zjs.rkkda.com/
 Source0:        %{name}-%{foo2zjs_ver}.tar.gz

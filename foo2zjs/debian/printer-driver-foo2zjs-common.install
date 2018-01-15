@@ -23,6 +23,14 @@ usr/share/foo2zjs/crd/2300w-1200@150-l250-kx,ucr100,0-per.crd
 usr/share/foo2zjs/crd/2300w-1200@150-l250-kx,ucr100,50-per.crd
 usr/share/foo2zjs/crd/2300w-1200@150-l250-kx,ucr100,75-per.crd
 usr/share/foo2zjs/crd/2300w-1200@150-l250-kx,ucr125,75-per.crd
+usr/share/foo2qpdl/crd/CLP-300cms
+usr/share/foo2qpdl/crd/CLP-600-1200x1200cms2
+usr/share/foo2qpdl/crd/CLP-600-1200x600cms2
+usr/share/foo2qpdl/crd/CLP-300-1200x600cms2
+usr/share/foo2qpdl/crd/CLP-600cms
+usr/share/foo2qpdl/crd/CLP-300-600x600cms2
+usr/share/foo2qpdl/crd/CLP-300-1200x1200cms2
+usr/share/foo2qpdl/crd/CLP-600-600x600cms2
 usr/share/foo2zjs/crd/kh.crd
 usr/share/foo2zjs/crd/kx.crd
 usr/share/foo2zjs/crd/prolog.ps
