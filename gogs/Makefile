@@ -2,7 +2,7 @@
 NAME = gogs
 
 # Version
-VERSION = 0.11.29
+VERSION = 0.11.34
 
 # Revision number 
 RELEASE = 1
