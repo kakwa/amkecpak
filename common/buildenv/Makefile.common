@@ -146,7 +146,7 @@ $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	fi
 
 # Substitute version and package name in control file
-$(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_IN)
+$(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_IN) Makefile
 	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@);\
 	if [ -e $$f.dist.$(DIST) ];\
 	then\
@@ -308,7 +308,7 @@ $(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
 
 
 # Copy the spec file and do the various substitutions in it
-$(RPM_SPEC): $(RPM_SPEC_IN)
+$(RPM_SPEC): $(RPM_SPEC_IN) Makefile
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
 	cp $(RPM_SPEC_IN) $(RPM_SPEC)
 	sed -i 's|@NAME@|$(PKGNAME)|'            $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
