@@ -36,7 +36,7 @@ Summary: @SUMMARY@, library
 
 rm -rf $RPM_BUILD_ROOT
 cd src/
-cmake .. -DCMAKE_INSTALL_PREFIX=%{_prefix} \
+%cmake .. -DCMAKE_INSTALL_PREFIX=%{_prefix} \
     -DCMAKE_C_COMPILER=gcc \
     -DCMAKE_CXX_COMPILER=g++ \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
@@ -53,6 +53,13 @@ cmake .. -DCMAKE_INSTALL_PREFIX=%{_prefix} \
 make
 make install DESTDIR=$RPM_BUILD_ROOT
 
+if ! [ "%{_lib}" = "lib" ]
+then
+  mkdir -p $RPM_BUILD_ROOT/usr/%{_lib}/
+  mv $RPM_BUILD_ROOT/usr/lib/* $RPM_BUILD_ROOT/usr/%{_lib}/
+  rmdir $RPM_BUILD_ROOT/usr/lib
+fi
+
 %post
 true
 
@@ -64,7 +71,7 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files -n lib@NAME@
 %defattr(644, root, root, 755)
-/usr/lib/*
+/usr/%{_lib}/*
 
 %files -n lib@NAME@-devel
 %defattr(644, root, root, 755)

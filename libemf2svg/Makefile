@@ -2,7 +2,7 @@
 NAME = libemf2svg
 
 # Version
-VERSION = 1.0.3
+VERSION = 1.1.0
 
 # Revision number 
 RELEASE = 1

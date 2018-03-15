@@ -10,8 +10,8 @@ License: @LICENSE@
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-BuildRequires: cmake, libpng-devel, clang
-Requires: libpng
+BuildRequires: cmake, libpng-devel, clang, freetype-devel, fontconfig-devel
+Requires: libpng, fontconfig, freetype
 
 %description
 @DESCRIPTION@
@@ -33,7 +33,7 @@ Requires: @NAME@
 
 %install
 rm -rf $RPM_BUILD_ROOT
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix}
+%cmake .
 make install DESTDIR=$RPM_BUILD_ROOT
 
 %post
@@ -47,7 +47,7 @@ rm -rf \$RPM_BUILD_ROOT
 
 %files
 %defattr(644, root, root, 755)
-/usr/lib/*
+/usr/%{_lib}/*
 
 %files devel
 /usr/include/*.h
