@@ -171,7 +171,7 @@ $(DEB_CHANGELOG): ./debian/changelog
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
 	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\\n"  > $@
 	printf "\\n  * New version\\n\\n" >> $@
-	printf " -- $(MAINTAINER) <$(MAINTAINER_EMAIL)>  %s\\n" "`LANG=C date '+%a, %d %b %Y %T %z'`" >> $@
+	printf " -- $(MAINTAINER) <$(MAINTAINER_EMAIL)>  %s\\n" "Thu, 1 Jan 1970 00:00:00 +0000" >> $@
 
 # put the archive in the proper directory
 $(DEB_ARCHIVE): $(SOURCE_ARCHIVE) | $(DIRECTORIES)
