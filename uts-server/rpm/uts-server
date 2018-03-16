@@ -1,1 +1,1 @@
-OPTIONS="-c /etc/uts-server/uts-server.ini"
+OPTIONS="-c /etc/uts-server/uts-server.cnf"

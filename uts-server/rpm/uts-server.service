@@ -1,17 +1,16 @@
 [Unit]
-Description=Gogs service
+Description=uts-server service
 After=network.target
 Wants=network.service
 
 [Service]
-Type=simple
-#PIDFile=/var/run/uts-server/uts-server.pid
-User=uts-server
-Group=uts-server
+Type=forking
+PIDFile=/var/run/uts-server/uts-server.pid
+User=root
+Group=root
 
 EnvironmentFile=/etc/sysconfig/uts-server
-Environment=GOGS_CUSTOM=/usr/share/uts-server/
-ExecStart=/usr/bin/uts-server web $OPTIONS
+ExecStart=/usr/bin/uts-server -p /var/run/uts-server/uts-server.pid -d $OPTIONS
 KillMode=process
 Restart=on-failure
 RestartSec=42s

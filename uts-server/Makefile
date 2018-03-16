@@ -5,7 +5,7 @@ NAME = uts-server
 VERSION = 0.1.10
 
 # Revision number 
-RELEASE = 1
+RELEASE = 5
 
 # URL of the project 
 URL=https://github.com/kakwa/uts-server/
