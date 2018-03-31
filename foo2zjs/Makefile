@@ -2,7 +2,7 @@
 NAME = foo2zjs
 
 # Version
-VERSION = 20171202
+VERSION = 20180326
 
 # Revision number 
 RELEASE = 1
