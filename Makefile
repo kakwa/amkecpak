@@ -200,6 +200,7 @@ $(DEB_OUT_DIR)/dists/$(DIST)/InRelease: $(DEBS) $(DEB_OUT_DIR)/conf/distribution
 	cd $(DEB_OUT_DIR) &&\
 	for deb in $(DEBS);\
 	do\
+	  reprepro -C $(DEB_REPO_COMPONENT) remove $(DIST) `dpkg-deb -W $$deb | sed 's/\t.*//'` ;\
 	  reprepro -P optional -S $(PKG_ORIGIN) -C $(DEB_REPO_COMPONENT) \
 	  -Vb . includedeb $(DIST) $$deb || exit 1;\
 	done
