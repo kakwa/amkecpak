@@ -23,12 +23,12 @@ case "$1" in
     install|configure)
         adduser \
             --system \
-            --home /var/lib/ldapcherry \
+            --home /var/lib/gogs \
             --quiet \
             --group \
             ${USER}
-        chown -R ${USER}:${USER} /var/lib/gogs
-        chown -R ${USER}:${USER} /var/log/gogs
+        chown ${USER}:${USER} /var/lib/gogs
+        chown ${USER}:${USER} /var/log/gogs
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

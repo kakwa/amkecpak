@@ -4,7 +4,7 @@ Priority: extra
 Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
- golang-go (>=2:1.6),
+ golang-go (>=2:1.8),
  rsync
 Standards-Version: 3.8.4
 Homepage: @URL@ 

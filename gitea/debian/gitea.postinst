@@ -27,8 +27,8 @@ case "$1" in
             --quiet \
             --group \
             ${USER}
-        chown -R ${USER}:${USER} /var/lib/gitea
-        chown -R ${USER}:${USER} /var/log/gitea
+        chown ${USER}:${USER} /var/lib/gitea
+        chown ${USER}:${USER} /var/log/gitea
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
