@@ -30,6 +30,10 @@ case $1 in
     echo 17.4:ubu:ubuntu-17.4; exit 0;;
   artful)
     echo 17.10:ubu:ubuntu-17.10; exit 0;;
+  bionic)
+    echo 18.4:ubu:ubuntu-18.4; exit 0;;
+  cosmic)
+    echo 18.10:ubu:ubuntu-18.10; exit 0;;
   
   # Fedora code names:
   fc24)
