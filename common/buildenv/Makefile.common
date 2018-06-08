@@ -192,9 +192,6 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	touch $(BUILD_DIR)/pkg_built.deb.$(DIST)
 
-# the target to be called for building .deb
-deb: $(BUILD_DIR)/pkg_built.deb.$(DIST)
-
 # Build the deb(s) in a chroot (cowbuilder) and put it in out directory
 $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	cowbuilder --help >/dev/null
@@ -236,11 +233,23 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	touch $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 
+deb_get_chroot_path:
+	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
+
+
+# If the build is not to be skipped
+ifneq ($(TO_SKIP), true)
 # The target to be called for building .deb in chroot
 deb_chroot: $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 
-deb_get_chroot_path:
-	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
+# the target to be called for building .deb
+deb: $(BUILD_DIR)/pkg_built.deb.$(DIST)
+
+else
+deb_chroot:
+deb:
+endif
+
 
 #### END DEB targets
 
@@ -359,15 +368,20 @@ $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST
 	fi
 	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 
-$(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
 
+ifneq ($(TO_SKIP), true)
 rpm_src_internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
 
+$(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
 rpm_chroot: $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 
 # The rpm target to be called
 rpm: $(BUILD_DIR)/pkg_built.rpm.$(DIST)
+else
+rpm:
+rpm_chroot:
+endif
 
 #### END RPM targets
 

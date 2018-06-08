@@ -19,6 +19,16 @@ DESCRIPTION=$(SUMMARY)
 # License of the upstream project
 LICENSE=Upstream License
 
+# Distribution versions to skip
+#
+# format: space separated list of rules.
+# each rule have the format "<op>:<dist>:<version>", with:
+#   <op>:      the operation (must be  '>', '>=', '<', '<=' or '=')
+#   <dist>:    the distribution code name (examples: 'deb', 'el', 'fc')
+#   <version>: the version number to ignore
+#
+#SKIP=<=:deb:8 <=:el:6 <=:fc:29 <=:ubu:18.4
+
 ###############################################################################
 # Rule #
 ########

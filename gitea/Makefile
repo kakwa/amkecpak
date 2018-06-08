@@ -18,11 +18,11 @@ DESCRIPTION=$(SUMMARY)
 
 LICENSE=MIT
 
+SKIP=<=:deb:8 <=:el:6 <=:fc:29 <=:ubu:18.4
+
 ###############################################################################
 # Rule #
 ########
-
-GH=https://github.com/
 
 # example of source recovery url
 URL_SRC=$(URL)/archive/v$(VERSION).tar.gz

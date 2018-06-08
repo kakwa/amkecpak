@@ -257,6 +257,30 @@ For example:
             rm -f $(BUILD_DIR)/python-rfc3161-$(VERSION).tar.gz
             $(SOURCE_TAR_CMD)
 
+Skipping distribution versions
+------------------------------
+
+Sometimes, packages cannot be built on certain versions of specific distribution.
+
+This typically happens when the dependencies are too old or not present in older versions.
+
+In such cases, it's possible to skip the build the package for specific distribution versions.
+
+For that, you need to set the **SKIP** variable.
+
+.. sourcecode:: make
+
+    # here, we skip build on Debian older than 9, RHEL older than 7, Fedora older than 30 and Ubuntu older than 18.4
+    SKIP=<:deb:9 <:el:7 <:fc:30 <:ubu:18.4
+
+SKIP contains a space separated list of rules.
+
+each rule have the format **<op>:<dist>:<version>**, with:
+
+* **<op>**:      the operation (must be  '>', '>=', '<', '<=' or '=')
+* **<dist>**:    the distribution code name (examples: 'deb', 'el', 'fc')
+* **<version>**: the version number to compare with
+
 Distribution specific packaging
 ===============================
 
