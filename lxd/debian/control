@@ -1,0 +1,52 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ acl,
+ dnsmasq-base,
+ git,
+ golang (>= 2:1.9),
+ liblxc1,
+ lxc-dev,
+ libacl1-dev,
+ make,
+ pkg-config,
+ squashfs-tools,
+ tar,
+ xz-utils,
+ rsync
+Standards-Version: 3.8.4
+Homepage: @URL@
+X-Python-Version: >= 2.5
+
+Package: @NAME@-server
+Architecture: all
+Depends: ${misc:Depends},
+ acl,
+ dnsmasq-base,
+ liblxc1,
+ squashfs-tools,
+ thin-provisioning-tools,
+ tar,
+ xz-utils,
+ iproute2,
+ @NAME@-client,
+ rsync
+Description: @SUMMARY@ 
+ @DESCRIPTION@, server package 
+
+Package: @NAME@-client
+Architecture: all
+Depends: ${misc:Depends},
+ acl,
+ dnsmasq-base,
+ liblxc1,
+ squashfs-tools,
+ tar,
+ xz-utils,
+ iproute2,
+ rsync
+Description: @SUMMARY@ 
+ @DESCRIPTION@, client package
