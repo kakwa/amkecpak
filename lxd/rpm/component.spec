@@ -17,14 +17,26 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildRequires: golang, libacl-devel, lxc-devel, acl, dnsmasq, lxc, squashfs-tools, device-mapper-persistent-data, tar, xz, iproute, rsync
-Requires: acl, dnsmasq, lxc, squashfs-tools, device-mapper-persistent-data, tar, xz, iproute, rsync
 
 %description
 @DESCRIPTION@
 
+%package server
+Summary: @SUMMARY@, headers
+Requires: acl, dnsmasq, lxc, squashfs-tools, device-mapper-persistent-data, tar, xz, iproute, rsync, @NAME@-client
+%description server
+@DESCRIPTION@, server
+
+
+
 %prep
 
 %setup -q -n %{pkgname}-%{version}
+
+%package client
+Summary: @SUMMARY@, headers
+%description client
+@DESCRIPTION@, client
 
 %install
 
@@ -53,7 +65,7 @@ install -pm644 %{SOURCE3} %{buildroot}%{_unitdir}
 install -pm644 %{SOURCE1} %{buildroot}/etc/sysconfig/ 
 
 
-%post
+%post server
 
 getent group lxd >/dev/null || groupadd -r lxd
 getent passwd lxd >/dev/null || \
@@ -64,19 +76,20 @@ getent passwd lxd >/dev/null || \
 systemctl daemon-reload
 
 
-%preun
-true
-
 %clean
 rm -rf \$RPM_BUILD_ROOT
 
-%files
+%files server
 %defattr(644, root, root, 755)
 %attr(755, -, -)/usr/bin/lxd
-%attr(755, -, -)/usr/bin/lxc
 %attr(755, -, -)/usr/bin/fuidshift
 /etc/sysconfig/*
 %{_unitdir}/*
+
+%files client
+%defattr(644, root, root, 755)
+%attr(755, -, -)/usr/bin/lxc
+
 
 
 %changelog
