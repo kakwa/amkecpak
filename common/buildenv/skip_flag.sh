@@ -89,7 +89,7 @@ do
       # weird version comparaison
       # limitation:
       # * only work with up to 4 digits
-      # * only 3 digit max per section
+      # * only 4 digit max per section
       # * no rc/beta/alpha possible
       var=`awk "BEGIN {
         # Split each arg in array
