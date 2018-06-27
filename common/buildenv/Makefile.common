@@ -183,8 +183,8 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
 	if [ $$? -ne 0 ];\
-		then touch $(BUILD_DIR)/failure.$(DIST);exit 1;\
-		else rm -f $(BUILD_DIR)/failure.$(DIST);\
+		then touch ../failure.$(DIST);exit 1;\
+		else rm -f ../failure.$(DIST);\
 	fi
 	find $(BUILD_DIR)/ -type f -name "*.deb" -print0 | xargs -i -n 1 -0 mv {} $(OUT_DIR)/
 	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -i -n 1 -0 cp {} $(OUT_SRC)/
