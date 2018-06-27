@@ -14,11 +14,6 @@ matrix:
   -
     os: linux
     env:
-      DIST=jessie
-      OPTS=COW_OPTS\=--debootstrapopts\=--keyring\=/etc/apt/trusted.gpg.d/debian-archive-jessie-stable.gpg SUDO\=sudo
-  -
-    os: linux
-    env:
       DIST=stretch
       OPTS=COW_OPTS\=--debootstrapopts\=--keyring\=/etc/apt/trusted.gpg.d/debian-archive-stretch-stable.gpg SUDO\=sudo
   -
