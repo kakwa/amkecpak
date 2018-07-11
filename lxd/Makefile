@@ -5,7 +5,7 @@ NAME = lxd
 VERSION = 3.1
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/lxc/lxd
