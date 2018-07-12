@@ -1,0 +1,51 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ python-setuptools,
+ python-sqlalchemy,
+ python-jinja2
+Standards-Version: 3.8.4
+Homepage: @URL@
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends:
+ ${misc:Depends},
+ python-gdbm,
+ python-sqlalchemy,
+ python-alembic,
+ python-arrow,
+ python-binaryornot,
+ python-bleach,
+ python-blinker,
+ python-celery,
+ python-chardet,
+ python-docutils,
+ python-enum34,
+ python-flask,
+ python-flaskext.wtf,
+ python-flaskext.multistatic,
+ python-kitchen,
+ python-markdown,
+ python-munch,
+ python-willow,
+ python-psutil,
+ python-pygit2,
+ python-pygments,
+ python-openid,
+ python-openid-cla,
+ python-openid-teams,
+ python-redis,
+ python-requests,
+ python-six,
+ python-straight.plugin,
+ python-wtforms,
+ python-cryptography,
+ python-bcrypt,
+ python-jinja2
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 

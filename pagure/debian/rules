@@ -1,0 +1,36 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+# Sample debian/rules that uses debhelper.
+# This file was originally written by Joey Hess and Craig Small.
+# As a special exception, when this file is copied by dh-make into a
+# dh-make output file, you may use that output file without restriction.
+# This special exception was added by Craig Small in version 0.37 of dh-make.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEST=$$(pwd)/debian/@NAME@
+
+%:
+	dh $@ 
+
+override_dh_auto_install:
+	dh_auto_install
+	# Install apache configuration file
+	mkdir -p $(DEST)/etc/apache2/sites-available
+	install -p -m 644 files/pagure.conf $(DEST)/etc/apache2/sites-available/pagure.conf
+	# Install configuration file
+	mkdir -p $(DEST)/etc/pagure
+	install -p -m 644 files/pagure.cfg.sample $(DEST)/etc/pagure/pagure.cfg
+	# Install WSGI file
+	mkdir -p $(DEST)/usr/share/pagure
+	install -p -m 644 files/pagure.wsgi $(DEST)/usr/share/pagure/pagure.wsgi
+	install -p -m 644 files/doc_pagure.wsgi $(DEST)/usr/share/pagure/doc_pagure.wsgi
+	# Install the createdb script
+	install -p -m 644 createdb.py $(DEST)/usr/share/pagure/pagure_createdb.py
+	# Install the api_key_expire_mail.py script
+	install -p -m 644 createdb.py $(DEST)/usr/share/pagure/api_key_expire_mail.py
+	# Install the alembic configuration file
+	install -p -m 644 files/alembic.ini $(DEST)/etc/pagure/alembic.ini
+	# Install the alembic revisions
+	cp -r alembic $(DEST)/usr/share/pagure
