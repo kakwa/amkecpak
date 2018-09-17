@@ -22,11 +22,12 @@ Homepage: @URL@
 X-Python-Version: >= 2.5
 
 Package: @NAME@-server
-Architecture: all
+Architecture: amd64 i386
 Depends: ${misc:Depends},
  acl,
  dnsmasq-base,
  liblxc1,
+ lxc, 
  squashfs-tools,
  thin-provisioning-tools,
  tar,
