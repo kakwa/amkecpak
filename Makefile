@@ -192,7 +192,7 @@ $(DEB_OUT_DIR)/conf/distributions: common/buildenv/Makefile.config
 	mkdir -p $(DEB_OUT_DIR)/conf/
 	echo "$$DEB_REPO_CONFIG" >$(DEB_OUT_DIR)/conf/distributions
 
-DEBS = $(shell ls -tr $(LOCAL_REPO_PATH)/*.deb)
+DEBS = $(shell ls -tr $(LOCAL_REPO_PATH)/*.deb 2>/dev/null)
 
 $(DEB_OUT_DIR)/dists/$(DIST)/InRelease: $(DEBS) $(DEB_OUT_DIR)/conf/distributions
 	cd $(DEB_OUT_DIR) &&\
