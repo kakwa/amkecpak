@@ -27,7 +27,7 @@ LICENSE=Apache License, Version 2.0
 #   <dist>:    the distribution code name (examples: 'deb', 'el', 'fc')
 #   <version>: the version number to ignore
 #
-#SKIP=<=:deb:8 <=:el:6 <=:fc:29 <=:ubu:18.4
+SKIP=<=:el:9999 <=:fc:9999
 
 ###############################################################################
 # Rule #
