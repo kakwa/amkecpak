@@ -1,0 +1,19 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ python-setuptools,
+ python-flake8,
+ python-six,
+ tox
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, python-jsonschema, python-flask, python-clickclick, python-yaml, python-requests, python-six, python-pathlib, python-typing, python-swagger-spec-validator, python-inflection
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
