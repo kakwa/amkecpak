@@ -1,0 +1,19 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ python-flake8,
+ python-six,
+ python-setuptools,
+ tox
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, python-jsonschema, python-six, python-yaml
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
