@@ -50,5 +50,3 @@ Homepage: @URL@
 Package: python3-connexion
 Architecture: all
 Depends: ${misc:Depends}, ${python3:Depends}, python3-jsonschema, python3-flask, python3-clickclick, python3-yaml, python3-requests, python3-six, python3-swagger-spec-validator, python3-inflection
-Description: @SUMMARY@ (python 3)
- @DESCRIPTION@
