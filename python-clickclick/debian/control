@@ -1,19 +1,37 @@
 Source: @NAME@
 Section: misc
 Priority: extra
+X-Python-Version: >= 2.7
+X-Python3-Version: >= 3.3
 Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
- rsync,
+ dh-python,
+ python-all-dev,
+ python-yaml,
+ python-pytest,
+ python-click,
  python-flake8,
  python-six,
- python-setuptools
-Standards-Version: 3.8.4
-Homepage: @URL@ 
-X-Python-Version: >= 2.5
+ python-setuptools,
+ python3-all-dev,
+ python3-yaml,
+ python3-flake8,
+ python3-click,
+ python3-six,
+ python3-pytest,
+ python3-setuptools
 
-Package: @NAME@
+Standards-Version: 3.8.4
+Homepage: @URL@
+Package: python-clickclick
 Architecture: all
-Depends: ${misc:Depends}, python-yaml, python-click
+Depends: ${misc:Depends}, ${python:Depends}, python-yaml, python-click
+Description: @SUMMARY@
+ @DESCRIPTION@
+
+Package: python3-clickclick
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, python-yaml, python-click
 Description: @SUMMARY@ 
- @DESCRIPTION@ 
+ @DESCRIPTION@

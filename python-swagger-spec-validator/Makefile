@@ -5,19 +5,19 @@ NAME = python-swagger-spec-validator
 VERSION = 2.4.0
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/Yelp/swagger_spec_validator
 
 # short summary of what the package provides
-SUMMARY=Not a package summary
+SUMMARY=Python library that validates Swagger Specs against the Swagger 1.2 or Swagger 2.0 specification
 
 # Long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 # License of the upstream project
-LICENSE=Upstream License
+LICENSE=Apache License, Version 2.0
 
 # Distribution versions to skip
 #

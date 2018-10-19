@@ -1,19 +1,36 @@
 Source: @NAME@
 Section: misc
+X-Python-Version: >= 2.7
+X-Python3-Version: >= 3.3
 Priority: extra
 Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
+ dh-python,
+ python-all-dev,
  python-flake8,
+ python-yaml,
+ python-jsonschema,
  python-six,
  python-setuptools,
+ python3-all-dev,
+ python3-yaml,
+ python3-flake8,
+ python3-jsonschema,
+ python3-six,
+ python3-setuptools,
  tox
 Standards-Version: 3.8.4
-Homepage: @URL@ 
-X-Python-Version: >= 2.5
+Homepage: @URL@
 
-Package: @NAME@
+Package: python-swagger-spec-validator
 Architecture: all
-Depends: ${misc:Depends}, python-jsonschema, python-six, python-yaml
-Description: @SUMMARY@ 
- @DESCRIPTION@ 
+Depends: ${misc:Depends}, ${python:Depends}, python-jsonschema, python-six, python-yaml
+Description: @SUMMARY@
+ @DESCRIPTION@
+
+Package: python3-swagger-spec-validator
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, python3-jsonschema, python3-six, python3-yaml
+Description: @SUMMARY@ (Python 3)
+ @DESCRIPTION@

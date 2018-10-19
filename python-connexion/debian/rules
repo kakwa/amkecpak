@@ -9,7 +9,14 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export PYBUILD_NAME=connexion
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+export PYBUILD_DISABLE_python3=test
+export PYBUILD_DISABLE_python2=test
+export PYBUILD_INSTALL_ARGS_python2=--install-scripts=/usr/share/connexion/
+
 DEST=$$(pwd)/debian/@NAME@
 
 %:
-	dh $@ 
+	dh $@ --with python2,python3 --buildsystem=pybuild

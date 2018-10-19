@@ -8,8 +8,9 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+export PYBUILD_NAME=swagger-spec-validator
 
 DEST=$$(pwd)/debian/@NAME@
 
 %:
-	dh $@ 
+	dh $@ --with python2,python3 --buildsystem=pybuild

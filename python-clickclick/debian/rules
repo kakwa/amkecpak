@@ -8,8 +8,11 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
+export PYBUILD_NAME=clickclick
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 
 DEST=$$(pwd)/debian/@NAME@
 
 %:
-	dh $@ 
+	dh $@ --with python2,python3 --buildsystem=pybuild

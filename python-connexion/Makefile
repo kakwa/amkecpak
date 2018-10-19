@@ -5,19 +5,19 @@ NAME = python-connexion
 VERSION = 1.5.3
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/zalando/connexion
 
 # short summary of what the package provides
-SUMMARY=Not a package summary
+SUMMARY=Swagger/OpenAPI First framework for Python on top of Flask with automatic endpoint validation & OAuth2 support 
 
 # Long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 # License of the upstream project
-LICENSE=Upstream License
+LICENSE=Apache License, Version 2.0
 
 # Distribution versions to skip
 #
