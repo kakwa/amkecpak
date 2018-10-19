@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+export PYBUILD_NAME=inflection
+export PYBUILD_BEFORE_TEST=cp {dir}/test_inflection.py {build_dir}
+export PYBUILD_AFTER_TEST=rm -f {build_dir}/test_inflection.py
+
+%:
+	dh $@ --with python2,python3 --buildsystem=pybuild --test-pytest
+
+override_dh_installchangelogs:
+	dh_installchangelogs CHANGES.rst
