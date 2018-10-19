@@ -3,6 +3,8 @@ src-out/
 builddir/
 cache/
 *.rpm
+*.gz
+*.xz
 *.deb
 .*.swp
 *.gpg
