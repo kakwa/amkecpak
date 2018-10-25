@@ -117,7 +117,7 @@ Download tool usage
 
 Inside the Makefile, use it as followed:
 
-.. sourcecode:: make
+.. sourcecode:: bash
 
     $(WGS) -u <url> -o $(BUILD_DIR)/<output file>
 
