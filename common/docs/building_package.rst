@@ -257,8 +257,9 @@ Rpm/mock tips
 
 .. warning::
 
-    To get the necessary permission to build a package using mock, a **mock** group must be present on the system 
-    and the user building the package must be a member of this group.
+    To get the necessary permission to build a package using mock, a **mock** group must be present on the system.
+ 
+    And the user building packages must belong to this group.
 
     .. sourcecode:: bash
 
