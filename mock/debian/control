@@ -17,7 +17,7 @@ Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/mock.git
 Package: mock
 Architecture: all
 Depends: python, ${misc:Depends}, ${python3:Depends},
- python3-rpm, yum (>> 3.2.26), usermode, yum-utils, python3-six
+ python3-rpm, yum (>> 3.2.26), usermode, yum-utils, python3-six, createrepo, python3-requests
 Suggests: pigz
 Description: Build rpm packages inside a chroot
  Mock creates chroots and builds rpms in them. Its only task is to

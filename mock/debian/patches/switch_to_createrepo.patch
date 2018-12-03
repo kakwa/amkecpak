@@ -1,0 +1,42 @@
+diff --git a/etc/mock/site-defaults.cfg b/etc/mock/site-defaults.cfg
+index 8c2c6f6..8b6533c 100644
+--- a/etc/mock/site-defaults.cfg
++++ b/etc/mock/site-defaults.cfg
+@@ -89,7 +89,7 @@
+ # if you want mock to automatically run createrepo on the rpms in your
+ # resultdir.
+ # config_opts['createrepo_on_rpms'] = False
+-# config_opts['createrepo_command'] = '/usr/bin/createrepo_c -d -q -x *.src.rpm'
++# config_opts['createrepo_command'] = '/usr/bin/createrepo -d -q -x *.src.rpm'
+ 
+ # if you want mock to backup the contents of a result dir before clean
+ # config_opts['backup_on_clean'] = False
+diff --git a/py/mockbuild/util.py b/py/mockbuild/util.py
+index 8e87a28..67af517 100644
+--- a/py/mockbuild/util.py
++++ b/py/mockbuild/util.py
+@@ -743,7 +743,7 @@ def setup_default_config_opts(unprivUid, version, pkgpythondir):
+                                                    '.bashrc']
+ 
+     config_opts['createrepo_on_rpms'] = False
+-    config_opts['createrepo_command'] = '/usr/bin/createrepo_c -d -q -x *.src.rpm'  # default command
++    config_opts['createrepo_command'] = '/usr/bin/createrepo -d -q -x *.src.rpm'  # default command
+ 
+     config_opts['backup_on_clean'] = False
+     config_opts['backup_base_dir'] = os.path.join(config_opts['basedir'], "backup")
+diff --git a/py/mockchain.py b/py/mockchain.py
+index 9c9deb6..0aed37e 100755
+--- a/py/mockchain.py
++++ b/py/mockchain.py
+@@ -56,9 +56,9 @@ mockconfig_path = '/etc/mock'
+ 
+ def createrepo(path):
+     if os.path.exists(path + '/repodata/repomd.xml'):
+-        comm = ['/usr/bin/createrepo_c', '--update', path]
++        comm = ['/usr/bin/createrepo', '--update', path]
+     else:
+-        comm = ['/usr/bin/createrepo_c', path]
++        comm = ['/usr/bin/createrepo', path]
+     cmd = subprocess.Popen(
+         comm, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+     out, err = cmd.communicate()

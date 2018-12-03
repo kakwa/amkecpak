@@ -1,6 +1,6 @@
 fedora25_key.patch
-pam_debian.patch
 remove_home_rpmdb.patch
+switch_to_createrepo.patch
 spelling.patch
 make_all.patch
 python3.patch
