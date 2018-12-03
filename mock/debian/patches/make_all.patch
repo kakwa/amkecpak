@@ -1,0 +1,14 @@
+From: Tzafrir Cohen <tzafrir@debian.org>
+Description: Don't run tests as default target
+
+Allow disabling the tests when building for Debian.
+
+--- a/Makefile
++++ b/Makefile
+@@ -1,4 +1,6 @@
+ # vim:noexpandtab:autoindent:tabstop=8:shiftwidth=8:filetype=make:nocindent:tw=0:
++all:
++
+ check:
+ 	./tests/runtests.sh
+ 

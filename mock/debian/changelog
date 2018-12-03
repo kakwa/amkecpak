@@ -1,0 +1,71 @@
+mock (1.3.2-2) unstable; urgency=medium
+
+  * Fix debian/watch for github (Closes: #762885)
+  * Depend on python3-six (Closes: #857138)
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Wed, 08 Mar 2017 15:01:12 +0200
+
+mock (1.3.2-1) unstable; urgency=medium
+
+  * New upstream release
+  * Set format for upstream tags
+  * Add make_all.patch: don't run tests automatically
+  * Rewrite the installation
+  * no_dnf.patch: don't make dnf the default
+  * console_helper.patch: place binary in /usr/sbin
+  * Add gpg_keys_path.patch
+  * fedora25_key.patch - left out by Upstream
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 25 Dec 2016 23:45:41 +0200
+
+mock (1.2.18-1) unstable; urgency=medium
+
+  * Ack NMUs (Closes: #808190)
+  * New upstream release (Closes: #826149).
+    - Drop patch hyphen (fixed upstream).
+  * debian/watch: use upstream git tag (Closes: #762882)
+  * build-dep on dh-python
+  * Ignore more debhelper files
+  * control: one dependency per line
+  * depend on bash-completion
+  * spelling.patch: a revamped one
+  * Copyright file: update
+  * Standards version 3.9.8 (no change needed)
+  * A secure clone URL
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Sun, 26 Jun 2016 08:04:50 +0200
+
+mock (1.2.3-1.2) unstable; urgency=medium
+
+  * Non-maintainer upload to unstable.
+
+ -- Holger Levsen <holger@debian.org>  Thu, 02 Jun 2016 19:24:18 +0200
+
+mock (1.2.3-1.1) experimental; urgency=medium
+
+  * Non-maintainer upload.
+  * Fix debian/postinst by adding the required dirs and using the correct
+    variable. (Closes: ##775118) - patch by Guido Günther.
+
+ -- Holger Levsen <holger@debian.org>  Thu, 17 Dec 2015 00:44:27 +0100
+
+mock (1.2.3-1) experimental; urgency=low
+
+  * New upstream release (Closes: #762884).
+  * pam_debian: Adapt PAM settings to Debian (Tyler Trafford) (Closes:
+    #723764).
+  * Create group 'mock' on postinst and set path permissions (Closes:
+    #723673).
+  * Clean some files are now generated.
+  * remove_home_rpmdb.patch - fixes a Debian-spefic RPM issue.
+  * compat level 9.
+  * Update VCS URLs (Closes: #762886).
+  * Requirements for chrooted build: pkg-config.
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Thu, 01 Jan 2015 11:42:13 +0200
+
+mock (1.1.33-1) unstable; urgency=low
+
+  * Initial release. (Closes: #696719)
+
+ -- Tzafrir Cohen <tzafrir@debian.org>  Sat, 14 Sep 2013 01:30:31 +0300

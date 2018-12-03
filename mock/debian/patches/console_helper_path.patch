@@ -1,0 +1,13 @@
+From: Tzafrir Cohen <tzafrir@debian.org>
+Subject: Adjust the path for console_helper
+Forwarded: no
+
+--- a/etc/consolehelper/mock
++++ b/etc/consolehelper/mock
+@@ -1,5 +1,5 @@
+ USER=root
+-PROGRAM=/usr/libexec/mock/mock
++PROGRAM=/usr/sbin/mock
+ SESSION=false
+ FALLBACK=false
+ KEEP_ENV_VARS=COLUMNS,SSH_AUTH_SOCK

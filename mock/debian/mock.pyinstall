@@ -1,0 +1,2 @@
+py/mockbuild/*.py		mockbuild
+py/mockbuild/plugins/*.py	mockbuild.plugins

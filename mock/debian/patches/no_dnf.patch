@@ -1,0 +1,443 @@
+From: Tzafrir Cohen <tzafrir@debian.org>
+Subject: Don't use dnf that is not yet in Debian
+
+--- a/etc/mock/fedora-25-x86_64.cfg
++++ b/etc/mock/fedora-25-x86_64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-aarch64.cfg
++++ b/etc/mock/custom-1-aarch64.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('aar
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-armhfp.cfg
++++ b/etc/mock/custom-1-armhfp.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('arm
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-i386.cfg
++++ b/etc/mock/custom-1-i386.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('i38
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-ppc64.cfg
++++ b/etc/mock/custom-1-ppc64.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('ppc
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-ppc64le.cfg
++++ b/etc/mock/custom-1-ppc64le.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('ppc
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-s390.cfg
++++ b/etc/mock/custom-1-s390.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('s39
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-s390x.cfg
++++ b/etc/mock/custom-1-s390x.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('s39
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/custom-1-x86_64.cfg
++++ b/etc/mock/custom-1-x86_64.cfg
+@@ -4,7 +4,7 @@ config_opts['legal_host_arches'] = ('x86
+ config_opts['chroot_setup_cmd'] = ''
+ config_opts['chroot_additional_packages'] = ''
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['dnf.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-aarch64.cfg
++++ b/etc/mock/fedora-24-aarch64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-armhfp.cfg
++++ b/etc/mock/fedora-24-armhfp.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-i386.cfg
++++ b/etc/mock/fedora-24-i386.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-ppc64.cfg
++++ b/etc/mock/fedora-24-ppc64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-ppc64le.cfg
++++ b/etc/mock/fedora-24-ppc64le.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-s390.cfg
++++ b/etc/mock/fedora-24-s390.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-s390x.cfg
++++ b/etc/mock/fedora-24-s390x.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-24-x86_64.cfg
++++ b/etc/mock/fedora-24-x86_64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc24'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '24'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-aarch64.cfg
++++ b/etc/mock/fedora-25-aarch64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-armhfp.cfg
++++ b/etc/mock/fedora-25-armhfp.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-i386.cfg
++++ b/etc/mock/fedora-25-i386.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-ppc64.cfg
++++ b/etc/mock/fedora-25-ppc64.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-ppc64le.cfg
++++ b/etc/mock/fedora-25-ppc64le.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-s390.cfg
++++ b/etc/mock/fedora-25-s390.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-25-s390x.cfg
++++ b/etc/mock/fedora-25-s390x.cfg
+@@ -5,7 +5,7 @@ config_opts['chroot_setup_cmd'] = 'insta
+ config_opts['dist'] = 'fc25'  # only useful for --resultdir variable subst
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '25'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-aarch64.cfg
++++ b/etc/mock/fedora-rawhide-aarch64.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-armhfp.cfg
++++ b/etc/mock/fedora-rawhide-armhfp.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-i386.cfg
++++ b/etc/mock/fedora-rawhide-i386.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-ppc64.cfg
++++ b/etc/mock/fedora-rawhide-ppc64.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-ppc64le.cfg
++++ b/etc/mock/fedora-rawhide-ppc64le.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-s390.cfg
++++ b/etc/mock/fedora-rawhide-s390.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-s390x.cfg
++++ b/etc/mock/fedora-rawhide-s390x.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/fedora-rawhide-x86_64.cfg
++++ b/etc/mock/fedora-rawhide-x86_64.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'rawhide'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['releasever'] = '26'
+ 
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-6-armv5tl.cfg
++++ b/etc/mock/mageia-6-armv5tl.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'mga6'  # only use
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-6-armv7hl.cfg
++++ b/etc/mock/mageia-6-armv7hl.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'mga6'  # only use
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-6-i586.cfg
++++ b/etc/mock/mageia-6-i586.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'mga6'  # only use
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-6-x86_64.cfg
++++ b/etc/mock/mageia-6-x86_64.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'mga6'  # only use
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-cauldron-armv5tl.cfg
++++ b/etc/mock/mageia-cauldron-armv5tl.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'cauldron'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-cauldron-armv7hl.cfg
++++ b/etc/mock/mageia-cauldron-armv7hl.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'cauldron'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-cauldron-i586.cfg
++++ b/etc/mock/mageia-cauldron-i586.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'cauldron'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]
+--- a/etc/mock/mageia-cauldron-x86_64.cfg
++++ b/etc/mock/mageia-cauldron-x86_64.cfg
+@@ -6,7 +6,7 @@ config_opts['dist'] = 'cauldron'  # only
+ config_opts['extra_chroot_dirs'] = [ '/run/lock', ]
+ config_opts['useradd'] = '/usr/sbin/useradd -o -m -u %(uid)s -g %(gid)s -d %(home)s %(user)s'
+ config_opts['releasever'] = '6'
+-config_opts['package_manager'] = 'dnf'
++#config_opts['package_manager'] = 'dnf'
+ 
+ config_opts['yum.conf'] = """
+ [main]

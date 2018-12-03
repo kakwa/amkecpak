@@ -1,0 +1,149 @@
+From: Tzafrir Cohen <tzafrir@debian.org>
+Subject: spelling and minus/hyphen fixes in man pages
+
+* Spelling fixes in mockchain.1
+* In *roff, - is a hyphen, and \- is a minus (or dash).
+  - If it may be quoted in the command-line: '\-'
+  - Separator: '\-'
+  - Connector: '-'
+
+--- a/docs/mock.1
++++ b/docs/mock.1
+@@ -58,12 +58,12 @@ The content of a chroot is specified by
+ \fB\-r\fR option. The default configuration file is /etc/mock/default.cfg,
+ which is usually a symlink to one of the installed configurations.
+ .LP
+-There is a site\-wide configuration file, /etc/mock/site\-defaults.cfg, which can
++There is a site-wide configuration file, /etc/mock/site\-defaults.cfg, which can
+ be used to specify site\-wide options. The shipped version of this file has no
+ active options, but does have a list of all of the configuration options,
+ examples of how to set them, and their default values.
+ .LP
+-For backwards compatibility, old\-style commands, ("rebuild", "init", "clean",
++For backwards compatibility, old-style commands, ("rebuild", "init", "clean",
+ etc.) without leading '\-\-' are still accepted, but are deprecated. See
+ COMMANDS section, below, for detailed listing of all commands.
+ .LP
+@@ -97,7 +97,7 @@ Run the specified command non\-interacti
+ .TP
+ \fB\-\-dnf\-cmd\fP
+ Execute following arguments with DNF with installroot set to the chroot path. DNF must be installed on the system.
+-It will use the binary which is specified in 'dnf_command' option in site-defaults.cfg config, which by default is /usr/bin/dnf.
++It will use the binary which is specified in 'dnf_command' option in site\-defaults.cfg config, which by default is /usr/bin/dnf.
+ This option will enforce \-\-dnf.
+ .TP
+ \fB\-\-init\fP
+@@ -177,8 +177,8 @@ that might have been a LVM volume or TMP
+ .TP
+ \fB\-\-yum\-cmd\fP
+ Execute following arguments with YUM with installroot set to the chroot path. Yum must be installed on the system.
+-It will use the binary which is specified in 'yum_command' option in site-defaults.cfg config, which by default is /usr/bin/yum.
+-Note that in config files for Fedora 22\+ this value is overwriten in chroot config to default to /usr/bin/yum-deprecated.
++It will use the binary which is specified in 'yum_command' option in site\-defaults.cfg config, which by default is /usr/bin/yum.
++Note that in config files for Fedora 22\+ this value is overwriten in chroot config to default to /usr/bin/yum\-deprecated.
+ This option will enforce \-\-yum.
+ .TP
+ Note: While you can specify more commands on command line, only one can be executed. The last command will win.
+@@ -215,7 +215,7 @@ Pass \fB\-\-disablerepo\fR option to pac
+ It can be specified multiple times.
+ .TP
+ \fB\-\-dnf\fR
+-Use DNF as the current package manager. You should have DNF (and dnf-plugins-core) installed on your system.
++Use DNF as the current package manager. You should have DNF (and dnf\-plugins\-core) installed on your system.
+ .TP
+ \fB\-\-enable\-plugin\fR=\fIPLUGIN\fP
+ Enable the specified plugin.  This option may be used multiple times.
+@@ -354,9 +354,9 @@ To build a package from the default SCM
+ To build execute command inside of chroot.
+ .LP
+ .RS 5
+-\fBmock \-r fedora\-21\-x86_64 \-\-chroot \-\- rpm --eval %dist\fR
++\fBmock \-r fedora\-21\-x86_64 \-\-chroot \-\- rpm \-\-eval %dist\fR
+ .LP
+-\fBmock \-r fedora\-21\-x86_64 \-\-chroot 'rpm --eval %dist'\fR
++\fBmock \-r fedora\-21\-x86_64 \-\-chroot 'rpm \-\-eval %dist'\fR
+ .RE
+ .LP
+ To build rawhide package using yum:
+@@ -368,13 +368,13 @@ To build rawhide package using yum:
+ Query rpm database inside chroot using Yum:
+ .LP
+ .RS 5
+-\fBmock \-r fedora\-rawhide\-x86_64 \-\-yum-cmd whatprovides foo\fR
++\fBmock \-r fedora\-rawhide\-x86_64 \-\-yum\-cmd whatprovides foo\fR
+ .RE
+ .LP
+ List package manager history using package manager which is configured in chroot config (can be either DNF or YUM):
+ .LP
+ .RS 5
+-\fBmock \-r fedora\-rawhide\-x86_64 \-\-pm-cmd history list\fR
++\fBmock \-r fedora\-rawhide\-x86_64 \-\-pm\-cmd history list\fR
+ .RE
+ 
+ .SH "BUGS"
+--- a/docs/mockchain.1
++++ b/docs/mockchain.1
+@@ -3,7 +3,7 @@
+ .SH "NAME"
+ mockchain - chain package builder.
+ .SH "SYNOPSIS"
+-\fBmockchain\fP -r chroot_config [options]  [package...]
++\fBmockchain\fP \-r chroot_config [options]  [package...]
+ .SH "DESCRIPTION"
+ .PP
+ \fBmockchain\fP builds a series of srpms in mock one at a time. After each 
+@@ -11,10 +11,10 @@ successful build of a package it adds th
+ repo which are available to the next package to satisfy buildreqs.
+ .SH "USAGE NOTES"
+ .PP
+-This does not try to sort the packages by build order b/c that is too much 
++This does not try to sort the packages by build order because that is too much 
+ effort and not obviously doable with the buildreq information we have.
+ .PP
+-The build process when you use -l is idempotent so a package which has 
++The build process when you use \-l is idempotent so a package which has 
+ already been successfully built will not be built again.
+ .PP
+ If you want to force the rebuild of a package which has been built 
+@@ -25,12 +25,13 @@ the package in the localrepo path.
+ .TP
+ \fB\-a\fR REPOS, \fB\-\-addrepo\fR=\fIREPOS\fR
+ add this repo baseurl to the yumconfig for the chroot. This can
+-be specified multiple times. Let's you point to multiple
++be specified multiple times. Lets you point to multiple
+ paths beyond the default to pull build deps from.
+ 
+ .TP
+ \fB\-c\fR, \fB\-\-continue\fR
+-if a pkg fails to build, continue to the next one, default is to stop
++if a package fails to build, continue to the next one, default is to
++stop.
+ 
+ .TP
+ \fB\-l\fR LOCALREPO, \fB\-\-localrepo\fR=\fIPATH\fR
+@@ -41,7 +42,7 @@ mock process doesn't run as you. Will ma
+ .TP
+ \fB\-\-log\fR=\fILOGFILE\fR
+ log to the file named by this option, defaults to not
+-logging
++logging.
+ 
+ .TP
+ \fB\-m\fR OPTION, \fB\-\-mock-option\fR=\fIOPTION\fR
+@@ -51,13 +52,13 @@ pass the OPTION to mock. Can be used sev
+ 
+ .TP
+ \fB\-r\fR CONFIG, \fB\-\-root\fR=\fICONFIG\fR
+-chroot config name to use in the mock build
++chroot config name to use in the mock build.
+ 
+ .TP
+ \fB\-\-recurse\fR
+-build all pkgs, record the failures and try to rebuild them
++build all packages, record the failures and try to rebuild them
+ again and again until everything gets built (or until the 
+-set of pkgs failing to build are the same over) sets --continue
++set of packages failing to build are the same over) sets \-\-continue
+ 
+ .SH "AUTHORS"
+ Seth Vidal <skvidal@fedoraproject.org>
