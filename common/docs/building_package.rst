@@ -64,11 +64,6 @@ Build rpm inside a clean chroot
     $ make rpm_chroot DIST=el7
  
 
-.. warning::
-
-    In Debian/Ubuntu, mockchain may fail because **/usr/bin/createrepo_c** is not available, (Debian bug #875701).
-    A work around is to symlink **/usr/bin/createrepo_c** to **/usr/bin/createrepo**.
-
 Build deb package
 =================
 
@@ -262,5 +257,27 @@ Rpm/mock tips
 
 .. warning::
 
-    To get the necessary permission to build a package using mock, a **mock** group must be present on the system and
-    the user building the package must be a member of this group.
+    To get the necessary permission to build a package using mock, a **mock** group must be present on the system 
+    and the user building the package must be a member of this group.
+
+    .. sourcecode:: bash
+
+      # Replace USER_ID by the build user
+      groupadd mock 
+      usermod -a -G sudo USER_ID
+
+
+.. warning::
+
+    In Debian/Ubuntu, mockchain may fail because **/usr/bin/createrepo_c** is not available, (Debian bug #875701).
+
+    A work around is to install the package **createrepo** and symlink **/usr/bin/createrepo_c** to **/usr/bin/createrepo**.
+
+    Also, the dependency **python3-requests** is missing, it's necessary to install this package manually.
+
+    .. sourcecode:: bash
+
+      apt-get install createrepo python3-requests
+      ln -s /usr/bin/createrepo /usr/bin/createrepo_c    
+
+
