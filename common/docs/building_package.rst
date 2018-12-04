@@ -265,7 +265,7 @@ Rpm/mock tips
 
       # Replace USER_ID by the build user
       groupadd mock 
-      usermod -a -G sudo USER_ID
+      usermod -a -G mock USER_ID
 
 
 .. warning::
