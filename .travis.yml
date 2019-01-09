@@ -23,4 +23,4 @@ matrix:
       OPTS=DEB_MIRROR\=http://us-central1.gce.archive.ubuntu.com/ubuntu SUDO=sudo >/tmp/logs 2>&1;ret=$?;if [ $ret -ne 0 ];then tail -n 1000 /tmp/logs;exit $ret;fi
 
 script:
-  - make deb_chroot DIST=${DIST} ${OPTS}
+  - make deb_chroot DIST=${DIST} ${OPTS} | tail -n 2000
