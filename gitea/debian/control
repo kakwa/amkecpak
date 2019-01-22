@@ -15,6 +15,6 @@ X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: amd64 i386
-Depends: ${misc:Depends}, git
+Depends: ${misc:Depends}, git, bash, ucf
 Description: @SUMMARY@ 
  @DESCRIPTION@ 

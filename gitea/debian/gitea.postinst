@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-set -x
 
 . /usr/share/debconf/confmodule
 
@@ -31,6 +30,8 @@ case "$1" in
         # Make sure log/etc/lib directories have correct permissions set
 	set_perms root gitea 0750 /etc/gitea
 	set_perms gitea gitea 0755 /var/lib/gitea
+	set_perms gitea gitea 0755 /var/lib/gitea/data
+	set_perms gitea gitea 0755 /var/lib/gitea/repository
 	set_perms gitea gitea 0750 /var/log/gitea
 
         # If this is a fresh install
@@ -46,35 +47,30 @@ case "$1" in
 	# If they exist, just recover them from debconf
 	db_get gitea/secret-key || true
 	SK="$RET"
-	#db_reset gitea/secret-key || true
-	if echo "$SK" | grep -q "gitea/secret-key doesn't exist"
+	if [ -z "$SK" ]
 	then
 		SK="`gitea generate secret SECRET_KEY`"
-		db_set gitea/secret-key "$SK" || true
+		db_set gitea/secret-key "$SK"
 	fi
 
 	db_get gitea/internal-token || true
 	IT="$RET"
-	db_reset gitea/internal-token || true
-	if echo "$IT" | grep -q "gitea/internal-token doesn't exist"
+	if [ -z "$IT" ]
 	then
 		IT="`gitea generate secret INTERNAL_TOKEN`"
-		db_set gitea/internal-token "$IT" || true
-		db_input gitea/internal-token || true
+		db_set gitea/internal-token "$IT"
 	fi
 
 	db_get gitea/lfs-jwt-secret || true
 	JWT="$RET"
-	db_reset gitea/lfs-jwt-secret || true
-	if echo "$JWT" | grep -q "gitea/lfs-jwt-secret doesn't exist"
+	if [ -z "$JWT" ]
 	then
 		JWT="`gitea generate secret LFS_JWT_SECRET`"
-		db_set gitea/lfs-jwt-secret "$JWT" || true
+		db_set gitea/lfs-jwt-secret "$JWT"
 	fi
-	db_go
 
 	# generate a new configuration file with these secrets from a base template
-	TMP_CONF=`mktemp --suffix=gitea_deb_`
+	TMP_CONF=`mktemp --suffix=.gitea_deb`
 	cp /usr/share/gitea/conf/gitea.ini.base "${TMP_CONF}"
 	sed -i "s|\(SECRET_KEY[\t ]*\)=.*|\1= ${SK}|" "${TMP_CONF}"
 	sed -i "s|\(INTERNAL_TOKEN[\t ]*\)=.*|\1= ${IT}|" "${TMP_CONF}"
@@ -84,6 +80,7 @@ case "$1" in
 	ucfr gitea /etc/gitea/gitea.ini
 	# set the permission for the configuration file (write -> root, read -> gitea group, none -> world)
 	set_perms root gitea 0640 /etc/gitea/gitea.ini
+	rm -f -- "${TMP_CONF}"
         ;;
 
   abort-upgrade|abort-remove|abort-deconfigure)
