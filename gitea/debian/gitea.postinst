@@ -31,7 +31,6 @@ case "$1" in
             if [ -d /var/lib/gitea ]; then
                 chown gitea:gitea /var/lib/gitea
                 chown gitea:gitea /var/lib/gitea/*
-		chown gitea:gitea /etc/gitea/conf
             fi
         fi
 
