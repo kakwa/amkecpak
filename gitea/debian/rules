@@ -41,6 +41,8 @@ override_dh_auto_install:
 	install -m 755 gitea $(DEST)/usr/bin/
 	mkdir -p  $(DEST)/etc/gitea/
 	mkdir -p  $(DEST)/var/lib/gitea/
+	mkdir -p  $(DEST)/var/lib/gitea/repositories
+	mkdir -p  $(DEST)/var/lib/gitea/data
 	mkdir -p  $(DEST)/var/log/gitea/
 	mkdir -p  $(DEST)/usr/share/gitea/
 	mkdir -p  $(DEST)/usr/share/gitea/conf/

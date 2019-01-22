@@ -31,7 +31,7 @@ case "$1" in
 	set_perms root gitea 0750 /etc/gitea
 	set_perms gitea gitea 0755 /var/lib/gitea
 	set_perms gitea gitea 0755 /var/lib/gitea/data
-	set_perms gitea gitea 0755 /var/lib/gitea/repository
+	set_perms gitea gitea 0755 /var/lib/gitea/repositories
 	set_perms gitea gitea 0750 /var/log/gitea
 
         # If this is a fresh install

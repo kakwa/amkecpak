@@ -5,7 +5,7 @@ NAME = gitea
 VERSION = 1.6.4
 
 # Revision number 
-RELEASE = 6
+RELEASE = 7
 
 # URL of the project 
 URL=https://github.com/go-gitea/gitea
