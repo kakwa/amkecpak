@@ -1,7 +1,14 @@
 #!/bin/sh
 set -e
+set -x
 
 . /usr/share/debconf/confmodule
+
+set_perms() {
+    if ! dpkg-statoverride --list "$4" >/dev/null; then
+        dpkg-statoverride --update --add "$@"
+    fi
+}
 
 case "$1" in
     configure)
@@ -21,28 +28,62 @@ case "$1" in
                     gitea
         fi
 
-        # Make sure log directory has correct permissions set
-        dpkg-statoverride --list "/var/log/gitea" >/dev/null || \
-            dpkg-statoverride --add --force --quiet --update gitea adm 0750 /var/log/gitea
+        # Make sure log/etc/lib directories have correct permissions set
+	set_perms root gitea 0750 /etc/gitea
+	set_perms gitea gitea 0755 /var/lib/gitea
+	set_perms gitea gitea 0750 /var/log/gitea
 
         # If this is a fresh install
-        if [ -z "$2" ]; then
-            # Make sure gitea can access files
-            if [ -d /var/lib/gitea ]; then
-                chown gitea:gitea /var/lib/gitea
-                chown gitea:gitea /var/lib/gitea/*
-            fi
-        fi
+        #if [ -z "$2" ]; then
+        #    # Make sure gitea can access files
+        #    if [ -d /var/lib/gitea ]; then
+        #        chown gitea:gitea /var/lib/gitea
+        #        chown gitea:gitea /var/lib/gitea/*
+        #    fi
+        #fi
 
-        # Set a unique secret key if one hasn't been provided
-        if grep -q 'Xx-secret-key-xX' /etc/gitea/gitea.ini; then
-            db_get gitea/secret-key || true
-            _SK=$(echo "$RET" | sed -e 's/[]\/$*.^|[]/\\&/g')
-            [ -n "$_SK" ] || _SK=$(date +%s%Z%N | sha256sum | base64 | head -c 14)
-            sed -i "s/Xx-secret-key-xX/$_SK/" /etc/gitea/gitea.ini
-            db_clear gitea/secret-key || true
-            db_go
-        fi
+	# Generate a few secrets for gitea and put them in debconf if they don't exist
+	# If they exist, just recover them from debconf
+	db_get gitea/secret-key || true
+	SK="$RET"
+	#db_reset gitea/secret-key || true
+	if echo "$SK" | grep -q "gitea/secret-key doesn't exist"
+	then
+		SK="`gitea generate secret SECRET_KEY`"
+		db_set gitea/secret-key "$SK" || true
+	fi
+
+	db_get gitea/internal-token || true
+	IT="$RET"
+	db_reset gitea/internal-token || true
+	if echo "$IT" | grep -q "gitea/internal-token doesn't exist"
+	then
+		IT="`gitea generate secret INTERNAL_TOKEN`"
+		db_set gitea/internal-token "$IT" || true
+		db_input gitea/internal-token || true
+	fi
+
+	db_get gitea/lfs-jwt-secret || true
+	JWT="$RET"
+	db_reset gitea/lfs-jwt-secret || true
+	if echo "$JWT" | grep -q "gitea/lfs-jwt-secret doesn't exist"
+	then
+		JWT="`gitea generate secret LFS_JWT_SECRET`"
+		db_set gitea/lfs-jwt-secret "$JWT" || true
+	fi
+	db_go
+
+	# generate a new configuration file with these secrets from a base template
+	TMP_CONF=`mktemp --suffix=gitea_deb_`
+	cp /usr/share/gitea/conf/gitea.ini.base "${TMP_CONF}"
+	sed -i "s|\(SECRET_KEY[\t ]*\)=.*|\1= ${SK}|" "${TMP_CONF}"
+	sed -i "s|\(INTERNAL_TOKEN[\t ]*\)=.*|\1= ${IT}|" "${TMP_CONF}"
+	sed -i "s|\(LFS_JWT_SECRET[\t ]*\)=).*|\1= ${JWT}|" "${TMP_CONF}"
+	# register the new configuration file
+	ucf --debconf-ok ${TMP_CONF} /etc/gitea/gitea.ini
+	ucfr gitea /etc/gitea/gitea.ini
+	# set the permission for the configuration file (write -> root, read -> gitea group, none -> world)
+	set_perms root gitea 0640 /etc/gitea/gitea.ini
         ;;
 
   abort-upgrade|abort-remove|abort-deconfigure)

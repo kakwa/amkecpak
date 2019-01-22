@@ -43,10 +43,11 @@ override_dh_auto_install:
 	mkdir -p  $(DEST)/var/lib/gitea/
 	mkdir -p  $(DEST)/var/log/gitea/
 	mkdir -p  $(DEST)/usr/share/gitea/
+	mkdir -p  $(DEST)/usr/share/gitea/conf/
+	install -m 644 gitea.ini $(DEST)/usr/share/gitea/conf/gitea.ini.base
 	cp -r templates $(DEST)/usr/share/gitea/
 	cp -r public $(DEST)/usr/share/gitea/
 	cp -r options $(DEST)/usr/share/gitea/
-	cp gitea.ini $(DEST)/etc/gitea/
 
 override_dh_auto_test:
 	true
