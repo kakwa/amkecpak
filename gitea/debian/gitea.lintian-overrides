@@ -1,0 +1,4 @@
+# Spelling errors come from included libraries.
+gitea: spelling-error-in-binary
+# Empty directories come from included libraries.
+gitea: package-contains-empty-directory

@@ -1,0 +1,28 @@
+[Unit]
+Description=Gitea (Git with a cup of tea)
+Documentation=man:gitea(1)
+# syslog is "socket activated"
+#After=syslog.target
+After=network.target
+#After=mysqld.service
+#After=postgresql.service
+#After=memcached.service
+#After=redis.service
+
+[Service]
+# Modify these two values and uncomment them if you have
+# repos with lots of files and get an HTTP error 500 because
+# of that
+###
+#LimitMEMLOCK=infinity
+#LimitNOFILE=65535
+Type=simple
+User=gitea
+Group=gitea
+WorkingDirectory=/var/lib/gitea
+ExecStart=/usr/bin/gitea web
+Restart=always
+Environment=USER=gitea HOME=/var/lib/gitea GITEA_WORK_DIR=/var/lib/gitea
+
+[Install]
+WantedBy=multi-user.target

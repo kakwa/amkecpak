@@ -1,0 +1,6 @@
+etc/gitea
+usr/share/gitea
+usr/share/gitea/public
+var/lib/gitea/data
+var/lib/gitea/repositories
+var/log/gitea

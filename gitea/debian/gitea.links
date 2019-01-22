@@ -1,0 +1,7 @@
+# These settings don't seem to use STATIC_ROOT_PATH ;; probably a bug
+usr/share/gitea/conf		var/lib/gitea/conf
+usr/share/gitea/public		var/lib/gitea/public
+usr/share/gitea/templates	var/lib/gitea/templates
+# Gitea is built to use a relative custom/ location for managed-files.
+# The relative bit should be fixed so this can move to a changed default config.
+etc/gitea			var/lib/gitea/custom

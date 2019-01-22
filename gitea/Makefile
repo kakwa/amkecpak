@@ -5,7 +5,7 @@ NAME = gitea
 VERSION = 1.6.3
 
 # Revision number 
-RELEASE = 1
+RELEASE = 2
 
 # URL of the project 
 URL=https://github.com/go-gitea/gitea
@@ -52,6 +52,7 @@ $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST src/gitea.ini
 	mv $(SOURCE_DIR)/vendor/* $(SOURCE_DIR)/externals/src/
 	mkdir -p $(SOURCE_DIR)/externals/src/code.gitea.io/go-gitea/
 	ln -s ../../../ $(SOURCE_DIR)/externals/src/code.gitea.io/gitea
+	patch -p0  -i ../../src/001-default-config-path.patch -d $(SOURCE_DIR)
 	rm -rf $(BUILD_DIR)/tmp/vendor 
 	rm -rf $(BUILD_DIR)/tmp
 	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz

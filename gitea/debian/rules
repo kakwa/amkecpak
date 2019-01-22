@@ -9,6 +9,14 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+
+# Build flags (excluded: tidb bindata)
+TAGS := sqlite pam
+
+LDFLAGS = -X 'main.Tags=$(TAGS)' -extldflags=-Wl,-z,relro,-z,now
+
+export LDFLAGS TAGS
+
 DEST=$$(pwd)/debian/@NAME@
 
 %:
@@ -21,7 +29,11 @@ override_dh_auto_build:
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
-	go build -o gitea
+	go build  -p 4\
+	  -buildmode=pie \
+	  -ldflags="$(LDFLAGS)" \
+	  -tags="$(TAGS)" \
+	  -o gitea
 	rm -rf ./tmpgobuild
 
 override_dh_auto_install:

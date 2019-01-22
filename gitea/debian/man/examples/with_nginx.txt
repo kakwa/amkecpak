@@ -1,0 +1,32 @@
+Update /etc/gitea/gitea.ini:
+```
+[server]
+PROTOCOL = unix
+DOMAIN = git.domain.tld
+ROOT_URL = http://git.domain.tld/
+HTTP_ADDR = /var/tmp/gitea.sock
+HTTP_PORT =
+```
+
+Create: /etc/nginx/conf.d/gitea.conf
+```
+upstream _gitea {
+        server unix:/var/tmp/gitea.sock;
+}
+
+server {
+        server_name _;
+        root /usr/share/gitea/public;
+
+        location / {
+                try_files $uri @proxy;
+        }
+
+        location @proxy {
+                include proxy_params;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_buffering off;
+                proxy_pass http://_gitea;
+        }
+}
+```

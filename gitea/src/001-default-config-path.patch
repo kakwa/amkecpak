@@ -1,0 +1,20 @@
+--- modules/setting/setting.go	2019-01-04 19:14:28.000000000 +0100
++++ modules/setting/setting.go	2019-01-22 11:34:22.784094116 +0100
+@@ -688,7 +688,7 @@
+ 
+ 	CustomPath = os.Getenv("GITEA_CUSTOM")
+ 	if len(CustomPath) == 0 {
+-		CustomPath = path.Join(AppWorkPath, "custom")
++		CustomPath = "/var/lib/gitea/custom"
+ 	} else if !filepath.IsAbs(CustomPath) {
+ 		CustomPath = path.Join(AppWorkPath, CustomPath)
+ 	}
+@@ -698,7 +698,7 @@
+ 	}
+ 
+ 	if len(CustomConf) == 0 {
+-		CustomConf = path.Join(CustomPath, "conf/app.ini")
++		CustomConf = "/etc/gitea/gitea.ini"
+ 	} else if !filepath.IsAbs(CustomConf) {
+ 		CustomConf = path.Join(CustomPath, CustomConf)
+ 	}
