@@ -2,10 +2,10 @@
 NAME = ldapcherry
 
 # Version (idem)
-VERSION = 0.5.2
+VERSION = 1.0.1
 
 # release number 
-RELEASE = 2
+RELEASE = 1
 
 # external url where to recover the sources
 URL=https://github.com/kakwa/ldapcherry
