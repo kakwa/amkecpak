@@ -2,7 +2,7 @@
 NAME = ldapcherry
 
 # Version (idem)
-VERSION = 1.1.0
+VERSION = 1.1.1
 
 # release number 
 RELEASE = 1
