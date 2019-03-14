@@ -2,7 +2,7 @@
 NAME = gitea
 
 # Version
-VERSION = 1.7.1
+VERSION = 1.7.4
 
 # Revision number 
 RELEASE = 1
