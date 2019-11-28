@@ -361,7 +361,8 @@ $(BUILD_DIR)/pkg_built.src.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_S
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
 
 $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
-	mockchain -l $(OUT_DIR)/ -r $(DIST_FULL)-$(ARCH) -m --rebuild $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm ;\
+	# mockchain -l $(OUT_DIR)/ -r $(DIST_FULL)-$(ARCH) -m --rebuild $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm;
+	$(SUDO) mock --chain --resultdir $(OUT_DIR)/ -r $(DIST_FULL)-$(ARCH) --rebuild $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm ;\
 	if [ $$? -ne 0 ];\
 		then touch $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 1;\
 		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);\
