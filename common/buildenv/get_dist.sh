@@ -56,5 +56,7 @@ case $1 in
     echo 6:el:epel-6; exit 0;;
   el7)
     echo 7:el:epel-7; exit 0;;
+  el8)
+    echo 8:el:epel-8; exit 0;;
 esac
 echo 0:unk;
