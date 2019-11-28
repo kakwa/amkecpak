@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove|remove-in-favour|deconfigure|deconfigure-in-favour)
+        # Terminate the gitea service
+        if [ -x /etc/init.d/gitea ]; then
+            invoke-rc.d gitea stop || exit $?
+        fi
+
+	# SSH configuration is built from a database, no need to preserve
+	rm -rf /var/lib/gitea/.ssh
+        ;;
+
+    upgrade|failed-upgrade)
+        ;;
+
+    *)
+        echo "prerm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

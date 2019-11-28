@@ -1,0 +1,33 @@
+# Czech PO debconf template translation of gitea.
+# Copyright (C) 2014 Michal Simunek <michal.simunek@gmail.com>
+# This file is distributed under the same license as the gitea package.
+# Michal Simunek <michal.simunek@gmail.com>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gitea 1.2.1+dfsg-1\n"
+"Report-Msgid-Bugs-To: gitea@packages.debian.org\n"
+"POT-Creation-Date: 2017-07-30 20:55-0500\n"
+"PO-Revision-Date: 2017-11-24 20:15+0100\n"
+"Last-Translator: Michal Simunek <michal.simunek@gmail.com>\n"
+"Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Type: password
+#. Description
+#: ../gitea.templates:1001
+msgid "Global secret key for gitea:"
+msgstr "Globální tajný klíč pro gitea:"
+
+#. Type: password
+#. Description
+#: ../gitea.templates:1001
+msgid ""
+"This is the global secret key used for server security. After initial "
+"configuration, this value will be removed from the debconf database."
+msgstr ""
+"Toto je globální tajný klíč používaný k zabezpečení serveru. Po úvodním "
+"nastavení bude tato hodnota z databáze debconf odstraněna."

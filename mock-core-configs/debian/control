@@ -1,0 +1,16 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ rsync
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 

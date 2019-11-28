@@ -1,0 +1,71 @@
+--- modules/setting/setting.go	2019-01-16 02:43:07.000000000 +0100
++++ modules/setting/setting.go	2019-01-22 22:47:20.273539770 +0100
+@@ -688,7 +688,7 @@
+ 
+ 	CustomPath = os.Getenv("GITEA_CUSTOM")
+ 	if len(CustomPath) == 0 {
+-		CustomPath = path.Join(AppWorkPath, "custom")
++		CustomPath = "/var/lib/gitea/custom"
+ 	} else if !filepath.IsAbs(CustomPath) {
+ 		CustomPath = path.Join(AppWorkPath, CustomPath)
+ 	}
+@@ -698,7 +698,7 @@
+ 	}
+ 
+ 	if len(CustomConf) == 0 {
+-		CustomConf = path.Join(CustomPath, "conf/app.ini")
++		CustomConf = "/etc/gitea/gitea.ini"
+ 	} else if !filepath.IsAbs(CustomConf) {
+ 		CustomConf = path.Join(CustomPath, CustomConf)
+ 	}
+@@ -719,7 +719,7 @@
+ 	homeDir = strings.Replace(homeDir, "\\", "/", -1)
+ 
+ 	LogLevel = getLogLevel("log", "LEVEL", "Info")
+-	LogRootPath = Cfg.Section("log").Key("ROOT_PATH").MustString(path.Join(AppWorkPath, "log"))
++	LogRootPath = Cfg.Section("log").Key("ROOT_PATH").MustString("/var/log/gitea/")
+ 	forcePathSeparator(LogRootPath)
+ 
+ 	sec := Cfg.Section("server")
+@@ -796,11 +796,11 @@
+ 	PortToRedirect = sec.Key("PORT_TO_REDIRECT").MustString("80")
+ 	OfflineMode = sec.Key("OFFLINE_MODE").MustBool()
+ 	DisableRouterLog = sec.Key("DISABLE_ROUTER_LOG").MustBool()
+-	StaticRootPath = sec.Key("STATIC_ROOT_PATH").MustString(AppWorkPath)
+-	AppDataPath = sec.Key("APP_DATA_PATH").MustString(path.Join(AppWorkPath, "data"))
++	StaticRootPath = sec.Key("STATIC_ROOT_PATH").MustString("/usr/share/gitea/")
++	AppDataPath = sec.Key("APP_DATA_PATH").MustString("/var/lib/gitea/data/")
+ 	EnableGzip = sec.Key("ENABLE_GZIP").MustBool()
+ 	EnablePprof = sec.Key("ENABLE_PPROF").MustBool(false)
+-	PprofDataPath = sec.Key("PPROF_DATA_PATH").MustString(path.Join(AppWorkPath, "data/tmp/pprof"))
++	PprofDataPath = sec.Key("PPROF_DATA_PATH").MustString("/var/lib/gitea/data/")
+ 	if !filepath.IsAbs(PprofDataPath) {
+ 		PprofDataPath = filepath.Join(AppWorkPath, PprofDataPath)
+ 	}
+@@ -867,7 +867,7 @@
+ 	if err = sec.MapTo(&LFS); err != nil {
+ 		log.Fatal(4, "Failed to map LFS settings: %v", err)
+ 	}
+-	LFS.ContentPath = sec.Key("LFS_CONTENT_PATH").MustString(filepath.Join(AppDataPath, "lfs"))
++	LFS.ContentPath = sec.Key("LFS_CONTENT_PATH").MustString("/var/lib/gitea/data/lfs")
+ 	if !filepath.IsAbs(LFS.ContentPath) {
+ 		LFS.ContentPath = filepath.Join(AppWorkPath, LFS.ContentPath)
+ 	}
+@@ -986,7 +986,7 @@
+ 	LogSQL = Cfg.Section("database").Key("LOG_SQL").MustBool(true)
+ 
+ 	sec = Cfg.Section("attachment")
+-	AttachmentPath = sec.Key("PATH").MustString(path.Join(AppDataPath, "attachments"))
++	AttachmentPath = sec.Key("PATH").MustString("/var/lib/gitea/data/attachments")
+ 	if !filepath.IsAbs(AttachmentPath) {
+ 		AttachmentPath = path.Join(AppWorkPath, AttachmentPath)
+ 	}
+@@ -1064,7 +1064,7 @@
+ 	}
+ 
+ 	sec = Cfg.Section("picture")
+-	AvatarUploadPath = sec.Key("AVATAR_UPLOAD_PATH").MustString(path.Join(AppDataPath, "avatars"))
++	AvatarUploadPath = sec.Key("AVATAR_UPLOAD_PATH").MustString("/var/lib/gitea/data/avatars")
+ 	forcePathSeparator(AvatarUploadPath)
+ 	if !filepath.IsAbs(AvatarUploadPath) {
+ 		AvatarUploadPath = path.Join(AppWorkPath, AvatarUploadPath)

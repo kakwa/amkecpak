@@ -1,0 +1,53 @@
+.TH GITEA "1" "April 2017" "Gitea version 1.1.0 built with: bindata, sqlite" "User Commands"
+.SH NAME
+Gitea \- A painless self\-hosted Git service
+.SH DESCRIPTION
+.SS "USAGE:"
+.IP
+gitea\-1.1.0\-linux\-amd64 [global options] command [command options] [arguments...]
+.SS "VERSION:"
+.IP
+1.1.0 built with: bindata, sqlite
+.SS "COMMANDS:"
+.TP
+web
+Start Gitea web server
+.TP
+serv
+This command should only be called by SSH shell
+.TP
+hook
+Delegate commands to corresponding Git hooks
+.TP
+dump
+Dump Gitea files and database
+.TP
+cert
+Generate self\-signed certificate
+.TP
+admin
+Perform admin operations on command line
+.TP
+help, h
+Shows a list of commands or help for one command
+.SS "GLOBAL OPTIONS:"
+.TP
+\fB\-\-help\fR, \fB\-h\fR
+show help
+.TP
+\fB\-\-version\fR, \fB\-v\fR
+print the version
+.SS "FILES:"
+.TP
+/var/run/gitea.pid
+Contains the process ID
+.TP
+/etc/gitea/gitea.ini
+Contains configuration settings for gitea.
+.TP
+/var/log/gitea/*.log
+Holds gitea log files.
+.SS "SEE ALSO:"
+Documentation at https://docs.gitea.io/
+.PP
+Configuration options at https://docs.gitea.io/en-us/config-cheat-sheet/

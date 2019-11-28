@@ -1,0 +1,17 @@
+Template: gitea/secret-key
+Type: password
+Description: Global secret key for gitea (SECRET_KEY):
+ This is the global secret key used for server security.
+
+Template: gitea/internal-token
+Type: password
+Description: Global secret key for gitea (INTERNAL_TOKEN):
+ This is the global secret key used for server security. After initial
+ configuration, this value will be removed from the debconf database.
+
+Template: gitea/lfs-jwt-secret
+Type: password
+Description: Global secret key for gitea (LFS_JWT_SECRET):
+ This is the global secret key used for server security. After initial
+ configuration, this value will be removed from the debconf database.
+

@@ -17,6 +17,7 @@ override_dh_python3:
 	dh_python3
 	chmod a-x $(CURDIR)/debian/mock/usr/lib/python3/dist-packages/mockbuild/trace_decorator.py
 
+override_dh_auto_build:
 
 # There is a directory called "build"
 build: build-indep

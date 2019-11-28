@@ -1,16 +1,15 @@
 # Name of the package
 NAME = mock
 
-# Version
-VERSION = 1.3.2
+VERSION = 1.4.21
 
-MOCK_RELEASE = 1
+UPSTREAM_RELEASE = 1
 
 # Revision number 
-RELEASE = 2
+RELEASE = 1
 
 # URL of the project 
-URL=https://github.com/rpm-software-management/mock/
+URL=https://github.com/rpm-software-management/mock/releases/download
 
 # short summary of what the package provides
 SUMMARY=Not a package summary
@@ -30,13 +29,12 @@ LICENSE=Upstream License
 #   <version>: the version number to ignore
 #
 SKIP=>=:el:0 >=:fc:0
-
 ###############################################################################
 # Rule #
 ########
 
 # example of source recovery url
-URL_SRC=$(URL)/archive/mock-$(VERSION)-$(MOCK_RELEASE).tar.gz
+URL_SRC=$(URL)/mock-$(VERSION)-$(UPSTREAM_RELEASE)/mock-$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common

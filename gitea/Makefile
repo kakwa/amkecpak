@@ -2,7 +2,7 @@
 NAME = gitea
 
 # Version
-VERSION = 1.5.1
+VERSION = 1.8.2
 
 # Revision number 
 RELEASE = 1
@@ -52,6 +52,7 @@ $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST src/gitea.ini
 	mv $(SOURCE_DIR)/vendor/* $(SOURCE_DIR)/externals/src/
 	mkdir -p $(SOURCE_DIR)/externals/src/code.gitea.io/go-gitea/
 	ln -s ../../../ $(SOURCE_DIR)/externals/src/code.gitea.io/gitea
+	patch -p0  -i ../../src/001-default-config-path.patch -d $(SOURCE_DIR)
 	rm -rf $(BUILD_DIR)/tmp/vendor 
 	rm -rf $(BUILD_DIR)/tmp
 	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz

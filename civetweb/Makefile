@@ -2,10 +2,10 @@
 NAME = civetweb
 
 # Version
-VERSION = 1.10
+VERSION = 1.11
 
 # Revision number 
-RELEASE = 2
+RELEASE = 1
 
 # URL of the project 
 URL=https://github.com/civetweb/civetweb

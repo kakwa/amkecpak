@@ -33,6 +33,7 @@ Packaging documentation in a nutshell
 
     # Implementing the package
     $ vim Makefile
+    $ make manifest
     $ vim debian/rules ; vim debian/control
     $ vim rpm/component.spec
 
