@@ -29,7 +29,7 @@ LICENSE=Upstream License
 #   <dist>:    the distribution code name (examples: 'deb', 'el', 'fc')
 #   <version>: the version number to ignore
 #
-#SKIP=<=:deb:8 <=:el:6 <=:fc:29 <=:ubu:18.4
+SKIP=>=:el:0 >=:fc:0
 
 ###############################################################################
 # Rule #
