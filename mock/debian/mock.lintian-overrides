@@ -1,0 +1,2 @@
+# links to package consolehelper
+package-contains-broken-symlink usr/bin/mock consolehelper

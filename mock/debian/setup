@@ -1,0 +1,72 @@
+#!/bin/sh
+
+# A script to replicate Upstream's spec's %build and %install:
+
+DESTDIR=$1
+
+prefix="/usr"
+bindir="$prefix/bin"
+sbindir="$prefix/sbin" # No libexec
+datadir="$prefix/share"
+mandir="$datadir/man"
+sysconfdir="/etc"
+python_sitelib="/usr/lib/python3/dist-packages" # FIXME: hardcoding
+
+version=`dpkg-parsechangelog -S Version`
+
+
+#########################################
+# The %install script:
+#########################################
+
+install -d $DESTDIR$bindir
+install -d $DESTDIR$sbindir
+install mockchain $DESTDIR$bindir/mockchain
+install py/mock.py $DESTDIR$sbindir/mock
+ln -s consolehelper $DESTDIR$bindir/mock
+
+install -d $DESTDIR$sysconfdir/pam.d
+cp -a etc/pam/* $DESTDIR$sysconfdir/pam.d/
+
+install -d $DESTDIR$sysconfdir/mock
+cp -a etc/mock/* $DESTDIR$sysconfdir/mock/
+
+install -d $DESTDIR$sysconfdir/security/console.apps/
+cp -a etc/consolehelper/mock $DESTDIR$sysconfdir/security/console.apps/mock
+
+install -d $DESTDIR$datadir/bash-completion/completions/
+cp -a etc/bash_completion.d/* $DESTDIR$datadir/bash-completion/completions/
+ln -s mock $DESTDIR$datadir/bash-completion/completions/mockchain
+
+install -d $DESTDIR$sysconfdir/pki/mock
+cp -a etc/pki/* $DESTDIR$sysconfdir/pki/mock/
+
+# FIXME: python modules:
+#install -d $DESTDIR%{python_sitelib}/
+#cp -a py/mockbuild $DESTDIR%{python_sitelib}/
+
+install -d $DESTDIR$mandir/man1
+cp -a docs/mock.1 $DESTDIR$mandir/man1/
+
+install -d $DESTDIR/var/lib/mock
+install -d $DESTDIR/var/cache/mock
+
+# just for %%ghosting purposes
+ln -s fedora-rawhide-x86_64.cfg $DESTDIR$sysconfdir/mock/default.cfg
+
+
+#########################################
+# The %build script:
+#########################################
+
+# We can't change the originals:
+
+for i in $DESTDIR$bindir/mockchain $DESTDIR$sbindir/mock; do
+    perl -p -i -e 's|^__VERSION__\s*=.*|__VERSION__="'"$version"'"|' $i
+    perl -p -i -e 's|^SYSCONFDIR\s*=.*|SYSCONFDIR="'"$sysconfdir"'"|' $i
+    perl -p -i -e 's|^PYTHONDIR\s*=.*|PYTHONDIR="'"$python_sitelib"'"|' $i
+    perl -p -i -e 's|^PKGPYTHONDIR\s*=.*|PKGPYTHONDIR="'"$python_sitelib/mockbuild"'"|' $i
+done
+for i in $DESTDIR$mandir/man1/*.1; do
+    perl -p -i -e 's|@VERSION@|'"$version"'"|' $i
+done

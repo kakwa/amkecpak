@@ -1,0 +1,23 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --with python3
+
+# FIXME: this should be removed in the future
+override_dh_clean:
+	dh_clean
+	chmod a+x py/mockbuild/trace_decorator.py
+
+override_dh_auto_install:
+	./debian/setup $(CURDIR)/debian/mock
+
+override_dh_auto_test:
+	# Don't run dh_auto_test (selt tests), as they seem to require root.
+
+override_dh_python3:
+	dh_python3
+	chmod a-x $(CURDIR)/debian/mock/usr/lib/python3/dist-packages/mockbuild/trace_decorator.py
+
+override_dh_auto_build:
+
+# There is a directory called "build"
+build: build-indep
