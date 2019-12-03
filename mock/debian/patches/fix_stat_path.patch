@@ -1,0 +1,11 @@
+--- a/py/mockbuild/util.py	2019-11-01 15:06:54.000000000 +0100
++++ b/py/mockbuild/util.py	2019-11-29 19:02:25.767314656 +0100
+@@ -904,7 +904,7 @@
+ 
+ 
+ def get_fs_type(path):
+-    cmd = ['/bin/stat', '-f', '-L', '-c', '%T', path]
++    cmd = ['/usr/bin/stat', '-f', '-L', '-c', '%T', path]
+     p = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE,
+                          universal_newlines=True)
+     p.wait()

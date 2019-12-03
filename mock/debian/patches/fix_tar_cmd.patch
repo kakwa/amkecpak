@@ -1,0 +1,20 @@
+--- a/py/mockbuild/plugins/root_cache.py	2019-11-01 15:06:54.000000000 +0100
++++ b/py/plugins/root_cache.py	2019-11-28 19:46:00.109669442 +0100
+@@ -142,7 +142,7 @@
+                 if self.config["tar"] == "bsdtar":
+                     __tar_cmd = "bsdtar"
+                 else:
+-                    __tar_cmd = "gtar"
++                    __tar_cmd = "tar"
+                 mockbuild.util.do(
+                     [__tar_cmd] + self.decompressArgs + ["-xf", self.rootCacheFile,
+                                                          "-C", self.buildroot.make_chroot_path()],
+@@ -210,7 +210,7 @@
+                                  "-C", self.buildroot.make_chroot_path()] + \
+                                 self.exclude_tar_cmds + ["."]
+                 else:
+-                    __tar_cmd = ["gtar", "--one-file-system", "--exclude-caches", "--exclude-caches-under"] + \
++                    __tar_cmd = ["tar", "--one-file-system", "--exclude-caches", "--exclude-caches-under"] + \
+                                  self.compressArgs + \
+                                  ["-cf", self.rootCacheFile,
+                                   "-C", self.buildroot.make_chroot_path()] + \
