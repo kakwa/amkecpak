@@ -46,11 +46,7 @@ cp -a etc/pki/* $DESTDIR$sysconfdir/pki/mock/
 #cp -a py/mockbuild $DESTDIR%{python_sitelib}/
 
 install -d $DESTDIR$mandir/man1
-<<<<<<< HEAD
-cp -a docs/mockchain.1 docs/mock.1 $DESTDIR$mandir/man1/
-=======
 cp -a docs/mock.1 $DESTDIR$mandir/man1/
->>>>>>> 49677bef9a0e5d3510e129f4656bfe676053661a
 
 install -d $DESTDIR/var/lib/mock
 install -d $DESTDIR/var/cache/mock

@@ -1,10 +1,3 @@
-fedora25_key.patch
-pam_debian.patch
-remove_home_rpmdb.patch
-switch_to_createrepo.patch
-spelling.patch
-make_all.patch
-python3.patch
-no_dnf.patch
-console_helper_path.patch
-gpg_keys_path.patch
+fix_free_path.patch
+fix_stat_path.patch
+fix_tar_cmd.patch
