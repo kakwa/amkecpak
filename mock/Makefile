@@ -12,13 +12,13 @@ RELEASE = 1
 URL=https://github.com/rpm-software-management/mock/releases/download
 
 # short summary of what the package provides
-SUMMARY=Not a package summary
+SUMMARY=Mock is a tool for a reproducible build of RPM packages.
 
 # Long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 # License of the upstream project
-LICENSE=Upstream License
+LICENSE=GPLv2
 
 # Distribution versions to skip
 #
@@ -50,10 +50,10 @@ include buildenv/Makefile.common
 
 # more complex case with upstream source rework and rebuilding of the tar
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
-	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
-	mkdir -p $(BUILD_DIR)/tmp
-	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
-	mv $(BUILD_DIR)/tmp/$(NAME)-$(NAME)-$(VERSION)-$(MOCK_RELEASE)/* $(SOURCE_DIR)
-	rm -rf $(BUILD_DIR)/tmp
-	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
-	$(SOURCE_TAR_CMD)
+	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
+	#mkdir -p $(BUILD_DIR)/tmp
+	#tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	#mv $(BUILD_DIR)/tmp/$(NAME)-$(NAME)-$(VERSION)-$(UPSTREAM_RELEASE)/* $(SOURCE_DIR)
+	#rm -rf $(BUILD_DIR)/tmp
+	#rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	#$(SOURCE_TAR_CMD)
