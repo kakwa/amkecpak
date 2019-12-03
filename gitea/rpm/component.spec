@@ -14,7 +14,7 @@ License: @LICENSE@
 Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
-BuildRequires: golang
+BuildRequires: golang, pam-devel
 Requires: git
 
 %description
@@ -29,21 +29,20 @@ Requires: git
 rm -rf $RPM_BUILD_ROOT
 
 # Build flags (excluded: tidb bindata)
-TAGS="sqlite pam"
 
-LDFLAGS="-X \"main.Tags=${TAGS}\" -extldflags=-Wl,-z,relro,-z,now"
-
-export LDFLAGS TAGS
 
 mkdir ./tmpgobuild
 unset GOROOT && \
+export TAGS="sqlite pam" && \
+export LDFLAGS="-X \"main.Tags=${TAGS}\" -extldflags=-Wl,-z,relro,-z,now" && \
 export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
-go build  -p 4 \
+go build -p 4 \
   -buildmode=pie \
-  -ldflags="$(LDFLAGS)" \
-  -tags="$(TAGS)" \
-  -o gitea
+  -ldflags="${LDFLAGS}" \
+  -tags="${TAGS}" \
+  -o gitea \
+  main.go
 
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 install -m 755 gitea $RPM_BUILD_ROOT/usr/bin/
