@@ -38,6 +38,7 @@ export LDFLAGS="-X \"main.Tags=${TAGS}\" -extldflags=-Wl,-z,relro,-z,now" && \
 export TMPDIR=`pwd`/tmpgobuild && \
 export GOPATH=`pwd`/externals/ && \
 go build -p 4 \
+  -mod=vendor\
   -buildmode=pie \
   -ldflags="${LDFLAGS}" \
   -tags="${TAGS}" \

@@ -28,8 +28,10 @@ override_dh_auto_build:
 	mkdir -p ./tmpgobuild
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
+	export HOME=/tmp && \
 	export GOPATH=`pwd`/externals/ && \
 	go build  -p 4\
+	  -mod=vendor\
 	  -buildmode=pie \
 	  -ldflags="$(LDFLAGS)" \
 	  -tags="$(TAGS)" \
