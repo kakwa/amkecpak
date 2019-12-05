@@ -1,23 +1,23 @@
 # Name of the package
-NAME = python-slackclient
+NAME = createrepo-c
 
 # Version
-VERSION = 1.3.0
+VERSION = 0.15.3
 
 # Revision number 
 RELEASE = 1
 
 # URL of the project 
-URL=https://github.com/slackapi/python-slackclient
+URL=https://github.com/rpm-software-management/createrepo_c
 
 # short summary of what the package provides
-SUMMARY=Slack Developer Kit for Python
+SUMMARY=Not a package summary
 
 # Long version of the summary, but I'm lazy
 DESCRIPTION=$(SUMMARY)
 
 # License of the upstream project
-LICENSE=MIT
+LICENSE=Upstream License
 
 # Distribution versions to skip
 #
@@ -27,14 +27,14 @@ LICENSE=MIT
 #   <dist>:    the distribution code name (examples: 'deb', 'el', 'fc')
 #   <version>: the version number to ignore
 #
-SKIP=>:deb:0 >=:el:0 >=:fc:0 <=:ubu:18.4
+SKIP=>=:el:0 >=:fc:20
 
 ###############################################################################
 # Rule #
 ########
 
 # example of source recovery url
-URL_SRC=$(URL)/archive/v$(VERSION).tar.gz
+URL_SRC=$(URL)/archive/$(VERSION).tar.gz
 
 # Including common rules and targets 
 include buildenv/Makefile.common
@@ -47,7 +47,15 @@ include buildenv/Makefile.common
 # $(WGS) should be the prefered way to recover archives
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
-
-# Example of simple recovery, with good upstream
+#
+#
+# more complex case with upstream source rework and rebuilding of the tar
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
-	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/createrepo_c-$(VERSION)/* $(SOURCE_DIR)
+	rm $(SOURCE_DIR)/setup.py
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)
