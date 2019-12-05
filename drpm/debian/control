@@ -20,7 +20,7 @@ X-Python-Version: >= 2.5
 
 Package: lib@NAME@
 Architecture: all
-Depends: ${misc:Depends}, libbz2, libxml2, liblzma5, libssl1.1, librpm8, pkg-config, rpm, libzstd
+Depends: ${misc:Depends}, libbz2-1.0, libxml2, liblzma5, libssl1.1, librpm8, pkg-config, rpm, libzstd1
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
 

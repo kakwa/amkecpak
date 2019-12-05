@@ -12,8 +12,7 @@ Build-Depends:
  python-websocket,
  python3-websocket,
  python-requests,
- python3-requests,
- rsync
+ python3-requests
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.7

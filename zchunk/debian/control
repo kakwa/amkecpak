@@ -1,0 +1,33 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ meson,
+ cmake,
+ pkg-config,
+ libzstd-dev,
+ libcurl4-openssl-dev,
+ libssl-dev
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: i386 amd64
+Depends: libzck
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+Package: libzck
+Architecture: i386 amd64
+Depends: ${misc:Depends}, libzstd1, libcurl4, libssl1.1
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+Package: libzck-dev
+Architecture: i386 amd64
+Depends: libzck
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 

@@ -21,6 +21,7 @@ override_dh_auto_build:
 	unset GOROOT && \
 	export TMPDIR=`pwd`/tmpgobuild && \
 	export GOPATH=`pwd`/externals/ && \
+	export HOME=/tmp && \
 	go build -o pixiecore
 	rm -rf ./tmpgobuild
 
