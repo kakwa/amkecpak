@@ -10,8 +10,10 @@ case $1 in
     echo 9:deb:debian-9; exit 0;;
   buster)
     echo 10:deb:debian-10; exit 0;;
+  bullseye)
+    echo 11:deb:debian-11; exit 0;;
   sid)
-    echo 10:deb:debian-10; exit 0;;
+    echo 12:deb:debian-12; exit 0;;
   
   # Ubuntu code names:
   precise)
