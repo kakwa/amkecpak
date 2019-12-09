@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+export PYBUILD_NAME=colorama
+
+%:
+	dh $@ --with python2,python3 --buildsystem=pybuild
+
+
+override_dh_installexamples:
+	cp -r $(CURDIR)/demos/* $(CURDIR)/debian/python-colorama/usr/share/doc/python-colorama/examples/
+	rm $(CURDIR)/debian/python-colorama/usr/share/doc/python-colorama/examples/*.bat
