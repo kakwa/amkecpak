@@ -43,7 +43,7 @@ Description: @SUMMARY@
 
 Package: @NAME@-dev
 Architecture: all
-Depends: ${misc:Depends}, @NAME@
+Depends: ${misc:Depends}, @NAME@, libyaml-dev, librpm-dev, libglib2.0-dev, gobject-introspection
 Description: @SUMMARY@, development headers
  @DESCRIPTION@ 
 
