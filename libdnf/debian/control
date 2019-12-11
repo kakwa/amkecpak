@@ -1,0 +1,23 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ cmake,
+ pkg-config,
+ libsolv0-dev,
+ libmodulemd-dev,
+ libgpgme-dev,
+ check,
+ libjson-c-dev,
+ librepo-dev,
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, libsolv0, valgrind, libmodulemd, libjson-c, librepo
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
