@@ -23,7 +23,10 @@ SOURCE_TAR_CMD := cd `dirname $(SOURCE_DIR)` &&\
 
 # Some targets
 DIRECTORIES := $(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) \
-  $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
+  $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST) \
+  $(INDIVIDUAL_RPM_LOCAL_REPO_PATH) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
+
+UPDATE_REPO := true
 
 #### START common targets
 
@@ -41,6 +44,9 @@ $(DIRECTORIES):
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)
 	mkdir -p $(SOURCE_DIR)
+	mkdir -p $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
+	mkdir -p $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)
+	touch $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
 
 # Cleaning targets
 clean_build:
@@ -52,6 +58,8 @@ clean_cache:
 	then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
 
 clean: clean_build clean_cache
+	find $(OUT_DIR) -type f -name "*.rpm" -not -name "*.src.rpm" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
+	find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
 	if [ -d $(OUT_DIR) ];\
 	then chmod 700 -R $(OUT_DIR);rm -rf $(OUT_DIR);fi
 	if [ -d $(OUT_SRC) ];\
@@ -231,6 +239,8 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
 	find $(OUT_DIR)/ -type f -name "*.changes" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	find $(OUT_DIR)/ -type f -name "*.buildinfo" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
+	find $(OUT_DIR) -type f -name "*$(DIST_CODE)$(DIST_TAG)*.deb" -print0 | xargs -i -n 1 -0 ln -f {} $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/
+	if [ $(UPDATE_REPO) = "true" ];then cd $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/ && dpkg-scanpackages . >Packages && cd - ;fi
 	touch $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST)
 
 deb_get_chroot_path:
@@ -345,9 +355,10 @@ $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
                                 $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.src.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_DIR)/
+	find $(OUT_DIR) -type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | xargs -i -n 1 -0 ln -f {} $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/
 	touch $(BUILD_DIR)/pkg_built.rpm.$(DIST)
 
-# Build the rpm(s) and put the result inside out directories
+# Build the srpm(s) and put the result inside out directories
 $(BUILD_DIR)/pkg_built.src.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
 	rpmbuild -bs --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)" \
                                 --define "_sourcedir %{_topdir}/SOURCES" \
@@ -366,8 +377,8 @@ $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST
 		then touch $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 1;\
 		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);\
 	fi
+	find $(OUT_DIR) -type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | xargs -i -n 1 -0 ln -f {} $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/
 	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
-
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
 
 ifneq ($(TO_SKIP), true)

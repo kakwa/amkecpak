@@ -142,8 +142,7 @@ deb_chroot:
 	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
 		$(MAKE) deb_chroot_internal ERROR=skip \
-		        OUT_DIR=$(LOCAL_REPO_PATH) \
-			LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
+		        UPDATE_REPO=false \
 			COW_NAME=$(COW_NAME) \
 			SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
@@ -157,7 +156,7 @@ deb_chroot:
 			  $(BINDMOUNT);\
 		fi;\
 	done
-	$(MAKE) deb_chroot_internal OUT_DIR=$(LOCAL_REPO_PATH) LOCAL_REPO_PATH=$(LOCAL_REPO_PATH) \
+	$(MAKE) deb_chroot_internal UPDATE_REPO=false \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
 rpm_chroot:
@@ -237,7 +236,7 @@ $(OUT_DIR)/GPG-KEY.pub:
 clean: clean_pkg clean_repo
 
 .PHONY: internal_deb_repo rpm deb deb_repo rpm_repo export_key\
-  clean_pkg clean_repo clean_rpm_repo clean_deb_repo help \
+  clean_pkg clean_repo clean_rpm_repo help \
   deb_chroot deb_internal deb_chroot_internal deb_get_chroot_path list_dist \
   rpm_repo rpm_chroot_internal rpm_chroot
 
