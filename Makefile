@@ -98,10 +98,10 @@ $(rpm_chroot_PKG):
 	$(SKIP)@$(MAKE) -C $(patsubst rpm_chroot_%,%,$@) rpm_chroot
 
 deb:
-	$(MAKE) deb_internal OUT_DIR=$(LOCAL_REPO_PATH)
+	$(MAKE) deb_internal
 
 rpm:
-	$(MAKE) rpm_internal OUT_DIR=$(RPM_LOCAL_REPO_PATH)
+	$(MAKE) rpm_internal
 
 # build all the .deb packages
 # logic:
@@ -159,18 +159,26 @@ deb_chroot:
 	$(MAKE) deb_chroot_internal UPDATE_REPO=false \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
+deb_failed:
+	@echo "Package(s) for DIST '$(DIST)' that failed to build:"
+	@find ./ -type f -name "failure.chroot.$(DIST)" | sed 's|\./\([^/]*\)/.*|* \1|'
+
+
+rpm_failed:
+	@echo "Package(s) for DIST '$(DIST)' that failed to build:"
+	@find ./ -type f -name "failure.rpm.chroot.$(DIST)" | sed 's|\./\([^/]*\)/.*|* \1|'
+
 rpm_chroot:
 	old=99998;\
 	new=99999;\
 	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
 		$(MAKE) rpm_chroot_internal ERROR=skip \
-		        OUT_DIR=$(RPM_LOCAL_REPO_PATH) ;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.rpm.chroot.$(DIST)" | wc -l);\
 		echo $$new -ne $$old;\
 	done
-	$(MAKE) rpm_chroot_internal OUT_DIR=$(RPM_LOCAL_REPO_PATH)
+	$(MAKE) rpm_chroot_internal
 
 deb_get_chroot_path:
 	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`

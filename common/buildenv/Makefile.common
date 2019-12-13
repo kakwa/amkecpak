@@ -23,8 +23,7 @@ SOURCE_TAR_CMD := cd `dirname $(SOURCE_DIR)` &&\
 
 # Some targets
 DIRECTORIES := $(BUILD_DIR) $(OUT_DIR) $(OUT_SRC) $(CACHE) \
-  $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST) \
-  $(INDIVIDUAL_RPM_LOCAL_REPO_PATH) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
+  $(BUILD_DIR)/deb.$(DIST) $(SOURCE_DIR) $(BUILD_DIR)/rpm.$(DIST)
 
 UPDATE_REPO := true
 
@@ -44,9 +43,6 @@ $(DIRECTORIES):
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)
 	mkdir -p $(BUILD_DIR)/rpm.$(DIST)
 	mkdir -p $(SOURCE_DIR)
-	mkdir -p $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
-	mkdir -p $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)
-	touch $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
 
 # Cleaning targets
 clean_build:
@@ -185,8 +181,12 @@ $(DEB_CHANGELOG): ./debian/changelog
 $(DEB_ARCHIVE): $(SOURCE_ARCHIVE) | $(DIRECTORIES)
 	cp $(SOURCE_ARCHIVE) $(DEB_ARCHIVE)
 
+$(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages:
+	mkdir -p $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)
+	touch $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
+
 # Build the deb(s) and put it in out directory
-$(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
+$(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
 	tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc;\
@@ -268,7 +268,8 @@ endif
 # Some variables for rpm build
 RPM_DIR := $(BUILD_DIR)/rpm.$(DIST)/BUILDROOT \
   $(BUILD_DIR)/rpm.$(DIST)/RPMS \
-  $(BUILD_DIR)/rpm.$(DIST)/SRPMS
+  $(BUILD_DIR)/rpm.$(DIST)/SRPMS \
+  $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
 
 RPM_SPEC := $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 
@@ -306,6 +307,7 @@ endif
 # Create the various rpmbuild directories
 $(RPM_DIR): | $(BUILD_DIR)/rpm.$(DIST) $(DIRECTORIES)
 	mkdir $@
+	mkdir -p $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
 
 # Copy the upstream sources archive to SOURCES with correct name
 $(RPM_ARCHIVE): $(SOURCE_ARCHIVE) | $(RPM_DIR)
