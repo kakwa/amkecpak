@@ -357,7 +357,6 @@ $(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC)
                                 $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.src.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
 	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_DIR)/
-	find $(OUT_DIR) -type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | xargs -i -n 1 -0 ln -f {} $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/
 	touch $(BUILD_DIR)/pkg_built.rpm.$(DIST)
 
 # Build the srpm(s) and put the result inside out directories
@@ -379,7 +378,10 @@ $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST
 		then touch $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 1;\
 		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);\
 	fi
-	find $(OUT_DIR) -type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | xargs -i -n 1 -0 ln -f {} $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/
+	find $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/results/$(DIST_FULL)-$(ARCH)/`rpm -qp $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm \
+		--queryformat "%{NAME}-%{VERSION}-%{RELEASE}"` \
+		-type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | \
+		xargs -i -n 1 -0 ln -f {} $(OUT_DIR)/
 	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
 	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
 
