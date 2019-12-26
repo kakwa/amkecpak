@@ -28,7 +28,6 @@ Build-Depends:
  valgrind,
  gobject-introspection,
  python-gobject-2-dev,
- python3-autopep8,
  python-gobject,
  python3-gi,
  libgirepository1.0-dev
@@ -46,6 +45,18 @@ Package: @NAME@-dev
 Architecture: all
 Depends: ${misc:Depends}, @NAME@, libyaml-dev, librpm-dev, libglib2.0-dev, gobject-introspection
 Description: @SUMMARY@, development headers
+ @DESCRIPTION@ 
+
+Package: python-@NAME@
+Architecture: all
+Depends: ${misc:Depends}, @NAME@, python
+Description: @SUMMARY@, Python 2 bindings
+ @DESCRIPTION@ 
+
+Package: python3-@NAME@
+Architecture: all
+Depends: ${misc:Depends}, @NAME@, python3 
+Description: @SUMMARY@, Python 3 bindings
  @DESCRIPTION@ 
 
 Package: @NAME@-doc

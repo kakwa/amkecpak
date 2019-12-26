@@ -1,8 +1,8 @@
 # Name of the package
-NAME = libmodulemd
+NAME = libmodulemd2
 
 # Version
-VERSION = 1.8.16
+VERSION = 2.8.2
 
 # Revision number 
 RELEASE = 1
@@ -55,7 +55,7 @@ $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
 	mkdir -p $(BUILD_DIR)/tmp
 	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
 	sed -i 's|/usr/bin/sh|/bin/sh|' `find $(BUILD_DIR)/tmp/ -type f -name '*.sh'`
-	mv $(BUILD_DIR)/tmp/$(NAME)-$(NAME)-$(VERSION)/* $(SOURCE_DIR)
+	mv $(BUILD_DIR)/tmp/libmodulemd-libmodulemd-$(VERSION)/* $(SOURCE_DIR)
 	rm -rf $(BUILD_DIR)/tmp
 	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
 	$(SOURCE_TAR_CMD)

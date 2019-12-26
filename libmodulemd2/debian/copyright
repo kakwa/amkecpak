@@ -1,0 +1,35 @@
+This work was packaged for Debian by:
+
+    @MAINTAINER@ <@MAINTAINER_EMAIL@> on Tue, 29 Jan 2013 10:50:50 +0000
+
+It was downloaded from:
+
+    @URL@
+
+Upstream Author(s):
+
+    See upstream url
+
+Copyright:
+
+
+    See upstream url
+
+License:
+
+    @LICENSE@
+
+The Debian packaging is:
+
+    Copyright (C) 2015 @MAINTAINER@ <@MAINTAINER_EMAIL@>
+
+# Please chose a license for your packaging work. If the program you package
+# uses a mainstream license, using the same license is the safest choice.
+# Please avoid to pick license terms that are more restrictive than the
+# packaged work, as it may make Debian's contributions unacceptable upstream.
+# If you just want it to be GPL version 3, leave the following lines in.
+
+Same as upstream
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

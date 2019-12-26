@@ -18,3 +18,4 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install
+	mkdir -p $(DEST)/usr/lib/x86_64-linux-gnu/pkgconfig
