@@ -1,0 +1,265 @@
+libsolv (0.6.36-1) unstable; urgency=medium
+
+  [ Mihai Moldovan ]
+  * Fix CMake module installation, prepare for DNF support (Closes: #889509).
+    Details see below.
+
+  * New upstream release.
+    - Fixes CVE-2018-20532 CVE-2018-20533 CVE-2018-20534. (Closes: #923002).
+  * debian/patches:
+    + Drop 1004_cmake-module-path-fix.patch. Breaks package, since Find*
+      modules should actually be installed in the modules directory and this
+      file does NOT provide version information.
+    + Add 1005_install-cmake-module-into-libdir.patch. Installs
+      FindLibSolv.cmake into ${libdir}/cmake/libsolv/.
+    + Rename 1006_various-types.patch to 1006_various-typos.patch and refresh.
+    + Add 3000_ext-repo_rpmdb_debian-style-home-dir-rpmdb.patch for RPMDB
+      handling in home directories, compatible with Debian's rpm package.
+    + Add 3010_ext-libsolvext.ver_add-rpm_state_create_real.patch for binary
+      compatibility and exporting the newly inserted symbol.
+    + Add 3020_tools-rpmdb2solve.c-add-homedir-functionality.patch,
+      implementing homedir-based RPMDB support via the -H flag in the
+      rpmdb2solve tool.
+    + Add 9000_ext_repo_updateinfoxml.c_add-support-for-modular-data-
+          aac9f0c2d791fa96bc9423231050f9e18fb973d6.patch to backport the
+      modular updateinfo.xml functionality.
+  * debian/libsolvext0.symbols:
+    + Update.
+  * debian/rules:
+    + Enable Fedora comps support.
+    + Add DEB_DH_MISSING_ARGS with --fail-missing, since the option is
+      deprecated in dh_install and has been removed in compat 12. We'll keep it
+      around due to using compat 10 for now.
+  * debian/libsolv0-dev.install:
+    + Install FindLibSolv.cmake correctly.
+  * debian/copyright:
+    + Add missing files/information.
+  * debian/:
+    + Add libsolv-tools.lintian-overrides.
+    + Add libsolvext0.lintian-overrides.
+  * debian/libsolv{-tools,ext0}.lintian-overrides:
+    + Silence warning about modifying/reading the dpkg database directly.
+      libsolv's capabilities are actually useful here.
+  * debian/libsolv{,ext}0.symbols:
+    + Add Build-Depends-Package tag mentioning libsolv0-dev package.
+
+  [ Mike Gabriel ]
+  * debian/control:
+    + Bump Standards-Version: to 4.4.1. No changes needed.
+    + Add Rules-Requires-Root: field and set it to "no".
+  * debian/*:
+    + Drop Py2 python-solv bin.pkg. (Closes: #936923).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Sun, 24 Nov 2019 14:43:50 +0100
+
+libsolv (0.6.35-2) unstable; urgency=medium
+
+  * debian/changelog: White-space cleanup in previous stanza.
+  * debian/rules:
+    + Add build time option ENABLE_COMPLEX_DEPS=1.
+  * debian/control:
+    + Bump Standards-Version: to 4.2.1. No changes needed.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 03 Sep 2018 11:14:21 +0200
+
+libsolv (0.6.35-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control:
+    + Bump Standards-Version: to 4.2.0. No changes needed.
+    + Update Vcs-*: fields. Packaging Git has been migrated to
+      salsa.debian.org.
+    + Drop ancient X-Python{,3}-Version: fields.
+    + Add to B-D: dh-python.
+  * debian/patches:
+    + Rebase 1004_cmake-module-path-fix.patch and 1006_various-types.patch.
+  * debian/copyright:
+    + Update auto-generated copyright.in template file.
+    + Update copyright attributions.
+  * debian/libsolv0.symbols:
+    + Update symbols.
+  * debian/libsolv-tools.lintian-overrides:
+    + Drop file. Issues solved with this upstream release.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 20 Aug 2018 12:36:18 +0200
+
+libsolv (0.6.34-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control:
+    + Bump Standards-Version: to 4.1.4. No changes needed.
+    + White-space cleanup.
+  * debian/patches:
+    + Drop 2001_build-for-SUSE-and-find-rpmdb.patch. Not required anymore.
+    + Update/rebase patches.
+  * debian/{control,compat}:
+    + Bump to DH compat level 10. (CDBS not yet supports level 11,
+      unfortunately).
+  * debian/copyright:
+    + Use secure URI to obtain copyright format reference.
+    + Update copyright attributions.
+  * debian/libsolv0.symbols:
+    + Update symbols. Remove flawed part of the file that contained
+      libsolvext.so.0 symbol names.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 24 Apr 2018 12:49:07 +0200
+
+libsolv (0.6.30-1) unstable; urgency=medium
+
+  [ Héctor Orón Martínez ]
+  * New upstream release.
+  * debian/control: bump standards version
+    + switch priority extra to optional
+  * debian/control: move libsolv0 and libsolvext0 to section libs
+  * debian/libsolv0.symbols: update
+
+  [ Mike Gabriel ]
+  * debian/patches:
+    + Drop 0001_get-rid-of-path-max.patch as a file. The series file already had
+      this patched removed by Héctor Orón Martínez.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Fri, 03 Nov 2017 09:02:08 +0100
+
+libsolv (0.6.29-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches:
+    + Drop 1008_cmake-python-version.patch. Applied upstream.
+    + Rebase patches against recent upstream release.
+    + Add 0001_get-rid-of-path-max.patch. Fix FTBFS on Debian GNU/Hurd where
+      PATH_MAX is not defined.
+  * debian/rules:
+    + Use tarball from upstream URL as is. Don't repack it anymore.
+  * debian/copyright:
+    + Update auto-generated copyright.in.
+    + Update copyright attributions.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 18 Sep 2017 17:16:24 +0200
+
+libsolv (0.6.28-2) unstable; urgency=medium
+
+  [ gregor herrmann ]
+  * Fix "python2.7/cmake: find_package called with invalid argument
+    "2.7.13+"":
+    Add 1008_cmake-python-version.patch to sanitize PYTHONLIBS_VERSION_STRING
+    before passing it to 'FIND_PACKAGE (PythonInterp)'.
+    (Closes: #867514)
+
+ -- Mike Gabriel <sunweaver@debian.org>  Mon, 24 Jul 2017 10:10:08 +0200
+
+libsolv (0.6.28-1) unstable; urgency=medium
+
+  * New upstream release. (Closes: #865033).
+  * debian/libsolv0.symbols:
+    + Update symbols file.
+  * debian/control:
+    + Fix typo in D (python3-pampy): Change ${python:Depends} to
+      ${python3:Depends}. Spotted by Adrian Bunk. (Closes: #867407).
+    + Bump Standards-Version: to 4.0.0. No changes needed.
+  * debian/copyright:
+    + Update copyright attributions.
+  * debian/libsolvext0-dev.install:
+    + Add usr/lib/*/pkgconfig/libsolvext.pc to list of files to install
+      into libsolvext0-dev.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 06 Jul 2017 22:11:26 +0200
+
+libsolv (0.6.24-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches:
+    + Drop 1002_support-python2+3-bindings-simultaneously.patch.
+      Resolved (differently) upstream.
+    + Drop 1005_provide-repo-autopattern-for-non-SUSE-builds.patch.
+      Solved upstream.
+  * debian/rules:
+    + Set ENABLE_PYTHON3 to 1 for enabling python3 bindings build for libsolv.
+  * debian/{libsolv0,libsolvext0}.symbols:
+    + Update symbols for 0.6.24 upstream release.
+  * debian/copyright
+    + Update auto-generated copyright.in file.
+    + Update copyright attributions.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 10 Jan 2017 19:54:45 +0100
+
+libsolv (0.6.21-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/control:
+    + Bump Standards: to 3.9.8. No changes needed.
+    + Use https URLs in Vcs-*: fields.
+    + Versioned D on dpkg-dev (>= 1.16.1.1).
+    + Don't build dbg:packages anymore. See
+      https://wiki.debian.org/AutomaticDebugPackages.
+  * debian/{control,compat}:
+    + Bump DH compat level to version 9.
+  * debian/rules:
+    + Create orig tarball in ../ rather than ./.
+    + Enable all hardening build flags.
+    + Use NEWS file as upstream changelog.
+  * debian/patches:
+    + Updates all patches.
+    + Drop 1006_man-page-spelling-errors.patch. Applied upstream.
+    + Add 1006_various-types.patch. Fix various typos and grammar
+      issues.
+  * debian/libsolv0-dev.install:
+    + Upstream now provides a pkg-config .pc file.
+  * debian/libsolv-tools.examples:
+    + solv.c moved to examples/solv/ in source tree.
+  * debian/libsolv-tools.examples:
+    + solv.c moved to examples/solv/ in source tree.
+  * debian/libsolv0.symbols:
+    + Update symbols.
+  * debian/copyright.in:
+    + Update automatically generated copyright.in file.
+    + Update copyright attributions.
+
+ -- Mike Gabriel <sunweaver@debian.org>  Thu, 02 Jun 2016 17:38:33 +0200
+
+libsolv (0.6.11-1) unstable; urgency=medium
+
+  * New upstream release.
+  * debian/patches:
+    + Drop 1001_configurable-include-dir.patch,
+           1003_man-page-spelling-errors.patch.
+      Applied in similar way upstream.
+    + Update 1002_support-python2+3-bindings-simultaneously.patch.
+      Rebase against latest changes in this upstream release.
+    + Add +1005_provide-repo-autopattern-for-non-SUSE-builds.patch.
+      Provide repo_add_autopattern symbol even when compiled with DEBIAN
+      as the default distribution.
+    + Add 1006_man-page-spelling-errors.patch. Fix spelling errors in
+      libsolv-bindings.3 man page.
+  * debian/copyright{,.in}:
+    + Update copyright information for new upstream release.
+    + Update script-generated copyright file template.
+  * debian/control:
+    + Bump Standards: to 3.9.6. No changes needed.
+  * debian/rules:
+    + Build with -DDEBIAN=1 instead off -DSUSE=1. This sets
+      DEBIAN as the default distribution for libsolv, other
+      distributions can be enabled at runtime (because of
+      -DMULTI_SEMANTICS=1).
+    + Add new build options to get same list of symbols as
+      in libsolv 0.6.5: ENABLE_PUBKEY=1, ENABLE_RPMDB=1.
+      ENABLE_RPMDB_BYRPMHEADER=1.
+  * debian/libsolv-{doc,tools}.install:
+    + Install man pages for binaries (section 1) into libsolv-tools
+      bin:package, install API documenting man pages (section 3) into
+      the libsolv-doc bin:package.
+  * debian/*.symbols:
+    + Update .symbols files.
+  * lintian:
+    + Reduce debian/libsolv-tools.lintian-overrides. Latest upstream provides
+      man pages for binaries in libsolv-tools.
+    + The deprecated script repo2solv does not have a man page (and won't
+      get one).
+    + Mark man page for usr/bin/solv as missing (reported upstream).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Tue, 02 Jun 2015 06:04:24 +0200
+
+libsolv (0.6.5-1) unstable; urgency=low
+
+  * Initial release. (Closes: #761948).
+
+ -- Mike Gabriel <sunweaver@debian.org>  Wed, 24 Sep 2014 17:12:57 +0200

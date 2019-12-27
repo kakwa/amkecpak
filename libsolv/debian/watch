@@ -1,0 +1,4 @@
+version=3
+opts=filenamemangle=s/.*\/([\d\.-]+)\.tar\.gz/libsolv-$1.tar.gz/,dversionmangle=s/\+dfsg// \
+https://github.com/openSUSE/libsolv/tags .*/archive/([\d\.]+).tar.gz
+

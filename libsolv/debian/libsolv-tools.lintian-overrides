@@ -1,0 +1,3 @@
+# libsolv contains a backend for the dpkg database, which really makes sense
+# for this package, even though it's not a core dpkg one.
+libsolv-tools: uses-dpkg-database-directly

@@ -1,0 +1,3 @@
+# calling exit() in libsolv is intended... quoting upstream (Michael Schröder):
+# It only does this in out of memory conditions, like many other libraries.
+libsolv0: shlib-calls-exit
