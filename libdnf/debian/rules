@@ -11,5 +11,13 @@
 
 DEST=$$(pwd)/debian/@NAME@
 
+HOME=/tmp
+
 %:
 	dh $@ 
+
+override_dh_auto_configure:
+	dh_auto_configure -- \
+             -DCMAKE_CXX_FLAGS="-pthread"
+
+override_dh_auto_test:

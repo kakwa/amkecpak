@@ -27,7 +27,7 @@ LICENSE=LGPLv2
 #   <dist>:    the distribution code name (examples: 'deb', 'el', 'fc')
 #   <version>: the version number to ignore
 #
-SKIP=<=:deb:8 >=:el:0 >=:fc:0 <=:ubu:18.4
+SKIP=<=:deb:11 >=:el:0 >=:fc:0 <=:ubu:18.4
 
 ###############################################################################
 # Rule #
@@ -48,6 +48,13 @@ include buildenv/Makefile.common
 # (add checksum against a manifest file).
 # use 'make manifest' to generate/update this manifest file.
 
-# Example of simple recovery, with good upstream
+# more complex case with upstream source rework and rebuilding of the tar
 $(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
-	$(WGS) -u $(URL_SRC) -o $(SOURCE_ARCHIVE)
+	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	mkdir -p $(BUILD_DIR)/tmp
+	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
+	mv $(BUILD_DIR)/tmp/$(NAME)-$(VERSION)/* $(SOURCE_DIR)
+	cp src/FindLibSolv.cmake $(SOURCE_DIR)/cmake/modules
+	rm -rf $(BUILD_DIR)/tmp
+	rm -f $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
+	$(SOURCE_TAR_CMD)

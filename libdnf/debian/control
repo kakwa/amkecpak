@@ -6,18 +6,64 @@ Build-Depends:
  debhelper (>= 7.0.50~),
  cmake,
  pkg-config,
- libsolv0-dev,
+ libsolv0-dev (>= 0.7.7),
  libmodulemd-dev,
+ libmodulemd,
+ libssl-dev,
  libgpgme-dev,
+ libyaml-dev,
+ libbz2-dev,
+ libcurl4-openssl-dev,
+ libglib2.0-dev,
+ libmagic-dev,
+ libxml2-dev,
+ liblzma-dev,
+ libssl-dev,
+ librpm-dev,
+ libdrpm-dev,
+ libexpat1-dev,
+ python3-dev,
+ libpython3-dev,
+ libzstd-dev,
+ libzck-dev,
+ libmodulemd-dev,
+ librepo-dev,
+ libsmartcols-dev,
  check,
+ libglib2.0-dev,
  libjson-c-dev,
  librepo-dev,
+ swig,
+ gtk-doc-tools,
+ sphinx-doc,
+ python3-sphinx,
+ libcppunit-dev,
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: all
-Depends: ${misc:Depends}, libsolv0, valgrind, libmodulemd, libjson-c, librepo
+Depends: ${misc:Depends}, libsolv0, valgrind, libmodulemd, libjson-c, librepo, libssl1.1, libsmartcols1, python3
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
+
+Package: @NAME@-dev
+Architecture: all
+Depends: ${misc:Depends}, @NAME@
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+Package: @NAME@-doc
+Architecture: all
+Depends: ${misc:Depends}, @NAME@
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+
+
+Package: python3-@NAME@
+Architecture: all
+Depends: ${misc:Depends}, @NAME@
+Description: @SUMMARY@ 
+
