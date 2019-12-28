@@ -23,6 +23,7 @@ Build-Depends:
  libdrpm-dev,
  libexpat1-dev,
  python3-dev,
+ libpython3-stdlib,
  libpython3-dev,
  libzstd-dev,
  libzck-dev,
@@ -44,7 +45,7 @@ X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: all
-Depends: ${misc:Depends}, libsolv0, valgrind, libmodulemd, libjson-c, librepo, libssl1.1, libsmartcols1, python3
+Depends: ${misc:Depends}, libsolv0, valgrind, libmodulemd, libjson-c4, librepo, libssl1.1, libsmartcols1, python3
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
 

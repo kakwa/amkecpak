@@ -1,0 +1,40 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ check,
+ cmake,
+ zlib1g-dev,
+ libxml2-dev,
+ libexpat1-dev,
+ dh-python,
+ python3-dev,
+ python-dev,
+ python-scikit-build,
+ python-setuptools,
+ python3-scikit-build,
+ python3-setuptools,
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.7
+X-Python3-Version: >= 3.3
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, zlib1g, libxml2, libexpat1
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+Package: python-@NAME@
+Architecture: all
+Depends: ${misc:Depends}, zlib1g, libxml2, libexpat1, python
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
+
+Package: python3-@NAME@
+Architecture: all
+Depends: ${misc:Depends}, zlib1g, libxml2, libexpat1, python3
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
