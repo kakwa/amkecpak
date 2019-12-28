@@ -30,6 +30,6 @@ Homepage: @URL@
 
 Package: @NAME@
 Architecture: all
-Depends: ${misc:Depends}, libbz2-1.0, libcurl4, libglib2.0, libmagic1, libxml2, liblzma5, libssl1.1, librpm8, libdrpm, libexpat1, libzck, libzstd1, libmodulemd2, libyaml-0-2
+Depends: ${misc:Depends}, libbz2-1.0, libcurl4, libglib2.0-0, libmagic1, libxml2, liblzma5, libssl1.1, librpm8, libdrpm, libexpat1, libzck, libzstd1, libmodulemd2, libyaml-0-2
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
