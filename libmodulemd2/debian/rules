@@ -18,4 +18,7 @@ override_dh_auto_test:
 
 override_dh_auto_install:
 	dh_auto_install
-	mkdir -p $(DEST)/usr/lib/x86_64-linux-gnu/pkgconfig
+
+override_dh_link:
+	dh_link
+	rm $(DEST)/usr/lib/*/libmodulemd.so
