@@ -1,0 +1,39 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+X-Python-Version: >= 2.5
+X-Python3-Version: >= 3.3  
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ cmake,
+ libmodulemd-dev,
+ python3,
+ libpython3-stdlib,
+ libpython3.7-stdlib,
+ libpython3.7,
+ libsolvext0-dev,
+ python3-libdnf,
+ python3-libcomps,
+ python3-nose2,
+ python-sphinx,
+ sphinx-doc,
+ python3-rpm,
+ python3-nose,
+ python3-libdnf,
+ libdnf,
+ python3,
+ libsolvext0,
+ python3-rpm,
+ python3-libcomps,
+ libsolv0,
+ libsolvext0,
+ libmodulemd
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, python3-libdnf, libdnf, python3, libsolvext0, python3-rpm, python3-libcomps, libsolv0, libsolvext0, libmodulemd
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
