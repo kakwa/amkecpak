@@ -1,7 +1,7 @@
 Source: libsolv
 Section: admin
 Priority: optional
-Maintainer: Mike Gabriel <sunweaver@debian.org>
+Maintainer:  @MAINTAINER@ <@MAINTAINER_EMAIL@> 
 Build-Depends:
  debhelper (>= 10~),
  dh-python,
@@ -19,8 +19,6 @@ Build-Depends:
 Standards-Version: 4.4.1
 Rules-Requires-Root: no
 Homepage: https://github.com/openSUSE/libsolv
-Vcs-Browser: https://salsa.debian.org/debian/libsolv/
-Vcs-Git: https://salsa.debian.org/debian/libsolv.git
 
 Package: libsolv0
 Section: libs

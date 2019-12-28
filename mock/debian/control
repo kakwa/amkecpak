@@ -1,6 +1,6 @@
 Source: mock
 Section: devel
-Maintainer: Tzafrir Cohen <tzafrir@debian.org>
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Priority: extra
 Standards-Version: 3.9.8
 Build-Depends: debhelper (>= 9.0),
@@ -11,8 +11,6 @@ Build-Depends: debhelper (>= 9.0),
  pkg-config,
  bash-completion,
 Homepage: https://github.com/rpm-software-management/mock
-Vcs-Git: https://anonscm.debian.org/git/collab-maint/mock.git
-Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/mock.git
 
 Package: mock
 Architecture: all

@@ -1,8 +1,8 @@
 Source: python-inflection
 Section: python
 Priority: optional
-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
-Uploaders: Ethan Ward <ethan.ward@mycroft.ai>
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@> 
+Uploaders: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends: debhelper (>= 10),
                dh-python,
                python-all,
@@ -13,8 +13,6 @@ Build-Depends: debhelper (>= 10),
                python3-setuptools
 Standards-Version: 4.0.0
 Homepage: https://pypi.python.org/pypi/inflection
-Vcs-Git: https://anonscm.debian.org/git/python-modules/packages/inflection.git
-Vcs-Browser: https://anonscm.debian.org/git/python-modules/packages/inflection.git
 
 Package: python-inflection
 Architecture: all
