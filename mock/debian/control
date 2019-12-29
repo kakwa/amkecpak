@@ -15,7 +15,7 @@ Homepage: https://github.com/rpm-software-management/mock
 Package: mock
 Architecture: all
 Depends: python, ${misc:Depends}, ${python3:Depends},
- python3-rpm, yum (>> 3.2.26), usermode, yum-utils, python3-six, mock-core-configs, python3-distro, python3-pyroute2, distribution-gpg-keys, createrepo-c, dnf, python3-jinja2, open-infrastructure-container-tool, dnf-plugins-core
+ python3-rpm, yum (>> 3.2.26), usermode, yum-utils, python3-six, mock-core-configs, python3-distro, python3-pyroute2, distribution-gpg-keys, createrepo-c, dnf, python3-jinja2, open-infrastructure-container-tools, dnf-plugins-core
 Suggests: pigz
 Description: Build rpm packages inside a chroot
  Mock creates chroots and builds rpms in them. Its only task is to
