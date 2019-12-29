@@ -24,3 +24,7 @@ override_dh_auto_build:
 override_dh_auto_install:
 	dh_auto_install
 	rm -f $(DEST)/usr/share/man/man*/yum*
+	rm -f $(DEST)/usr/share/man/man*/repo*
+	rm -f $(DEST)/usr/share/man/man*/debuginfo*
+	rm -f $(DEST)/usr/share/man/man*/needs*
+	rm -f $(DEST)/usr/share/man/man*/package*
