@@ -2,7 +2,7 @@
 NAME = dnf
 
 # Version
-VERSION = 4.2.6
+VERSION = 4.2.17
 
 # Revision number 
 RELEASE = 1
