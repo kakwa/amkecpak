@@ -1,4 +1,4 @@
-usr/lib/*/*.so*
+usr/lib/*/*.so.2*
 usr/lib/*/girepository-1.0/*
 usr/share/gir-1.0/Modulemd-2.0.gir
 usr/bin/modulemd-validator
