@@ -54,6 +54,7 @@ clean_cache:
 	then chmod 700 -R $(CACHE); rm -rf $(CACHE);fi
 
 clean: clean_build clean_cache
+	rm -f ../out/*/*/results/*/*$(NAME)*/success
 	find $(OUT_DIR) -type f -name "*.rpm" -not -name "*.src.rpm" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
 	find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
 	if [ -d $(OUT_DIR) ];\
