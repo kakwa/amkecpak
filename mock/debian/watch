@@ -1,6 +1,0 @@
-version=4
-
-opts="filenamemangle=s%(mock-\d[\d.]*)-1\.tar\.gz%$1.tar.gz%" \
-    https://github.com/rpm-software-management/mock/tags \
-   /rpm-software-management/mock/archive/mock-(\d[\d.]*)-1\.tar\.gz debian uupdate
-

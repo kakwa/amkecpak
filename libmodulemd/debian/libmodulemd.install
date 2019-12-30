@@ -1,3 +1,0 @@
-usr/lib/*/*.so*
-usr/lib/*/girepository-1.0/*
-usr/share/gir-1.0/Modulemd*.gir

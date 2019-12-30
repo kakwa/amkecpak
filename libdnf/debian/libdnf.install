@@ -1,5 +1,0 @@
-usr/lib/*/*.so.*
-usr/lib/*/*.so
-usr/share/locale/*
-usr/share/man/*
-usr/lib/*/libdnf/plugins/*
