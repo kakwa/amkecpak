@@ -1,6 +1,0 @@
-#PIDFILE=/var/run/gogs/gogs.pid
-#CONF=/etc/gogs/gogs.ini
-#USER=gogs
-#GROUP=gogs
-#BIN=/usr/bin/gogs
-#OPTS="-d -c $CONF -p 8080"

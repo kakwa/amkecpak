@@ -1,1 +1,0 @@
-OPTIONS="-c /etc/gogs/gogs.ini"
