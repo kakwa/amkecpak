@@ -202,7 +202,7 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL
 	touch $(BUILD_DIR)/pkg_built.deb.$(DIST)
 
 # Build the deb(s) in a chroot (cowbuilder) and put it in out directory
-$(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES)
+$(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
 	cowbuilder --help >/dev/null
 	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	     dpkg-source -b ./
