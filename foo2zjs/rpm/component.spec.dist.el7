@@ -21,7 +21,7 @@ Patch3:         %{name}-man-pages.patch
 
 Requires:       lcms argyllcms
 Requires(post): /usr/bin/rm
-BuildRequires:  jbigkit-devel groff ghostscript bc python3-cups cups
+BuildRequires:  jbigkit-devel groff ghostscript bc python-cups cups
 
 
 %package -n foo2hp
