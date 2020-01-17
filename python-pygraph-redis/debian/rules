@@ -9,8 +9,15 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
+
 %:
-	dh $@ 
+	dh $@ --with python2,python3 --buildsystem=pybuild 
+
+
+override_dh_auto_test:
 
 override_dh_auto_clean:
 	dh_auto_clean
