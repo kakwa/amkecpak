@@ -173,7 +173,7 @@ rpm_chroot:
 	new=99999;\
 	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
-		$(MAKE) rpm_chroot_internal ERROR=skip \
+		$(MAKE) rpm_chroot_internal ERROR=skip;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.rpm.chroot.$(DIST)" | wc -l);\
 		echo $$new -ne $$old;\
