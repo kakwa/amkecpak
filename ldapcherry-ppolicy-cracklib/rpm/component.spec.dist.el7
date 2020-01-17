@@ -11,8 +11,8 @@ Group: System/Servers
 Summary: @SUMMARY@ 
 BuildRoot: %{_tmppath}/%{pkgname}-%{zone}-%{version}-%{release}-build
 BuildArch: noarch
-Requires: python3-cracklib, ldapcherry
-BuildRequires: python3-setuptools, python3-devel
+Requires: cracklib-python, ldapcherry
+BuildRequires: python-setuptools
 
 %description
 @DESCRIPTION@
@@ -21,12 +21,17 @@ BuildRequires: python3-setuptools, python3-devel
 
 %setup -q -n %{pkgname}-%{version}
 
-%build
-%py3_build
-
 %install
 
-%py3_install
+rm -rf $RPM_BUILD_ROOT
+python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
+
+%post
+true
+
+
+%preun
+true
 
 %clean
 rm -rf \$RPM_BUILD_ROOT
