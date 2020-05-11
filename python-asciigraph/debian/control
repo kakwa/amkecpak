@@ -4,28 +4,18 @@ Priority: extra
 Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
- rsync,
  dh-python,
- python-all-dev,
- python-setuptools,
  python3-all-dev,
  python3-setuptools,
- python-pytest,
  python3-pytest,
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
 X-Python3-Version: >= 3.3
 
-Package: @NAME@
-Architecture: all
-Depends: ${misc:Depends}, python-minimal
-Description: @SUMMARY@ 
- @DESCRIPTION@ 
-
 Package: python3-asciigraph
 Architecture: all
-Depends: ${misc:Depends}, python-minimal
+Depends: ${misc:Depends}, python3
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
 

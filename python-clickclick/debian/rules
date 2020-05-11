@@ -14,4 +14,4 @@ export LANG=C.UTF-8
 DEST=$$(pwd)/debian/@NAME@
 
 %:
-	dh $@ --with python2,python3 --buildsystem=pybuild
+	dh $@ --with python3 --buildsystem=pybuild

@@ -4,14 +4,15 @@ Priority: extra
 Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
- python-setuptools,
- rsync
+ dh-python,
+ python3-all-dev,
+ python3-setuptools
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
 
 Package: @NAME@
 Architecture: all
-Depends: ${misc:Depends}, python-ldap, python-yaml, python-mako, python-yaml, python-cherrypy3
+Depends: ${misc:Depends}, python3-ldap, python3-yaml, python3-mako, python3-yaml, python3-cherrypy3
 Description: @SUMMARY@ 
  @DESCRIPTION@ 
