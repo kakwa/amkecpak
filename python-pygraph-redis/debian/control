@@ -5,23 +5,13 @@ Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
  dh-python,
- python-all-dev,
- python-setuptools,
  python3-all-dev,
  python3-setuptools,
- python-pytest,
  python3-pytest,
- python-redis,
  python3-redis,
 Standards-Version: 3.8.4
 Homepage: @URL@ 
 X-Python-Version: >= 2.5
-
-Package: @NAME@
-Architecture: all
-Depends: ${misc:Depends}, python-redis
-Description: @SUMMARY@ 
- @DESCRIPTION@ 
 
 Package: python3-pygraph-redis
 Architecture: all

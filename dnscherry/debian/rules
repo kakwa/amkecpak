@@ -10,8 +10,8 @@
 export DH_VERBOSE=1
 
 %:
-	#dh_installinit --init-script=dnscherry
-	dh $@ --without dh_installinit
+	#dh_installinit --init-script=dnscherryd
+	dh $@ --with python3 --buildsystem=pybuild --without dh_installinit
 
 override_dh_installinit:
 	dh_installinit --init-script=dnscherry
@@ -19,3 +19,6 @@ override_dh_installinit:
 override_dh_auto_clean:
 	dh_auto_clean
 	rm -rf *.egg-info
+
+override_dh_auto_test:
+

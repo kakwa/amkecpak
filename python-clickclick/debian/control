@@ -7,13 +7,6 @@ Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
  dh-python,
- python-all-dev,
- python-yaml,
- python-pytest,
- python-click,
- python-flake8,
- python-six,
- python-setuptools,
  python3-all-dev,
  python3-yaml,
  python3-flake8,
@@ -24,12 +17,6 @@ Build-Depends:
 
 Standards-Version: 3.8.4
 Homepage: @URL@
-Package: python-clickclick
-Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python-yaml, python-click
-Description: @SUMMARY@
- @DESCRIPTION@
-
 Package: python3-clickclick
 Architecture: all
 Depends: ${misc:Depends}, ${python3:Depends}, python-yaml, python-click

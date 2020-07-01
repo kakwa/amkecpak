@@ -1,6 +1,6 @@
---- modules/setting/setting.go
-+++ modules/setting/setting.go
-@@ -485,7 +485,7 @@ func SetCustomPathAndConf(providedCustom, providedConf, providedWorkPath string)
+--- modules/setting/setting.go	2020-05-09 21:26:27.000000000 +0200
++++ modules/setting/setting.go	2020-05-11 20:50:40.366967659 +0200
+@@ -499,7 +499,7 @@
  		CustomPath = providedCustom
  	}
  	if len(CustomPath) == 0 {
@@ -9,7 +9,7 @@
  	} else if !filepath.IsAbs(CustomPath) {
  		CustomPath = path.Join(AppWorkPath, CustomPath)
  	}
-@@ -494,7 +494,7 @@ func SetCustomPathAndConf(providedCustom, providedConf, providedWorkPath string)
+@@ -508,7 +508,7 @@
  		CustomConf = providedConf
  	}
  	if len(CustomConf) == 0 {
@@ -18,7 +18,7 @@
  	} else if !filepath.IsAbs(CustomConf) {
  		CustomConf = path.Join(CustomPath, CustomConf)
  	}
-@@ -526,7 +526,7 @@ func NewContext() {
+@@ -540,7 +540,7 @@
  
  	LogLevel = getLogLevel(Cfg.Section("log"), "LEVEL", "Info")
  	StacktraceLogLevel = getStacktraceLogLevel(Cfg.Section("log"), "STACKTRACE_LEVEL", "None")
@@ -27,22 +27,23 @@
  	forcePathSeparator(LogRootPath)
  	RedirectMacaronLog = Cfg.Section("log").Key("REDIRECT_MACARON_LOG").MustBool(false)
  	RouterLogLevel = log.FromString(Cfg.Section("log").Key("ROUTER_LOG_LEVEL").MustString("Info"))
-@@ -606,11 +606,11 @@ func NewContext() {
+@@ -640,12 +640,12 @@
  	PortToRedirect = sec.Key("PORT_TO_REDIRECT").MustString("80")
  	OfflineMode = sec.Key("OFFLINE_MODE").MustBool()
  	DisableRouterLog = sec.Key("DISABLE_ROUTER_LOG").MustBool()
 -	StaticRootPath = sec.Key("STATIC_ROOT_PATH").MustString(AppWorkPath)
++	StaticRootPath = sec.Key("STATIC_ROOT_PATH").MustString("/usr/share/gitea/")
+ 	StaticCacheTime = sec.Key("STATIC_CACHE_TIME").MustDuration(6 * time.Hour)
 -	AppDataPath = sec.Key("APP_DATA_PATH").MustString(path.Join(AppWorkPath, "data"))
-+        StaticRootPath = sec.Key("STATIC_ROOT_PATH").MustString("/usr/share/gitea/")
-+        AppDataPath = sec.Key("APP_DATA_PATH").MustString("/var/lib/gitea/data/")
++	AppDataPath = sec.Key("APP_DATA_PATH").MustString("/var/lib/gitea/data/")
  	EnableGzip = sec.Key("ENABLE_GZIP").MustBool()
  	EnablePprof = sec.Key("ENABLE_PPROF").MustBool(false)
 -	PprofDataPath = sec.Key("PPROF_DATA_PATH").MustString(path.Join(AppWorkPath, "data/tmp/pprof"))
-+        PprofDataPath = sec.Key("PPROF_DATA_PATH").MustString("/var/lib/gitea/data/")
++	PprofDataPath = sec.Key("PPROF_DATA_PATH").MustString("/var/lib/gitea/data/")
  	if !filepath.IsAbs(PprofDataPath) {
  		PprofDataPath = filepath.Join(AppWorkPath, PprofDataPath)
  	}
-@@ -678,7 +678,7 @@ func NewContext() {
+@@ -714,7 +714,7 @@
  	if err = sec.MapTo(&LFS); err != nil {
  		log.Fatal("Failed to map LFS settings: %v", err)
  	}
@@ -51,7 +52,7 @@
  	if !filepath.IsAbs(LFS.ContentPath) {
  		LFS.ContentPath = filepath.Join(AppWorkPath, LFS.ContentPath)
  	}
-@@ -785,7 +785,7 @@ func NewContext() {
+@@ -822,7 +822,7 @@
  	}
  
  	sec = Cfg.Section("attachment")
@@ -60,7 +61,7 @@
  	if !filepath.IsAbs(AttachmentPath) {
  		AttachmentPath = path.Join(AppWorkPath, AttachmentPath)
  	}
-@@ -851,7 +851,7 @@ func NewContext() {
+@@ -889,7 +889,7 @@
  	newRepository()
  
  	sec = Cfg.Section("picture")
