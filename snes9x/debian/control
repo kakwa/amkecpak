@@ -1,0 +1,27 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends:
+ debhelper (>= 7.0.50~),
+ meson,
+ gettext,
+ libsdl2-dev,
+ libgtkmm-3.0-dev,
+ libgtk-3-dev,
+ libminizip-dev,
+ portaudio19-dev,
+ glslang-dev,
+ glslang-tools,
+ cmake,
+ libepoxy-dev,
+ ninja-build
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, libgtkmm-3.0-1v5, libportaudio2, x11-xserver-utils, libsdl2-2.0-0, libgtk-3-0, libminizip1, libportaudio2, libportaudiocpp0, glslang-tools, libepoxy0
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
