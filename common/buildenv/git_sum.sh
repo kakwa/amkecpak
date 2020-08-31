@@ -22,6 +22,7 @@ exit_error(){
     exit 1
 }
 
+SUBMODULE=0
 TMP_CO_DIR=`mktemp -d`
 mkdir -p $TMP_CO_DIR
 
@@ -29,7 +30,7 @@ mkdir -p $TMP_CO_DIR
 
 MANIFEST_FILE="`dirname $0`/../MANIFEST"
 
-while getopts ":hu:o:m:cC:t:r:" opt; do
+while getopts ":hu:o:m:cC:t:r:s" opt; do
   case $opt in
 
     h) 
@@ -56,6 +57,9 @@ while getopts ":hu:o:m:cC:t:r:" opt; do
     r)
         REVISION="$OPTARG"
         ;;
+    s)
+	SUBMODULE=1
+	;;
     \?)
         echo "Invalid option: -$OPTARG" >&2
         help
@@ -72,7 +76,8 @@ done
 [ -z "$URL" ] && exit_error "[ERROR] missing -u <url> arg"
 [ -z "$OUTFILE" ] && exit_error "[ERROR] missing -o <out> arg"
 
-CO_DIR=`basename $URL`
+#CO_DIR=`basename $URL`
+CO_DIR=`basename ${OUTFILE} | sed 's/\.orig\.tar\.gz$//' | sed 's/_/-/'`
 
 SOURCE_FILE="`basename ${OUTFILE}`"
 if [ -e "$MANIFEST_FILE" ]
@@ -95,6 +100,10 @@ then
 	    git checkout tags/$TAG || exit_error "[ERROR] tag checkout failed"
         else
 	    git checkout $REVISION || exit_error "[ERROR] revision checkout failed"
+	fi
+	if [ $SUBMODULE -eq 1 ]
+	then
+	    git submodule update --init --recursive
 	fi
         cd $org_dir
 	tar -zcvf ${CACHE_DIR}/${SOURCE_FILE} -C "${TMP_CO_DIR}/" ${CO_DIR} || exit_error "[ERROR] failed to create archive"
