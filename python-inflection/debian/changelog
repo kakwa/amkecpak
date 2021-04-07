@@ -1,5 +1,0 @@
-inflection (0.3.1-1) unstable; urgency=medium
-
-  * Initial Debian packaging (closes: #869104)
-
- -- Ethan Ward <ethan.ward@mycroft.ai>  Tue, 01 Aug 2017 19:39:04 -0500
