@@ -1,0 +1,40 @@
+Description: Use shared zlib
+Index: RetroArch-1.7.3/libretro-common/file/archive_file_zlib.c
+===================================================================
+--- RetroArch-1.7.3.orig/libretro-common/file/archive_file_zlib.c
++++ RetroArch-1.7.3/libretro-common/file/archive_file_zlib.c
+@@ -31,7 +31,7 @@
+ #include <encodings/crc32.h>
+ 
+ /* Only for MAX_WBITS */
+-#include <compat/zlib.h>
++#include <zlib.h>
+ 
+ #ifndef CENTRAL_FILE_HEADER_SIGNATURE
+ #define CENTRAL_FILE_HEADER_SIGNATURE 0x02014b50
+Index: RetroArch-1.7.3/libretro-common/streams/trans_stream_zlib.c
+===================================================================
+--- RetroArch-1.7.3.orig/libretro-common/streams/trans_stream_zlib.c
++++ RetroArch-1.7.3/libretro-common/streams/trans_stream_zlib.c
+@@ -23,7 +23,7 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
+-#include <compat/zlib.h>
++#include <zlib.h>
+ #include <string/stdstring.h>
+ #include <streams/trans_stream.h>
+ 
+Index: RetroArch-1.7.3/network/httpserver/httpserver.c
+===================================================================
+--- RetroArch-1.7.3.orig/network/httpserver/httpserver.c
++++ RetroArch-1.7.3/network/httpserver/httpserver.c
+@@ -22,7 +22,7 @@
+ 
+ #include <civetweb/civetweb.h>
+ #include <string/stdstring.h>
+-#include <compat/zlib.h>
++#include <zlib.h>
+ 
+ #include "../../core.h"
+ #include "../../retroarch.h"

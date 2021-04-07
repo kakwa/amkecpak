@@ -1,0 +1,3 @@
+usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/audio   usr/lib/retroarch/filters/audio
+usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/video   usr/lib/retroarch/filters/video
+usr/share/icons/hicolor/scalable/apps/retroarch.svg    usr/share/pixmaps/retroarch.svg

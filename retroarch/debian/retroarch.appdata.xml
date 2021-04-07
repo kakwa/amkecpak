@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+  <id>retroarch.desktop</id>
+  <metadata_license>GPL-3.0+</metadata_license>
+  <project_license>GPL-3.0+</project_license>
+  <name>RetroArch</name>
+  <summary>Simple frontend for the libretro library</summary>
+  <description>
+    <p>RetroArch is an open source, multi-platform frontend for the libretro API.
+       It can be used as a modular multi emulator system, game engine, media player
+       and 3D technical demonstration. These features are available through
+       libretro cores.</p>
+  </description>
+  <url type="homepage">http://www.libretro.com/</url>
+  <url type="bugtracker">https://github.com/libretro/RetroArch/issues</url>
+</component>

@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+DEBIAN_VERSION=$(shell lsb_release -c | cut -f2)
+
+ifeq ($(DEBIAN_VERSION),$(filter $(DEBIAN_VERSION),qiana rebecca rafaela rosa trusty vivid wily wheezy jessie))
+	ROBOTO_DIR := usr/share/fonts/truetype/roboto
+else
+	ROBOTO_DIR := usr/share/fonts/truetype/roboto/hinted
+endif
+
+override_dh_auto_configure:
+	sed 's|@ROBOTO_DIR@|$(ROBOTO_DIR)|g' \
+		debian/links.in > debian/links
+
+override_dh_auto_build:
+
+override_dh_auto_clean:
+
+override_dh_auto_install:
+	sed -i 's|cp -ar.*|find ./ -maxdepth 1 -type d -not -name debian -not -name src -exec cp -ar {} $$(DESTDIR)$$\(INSTALLDIR) \\;|' Makefile 
+	dh_auto_install

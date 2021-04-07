@@ -1,0 +1,53 @@
+Source: retroarch
+Section: otherosfs
+Priority: optional
+Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
+Uploaders: Sérgio Benjamim <sergio_br2@yahoo.com.br>
+Build-Depends: debhelper (>= 10),
+               libasound2-dev,
+               libavcodec-dev,
+               libavdevice-dev,
+               libavformat-dev,
+               libavutil-dev,
+               libdrm-dev,
+               libegl1-mesa-dev,
+               libfreetype6-dev,
+               libgbm-dev (>= 9.0),
+               libglm-dev,
+               libjack-jackd2-dev,
+               libminiupnpc-dev,
+               libopenal-dev,
+               libpulse-dev,
+               libsdl2-dev,
+               libswscale-dev,
+               libudev-dev,
+               libusb-1.0-0-dev (>= 1.0.16),
+               libv4l-dev,
+               libvulkan-dev,
+               libx11-xcb-dev,
+               libxinerama-dev,
+               libxml2-dev,
+               libxv-dev,
+               libxxf86vm-dev,
+               pkg-config,
+               python3-dev,
+               qtbase5-dev,
+               x11proto-xext-dev,
+               zlib1g-dev
+Standards-Version: 4.1.4
+Homepage: https://www.libretro.com/
+
+Package: retroarch
+Architecture: any
+Depends: fonts-dejavu-core,
+         libretro-core-info,
+         retroarch-assets,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Simple frontend for the libretro library
+ RetroArch is an open source, multi-platform frontend for the libretro API.
+ It can be used as a modular multi emulator system, game engine, media player
+ and 3D technical demonstration. These features are available through
+ libretro cores.
+ .
+ It provides three built-in GUI: RGUI, XMB and GLUI.

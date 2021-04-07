@@ -1,0 +1,19 @@
+Description: There is a package for assets, let's avoid confusion in the Online Updater
+Index: RetroArch-1.7.3/menu/menu_displaylist.c
+===================================================================
+--- RetroArch-1.7.3.orig/menu/menu_displaylist.c
++++ RetroArch-1.7.3/menu/menu_displaylist.c
+@@ -3109,11 +3109,13 @@ static int menu_displaylist_parse_option
+             MENU_SETTING_ACTION, 0, 0);
+ 
+ #ifdef HAVE_UPDATE_ASSETS
++/*
+    menu_entries_append_enum(info->list,
+          msg_hash_to_str(MENU_ENUM_LABEL_VALUE_UPDATE_ASSETS),
+          msg_hash_to_str(MENU_ENUM_LABEL_UPDATE_ASSETS),
+          MENU_ENUM_LABEL_UPDATE_ASSETS,
+          MENU_SETTING_ACTION, 0, 0);
++*/
+ #endif
+ 
+    menu_entries_append_enum(info->list,

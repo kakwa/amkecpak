@@ -1,0 +1,9 @@
+retroarch                                usr/bin
+retroarch.desktop                        usr/share/applications
+debian/retroarch.appdata.xml             usr/share/metainfo
+debian/retroarch.cfg                     etc
+gfx/video_filters/*.so                   usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/video
+gfx/video_filters/*.filt                 usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/video
+libretro-common/audio/dsp_filters/*.so   usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/audio
+libretro-common/audio/dsp_filters/*.dsp  usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/audio
+media/retroarch.svg                      usr/share/icons/hicolor/scalable/apps

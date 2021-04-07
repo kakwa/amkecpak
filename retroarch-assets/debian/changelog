@@ -1,0 +1,25 @@
+retroarch-assets (1.4.1+git20170209+dfsg1-1) experimental; urgency=low
+
+  * Updated to latest git, f60758f.
+
+ -- Sérgio Benjamim <sergio_br2@yahoo.com.br>  Wed, 15 Feb 2017 18:31:00 -0300
+
+retroarch-assets (1.3.6+git20160731+dfsg1-1) unstable; urgency=low
+
+  * Updated to latest git, c8f7c0b.
+  * Changed package maintainer to Debian Games Team.
+
+ -- Sérgio Benjamim <sergio_br2@yahoo.com.br>  Wed, 17 Aug 2016 22:15:00 -0300
+
+retroarch-assets (1.3.0+git20160522+dfsg1-2) unstable; urgency=low
+
+  * Fixed fonts symlinks.
+  * Relicensed the package to CC-BY-4.0.
+
+ -- Sérgio Benjamim <sergio_br2@yahoo.com.br>  Fri, 27 May 2016 15:38:00 -0300
+
+retroarch-assets (1.3.0+git20160522+dfsg1-1) unstable; urgency=low
+
+  * Initial release (Closes: #792608).
+
+ -- Sérgio Benjamim <sergio_br2@yahoo.com.br>  Sun, 22 May 2016 15:59:00 -0300

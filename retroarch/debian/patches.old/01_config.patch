@@ -1,0 +1,101 @@
+Description: sane default paths, otherwise RetroArch will populate your ~/ (upstream improved it)
+Index: RetroArch-1.7.3/retroarch.cfg
+===================================================================
+--- RetroArch-1.7.3.orig/retroarch.cfg
++++ RetroArch-1.7.3/retroarch.cfg
+@@ -10,7 +10,7 @@
+ 
+ # If set to a directory, content which is temporarily extracted
+ # will be extracted to this directory.
+-# cache_directory =
++cache_directory = "/tmp"
+ 
+ # Save all downloaded files to this directory.
+ # core_assets_directory =
+@@ -41,10 +41,10 @@
+ # libretro_path = "/path/to/libretro.so"
+ 
+ # A directory for where to search for libretro core implementations.
+-# libretro_directory =
++libretro_directory = "/usr/lib/@DEB_HOST_MULTIARCH@/libretro/"
+ 
+ # A directory for where to search for libretro core information.
+-# libretro_info_path =
++libretro_info_path = "/usr/share/libretro/info/"
+ 
+ # Sets log level for libretro cores (GET_LOG_INTERFACE).
+ # If a log level issued by a libretro core is below libretro_log_level, it is ignored.
+@@ -96,7 +96,7 @@
+ # system_directory =
+ 
+ # Sets start directory for menu file browser.
+-# rgui_browser_directory =
++rgui_browser_directory = "~/"
+ 
+ # Content directory. Interacts with RETRO_ENVIRONMENT_GET_CONTENT_DIRECTORY.
+ # Usually set by developers who bundle libretro/RetroArch apps to point to assets.
+@@ -104,7 +104,7 @@
+ 
+ # Assets directory. This location is queried by default when menu interfaces try to look for
+ # loadable assets, etc.
+-# assets_directory =
++assets_directory = "/usr/share/libretro/assets/"
+ 
+ # Dynamic wallpapers directory. The place to store the wallpapers dynamically
+ # loaded by the menu depending on context.
+@@ -114,7 +114,7 @@
+ # thumbnails_directory =
+ 
+ # Sets start directory for menu config browser.
+-# rgui_config_directory =
++rgui_config_directory = "~/.config/retroarch/config/"
+ 
+ # Show startup screen in menu.
+ # Is automatically set to false when seen for the first time.
+@@ -247,7 +247,7 @@
+ # video_filter =
+ 
+ # Defines a directory where CPU-based video filters are kept.
+-# video_filter_dir =
++video_filter_dir = "/usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/video/"
+ 
+ # Path to a font used for rendering messages. This path must be defined to enable fonts.
+ # Do note that the _full_ path of the font is necessary!
+@@ -317,7 +317,7 @@ video_message_bgcolor_opacity = 1.0
+ # audio_dsp_plugin =
+ 
+ # Directory where DSP plugins are kept.
+-# audio_filter_dir =
++audio_filter_dir = "/usr/lib/@DEB_HOST_MULTIARCH@/retroarch/filters/audio/"
+ 
+ # Will sync (block) on audio. Recommended.
+ # audio_sync = true
+@@ -662,13 +662,13 @@ video_message_bgcolor_opacity = 1.0
+ #### Menu
+ 
+ # Menu driver to use. "rgui", "lakka", etc.
+-# menu_driver = "rgui"
++menu_driver = "xmb"
+ 
+ # If disabled, will hide 'Online Updater' inside the menu.
+ # menu_show_online_updater = true
+ 
+ # If disabled, will hide the ability to update cores (and core info files) inside the menu.
+-# menu_show_core_updater = true
++menu_show_core_updater = "false"
+ 
+ # If disabled, the libretro core will keep running in the background when we
+ # are in the menu.
+@@ -853,3 +853,12 @@ video_message_bgcolor_opacity = 1.0
+ # network_cmd_enable = false
+ # network_cmd_port = 55355
+ # stdin_cmd_enable = false
++
++
++# Seems ribbon is slow in some hardwares, let's use "Ribbon (simplified)"
++menu_shader_pipeline = "1"
++
++# Hide some stuff users normally doesn't use (Settings tab --> User Interface --> Menu, to enable them again)
++content_show_images = "false"
++content_show_music = "false"
++content_show_video = "false"

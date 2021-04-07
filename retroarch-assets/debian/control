@@ -1,0 +1,14 @@
+Source: retroarch-assets
+Section: otherosfs
+Priority: optional
+Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
+Uploaders: Sérgio Benjamim <sergio_br2@yahoo.com.br>
+Build-Depends: debhelper (>= 9), lsb-release
+Standards-Version: 3.9.8
+Homepage: http://www.libretro.com
+
+Package: retroarch-assets
+Architecture: all
+Depends: fonts-roboto | fonts-roboto-hinted, fonts-mplus, ${shlibs:Depends}, ${misc:Depends}
+Description: RetroArch assets for XMB, GLUI and Zarch
+ This package installs RetroArch assets for XMB, GLUI and Zarch menu drivers.

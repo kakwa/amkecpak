@@ -1,0 +1,7 @@
+@ROBOTO_DIR@/RobotoCondensed-Regular.ttf               usr/share/libretro/assets/zarch/Roboto-Condensed.ttf
+@ROBOTO_DIR@/Roboto-Regular.ttf                        usr/share/libretro/assets/xmb/flatui/font.ttf
+/usr/share/fonts/truetype/mplus/mplus-1p-regular.ttf   usr/share/libretro/assets/xmb/monochrome/font.ttf
+@ROBOTO_DIR@/Roboto-Regular.ttf                        usr/share/libretro/assets/xmb/neoactive/font.ttf
+@ROBOTO_DIR@/Roboto-Regular.ttf                        usr/share/libretro/assets/xmb/retroactive/font.ttf
+@ROBOTO_DIR@/Roboto-Regular.ttf                        usr/share/libretro/assets/xmb/systematic/font.ttf
+/usr/share/fonts/truetype/mplus/mplus-1p-regular.ttf   usr/share/libretro/assets/glui/font.ttf

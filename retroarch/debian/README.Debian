@@ -1,0 +1,20 @@
+Note for users updating RetroArch
+---------------------------------
+
+Upstream updated the default option for 'input_driver' setting
+(Settings tab --> Driver --> Input Driver) from 'udev' to 'x'. So if
+you are updating RetroArch from a previous installation, you may notice
+your keyboard unresponsive.
+
+You can either include your user to the input group:
+
+   usermod -a -G input user_name
+
+Or change 'input_driver' entry in the ~/.config/retroarch/retroarch.cfg
+from:
+
+   input_driver = "udev"
+
+to:
+
+   input_driver = "x"
