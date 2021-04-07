@@ -1,2 +1,0 @@
-DRIVER_REGEXP='^foo2zjs:'
-GENNICKNAME_REGEXP='s/-z\d\b//'
