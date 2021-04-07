@@ -1,6 +1,1 @@
-#PIDFILE=/var/run/ldapcherryd/ldapcherryd.pid
-#CONF=/etc/ldapcherry/ldapcherry.ini
-#USER=ldapcherry
-#GROUP=ldapcherry
-#BIN=/usr/bin/ldapcherryd
-#OPTS="-d -c $CONF -p $PIDFILE"
+OPTIONS="-d -c /etc/ldapcherry/ldapcherry.ini"

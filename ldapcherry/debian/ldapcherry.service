@@ -1,0 +1,19 @@
+[Unit]
+Description=LdapCherry Web UI
+After=network.target
+Wants=network.service
+
+[Service]
+Type=forking
+PIDFile=/var/run/ldapcherry/ldapcherry.pid
+User=ldapcherry
+Group=ldapcherry
+
+EnvironmentFile=/etc/default/ldapcherry
+ExecStart=/usr/bin/ldapcherryd $OPTIONS -p /var/run/ldapcherry/ldapcherry.pid
+KillMode=process
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

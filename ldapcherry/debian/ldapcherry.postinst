@@ -27,6 +27,9 @@ case "$1" in
             --quiet \
             --group \
             ${USER}
+	systemd-tmpfiles --create /usr/lib/tmpfiles.d/ldapcherry.conf
+	systemctl daemon-reload
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
