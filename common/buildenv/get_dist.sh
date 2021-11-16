@@ -12,8 +12,12 @@ case $1 in
     echo 10:deb:debian-10; exit 0;;
   bullseye)
     echo 11:deb:debian-11; exit 0;;
-  sid)
+  bookworm)
     echo 12:deb:debian-12; exit 0;;
+  trixie)
+    echo 13:deb:debian-13; exit 0;;
+  sid)
+    echo 14:deb:debian-14; exit 0;;
   
   # Ubuntu code names:
   precise)
@@ -46,6 +50,10 @@ case $1 in
     echo 20.10:ubu:ubuntu-20.10; exit 0;;
   hirsute)
     echo 21.04:ubu:ubuntu-21.04; exit 0;;
+  impish)
+    echo 21.10:ubu:ubuntu-21.10; exit 0;;
+  jammy)
+    echo 22.04:ubu:ubuntu-22.04; exit 0;;
 
   # Fedora code names:
   fc24)
