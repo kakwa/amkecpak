@@ -5,7 +5,6 @@ Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
 Build-Depends:
  debhelper (>= 7.0.50~),
  rsync,
- dh-systemd,
  cmake,
  libssl-dev,
  libcivetweb,
