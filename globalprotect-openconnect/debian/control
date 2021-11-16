@@ -1,0 +1,14 @@
+Source: @NAME@
+Section: misc
+Priority: extra
+Maintainer: @MAINTAINER@ <@MAINTAINER_EMAIL@>
+Build-Depends: cmake (>=3.10), debhelper (>=11~), qtbase5-dev, libqt5websockets5-dev (>=5.9), qtwebengine5-dev (>=5.9)
+Standards-Version: 3.8.4
+Homepage: @URL@ 
+X-Python-Version: >= 2.5
+
+Package: @NAME@
+Architecture: all
+Depends: ${misc:Depends}, ${shlibs:Depends}, openconnect (>=8.0), libqt5websockets5 (>=5.9), libqt5webengine5 (>=5.9), libqt5webenginewidgets5 (>=5.9)
+Description: @SUMMARY@ 
+ @DESCRIPTION@ 
