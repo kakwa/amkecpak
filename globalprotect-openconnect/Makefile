@@ -2,7 +2,7 @@
 NAME = globalprotect-openconnect
 
 # Version
-VERSION = 1.4.8
+VERSION = 1.4.9
 
 # Revision number 
 RELEASE = 1
