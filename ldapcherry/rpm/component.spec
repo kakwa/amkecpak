@@ -28,7 +28,7 @@ BuildRequires: python3-setuptools
 %install
 
 rm -rf $RPM_BUILD_ROOT
-python setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
+python3 setup.py install --force --root=$RPM_BUILD_ROOT --no-compile -O0 --prefix=/usr
 
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d/
