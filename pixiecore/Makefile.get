@@ -1,8 +1,0 @@
-define GODEPS
-	$(WGS) -u $(URL_x_crypto) -o $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz -n $(PATH_x_crypto)
-	rm $(BUILD_DIR)/x_crypto-$(VERSION_x_crypto).tar.gz
-	$(WGS) -u $(URL_x_net) -o $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz
-	$(GO_EXT) -a $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz -n $(PATH_x_net)
-	rm $(BUILD_DIR)/x_net-$(VERSION_x_net).tar.gz
-endef
