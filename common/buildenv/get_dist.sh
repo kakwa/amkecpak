@@ -80,13 +80,19 @@ case $1 in
     echo 34:fc:fedora-34; exit 0;;
   fc35)
     echo 35:fc:fedora-35; exit 0;;
-  
+  fc36)
+    echo 36:fc:fedora-36; exit 0;;
+  fc37)
+    echo 37:fc:fedora-37; exit 0;;
+ 
   # RHEL/CentOS code names:
   el6)
-    echo 6:el:epel-6; exit 0;;
+    echo 6:el:rocky+epel-6; exit 0;;
   el7)
-    echo 7:el:epel-7; exit 0;;
+    echo 7:el:rocky+epel-7; exit 0;;
   el8)
-    echo 8:el:epel-8; exit 0;;
+    echo 8:el:rocky+epel-8; exit 0;;
+  el9)
+    echo 9:el:rocky+epel-9; exit 0;;
 esac
 echo 0:unk;
