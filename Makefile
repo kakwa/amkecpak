@@ -228,7 +228,7 @@ $(OUT_RPMS): $(RPMS) | $(RPM_OUT_REPO)
 rpm_sign: $(OUT_RPMS)
 
 $(RPM_OUT_REPO)/repodata: $(OUT_RPMS)
-	createrepo -o $(RPM_OUT_REPO) $(RPM_OUT_REPO)
+	createrepo_c -o $(RPM_OUT_REPO) $(RPM_OUT_REPO)
 
 internal_rpm_repo: $(RPM_OUT_REPO)/repodata
 
