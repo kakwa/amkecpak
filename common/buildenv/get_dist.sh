@@ -54,6 +54,17 @@ case $1 in
     echo 21.10:ubu:ubuntu-21.10; exit 0;;
   jammy)
     echo 22.04:ubu:ubuntu-22.04; exit 0;;
+  lunar)
+    echo 23.04:ubu:ubuntu-23.04; exit 0;;
+  mantic)
+    echo 23.10:ubu:ubuntu-23.10; exit 0;;
+  noble)
+    echo 24.04:ubu:ubuntu-24.04; exit 0;;
+  oracular)
+    echo 24.10:ubu:ubuntu-24.10; exit 0;;
+  plucky)
+    echo 25.04:ubu:ubuntu-25.04; exit 0;;
+
 
   # Fedora code names:
   fc24)
@@ -84,6 +95,12 @@ case $1 in
     echo 36:fc:fedora-36; exit 0;;
   fc37)
     echo 37:fc:fedora-37; exit 0;;
+  fc38)
+    echo 38:fc:fedora-38; exit 0;;
+  fc39)
+    echo 39:fc:fedora-39; exit 0;;
+  fc40)
+    echo 40:fc:fedora-40; exit 0;;
  
   # RHEL/CentOS code names:
   el6)
@@ -94,5 +111,9 @@ case $1 in
     echo 8:el:rocky+epel-8; exit 0;;
   el9)
     echo 9:el:rocky+epel-9; exit 0;;
+  el10)
+    echo 10:el:rocky+epel-10; exit 0;;
+  el11)
+    echo 11:el:rocky+epel-11; exit 0;;
 esac
 echo 0:unk;
