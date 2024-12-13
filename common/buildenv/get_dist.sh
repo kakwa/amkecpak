@@ -1,70 +1,69 @@
 #!/bin/sh
-
+#
 case $1 in
-  # Debian code names:
-  wheezy)
+  # Debian code names and version mapping:
+  wheezy|deb7)
     echo 7:deb:debian-7; exit 0;;
-  jessie)
+  jessie|deb8)
     echo 8:deb:debian-8; exit 0;;
-  stretch)
+  stretch|deb9)
     echo 9:deb:debian-9; exit 0;;
-  buster)
+  buster|deb10)
     echo 10:deb:debian-10; exit 0;;
-  bullseye)
+  bullseye|deb11)
     echo 11:deb:debian-11; exit 0;;
-  bookworm)
+  bookworm|deb12)
     echo 12:deb:debian-12; exit 0;;
-  trixie)
+  trixie|deb13)
     echo 13:deb:debian-13; exit 0;;
-  sid)
+  sid|deb14)
     echo 14:deb:debian-14; exit 0;;
-  
-  # Ubuntu code names:
-  precise)
-    echo 12.4:ubu:ubuntu-12.4; exit 0;;
-  trusty)
-    echo 14.4:ubu:ubuntu-14.4; exit 0;;
-  vivid)
-    echo 15.4:ubu:ubuntu-15.4; exit 0;;
-  wily)
-    echo 15.10:ubu:ubuntu-15.10; exit 0;;
-  xenial)
-    echo 16.4:ubu:ubuntu-16.4; exit 0;;
-  yakkety)
-    echo 16.10:ubu:ubuntu-16.10; exit 0;;
-  zesty)
-    echo 17.4:ubu:ubuntu-17.4; exit 0;;
-  artful)
-    echo 17.10:ubu:ubuntu-17.10; exit 0;;
-  bionic)
-    echo 18.4:ubu:ubuntu-18.4; exit 0;;
-  cosmic)
-    echo 18.10:ubu:ubuntu-18.10; exit 0;;
-  disco)
-    echo 19.4:ubu:ubuntu-19.4; exit 0;;
-  eoan)
-    echo 19.10:ubu:ubuntu-19.10; exit 0;;
-  focal)
-    echo 20.4:ubu:ubuntu-20.4; exit 0;;
-  groovy)
-    echo 20.10:ubu:ubuntu-20.10; exit 0;;
-  hirsute)
-    echo 21.04:ubu:ubuntu-21.04; exit 0;;
-  impish)
-    echo 21.10:ubu:ubuntu-21.10; exit 0;;
-  jammy)
-    echo 22.04:ubu:ubuntu-22.04; exit 0;;
-  lunar)
-    echo 23.04:ubu:ubuntu-23.04; exit 0;;
-  mantic)
-    echo 23.10:ubu:ubuntu-23.10; exit 0;;
-  noble)
-    echo 24.04:ubu:ubuntu-24.04; exit 0;;
-  oracular)
-    echo 24.10:ubu:ubuntu-24.10; exit 0;;
-  plucky)
-    echo 25.04:ubu:ubuntu-25.04; exit 0;;
 
+  # Ubuntu code names and version mapping:
+  precise|ubu12.4)
+    echo 12.4:ubu:ubuntu-12.4; exit 0;;
+  trusty|ubu14.4)
+    echo 14.4:ubu:ubuntu-14.4; exit 0;;
+  vivid|ubu15.4)
+    echo 15.4:ubu:ubuntu-15.4; exit 0;;
+  wily|ubu15.10)
+    echo 15.10:ubu:ubuntu-15.10; exit 0;;
+  xenial|ubu16.4)
+    echo 16.4:ubu:ubuntu-16.4; exit 0;;
+  yakkety|ubu16.10)
+    echo 16.10:ubu:ubuntu-16.10; exit 0;;
+  zesty|ubu17.4)
+    echo 17.4:ubu:ubuntu-17.4; exit 0;;
+  artful|ubu17.10)
+    echo 17.10:ubu:ubuntu-17.10; exit 0;;
+  bionic|ubu18.4)
+    echo 18.4:ubu:ubuntu-18.4; exit 0;;
+  cosmic|ubu18.10)
+    echo 18.10:ubu:ubuntu-18.10; exit 0;;
+  disco|ubu19.4)
+    echo 19.4:ubu:ubuntu-19.4; exit 0;;
+  eoan|ubu19.10)
+    echo 19.10:ubu:ubuntu-19.10; exit 0;;
+  focal|ubu20.4)
+    echo 20.4:ubu:ubuntu-20.4; exit 0;;
+  groovy|ubu20.10)
+    echo 20.10:ubu:ubuntu-20.10; exit 0;;
+  hirsute|ubu21.04)
+    echo 21.04:ubu:ubuntu-21.04; exit 0;;
+  impish|ubu21.10)
+    echo 21.10:ubu:ubuntu-21.10; exit 0;;
+  jammy|ubu22.04)
+    echo 22.04:ubu:ubuntu-22.04; exit 0;;
+  lunar|ubu23.04)
+    echo 23.04:ubu:ubuntu-23.04; exit 0;;
+  mantic|ubu23.10)
+    echo 23.10:ubu:ubuntu-23.10; exit 0;;
+  noble|ubu24.04)
+    echo 24.04:ubu:ubuntu-24.04; exit 0;;
+  oracular|ubu24.10)
+    echo 24.10:ubu:ubuntu-24.10; exit 0;;
+  plucky|ubu25.04)
+    echo 25.04:ubu:ubuntu-25.04; exit 0;;
 
   # Fedora code names:
   fc24)
@@ -115,5 +114,16 @@ case $1 in
     echo 10:el:rocky+epel-10; exit 0;;
   el11)
     echo 11:el:rocky+epel-11; exit 0;;
+
+  # Generic mapping case:
+  deb[0-9]*)
+    ver=`echo $1 | sed 's/deb//'`; echo "$ver:deb:debian-$ver"; exit 0;;
+  ubu[0-9]*\.[0-9]*)
+    ver=`echo $1 | sed 's/ubu//'`; echo "$ver:ubu:ubuntu-$ver"; exit 0;;
+  fc[0-9]*)
+    ver=`echo $1 | sed 's/fc//'`; echo "$ver:fc:fedora-$ver"; exit 0;;
+  el[0-9]*)
+    ver=`echo $1 | sed 's/el//'`; echo "$ver:el:rocky+epel-$ver"; exit 0;;
+  *)
 esac
 echo 0:unk;
