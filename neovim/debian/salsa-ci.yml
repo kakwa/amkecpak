@@ -1,0 +1,5 @@
+include:
+  - remote: 'https://salsa.debian.org/salsa-ci-team/pipeline/raw/master/recipes/debian.yml'
+
+variables:
+  SALSA_CI_DISABLE_REPROTEST: 1

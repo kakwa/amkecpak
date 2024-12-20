@@ -1,0 +1,126 @@
+#!/usr/bin/make -f
+
+DEB_BUILD_MAINT_OPTIONS = hardening=+all
+include /usr/share/dpkg/buildflags.mk
+include /usr/share/dpkg/architecture.mk
+
+# cmake doesn't honor CPPFLAGS
+CFLAGS += $(CPPFLAGS) -DDISABLE_LOG
+CXXFLAGS += $(CPPFLAGS)
+
+# Work around #1082125
+ifeq (s390x,$(DEB_HOST_ARCH))
+  CFLAGS += -O1
+endif
+
+export CFLAGS CXXFLAGS LDFLAGS
+
+BITOP_DEPENDS = lua-bitop
+PREFER_LUA = ON
+UNITTEST =
+COMPILE_LUA = ON
+
+ifneq (,$(findstring ok installed,$(shell dpkg-query -W -f '$${Status}' luajit 2>&1)))
+  BITOP_DEPENDS =
+  PREFER_LUA = OFF
+  UNITTEST = unittest
+  COMPILE_LUA = OFF
+endif
+
+TS_C_VER=0.20.5
+TS_LUA_VER=0.0.18
+TS_QUERY_VER=0.1.0
+TS_VIM_VER=0.3.0
+TS_VIMDOC_VER=2.0.0
+
+# Default test timeout upstream is 20 minutes.  Extend this to 45 minutes
+TIMEOUT=TEST_TIMEOUT=2700
+
+# Arguments to --filter-out are a Lua pattern, so any of the following
+# characters need to be escaped with a % to be treated literally:
+#   ^$()%.[]*+-?)
+
+# This test causes hangs in Salsa CI and on the buildds, but I haven't been
+# able to reproduce it locally to easily debug.
+FUNCTEST_FILTER_OUT_ARGS = --filter-out 'vim%-patch:8%.2%.2586'
+# Timing related test, which is too susceptible to flakiness on the buildds
+FUNCTEST_FILTER_OUT_ARGS += --filter-out 'parser API supports caching queries'
+FUNCTEST_FILTER_OUT_ARGS += --filter-out 'memory usage releases memory when closing windows when folds exist'
+
+USER = $(shell id -un)
+ID = $(shell id -u)
+GID = $(shell id -g)
+
+ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
+  BUILD = ninja -v -C build
+else
+  BUILD = ninja -C build
+endif
+
+BUILD_TYPE=Release
+BUILD_TYPE_UPPER=RELEASE
+ifneq (,$(filter noopt,$(DEB_BUILD_OPTIONS)))
+  BUILD_TYPE=Debug
+  BUILD_TYPE_UPPER=DEBUG
+endif
+
+%:
+	dh $@ --buildsystem=cmake+ninja --builddirectory=build
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) -DPREFER_LUA=$(PREFER_LUA) -DLIBLUV_LIBRARY:FILEPATH=/usr/lib/$(DEB_HOST_MULTIARCH)/lua/5.1/luv.so -DLIBLUV_INCLUDE_DIR:PATH=/usr/include/lua5.1 -DCOMPILE_LUA=$(COMPILE_LUA)
+# Upstream performs strict validation on CMAKE_BUILD_TYPE, so we can't rely on
+# debhelper's -DCMAKE_BUILD_TYPE=None disabling CMake's CMAKE_C_FLAGS_RELEASE
+# overriding the CFLAGS we're setting (in particular the -O flag)
+	cmake -B build -DCMAKE_C_FLAGS_$(BUILD_TYPE_UPPER)="$$(cmake -B build -LA | sed -n '/CMAKE_C_FLAGS_$(BUILD_TYPE_UPPER):STRING/{ s/[^=]*=//; s/-O[g0123]//; p }')"
+
+override_dh_auto_build:
+	@echo 'blhc: ignore-line-regexp: .* -E .* -DDO_NOT_DEFINE_EMPTY_ATTRIBUTES .*'
+	$(BUILD)
+	mkdir -p runtime/parser/
+	make -f /usr/src/tree-sitter/c/$(TS_C_VER)/Makefile
+	cp debian/.ts-parser-c/c.so runtime/parser/
+	make -f /usr/src/tree-sitter/lua/$(TS_LUA_VER)/Makefile
+	cp debian/.ts-parser-lua/lua.so runtime/parser/
+	make -f /usr/src/tree-sitter/query/$(TS_QUERY_VER)/Makefile
+	cp debian/.ts-parser-query/query.so runtime/parser/
+	make -f /usr/src/tree-sitter/vim/$(TS_VIM_VER)/Makefile
+	cp debian/.ts-parser-vim/vim.so runtime/parser/
+	make -f /usr/src/tree-sitter/vimdoc/$(TS_VIMDOC_VER)/Makefile
+	cp debian/.ts-parser-vimdoc/vimdoc.so runtime/parser/
+
+override_dh_auto_install:
+	env DESTDIR=$(CURDIR)/debian/tmp $(BUILD) install
+
+override_dh_install-indep:
+	dh_install -i -X.so
+
+override_dh_auto_clean:
+	$(MAKE) clean
+	dh_auto_clean
+
+override_dh_gencontrol:
+	dh_gencontrol -- -Vneovim:Depends=$(BITOP_DEPENDS)
+
+debian/passwd:
+	printf -- "$(USER):x:$(ID):$(GID):nvim test:$(CURDIR)/debian/fakehome:/bin/false\n" > debian/passwd
+	printf -- "users:x:$(GID):\n" > debian/group
+
+debian/fakehome:
+	mkdir -p $@
+
+debian/fakeruntime:
+	mkdir -p $@
+	chmod 0700 $@
+
+debian/fakehome/locale-stamp:
+	mkdir -p debian/fakehome/locale
+	localedef -f UTF-8 -i en_US debian/fakehome/locale/en_US.UTF-8
+	touch $@
+
+
+override_dh_auto_test:
+
+override_dh_auto_test-indep:
+
+override_dh_auto_test-arch:

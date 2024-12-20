@@ -1,0 +1,754 @@
+neovim (0.9.5-10) unstable; urgency=medium
+
+  * Work around CMake's default CMAKE_C_FLAGS_RELEASE value overriding flags
+    specified in CFLAGS, thus making the previous upload's -O1 setting
+    ineffective.
+
+ -- James McCoy <jamessan@debian.org>  Sun, 13 Oct 2024 20:18:29 -0400
+
+neovim (0.9.5-9) unstable; urgency=medium
+
+  * Build with -O1 on s390x to workaround #1082125
+
+ -- James McCoy <jamessan@debian.org>  Sun, 13 Oct 2024 13:39:14 -0400
+
+neovim (0.9.5-8) unstable; urgency=medium
+
+  * Backport upstream patch to fix FTBFS with new tzdata
+    - vim-patch:9.1.0776: test_strftime may fail because of missing TZ data (Closes: #1084888)
+  * Declare compliance with Policy 4.7.0, no changes required
+
+ -- James McCoy <jamessan@debian.org>  Sun, 13 Oct 2024 12:13:47 -0400
+
+neovim (0.9.5-7) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * fix(fileio): fix off-by-one in rename_with_tmp
+  * Revert "Explicitly downgrade _FORTIFY_SOURCE to 1"
+
+  [ James McCoy ]
+  * Use cmake+ninja buildsystem instead of overriding dh_auto_configure
+  * Remove pkg-config Build-Depends
+
+ -- James McCoy <jamessan@debian.org>  Sun, 24 Mar 2024 09:13:28 -0400
+
+neovim (0.9.5-6) unstable; urgency=medium
+
+  * Revert "Change packaging branch to debian/experimental"
+  * Revert "CI: Set release to experimental"
+  * Skip "memory usage releases memory when closing windows" for all platforms
+
+ -- James McCoy <jamessan@debian.org>  Mon, 04 Mar 2024 09:22:50 -0500
+
+neovim (0.9.5-5) unstable; urgency=medium
+
+  * Upload to unstable
+  * Build with LuaJIT on arm64 (Closes: #1061154)
+
+ -- James McCoy <jamessan@debian.org>  Mon, 04 Mar 2024 06:33:29 -0500
+
+neovim (0.9.5-4) experimental; urgency=medium
+
+  * Add lua-coxpcall as a test Build-Depends, since it's needed for non-LuaJIT
+    platforms
+
+ -- James McCoy <jamessan@debian.org>  Tue, 09 Jan 2024 16:58:30 -0500
+
+neovim (0.9.5-3) experimental; urgency=medium
+
+  * Remove lua-nvim Build-Depends
+  * Provide a custom $XDG_RUNTIME_DIR when running tests.  $XDG_RUNTIME_DIR is
+    leaking into the sbuild environment on the buildds and causing the tests
+    to hang because the test can't access the external directory.
+    Thanks to Vincent Blut for diagnosing the problem. (Closes: #1060340)
+  * Revert "Skip wundo_spec.lua tests since they hang on the buildds"
+
+ -- James McCoy <jamessan@debian.org>  Tue, 09 Jan 2024 15:42:25 -0500
+
+neovim (0.9.5-2) experimental; urgency=medium
+
+  * Backport upstream patch
+    + fix(tui): use buflen to calculate remaining buffer size
+  * Skip wundo_spec.lua tests since they hang on the buildds
+
+ -- James McCoy <jamessan@debian.org>  Sun, 07 Jan 2024 15:34:34 -0500
+
+neovim (0.9.5-1) experimental; urgency=medium
+
+  * New upstream release
+    + Remove backported patches
+  * Skip functionaltest which hangs in Salsa CI/buildd environments
+  * Backport upstream patches
+    + fix(test): call separate_arguments() correctly to honor $BUSTED_ARGS
+    + fix(test/tui_spec): pass the expected NULL-sentinel to execl()
+  * Skip "parser API supports caching queries" test, since it is too variable
+
+ -- James McCoy <jamessan@debian.org>  Sat, 06 Jan 2024 10:06:26 -0500
+
+neovim (0.9.4-2) experimental; urgency=medium
+
+  * Backport fixes for big-endian systems
+
+ -- James McCoy <jamessan@debian.org>  Fri, 22 Dec 2023 09:30:56 -0500
+
+neovim (0.9.4-1) experimental; urgency=medium
+
+  * New upstream release (Closes: #1021339)
+  * Remove backported patches from 0.7 release
+  * Revert "Disable strict aliasing to fix gcc-12 FTBFS", fixed upstream
+  * Backport patches to fix test failures
+  * Backport patch to remove incompatible tree-sitter query for c parser
+  * debian/control:
+    + Remove gperf Build-Depends, replaced by upstream's "hashy" script
+    + Bump minimum versions of libvterm/libtermkey to 0.3/0.22
+  * debian/rules:
+    + Remove override of BUSTED_OUTPUT_TYPE
+    + Fix spelling of "noopt" when checking DEB_BUILD_OPTIONS
+    + Stop exporting $USERNAME and $HOSTNAME during the build, no longer used
+  * Change packaging branch to debian/experimental
+  * Enable tree-sitter support for C, lua, vim, vimdoc, and tree-sitter
+    queries
+
+ -- James McCoy <jamessan@debian.org>  Mon, 18 Dec 2023 08:13:20 -0500
+
+neovim (0.7.2-8) unstable; urgency=medium
+
+  * Backport upstream patch, "fix(unittests): ignore __s128 and __u128 types
+    in ffi", to fix FTBFS with recent Linux headers. (Closes: #1052945)
+
+ -- James McCoy <jamessan@debian.org>  Fri, 29 Sep 2023 09:21:25 -0400
+
+neovim (0.7.2-7) unstable; urgency=medium
+
+  * Validate language name for treesitter injection
+
+ -- James McCoy <jamessan@debian.org>  Fri, 10 Feb 2023 19:50:13 -0500
+
+neovim (0.7.2-6) unstable; urgency=medium
+
+  * Add tzdata as test dependency.
+    Thanks to Santiago Vila for the report (Closes: #1029427)
+
+ -- James McCoy <jamessan@debian.org>  Tue, 24 Jan 2023 17:09:12 -0500
+
+neovim (0.7.2-5) unstable; urgency=medium
+
+  * Add explicit Build-Depends on lua-mpack (Closes: #1027821)
+  * Backport patch to fix flakiness in job_spec's "append environment" tests
+
+ -- James McCoy <jamessan@debian.org>  Mon, 09 Jan 2023 08:24:14 -0500
+
+neovim (0.7.2-4) unstable; urgency=medium
+
+  * Add wl-clipboard to Recommends for Wayland clipboard support
+    (Closes: #1015786)
+  * Bump minimum lua-nvim to 0.2.4-1 (Closes: #1027566)
+  * Backport upstream patches to work with new lua-nvim version
+    - fix(tests): check for EOF on exit of nvim properly
+    - test(mksession_spec): use %bwipeout! instead of qall! to close terminal (#19465)
+    - test: deal with RPC call causing Nvim to exit later
+    - test(let_spec): increase expect_exit() timeout
+  * Remove libkvm-dev Build-Depends now that libuv1-dev properly includes it
+  * Declare compliance with Policy 4.6.2, no changes needed
+  * Adapt lintian overrides to new format
+  * Switch to debhelper-compat and bump to compat 13
+  * Add upstream/metadata file
+  * watch: Use GitHub's tags page to detect new versions
+
+ -- James McCoy <jamessan@debian.org>  Mon, 02 Jan 2023 18:44:00 -0500
+
+neovim (0.7.2-3) unstable; urgency=medium
+
+  * Disable strict aliasing to fix gcc-12 FTBFS (Closes: #1013002)
+  * Always Build-Depend on lua5.1, even when building with luajit
+  * Only generate Lua bytecode for non-LuaJIT builds (Closes: #1014160)
+
+ -- James McCoy <jamessan@debian.org>  Wed, 06 Jul 2022 10:35:11 -0400
+
+neovim (0.7.2-2) unstable; urgency=medium
+
+  * Exclude python3-pynvim Build-Depends on hppa, ia64, and sh4; missing
+    python3-greenlet dependency.
+  * Switch python3-neovim Recommends to python3-pynvim to follow upstream
+    renaming.
+  * Switch to Lua on mips(el) to avoid LuaJIT hangs.
+
+ -- James McCoy <jamessan@debian.org>  Tue, 05 Jul 2022 21:53:40 -0400
+
+neovim (0.7.2-1) unstable; urgency=medium
+
+  * New upstream release (Closes: #1010158)
+    + Breaking changes
+      - Support for Python 2 is dropped
+      - Existing usages of `nvim_buf_set_test` that use negative line numbers
+        will be off-by-one
+      - signature of `vim.highlight.range` was changed
+      - distinguish between some input keys which previously were synonyms.
+        This will break some existing mappings.
+        * `<cr>`, `<tab>` and `<esc>` are no longer considered equivalent to
+          `<c-m>`, `<c-i>` and `<c-[>` respectively. In case the terminal or
+          GUI supports distinguishing these keys, these can now be mapped
+          separately. But even if the terminal only can send one code you
+          might still need to change what variant is used in the config.
+      - $NVIM_LISTEN_ADDRESS is no longer propagated to child processes.  Use
+        $NVIM instead.
+    + Fix incorrect update of terminal title in certain circumstances.
+      (Closes: #1005365)
+  * Declare compliance with Policy 4.6.1, no changes needed
+  * Re-enable testing of python3-neovim at build time
+
+ -- James McCoy <jamessan@debian.org>  Mon, 27 Jun 2022 23:12:44 -0400
+
+neovim (0.6.1-3) unstable; urgency=medium
+
+  * Use 45 minute test timeout for all architectures
+
+ -- James McCoy <jamessan@debian.org>  Sun, 02 Jan 2022 20:17:58 -0500
+
+neovim (0.6.1-2) unstable; urgency=medium
+
+  * rules: Skip flaky memory_usage functionaltest on armhf
+
+ -- James McCoy <jamessan@debian.org>  Sat, 01 Jan 2022 16:26:58 -0500
+
+neovim (0.6.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Remove backported patches
+  * rules: Extend test timeout to 45 minutes on slower architectures
+
+ -- James McCoy <jamessan@debian.org>  Fri, 31 Dec 2021 15:34:26 -0500
+
+neovim (0.6.0-1) unstable; urgency=medium
+
+  * New upstream release
+    - Ignore sgmrp/sgmlp terminfo attributes for non-xterm compatible
+      terminals which advertise TERM=xterm  (Closes: #999777)
+    - Changed defaults:
+      + 'hidden' is enabled
+      + 'joinspaces' is disabled
+      + 'switchbuf' defaults to "uselast"
+      + 'viewoptions' includes "unix,slash", excludes "options"
+    - Some mappings and autocmds are defined by default, but can be overridden
+      by the user.  See ":help default-mappings" and ":help default-autocmds",
+      respectively.
+  * d/control: Bump minimum CMake to 3.10
+  * d/control: Remove lua-mpack from Build-Depends since it is now vendored
+  * Remove lintian override for file, rgb.txt, removed upstream
+  * Declare compliance with Policy 4.6.0, no changes needed
+  * Add <!nocheck> restriction to locales Build-Depends
+  * Use standard salsa-ci pipeline for CI
+
+ -- James McCoy <jamessan@debian.org>  Fri, 17 Dec 2021 13:42:07 -0500
+
+neovim (0.5.1-1) unstable; urgency=medium
+
+  * Upload to unstable
+  * New upstream release
+  * Backport patch to fix lsp_spec test failure
+
+ -- James McCoy <jamessan@debian.org>  Mon, 04 Oct 2021 22:24:41 -0400
+
+neovim (0.5.0-1) experimental; urgency=medium
+
+  * New upstream release (Closes: #991155)
+  * rules: Set correct CMAKE_BUILD_TYPE when DEB_BUILD_OPTIONS=noopt
+  * Update debian/copyright
+  * control: Add new dependency libtree-sitter-dev to Build-Depends
+  * Adjust path for nvim.png install
+  * d/copyright: Deduplicate overlapping glob patterns
+  * Add lintian overrides for nvim's help files
+
+ -- James McCoy <jamessan@debian.org>  Mon, 09 Aug 2021 23:32:04 -0400
+
+neovim (0.4.4-1) unstable; urgency=medium
+
+  * New upstream release
+    + Fix FTBFS with GCC 10 (Closes: #957592)
+    + Fix crash with true color escape sequences in :term (Closes: #960732)
+  * Remove patches applied upstream
+  * Declare compliance with Policy 4.5.0, no changes needed
+
+ -- James McCoy <jamessan@debian.org>  Wed, 05 Aug 2020 21:06:14 -0400
+
+neovim (0.4.3-3) unstable; urgency=medium
+
+  * Remove python-neovim from Recommends (Closes: #945709)
+  * Add lintian override for desktop-command-not-in-package
+
+ -- James McCoy <jamessan@debian.org>  Sat, 30 Nov 2019 22:58:51 -0500
+
+neovim (0.4.3-2) unstable; urgency=medium
+
+  * Backport "f_getenv/setenv: Access v_special when v_type is VAR_SPECIAL"
+    from upstream to fix FTBFS on big-endian architectures.
+
+ -- James McCoy <jamessan@debian.org>  Thu, 14 Nov 2019 22:55:58 -0500
+
+neovim (0.4.3-1) unstable; urgency=medium
+
+  * New upstream release
+    + Fix crash when $CDPATH is invalid (Closes: #930079)
+  * control:
+    + neovim: Depend on lua-bitop when not built against LuaJIT
+    + Build-Depend on lua-luv-dev (>= 1.30.1), per new upstream requirements
+    + Add explicit lua-filesystem (>= 1.7) Build-Depends for tests
+    + Build-Depend on libvterm-dev (>= 0.1), per new upstream requirements
+    + Remove obsolete Breaks/Replaces from neovim-runtime
+  * rules:
+    + Explicitly use lua5.1/luajit to run functionaltest/unittest
+    + Stop disabling jemalloc, since upstream no longer uses it
+  * Declare compliance with Policy 4.4.1, no changes needed
+
+ -- James McCoy <jamessan@debian.org>  Tue, 12 Nov 2019 22:35:34 -0500
+
+neovim (0.3.8-1) unstable; urgency=medium
+
+  * New upstream release
+    + Fixes FTBFS with gcc-9 due to stricter handling of compound literal
+      lifetimes.  (Closes: #925785)
+  * Declare compliance with Policy 4.4.0, no changes required
+  * Install alternatives wrapper scripts in /usr/libexec/neovim.  This avoids
+    cluttering $PATH and addresses lintian's binary-without-manpage tag.
+
+ -- James McCoy <jamessan@debian.org>  Tue, 23 Jul 2019 22:41:01 -0400
+
+neovim (0.3.4-3) unstable; urgency=high
+
+  * Backport additional changes to address CVE-2019-12735 (Closes: #930024)
+    + vim-patch:8.1.0177: defining function in sandbox is inconsistent
+    + vim-patch:8.1.0189: function defined in sandbox not tested
+    + vim-patch:8.1.0538: evaluating a modeline might invoke using a shell
+      command
+    + vim-patch:8.1.0539: cannot build without the sandbox
+    + vim-patch:8.1.0540: may evaluate insecure value when appending to option
+    + vim-patch:8.1.0544: setting 'filetype' in a modeline causes an error
+    + vim-patch:8.1.0613: when executing an insecure function the secure flag
+      is stuck
+    + vim-patch:8.1.1046: the "secure" variable is used inconsistently
+    + vim-patch:8.1.0205: invalid memory access with invalid modeline
+    + vim-patch:8.1.0206: duplicate test function name
+    + vim-patch:8.1.0506: modeline test fails when run by root
+    + vim-patch:8.1.0546: modeline test with keymap fails
+    + vim-patch:8.1.0547: modeline test with keymap still fails
+    + vim-patch:8.1.1366: using expressions in a modeline is unsafe
+    + vim-patch:8.1.1367: can set 'modelineexpr' in modeline
+    + vim-patch:8.1.1368: modeline test fails with python but without
+      pythonhome
+    + vim-patch:8.1.1382: error when editing test file
+    + vim-patch:8.1.1401: misspelled mkspellmem as makespellmem
+  * Backport patch to prevent use of nvim's API within the sandbox
+
+ -- James McCoy <jamessan@debian.org>  Wed, 26 Jun 2019 21:21:33 -0400
+
+neovim (0.3.4-2) unstable; urgency=high
+
+  [ Efraim Flashner ]
+  * don't use luajit on powerpc
+
+  [ James McCoy ]
+  * Use the system allocator instead of jemalloc
+
+  [ Justin M. Keyes ]
+  * vim-patch:8.1.1365: :source should check sandbox (Closes: #930024,
+    CVE-2019-12735)
+
+ -- James McCoy <jamessan@debian.org>  Wed, 05 Jun 2019 21:38:14 -0400
+
+neovim (0.3.4-1) unstable; urgency=medium
+
+  * New upstream release
+  * Explicitly downgrade _FORTIFY_SOURCE to 1
+  * Build-Depend on jemalloc >= 5.1 for archs with varying page size
+
+ -- James McCoy <jamessan@debian.org>  Sun, 13 Jan 2019 16:04:16 -0500
+
+neovim (0.3.3-1) unstable; urgency=medium
+
+  * Upload to unstable
+  * New upstream release
+  * Reorder xclip/xsel Recommends to prefer xclip, to align with upstream
+  * Disable Python tests, as there's currently an invalid test
+  * Switch gbp.conf/Vcs-Git back to debian/sid
+
+ -- James McCoy <jamessan@debian.org>  Sat, 05 Jan 2019 13:30:26 -0500
+
+neovim (0.3.2-1) experimental; urgency=medium
+
+  * New upstream release
+    + syntax/debcontrol.vim: Updated list of archive sections.  (Closes:
+      #880699)
+    + Use $XDG_CONFIG_DIRS/nvim/sysinit.vim, if it exists, in preference to
+      $VIM/sysinit.vim
+    + 'background' now defaults to "dark"
+  * Add lua-inspect Build-Depends for tests
+  * Declare compliance with Policy 4.3.0, no changes needed
+  * Point Vcs-Git & gbp.conf to debian/experimental branch
+
+ -- James McCoy <jamessan@debian.org>  Mon, 31 Dec 2018 20:29:45 -0500
+
+neovim (0.3.1-3) unstable; urgency=medium
+
+  * rules: Use non-verbose build when DEB_BUILD_OPTIONS=terse
+  * Use Release build type, not RelWithBuildInfo, to avoid -Og and asserts
+    (Closes: #916338)
+
+ -- James McCoy <jamessan@debian.org>  Sat, 15 Dec 2018 17:53:50 -0500
+
+neovim (0.3.1-2) unstable; urgency=medium
+
+  * Backport "unit/mbyte_spec: Run utf_char2bytes test in batches of 0xFFF
+    characters." from upstream to fix the mbyte_spec unit test failures,
+    partially addressing #911944.
+  * Declare compliance with Policy 4.2.1, no changes needed
+
+ -- James McCoy <jamessan@debian.org>  Fri, 16 Nov 2018 09:43:26 -0500
+
+neovim (0.3.1-1) unstable; urgency=medium
+
+  * New upstream release
+    + Unicode 11 support
+  * control:
+    + Bump minimum CMake version to 2.8.12
+    + Add python(3)-neovim to Build-Depends for tests
+    + Add Provides: editor to neovim (Closes: #881313)
+
+ -- James McCoy <jamessan@debian.org>  Wed, 25 Jul 2018 00:27:36 -0400
+
+neovim (0.3.0-3) unstable; urgency=medium
+
+  * Backport patch from upstream to fix a build issues for hurd
+    + cmake: Check for GNU compiler, not Linux, to set -D_GNU_SOURCE
+  * Backport patches from upstream to fix FTBFS with libuv1 >= 1.21.0, due to
+    reorganized headers
+    + test: Rename includes/pre/uv-errno.h to includes/pre/uv.h
+    + test/includes: Use ${gen_cdefs} when pre-processing headers
+
+ -- James McCoy <jamessan@debian.org>  Thu, 12 Jul 2018 08:11:11 -0400
+
+neovim (0.3.0-2) unstable; urgency=medium
+
+  * Disable use of jemalloc when the package is not installed
+  * Use team+vim@tracker.debian.org for the "Compiled by" string
+
+ -- James McCoy <jamessan@debian.org>  Thu, 14 Jun 2018 08:19:34 -0400
+
+neovim (0.3.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * Add gettext to Build-Depends for xgettext/msgfmt commands
+  * Use bash when running tests so printf understands hex escapes
+  * Generate en_US.UTF-8 locale as required by upstream's tests
+  * Declare compliance with Policy 4.1.4, no changes needed
+  * Change Maintainer email to team+vim@tracker.debian.org
+
+ -- James McCoy <jamessan@debian.org>  Thu, 14 Jun 2018 00:10:33 -0400
+
+neovim (0.2.2-3) unstable; urgency=medium
+
+  * Avoid jemalloc on architectures which can vary page size
+  * Disable lua-nvim exclusion on ia64/powerpcspe
+  * unittest: Ignore all _Float-prefixed types (Closes: #891350)
+
+ -- James McCoy <jamessan@debian.org>  Sun, 25 Feb 2018 07:52:12 -0500
+
+neovim (0.2.2-2) unstable; urgency=medium
+
+  * Use lua for build/test on kfreebsd-*
+  * Exclude lua-nvim B-D on ia64 to bootstrap neovim
+  * Cherry pick "unittest: Ignore _Float128 types in ffi" from upstream
+    to fix unit test failures with new GCC
+  * Bump debhelper compat to 11
+  * Declare compliance with Policy 4.1.3, no changes needed
+  * Change Vcs-* to salsa.d.o
+
+ -- James McCoy <jamessan@debian.org>  Tue, 23 Jan 2018 22:52:38 -0500
+
+neovim (0.2.2-1) unstable; urgency=medium
+
+  * New upstream release
+    + Fix crash when :terminal is resized
+    + Avoid triggering memory leak in libvte-based terminals.
+      https://bugzilla.gnome.org/show_bug.cgi?id=790539
+    + Fix syntax error in syntax/tex.vim
+  * Drop backported patches
+
+ -- James McCoy <jamessan@debian.org>  Wed, 22 Nov 2017 07:24:29 -0500
+
+neovim (0.2.1-3) unstable; urgency=medium
+
+  * Add .nvimlog to debian/clean
+  * Switch back to Lua on mips64el, since there are sporadic test failures
+    with LuaJIT
+  * Set Rules-Requires-Root to no
+  * Switch lua-nvim Build-Depends to an architecture blacklist, since it's
+    currently available everywhere other than powerpcspe and hurd-i386.
+  * Cherry-pick cf75de710, 0407ddb36, and b63cde97f from upstream to fix test
+    failures seen on the buildds
+
+ -- James McCoy <jamessan@debian.org>  Sun, 12 Nov 2017 21:47:38 -0500
+
+neovim (0.2.1-2) unstable; urgency=medium
+
+  * Add liblua5.1-dev Build-Depends for non-luajit architectures
+  * Skip testing with DEB_BUILD_OPTIONS=nocheck
+
+ -- James McCoy <jamessan@debian.org>  Wed, 08 Nov 2017 23:35:57 -0500
+
+neovim (0.2.1-1) unstable; urgency=medium
+
+  * New upstream release
+    + Lua(JIT) is always available for scripting.
+    + cmdline and wildmenu can be implemented by a UI.
+    + Support using tmux as the clipboard provider.
+  * Declare compliance with Policy 4.1.1, no changes needed.
+  * Install nvim.desktop
+
+ -- James McCoy <jamessan@debian.org>  Wed, 08 Nov 2017 22:48:38 -0500
+
+neovim (0.2.0-4) unstable; urgency=medium
+
+  [ Jason Pleau ]
+  * Cherry-pick f400c6f05 from upstream to allow the ruby host path to be
+    set to a user-defined value.
+
+  [ James McCoy ]
+  * Re-enable luajit on mips*, as long as it's >= 2.1.0~beta3.
+  * Declare compliance with Policy 4.1.0
+    + Change Priority to optional
+  * Temporarily remove lua-nvim Build-Depends on x32 and luajit Build-Depends
+    on powerpcspe to help lua-nvim build.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 16 Sep 2017 13:36:38 -0400
+
+neovim (0.2.0-3) unstable; urgency=medium
+
+  * Cherry-pick b98ea042 from upstream to fix reading values of integer
+    options on big-endian systems.  (Closes: #870367)
+
+ -- James McCoy <jamessan@debian.org>  Tue, 01 Aug 2017 22:19:33 -0400
+
+neovim (0.2.0-2) unstable; urgency=medium
+
+  * Upload to unstable.
+  * Get the username from `id -un` instead of relying on the environment.
+  * Cherry-pick 347dd947 from upstream to fix test failures related to stdin
+    being /dev/null in Debian builds.
+
+ -- James McCoy <jamessan@debian.org>  Tue, 01 Aug 2017 07:21:35 -0400
+
+neovim (0.2.0-1) experimental; urgency=medium
+
+  * New upstream release
+    + Cursor shape/color is controlled by 'guicursor', even in the terminal.
+      $NVIM_TUI_ENABLE_CURSOR_SHAPE is no longer used.
+    + 'showcmd', 'ruler', and 'belloff=all' are set by default.
+    + 'mouse=a' is no longer set by default.
+    + debcontrol.vim: Add "rust" and "javascript" as known sections.  (Closes:
+      #847541)
+    + Fix test failures with msgpack-c 2.x.  (Closes: #866802)
+  * Skip known flaky tests by setting $TEST_SKIP_FRAGILE.
+  * Rewrite debian/rules to invoke cmake directly, instead of through
+    top-level Makefile.  (Closes: #857256)
+  * Bump lua-nvim Build-Depends >= 0.0.1-26-1~, needed by new tests.
+  * Cherry-pick 4d017256 from upstream to fix a test failure when $HOME is a
+    long path.
+
+ -- James McCoy <jamessan@debian.org>  Sun, 02 Jul 2017 16:39:33 -0400
+
+neovim (0.1.7-4) unstable; urgency=high
+
+  * Cherry-pick b338bb9d & 4af6c608 from upstream to fix buffer overflow if a
+    spellfile has an invalid length in it.  (CVE-2017-5953)
+  * Cherry-pick fb66a7c6 & ad66826a from upstream to fix buffer overflows when
+    reading corrupted undo files.  (CVE-2017-6349 & CVE-2017-6350)
+
+ -- James McCoy <jamessan@debian.org>  Mon, 10 Apr 2017 08:15:38 -0400
+
+neovim (0.1.7-3) unstable; urgency=medium
+
+  * Disable global_spec.lua since it's rather flaky.
+  * Re-enable functional tests on mips* but disable unit tests (which require
+    luajit) until #849769 is fixed.
+
+ -- James McCoy <jamessan@debian.org>  Mon, 16 Jan 2017 07:18:35 -0500
+
+neovim (0.1.7-2) unstable; urgency=medium
+
+  * Cherry-pick 9337e98b from upstream to prevent the man ftplugin from always
+    creating a man:// buffer if "runtime ftplugin/man.vim" is in init.vim.
+    (Closes: #846788)
+  * Cherry-pick 933c873c to fix tty-test test failures.
+  * Cherry-pick upstream commits [043f8521, 97204e1c, cb589990, ea154dfd,
+    4abe9afb] to fix responsiveness of TUI with external commands and fix test
+    failures due to excessive memory usage.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 24 Dec 2016 16:12:51 -0500
+
+neovim (0.1.7-1) unstable; urgency=medium
+
+  * New upstream release
+    + Incrementally show the results of a :substitute command by setting the
+      'inccommand' option.
+    + The 'encoding' option can no longer be set to anything other than
+      "utf-8".
+
+ -- James McCoy <jamessan@debian.org>  Fri, 02 Dec 2016 21:42:39 -0500
+
+neovim (0.1.6-5) unstable; urgency=medium
+
+  * Disable lua testing on mipsel, since lua(jit) bugs are breaking the tests.
+
+ -- James McCoy <jamessan@debian.org>  Tue, 22 Nov 2016 13:58:00 -0500
+
+neovim (0.1.6-4) unstable; urgency=high
+
+  * Cherry-pick 4fad66fb and c685879e from upstream to fix an issue where
+    malicious modelines could execute arbitrary shell commands.
+    (CVE-2016-1248)
+
+ -- James McCoy <jamessan@debian.org>  Tue, 22 Nov 2016 03:15:38 -0500
+
+neovim (0.1.6-3) unstable; urgency=medium
+
+  * Cherry-pick 5e1dc26f from upstream to remove a flaky test, which was
+    frequently failing on the buildds.
+
+ -- James McCoy <jamessan@debian.org>  Sun, 13 Nov 2016 20:45:51 -0500
+
+neovim (0.1.6-2) unstable; urgency=medium
+
+  * Cherry-pick patches from upstream
+    + [36c0ec6d]: tui/suspend_event(): set STDIN to "blocking", fixing an
+      issue with the terminal IO when nvim is suspended.  (Closes: #840306)
+    + [87ff2682, 37e64d79, 9b545dd3]: Various fixes for issues on big-endian
+      platforms.
+
+ -- James McCoy <jamessan@debian.org>  Wed, 02 Nov 2016 20:28:40 -0400
+
+neovim (0.1.6-1) unstable; urgency=medium
+
+  * New upstream release.
+    + Add gperf to Build-Depends
+  * Expand architectures which Build-Depend on luajit (powerpcspe) and
+    lua-nvim (alpha, hppa, sparc64, x32).
+  * Set $USERNAME/$HOSTNAME when building to improve reproducibility.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 29 Oct 2016 00:05:56 -0400
+
+neovim (0.1.5-8) unstable; urgency=medium
+
+  * Disable tests for "indep" builds.
+
+ -- James McCoy <jamessan@debian.org>  Wed, 12 Oct 2016 16:24:00 -0400
+
+neovim (0.1.5-7) unstable; urgency=medium
+
+  * Only run tests for "arch" builds.
+  * Use id -u/-g to get the uid/gid instead or parsing the output of id.
+    Thanks to Jakob Haufe for the patch!  (Closes: #840231)
+  * Cherry-pick upstream patch to fix some test failures when sizeof(long) !=
+    8.
+
+ -- James McCoy <jamessan@debian.org>  Wed, 12 Oct 2016 16:15:02 -0400
+
+neovim (0.1.5-6) unstable; urgency=medium
+
+  * Fix test failures by setting id/gid properly in the passwd/group files
+    used by libnss_wrapper.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 08 Oct 2016 20:35:26 -0400
+
+neovim (0.1.5-5) unstable; urgency=medium
+
+  * Run Neovim's tests during the build
+    + Add lua-nvim, lua-busted, and libnss-wrapper to Build-Depends
+  * Add support for the nocheck Build-Profile to exclude test-related
+    Build-Depends.
+  * Remove unnecessary autoconf, automake Build-Depends.
+  * Cherry-pick df99e43b from upstream to ensure stray processes aren't
+    lingering after running tests.
+  * Add alternatives for ex, rvim, rview, vi, vim, view, and vimdiff.  Thanks
+    to Josh Triplett for the patch!  (Closes: #830580)
+
+ -- James McCoy <jamessan@debian.org>  Sat, 08 Oct 2016 15:08:57 -0400
+
+neovim (0.1.5-4) unstable; urgency=medium
+
+  * Arch-qualify (lib)luajit Build-Depends to really fix #812741.
+  * Add xxd Recommends to neovim now that it has its own package.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 24 Sep 2016 21:43:06 -0400
+
+neovim (0.1.5-3) unstable; urgency=medium
+
+  * Add lua5.1 as alternative Build-Depends for luajit/libluajit-5.1-dev.
+    This should enable building on more architectures, at the expense of less
+    testing.  (Closes: #812741)
+
+ -- James McCoy <jamessan@debian.org>  Sat, 24 Sep 2016 13:43:03 -0400
+
+neovim (0.1.5-2) unstable; urgency=medium
+
+  * Upload to unstable.
+  * Exclude libjemalloc-dev from Build-Depends on hurd.
+
+ -- James McCoy <jamessan@debian.org>  Fri, 16 Sep 2016 21:53:01 -0400
+
+neovim (0.1.5-1) experimental; urgency=medium
+
+  [ upstream changes ]
+  * Re-introduce if_ruby support, if neovim Gem is installed.
+  * Rewritten man plugin (providing :Man command)
+    + Enabled by default instead of requiring sourcing of ftplugin/man.vim
+    + New features: completion, window handling, better parsing
+  * $NVIM_TUI_ENABLE_TRUE_COLOR replaced by Vim-compatible 'termguicolors'
+    option
+
+ -- James McCoy <jamessan@debian.org>  Wed, 24 Aug 2016 21:22:40 -0400
+
+neovim (0.1.4-1) experimental; urgency=medium
+
+  * New upstream release
+    + Replace lua-messagepack Build-Depends with lua-mpack.
+
+ -- James McCoy <jamessan@debian.org>  Mon, 27 Jun 2016 23:16:22 -0400
+
+neovim (0.1.3-1) experimental; urgency=medium
+
+  * New upstream release.  (Closes: #820562)
+  * debian/control:
+    + Remove unnecessary luarocks Build-Depends
+    + Add libkvm-dev Build-Depends for kfreebsd-*
+    + Add python(3)-neovim to Recommends.  (Closes: #812737)
+    + Declare compiance with policy 3.9.8, no changes needed.
+
+ -- James McCoy <jamessan@debian.org>  Mon, 18 Apr 2016 21:42:19 -0400
+
+neovim (0.1.2-1) experimental; urgency=medium
+
+  * New upstream release
+  * Disable debug logging to ~/.nvimlog
+
+ -- James McCoy <jamessan@debian.org>  Sat, 20 Feb 2016 22:41:32 -0500
+
+neovim (0.1.1-3) experimental; urgency=medium
+
+  * Cherry-pick upstream patch to fix FTBFS with msgpack-c >= 1.4.0.
+
+ -- James McCoy <jamessan@debian.org>  Sat, 23 Jan 2016 10:09:27 -0500
+
+neovim (0.1.1-2) experimental; urgency=medium
+
+  * Add nvim as an alternative for /usr/bin/editor.
+  * Remove libselinux1-dev Build-Depends until upstream enables it again.
+  * Add xsel | xclip to Recommends for X selection support.
+  * Add a README.source
+
+ -- James McCoy <jamessan@debian.org>  Sun, 17 Jan 2016 14:32:32 -0500
+
+neovim (0.1.1-1) experimental; urgency=medium
+
+  * Initial release. (Closes: #752264)
+
+ -- James McCoy <jamessan@debian.org>  Sat, 16 Jan 2016 22:47:15 -0500

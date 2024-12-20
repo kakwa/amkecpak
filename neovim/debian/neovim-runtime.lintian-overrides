@@ -1,0 +1,6 @@
+# neovim package contains nvim binary and desktop file has TryExec field set so
+# it doesn't show up if nvim isn't present
+desktop-command-not-in-package nvim [usr/share/applications/nvim.desktop]
+# Nvim help files
+package-contains-documentation-outside-usr-share-doc [usr/share/nvim/runtime/doc/*]
+package-contains-documentation-outside-usr-share-doc [usr/share/nvim/runtime/pack/dist/opt/*/doc/*]

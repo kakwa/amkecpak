@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS=hardening=+all
+
+include /usr/share/dpkg/default.mk
+
+CFLAGS += $(CPPFLAGS)
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_auto_install -- PREFIX=/usr LIBDIR=/usr/lib/$(DEB_HOST_MULTIARCH)
+	install -m644 lib/include/tree_sitter/*.h /build/tree-sitter-*/debian/tmp/usr/include/tree_sitter/
+
+override_dh_auto_test:

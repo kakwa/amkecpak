@@ -1,0 +1,3 @@
+debian/scripts/* usr/libexec/neovim/
+debian/tmp/usr/bin/nvim
+debian/tmp/usr/share/nvim/runtime/parser/ usr/lib/nvim/

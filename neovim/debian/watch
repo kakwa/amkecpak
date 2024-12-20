@@ -1,0 +1,2 @@
+version=4
+https://github.com/neovim/neovim/tags/ (?:.*/)?v([0-9.]+)\.tar\.gz

@@ -1,0 +1,20 @@
+If you are reading this from a Debian source package, you can stop now;
+this package should build normally after extracting with dpkg-source -x.
+The rest of this file gives some hints about generating source packages
+from the packaging git repository.
+
+This repository has patches to upstream source included in the packaging
+branch.  In order to generate a source package, you have several choices:
+
+To generate an old-style single patch package, you can use dpkg-source or
+e.g. gitpkg without any special preparation (with the possible exception
+of adding "single-debian-patch" to debian/source/local-options).
+
+In order to have patches exported individually at source package creation
+time, you can enable git-debcherry. After installing gitpkg-0.25 or later,
+see /usr/share/gitpkg/hooks/debcherry-deb-export-hook and its associated
+documentation in the gitpkg(1) and git-debcherry(1) man pages.
+
+The main development branch is debian/sid, with corresponding branches for
+backports to previous releases.  Tagging follows DEP-14 convention, so the
+first Debian upload of the upstream tag vX.Y.Z should be tagged debian/X.Y.Z-1.

@@ -1,0 +1,80 @@
+tree-sitter (0.20.8-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- James McCoy <jamessan@debian.org>  Tue, 04 Jul 2023 09:09:44 -0400
+
+tree-sitter (0.20.8-1) experimental; urgency=medium
+
+  * New upstream release
+  * Update symbols for 0.20.8
+  * Mark all exported symbols not part of the public API as optional
+  * Declare compliance with Policy 4.6.2, no changes needed
+
+ -- James McCoy <jamessan@debian.org>  Fri, 07 Apr 2023 19:59:30 -0400
+
+tree-sitter (0.20.7-1) unstable; urgency=medium
+
+  * New upstream release
+  * Update symbols for 0.20.7
+  * Declare compliance with Policy 4.6.1, no changes needed
+  * watch: use mode=git instead of scraping the releases page
+
+ -- James McCoy <jamessan@debian.org>  Tue, 15 Nov 2022 07:19:34 -0500
+
+tree-sitter (0.20.6-1) unstable; urgency=medium
+
+  * New upstream release
+
+ -- James McCoy <jamessan@debian.org>  Tue, 29 Mar 2022 07:18:48 -0400
+
+tree-sitter (0.20.3-1) unstable; urgency=medium
+
+  * New upstream release
+  * libtree-sitter0.symbols: Add/remove functions for 0.20.3
+
+ -- James McCoy <jamessan@debian.org>  Sat, 29 Jan 2022 13:05:52 -0500
+
+tree-sitter (0.20.1-1) unstable; urgency=medium
+
+  * New upstream release
+  * Bump copyright years
+  * Update libtree-sitter0.symbols
+
+ -- James McCoy <jamessan@debian.org>  Mon, 20 Dec 2021 14:59:34 -0500
+
+tree-sitter (0.20.0-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * Declare compliance with Policy 4.6.0
+  * Fix group name in Vcs-* links
+
+ -- James McCoy <jamessan@debian.org>  Sun, 29 Aug 2021 15:04:11 -0400
+
+tree-sitter (0.20.0-1) experimental; urgency=medium
+
+  * New upstream release
+  * Update Vcs-* to salsa.d.o/tree-sitter/tree-sitter
+  * libtree-sitter0.symbols: Add/remove functions for 0.20.0
+  * Change maintainer to team+tree-sitter@tracker.debian.org
+
+ -- James McCoy <jamessan@debian.org>  Sun, 01 Aug 2021 22:55:19 -0400
+
+tree-sitter (0.19.4-1) experimental; urgency=medium
+
+  * New upstream release
+  * Add missing libtree-sitter0 Depends to libtree-sitter-dev (Closes:
+    #985695)
+  * watch: Support tags with a leading "v"
+  * Bump changelog to 0.19.4-1
+  * symbols:
+    + Raise version for all APIs to 0.19 due to ABI break
+    + Add ts_query_cursor_did_exceed_match_limit, new in 0.19.2
+
+ -- James McCoy <jamessan@debian.org>  Sun, 28 Mar 2021 13:53:55 -0400
+
+tree-sitter (0.17.3-1) experimental; urgency=medium
+
+  * Initial release. (Closes: #976003)
+
+ -- James McCoy <jamessan@debian.org>  Wed, 06 Jan 2021 22:39:46 -0500
