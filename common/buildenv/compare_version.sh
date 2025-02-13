@@ -1,91 +1,55 @@
 #!/bin/sh
 
-help(){
+help() {
   cat <<EOF
-usage: `basename $0` -v <VERSION_1> -o <OP> -V <VERSION_2>
+Usage: $(basename "$0") -v <VERSION_1> -o <OP> -V <VERSION_2>
 
-arguments:
-  -v <VERSION_1>: the version (left of op) 
-  -o <OP>:        the comparare operation 
-  -V <VERSION_2>: the version (right of op)
+Arguments:
+  -v <VERSION_1> : The first version (left of the comparison operator).
+  -o <OP>        : The comparison operator ('>', '>=', '<', '<=', '=').
+  -V <VERSION_2> : The second version (right of the comparison operator).
 
-Operation allowed
-<OP>:      the operation (must be  '>', '>=', '<', '<=' or '=')
 EOF
-  exit 1
+  exit 0
 }
 
-exit_msg(){
-  code=$1
-  msg="$2"
-  printf "%s\n" "$msg" >&2
-  exit $1
+exit_msg() {
+  printf "%s\n" "$2" >&2
+  exit "$1"
 }
 
 while getopts ":hV:o:v:" opt; do
   case $opt in
-
-    h) 
-        help
-        ;;
-    V)
-        VERSION_2=`echo $OPTARG | sed 's/-/./g'`
-        ;;
-    o)
-        OP="$OPTARG"
-        ;;
-    v)
-        VERSION_1=`echo $OPTARG | sed 's/-/./g'`
-        ;;
-    \?)
-        echo "Invalid option: -$OPTARG" >&2
-        help
-        exit 1
-        ;;
-    :)
-        echo "Option -$OPTARG requires an argument." >&2
-        help
-        exit 1
-        ;;
+    h) help ;;
+    V) VERSION_2=$(echo "$OPTARG" | tr '-' '.') ;;
+    o) OP="$OPTARG" ;;
+    v) VERSION_1=$(echo "$OPTARG" | tr '-' '.') ;;
+    \?) exit_msg 1 "Invalid option: -$OPTARG" ;;
+    :) exit_msg 1 "Option -$OPTARG requires an argument." ;;
   esac
 done
 
-[ -z "$VERSION_1" ] && exit_msg 1 "missing -v <VERSION_1>"
-[ -z "$OP" ]        && exit_msg 1 "missing -o <OP>"
-[ -z "$VERSION_2" ] && exit_msg 1 "missing -V <VERSION_2>"
+[ -z "$VERSION_1" ] && exit_msg 1 "Missing -v <VERSION_1>"
+[ -z "$OP" ]        && exit_msg 1 "Missing -o <OP>"
+[ -z "$VERSION_2" ] && exit_msg 1 "Missing -V <VERSION_2>"
 
-case $OP in
-  '>')  op=">";;
-  '>=') op=">=";;
-  '<') op="<";;
-  '<=') op="<=";;
-  '=') op="==";;
-esac
-if ! [ -z "$op" ]
-then
-  # weird version comparaison
-  # limitation:
-  # * only work with up to 4 digits
-  # * only 4 digit max per section
-  # * no rc/beta/alpha possible
-  var=`awk "BEGIN {
-    # Split each arg in array
-    split(\"$VERSION_1\", FirstVersArr, \".\")
-    split(\"$VERSION_2\", SeconVersArr, \".\")
+# Perform version comparison
+result=$(awk -v v1="$VERSION_1" -v v2="$VERSION_2" -v op="$OP" 'BEGIN {
+  split(v1, v1_arr, ".");
+  split(v2, v2_arr, ".");
 
-    # Translate in decimal
-    FirstVersDec = FirstVersArr[1] * 10^12 + FirstVersArr[2] * 10^8 + FirstVersArr[3] * 1^4 + FirstVersArr[4]
-    SeconVersDec = SeconVersArr[1] * 10^12 + SeconVersArr[2] * 10^8 + SeconVersArr[3] * 1^4 + SeconVersArr[4]
+  # Convert version segments to numerical values
+  v1_dec = (v1_arr[1] * 10^12) + (v1_arr[2] * 10^8) + (v1_arr[3] * 10^4) + v1_arr[4];
+  v2_dec = (v2_arr[1] * 10^12) + (v2_arr[2] * 10^8) + (v2_arr[3] * 10^4) + v2_arr[4];
 
-    print (FirstVersDec $op SeconVersDec)}"`
-  if [ "$var" -eq 1 ];
-  then
-    echo "true"
-  else
-    echo "false"
-  fi
-else
-  exit 1
-fi
+  if (op == ">")       print (v1_dec > v2_dec)  ? "true" : "false";
+  else if (op == ">=") print (v1_dec >= v2_dec) ? "true" : "false";
+  else if (op == "<")  print (v1_dec < v2_dec)  ? "true" : "false";
+  else if (op == "<=") print (v1_dec <= v2_dec) ? "true" : "false";
+  else if (op == "=")  print (v1_dec == v2_dec) ? "true" : "false";
+  else print "Invalid comparison operator" > "/dev/stderr"; exit 1;
+}')
+ret=$?
 
-
+echo "$result"
+exit $ret
