@@ -1,139 +1,124 @@
 #!/bin/sh
 
-help(){
+# Default values
+CREATE_SUM="false"
+SUBMODULE="false"
+MANIFEST_FILE="$(dirname "$0")/../MANIFEST"
+EXPECTED_SUM=""
+
+help() {
   cat <<EOF
-usage: `basename $0` -u <url> -o <outfile> \\
+Usage: $(basename "$0") -u <url> -o <outfile> \\
     [-m <manifest file>] [-c] [-C <cache dir>]
 
-Download files, checking them against a manifest
+Download files, checking them against a manifest.
 
-arguments:
-  -u <url>: url of the file to download
-  -o <outfile>: path to output file
-  -m <manifest file>: path to manifest file (file containing hashes)
-  -c: flag to fill the manifest file 
-  -C <cache dir>: directory where to cache downloads
+Arguments:
+  -u <url>           URL of the file to download.
+  -o <outfile>       Path to output file.
+  -m <manifest file> Path to manifest file (file containing hashes).
+  -c                 Flag to update the manifest file.
+  -C <cache dir>     Directory for caching downloads.
+  -t <tag>           Git tag to check out.
+  -r <revision>      Git revision to check out.
+  -s                 Initialize and update submodules.
 EOF
+  exit 0
+}
+
+exit_error() {
+  echo "[ERROR] $1" >&2
+  [ -d "$TMP_CO_DIR" ] && rm -rf -- $TMP_CO_DIR
   exit 1
 }
 
-exit_error(){
-    echo "$1"
-    exit 1
-}
-
-SUBMODULE=0
-TMP_CO_DIR=`mktemp -d`
-mkdir -p $TMP_CO_DIR
-
-[ -z "$CREATE_SUM" ] && CREATE_SUM=1
-
-MANIFEST_FILE="`dirname $0`/../MANIFEST"
-
+# Parse arguments
 while getopts ":hu:o:m:cC:t:r:s" opt; do
   case $opt in
-
-    h) 
-        help
-        ;;
-    u)
-        URL="$OPTARG"
-        ;;
-    o)
-        OUTFILE="$OPTARG"
-        ;;
-    t)
-        TAG="$OPTARG"
-        ;;
-    m)
-        MANIFEST_FILE="$OPTARG"
-        ;;
-    c)
-        CREATE_SUM=0
-        ;;
-    C)
-        CACHE_DIR="$OPTARG"
-        ;;
-    r)
-        REVISION="$OPTARG"
-        ;;
-    s)
-	SUBMODULE=1
-	;;
-    \?)
-        echo "Invalid option: -$OPTARG" >&2
-        help
-        exit 1
-        ;;
-    :)
-        echo "Option -$OPTARG requires an argument." >&2
-        help
-        exit 1
-        ;;
+    h) help ;;
+    u) URL="$OPTARG" ;;
+    o) OUTFILE="$OPTARG" ;;
+    m) MANIFEST_FILE="$OPTARG" ;;
+    c) CREATE_SUM="true" ;;
+    C) CACHE_DIR="$OPTARG" ;;
+    t) TAG="$OPTARG" ;;
+    r) REVISION="$OPTARG" ;;
+    s) SUBMODULE="true" ;;
+    \?) exit_error "Invalid option: -$OPTARG" ;;
+    :) exit_error "Option -$OPTARG requires an argument." ;;
   esac
 done
 
-[ -z "$URL" ] && exit_error "[ERROR] missing -u <url> arg"
-[ -z "$OUTFILE" ] && exit_error "[ERROR] missing -o <out> arg"
+# Validate required arguments
+[ -z "$URL" ] && exit_error "Missing -u <url> argument."
+[ -z "$OUTFILE" ] && exit_error "Missing -o <outfile> argument."
 
-#CO_DIR=`basename $URL`
-CO_DIR=`basename ${OUTFILE} | sed 's/\.orig\.tar\.gz$//' | sed 's/_/-/'`
+TMP_CO_DIR=$(mktemp -d)
+mkdir -p "$TMP_CO_DIR"
 
-SOURCE_FILE="`basename ${OUTFILE}`"
-if [ -e "$MANIFEST_FILE" ]
-then
-    EXPECTED_SUM="`sed \"s/$SOURCE_FILE=\(.*\)/\1/p;d\" $MANIFEST_FILE`"
-else
-    EXPECTED_SUM=""
+SOURCE_FILE=$(basename "$OUTFILE")
+
+checkout_repo() {
+  cd ${TMP_CO_DIR}
+  if [ -n "$REVISION" ]; then
+    # Checkout a specific revision
+    git clone "$URL" "$CO_DIR" || exit_error "Download failed."
+    git checkout "$REVISION" || exit_error "Revision checkout failed."
+  else
+    # Checkout a tag/branch
+    git clone -c advice.detachedHead=false  --depth 1 --branch "$TAG" "$URL" "$CO_DIR" || exit_error "Tag checkout failed."
+  fi
+  if [ "$SUBMODULE" = "true" ]
+  then
+      git submodule update --init --recursive || exit_error "Submodule checkout failed"
+  fi
+  cd -
+  tar -C "$TMP_CO_DIR" -zcf "$(realpath $OUTFILE)" "$CO_DIR" || exit_error "Failed to create source archive."
+}
+
+set_checksum() {
+  [ -e "$MANIFEST_FILE" ] || touch "$MANIFEST_FILE"
+  if [ -z "$EXPECTED_SUM" ]; then
+    echo "$SOURCE_FILE=$SUM" >> "$MANIFEST_FILE"
+  else
+    sed -i "s/^$SOURCE_FILE=.*/$SOURCE_FILE=$SUM/" "$MANIFEST_FILE"
+  fi
+}
+
+# Process output filename
+CO_DIR=$(basename "${OUTFILE}" | sed 's/\.orig\.tar\.gz$//' | sed 's/.tar\.gz$//' | sed 's/_/-/')
+
+# Read expected checksum if manifest file exists
+if [ -e "$MANIFEST_FILE" ]; then
+  EXPECTED_SUM=$(sed -n "s/^$SOURCE_FILE=\(.*\)/\1/p" "$MANIFEST_FILE")
 fi
 
-org_dir=`pwd`
-if ! [ -z "${CACHE_DIR}" ]
-then
-    if ! [ -f "${CACHE_DIR}/${SOURCE_FILE}" ]
-    then
-        cd $TMP_CO_DIR
-	git clone ${URL} ${CO_DIR} || exit_error "[ERROR] download failed"
-	cd ${CO_DIR}
-	if [ -z "$REVISION" ]
-	then
-	    git checkout tags/$TAG || exit_error "[ERROR] tag checkout failed"
-        else
-	    git checkout $REVISION || exit_error "[ERROR] revision checkout failed"
-	fi
-	if [ $SUBMODULE -eq 1 ]
-	then
-	    git submodule update --init --recursive
-	fi
-        cd $org_dir
-	tar -zcvf ${CACHE_DIR}/${SOURCE_FILE} -C "${TMP_CO_DIR}/" ${CO_DIR} || exit_error "[ERROR] failed to create archive"
-    else
-	tar -xf ${CACHE_DIR}/${SOURCE_FILE} -C "${TMP_CO_DIR}/"
-    fi
-    cp "${CACHE_DIR}/${SOURCE_FILE}" "${OUTFILE}"
+ORG_DIR=$(pwd)
+
+CACHE_FILE="${CACHE_DIR}/${SOURCE_FILE}"
+
+# File already cached
+if [ -f "$CACHE_FILE" ]; then
+  # extract the content
+  tar -xf "$CACHE_FILE" -C "$TMP_CO_DIR" || exit_error "Failed to extract cache."
+  cp "$CACHE_FILE" "$OUTFILE" || exit_error "Failed to copy cache file."
 else
-    git clone ${URL} ${CO_DIR} || exit_error "[ERROR] download failed"
-    git checkout tags/$TAG || exit_error "[ERROR] tag checkout failed"
-    tar -zcvf ${OUTFILE} "${TMP_CO_DIR}/${CO_DIR}" || exit_error "[ERROR] failed to create archive"
-fi
-cd $org_dir
-
-SUM=`cd $TMP_CO_DIR/${CO_DIR} && git rev-parse HEAD && cd - 2>&1 >/dev/null`
-
-#EXPECTED_SUM=`eval echo ${SOURCE_FILE}`
-
-if [ $CREATE_SUM -eq 0 ]
-then
-    [ -e "$MANIFEST_FILE" ] || touch $MANIFEST_FILE
-    if [ -z "$EXPECTED_SUM" ]
-    then
-        echo "$SOURCE_FILE=$SUM" >>$MANIFEST_FILE
-    else
-        sed -i "s/$SOURCE_FILE=.*/$SOURCE_FILE=$SUM/" $MANIFEST_FILE
-    fi
-else
-    [ "$EXPECTED_SUM" = "$SUM" ] || exit_error "[ERROR] Bad checksum for '$URL'\nexpected: '$EXPECTED_SUM'\ngot:      '$SUM'"
+  checkout_repo
+  cp "$OUTFILE" "$CACHE_FILE"
 fi
 
-rm -rf -- "${TMP_CO_DIR}"
+cd "$ORG_DIR" || exit_error "Failed to return to original directory."
 
+# Compute checksum
+SUM=$(cd "$TMP_CO_DIR/$CO_DIR" && git rev-parse HEAD)
+
+# Update or verify manifest
+if [ "$CREATE_SUM" = "true" ]
+    set_checksum
+then
+  [ "$EXPECTED_SUM" = "$SUM" ] || exit_error "Checksum mismatch for '$URL'. Expected: '$EXPECTED_SUM', Got: '$SUM'"
+fi
+
+# Cleanup
+rm -rf -- "$TMP_CO_DIR"
+exit 0
