@@ -1,6 +1,0 @@
-#PIDFILE=/var/run/gitea/gitea.pid
-#CONF=/etc/gitea/gitea.ini
-#USER=gitea
-#GROUP=gitea
-#BIN=/usr/bin/gitea
-#OPTS="-d -c $CONF -p 8080"
