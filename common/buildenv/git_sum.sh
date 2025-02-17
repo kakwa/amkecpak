@@ -69,7 +69,7 @@ checkout_repository() {
 
     if [ -n "$checkout_revision" ]; then
         git clone "$checkout_url" "$checkout_dir" || error_exit "Repository clone failed" "$tmp_directory"
-        (cd "$checkout_dir" && git checkout "$checkout_revision") || error_exit "Revision checkout failed" "$tmp_directory"
+        (cd "$checkout_dir" && git -c advice.detachedHead=false checkout "$checkout_revision") || error_exit "Revision checkout failed" "$tmp_directory"
     else
         git clone -c advice.detachedHead=false --depth 1 --branch "$checkout_tag" \
             "$checkout_url" "$checkout_dir" || error_exit "Tag checkout failed" "$tmp_directory"
