@@ -74,5 +74,5 @@ do
   }')
   [ $? -ne 0 ] && exit_msg 1 "comparison error"
 
-  [ "$result" = "true" ] && exit_msg 0 "true"
+  [ "$result" = "true" ] && printf "true\n" && exit 0
 done
