@@ -86,7 +86,6 @@ calculate_checksum() {
     cache_dir="$3"
     source_file="$4"
 
-    sum
     sum=$(sha512sum "$file" | awk '{print $1}')
     [ -z "$sum" ] && exit_error "[ERROR] Failed to calculate checksum" "$outfile" "$cache_dir" "$source_file"
     echo "$sum"
