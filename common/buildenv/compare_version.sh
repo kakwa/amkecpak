@@ -42,12 +42,12 @@ result=$(awk -v v1="$VERSION_1" -v v2="$VERSION_2" -v op="$OP" 'BEGIN {
   v1_dec = (v1_arr[1] * 10^12) + (v1_arr[2] * 10^8) + (v1_arr[3] * 10^4) + v1_arr[4];
   v2_dec = (v2_arr[1] * 10^12) + (v2_arr[2] * 10^8) + (v2_arr[3] * 10^4) + v2_arr[4];
 
-  if (op == ">")       print (v1_dec > v2_dec)  ? "true" : "false";
-  else if (op == ">=") print (v1_dec >= v2_dec) ? "true" : "false";
-  else if (op == "<")  print (v1_dec < v2_dec)  ? "true" : "false";
-  else if (op == "<=") print (v1_dec <= v2_dec) ? "true" : "false";
-  else if (op == "=")  print (v1_dec == v2_dec) ? "true" : "false";
-  else print "Invalid comparison operator" > "/dev/stderr"; exit 1;
+  if (op == ">")       {print (v1_dec > v2_dec)  ? "true" : "false";}
+  else if (op == ">=") {print (v1_dec >= v2_dec) ? "true" : "false";}
+  else if (op == "<")  {print (v1_dec < v2_dec)  ? "true" : "false";}
+  else if (op == "<=") {print (v1_dec <= v2_dec) ? "true" : "false";}
+  else if (op == "=")  {print (v1_dec == v2_dec) ? "true" : "false";}
+  else {print "Invalid comparison operator" > "/dev/stderr"; exit 1;}
 }')
 ret=$?
 
