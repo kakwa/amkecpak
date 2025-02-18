@@ -1,7 +1,6 @@
 # vim: set noet ts=4:
 
 include buildenv/Makefile.vars
-include buildenv/Makefile.config
 
 .NOTPARALLEL: deb rpm clean deb_chroot manifest
 
