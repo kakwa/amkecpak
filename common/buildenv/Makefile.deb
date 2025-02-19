@@ -78,18 +78,18 @@ $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
 	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
 	if [ -e $$f.dist.$(DIST) ]; then \
-		cp -f $$f.dist.$(DIST) $@; \
+		cp -rf $$f.dist.$(DIST) $@; \
 	else \
-		cp -f $$f $@; \
+		cp -rf $$f $@; \
 	fi
 
 # Process control files with variable substitution
 $(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_IN) Makefile
 	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
 	if [ -e $$f.dist.$(DIST) ]; then \
-		cp -f $$f.dist.$(DIST) $@; \
+		cp -rf $$f.dist.$(DIST) $@; \
 	else \
-		cp -f $$f $@; \
+		cp -rf $$f $@; \
 	fi
 	sed -i 's|@NAME@|$(PKGNAME)|'                      $@ || (rm -f $@; exit 1)
 	sed -i 's|@VERSION@|$(VERSION)|'                   $@ || (rm -f $@; exit 1)
