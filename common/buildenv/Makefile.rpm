@@ -1,0 +1,132 @@
+# Some variables for rpm build
+RPM_DIR := $(BUILD_DIR)/rpm.$(DIST)/BUILDROOT \
+  $(BUILD_DIR)/rpm.$(DIST)/RPMS \
+  $(BUILD_DIR)/rpm.$(DIST)/SRPMS \
+  $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
+
+RPM_SPEC := $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
+
+RPM_ARCHIVE := $(BUILD_DIR)/rpm.$(DIST)/SOURCES/$(PKGNAME)-$(VERSION).tar.gz
+
+RPM_CONTENT_DIST := $(filter-out \
+  rpm/component.spec.dist.$(DIST), \
+  $(wildcard rpm/*.dist.$(DIST)) \
+)
+
+RPM_CONTENT_BASE := $(filter-out $(wildcard rpm/*.dist.*) \
+  rpm/component.spec, \
+  $(wildcard rpm/*) \
+)
+RPM_CONTENT_IN := $(RPM_CONTENT_DIST) \
+  $(shell \
+    for f in $(RPM_CONTENT_BASE);\
+    do\
+      if ! [ -e $$f.dist.$(DIST) ];then echo $$f;fi;\
+      done\
+  )
+
+RPM_CONTENT_OUT := $(subst .dist.$(DIST),,\
+  $(addprefix $(BUILD_DIR)/rpm.$(DIST)/SOURCES/, \
+    $(subst rpm/,,$(RPM_CONTENT_IN))\
+  )\
+)
+
+ifneq ("$(wildcard rpm/component.spec.dist.$(DIST))","")
+RPM_SPEC_IN := rpm/component.spec.dist.$(DIST)
+else
+RPM_SPEC_IN := rpm/component.spec
+endif
+
+# Create the various rpmbuild directories
+$(RPM_DIR): | $(BUILD_DIR)/rpm.$(DIST) $(DIRECTORIES)
+	mkdir $@
+	mkdir -p $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)
+
+# Copy the upstream sources archive to SOURCES with correct name
+$(RPM_ARCHIVE): $(SOURCE_ARCHIVE) | $(RPM_DIR)
+	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
+	rm -f $(RPM_ARCHIVE)
+	cp -r $(SOURCE_ARCHIVE) $(RPM_ARCHIVE)
+
+# Copy the additional content of the rpm/ directory
+# in SOURCES (use for stuff like .service files)
+$(RPM_CONTENT_OUT): $(RPM_CONTENT_IN) $(RPM_SPEC)
+	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SOURCES
+	f=rpm/$(subst $(BUILD_DIR)/rpm.$(DIST)/SOURCES/,,$@);\
+	if [ -e $$f.dist.$(DIST) ];\
+	then\
+	    cp -r $$f.dist.$(DIST) $@;\
+	else\
+	    cp -r $$f $@;\
+	fi
+
+
+# Copy the spec file and do the various substitutions in it
+$(RPM_SPEC): $(RPM_SPEC_IN) Makefile
+	mkdir -p $(BUILD_DIR)/rpm.$(DIST)/SPEC
+	cp $(RPM_SPEC_IN) $(RPM_SPEC)
+	sed -i 's|@NAME@|$(PKGNAME)|'            $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@LICENSE@|$(LICENSE)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@VERSION@|$(VERSION)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@RELEASE@|$(RELEASE)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|' $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@SUMMARY@|$(SUMMARY)|'         $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@URL@|$(URL)|'                 $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@MAINTAINER@|$(MAINTAINER)|'   $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+	sed -i 's|@MAINTAINER_EMAIL@|$(MAINTAINER_EMAIL)|' \
+	    $(RPM_SPEC) || (rm -f $(RPM_SPEC); exit 1)
+
+
+# Build the rpm(s) and put the result inside out directories
+$(BUILD_DIR)/pkg_built.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
+	rpmbuild -ba --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)" \
+                                --define "_sourcedir %{_topdir}/SOURCES" \
+                                --define "_specdir %{_topdir}/SPEC" \
+                                --define "_rpmdir %{_topdir}/RPMS" \
+                                --define "_srcrpmdir %{_topdir}/SRPMS" \
+                                --define "_tmppath %{_topdir}/BUILDROOT" \
+                                --define "_builddir %{_topdir}/BUILD" \
+                                --define "dist .$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)" \
+                                $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
+	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.src.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_SRC)/
+	find $(BUILD_DIR)/rpm.$(DIST) -type f -name "*.rpm" -print0 | xargs -i -n 1 -0 mv {} $(OUT_DIR)/
+	touch $(BUILD_DIR)/pkg_built.rpm.$(DIST)
+
+# Build the srpm(s) and put the result inside out directories
+$(BUILD_DIR)/pkg_built.src.rpm.$(DIST): $(SOURCE_ARCHIVE) $(RPM_ARCHIVE) $(RPM_SPEC) $(RPM_CONTENT_OUT)
+	rpmbuild -bs --define "_topdir $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)" \
+                                --define "_sourcedir %{_topdir}/SOURCES" \
+                                --define "_specdir %{_topdir}/SPEC" \
+                                --define "_rpmdir %{_topdir}/RPMS" \
+                                --define "_srcrpmdir %{_topdir}/SRPMS" \
+                                --define "_tmppath %{_topdir}/BUILDROOT" \
+                                --define "_builddir %{_topdir}/BUILD" \
+                                --define "dist .$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)" \
+                                $(BUILD_DIR)/rpm.$(DIST)/SPEC/$(PKGNAME).spec
+	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
+
+$(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST): $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
+	$(MOCK_CMD);\
+	if [ $$? -ne 0 ];\
+		then touch $(BUILD_DIR)/failure.rpm.chroot.$(DIST);exit 1;\
+		else rm -f $(BUILD_DIR)/failure.rpm.chroot.$(DIST);\
+	fi
+	find $(INDIVIDUAL_RPM_LOCAL_REPO_PATH)/results/$(DIST_FULL)-$(ARCH)/`rpm -qp $(CURDIR)/$(BUILD_DIR)/rpm.$(DIST)/SRPMS/*$(VERSION)-$(RELEASE)*.rpm \
+		--queryformat "%{NAME}-%{VERSION}-%{RELEASE}"` \
+		-type f -name "*$(DIST)*.rpm" -not -name "*.src.rpm" -print0 | \
+		xargs -i -n 1 -0 ln -f {} $(OUT_DIR)/
+	touch $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
+	touch $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
+
+ifneq ($(TO_SKIP), true)
+rpm_src_internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal
+
+$(BUILD_DIR)/pkg_built.src.rpm.$(DIST).internal: $(BUILD_DIR)/pkg_built.src.rpm.$(DIST)
+rpm_chroot: $(BUILD_DIR)/pkg_built_chroot.rpm.$(DIST)
+
+# The rpm target to be called
+rpm: $(BUILD_DIR)/pkg_built.rpm.$(DIST)
+else
+rpm:
+rpm_chroot:
+endif
