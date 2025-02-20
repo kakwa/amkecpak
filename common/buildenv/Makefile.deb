@@ -1,10 +1,6 @@
 #### DEB Build System
 # -----------------
 
-# Debian package content files and directories
-DEB_CONTENT := $(BUILD_DIR)/debian/changelog \
-  $(BUILD_DIR)/$(PKGNAME)_$(VERSION).orig.tar.gz
-
 # Find distribution-specific Debian files
 DEB_CONTENT_DIST := $(filter-out debian/control.dist.$(DIST) \
   debian/rules.dist.$(DIST), \
