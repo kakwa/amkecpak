@@ -49,7 +49,7 @@ include buildenv/Makefile.common
 # use 'make manifest' to generate/update this manifest file.
 
 # more complex case with upstream source rework and rebuilding of the tar
-$(SOURCE_ARCHIVE): $(SOURCE_DIR) $(CACHE) Makefile MANIFEST
+$(SOURCE_ARCHIVE): $(CACHE) Makefile MANIFEST | $(SOURCE_DIR)
 	$(WGS) -u $(URL_SRC) -o $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz
 	mkdir -p $(BUILD_DIR)/tmp
 	tar -vxf $(BUILD_DIR)/$(NAME)-$(VERSION).tar.gz -C $(BUILD_DIR)/tmp
