@@ -71,8 +71,8 @@ DEB_CHANGELOG := \
 
 # Copy Debian packaging files
 $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
-	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
-	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
+	@mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian/
+	@f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
 	if [ -e $$f.dist.$(DIST) ]; then \
 		cp -rf $$f.dist.$(DIST) $@; \
 	else \
@@ -81,42 +81,42 @@ $(DEB_CONTENT_OUT): $(DEB_CONTENT_IN)
 
 # Process control files with variable substitution
 $(DEB_CONTROL_RULE_COPYRIGHT): $(DEB_CONTROL_IN) $(DEB_RULE_IN) $(DEB_COPYRIGHT_IN) Makefile
-	f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
+	@f=$(subst $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/,,$@); \
 	if [ -e $$f.dist.$(DIST) ]; then \
 		cp -rf $$f.dist.$(DIST) $@; \
 	else \
 		cp -rf $$f $@; \
 	fi
-	sed -i 's|@NAME@|$(PKGNAME)|'                      $@ || (rm -f $@; exit 1)
-	sed -i 's|@VERSION@|$(VERSION)|'                   $@ || (rm -f $@; exit 1)
-	sed -i 's|@LICENSE@|$(LICENSE)|'                   $@ || (rm -f $@; exit 1)
-	sed -i 's|@RELEASE@|$(RELEASE)|'                   $@ || (rm -f $@; exit 1)
-	sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|'           $@ || (rm -f $@; exit 1)
-	sed -i 's|@SUMMARY@|$(SUMMARY)|'                   $@ || (rm -f $@; exit 1)
-	sed -i 's|@URL@|$(URL)|'                           $@ || (rm -f $@; exit 1)
-	sed -i 's|@MAINTAINER@|$(MAINTAINER)|'             $@ || (rm -f $@; exit 1)
-	sed -i 's|@MAINTAINER_EMAIL@|$(MAINTAINER_EMAIL)|' $@ || (rm -f $@; exit 1)
+	@sed -i 's|@NAME@|$(PKGNAME)|'                      $@ || (rm -f $@; exit 1)
+	@sed -i 's|@VERSION@|$(VERSION)|'                   $@ || (rm -f $@; exit 1)
+	@sed -i 's|@LICENSE@|$(LICENSE)|'                   $@ || (rm -f $@; exit 1)
+	@sed -i 's|@RELEASE@|$(RELEASE)|'                   $@ || (rm -f $@; exit 1)
+	@sed -i 's|@DESCRIPTION@|$(DESCRIPTION)|'           $@ || (rm -f $@; exit 1)
+	@sed -i 's|@SUMMARY@|$(SUMMARY)|'                   $@ || (rm -f $@; exit 1)
+	@sed -i 's|@URL@|$(URL)|'                           $@ || (rm -f $@; exit 1)
+	@sed -i 's|@MAINTAINER@|$(MAINTAINER)|'             $@ || (rm -f $@; exit 1)
+	@sed -i 's|@MAINTAINER_EMAIL@|$(MAINTAINER_EMAIL)|' $@ || (rm -f $@; exit 1)
 
 # Generate Debian changelog file
 $(DEB_CHANGELOG): ./debian/changelog
-	mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
-	printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\n" > $@
-	printf "\n  * New version\n\n" >> $@
-	printf " -- $(MAINTAINER) <$(MAINTAINER_EMAIL)>  %s\n" "Thu, 1 Jan 1970 00:00:00 +0000" >> $@
+	@mkdir -p $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION)/debian
+	@printf "$(PKGNAME) ($(VERSION)-$(RELEASE)~$(PKG_ORG)+$(DIST_CODE)$(DIST_TAG)) $(DIST); urgency=low\n" > $@
+	@printf "\n  * New version\n\n" >> $@
+	@printf " -- $(MAINTAINER) <$(MAINTAINER_EMAIL)>  %s\n" "Thu, 1 Jan 1970 00:00:00 +0000" >> $@
 
 # Copy source archive to Debian build directory
 $(DEB_ARCHIVE): $(SOURCE_ARCHIVE) | $(DIRECTORIES)
-	cp -f $(SOURCE_ARCHIVE) $(DEB_ARCHIVE)
+	@cp -f $(SOURCE_ARCHIVE) $(DEB_ARCHIVE)
 
 # Ensure local repository directory exists
 $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages:
-	mkdir -p $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)
-	touch $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
+	@mkdir -p $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)
+	@touch $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
 
 # Build Debian packages (local build)
 $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
-	tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
-	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
+	@tar -xf $(DEB_ARCHIVE) -C $(BUILD_DIR)/deb.$(DIST)
+	@cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && \
 	dpkg-buildpackage -us -uc; \
 	if [ $$? -ne 0 ]; then \
 		touch ../failure.$(DIST); \
@@ -124,18 +124,19 @@ $(BUILD_DIR)/pkg_built.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL
 	else \
 		rm -f ../failure.$(DIST); \
 	fi
-	find $(BUILD_DIR)/ -type f -name "*.deb" -print0 | xargs -0 -r mv -t $(OUT_DIR)/
-	find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -0 -r cp -t $(OUT_SRC)/
-	find $(BUILD_DIR)/ -type f -name "*.dsc" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	touch $@
+	@find $(BUILD_DIR)/ -type f -name "*.deb" -print0 | xargs -0 -r mv -t $(OUT_DIR)/
+	@find $(BUILD_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -0 -r cp -t $(OUT_SRC)/
+	@find $(BUILD_DIR)/ -type f -name "*.dsc" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(BUILD_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@touch $@
 
 # Build Debian packages in a clean chroot environment (cowbuilder)
 $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/Packages
-	cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && dpkg-source -b ./
+	@cd $(BUILD_DIR)/deb.$(DIST)/$(PKGNAME)-$(VERSION) && dpkg-source -b ./
+	@$(SUDO) mkdir -p $(COW_DIR)/aptcache/
 	
 	# Setup or update cowbuilder environment if needed
-	if ! [ "$(SKIP_COWBUILDER_SETUP)" = "true" ]; then \
+	@if ! [ "$(SKIP_COWBUILDER_SETUP)" = "true" ]; then \
 		flock -x /tmp/cowbuilder.$(DIST).lock -c ' \
 		if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
 			export TMPDIR=/tmp/; \
@@ -155,7 +156,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 	fi
 	
 	# Build package in chroot
-	export TMPDIR=/tmp/; \
+	@export TMPDIR=/tmp/; \
 	$(SUDO) cowbuilder --build \
 		$(BUILD_DIR)/deb.$(DIST)/*.dsc \
 		--basepath $(COW_DIR)/$(COW_NAME) \
@@ -169,29 +170,29 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 	fi
 	
 	# Move build artifacts to appropriate directories
-	find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	find $(OUT_DIR)/ -type f -name "*.dsc" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	find $(OUT_DIR)/ -type f -name "*.changes" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	find $(OUT_DIR)/ -type f -name "*.buildinfo" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
-	find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(OUT_DIR)/ -type f -name "*.orig.tar.gz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(OUT_DIR)/ -type f -name "*.dsc" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(OUT_DIR)/ -type f -name "*.changes" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(OUT_DIR)/ -type f -name "*.buildinfo" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
+	@find $(OUT_DIR)/ -type f -name "*debian.tar.xz" -print0 | xargs -0 -r mv -t $(OUT_SRC)/
 	
 	# Link built packages to local repository
-	find $(OUT_DIR) -type f -name "*$(DIST_CODE)$(DIST_TAG)*.deb" -print0 | \
+	@find $(OUT_DIR) -type f -name "*$(DIST_CODE)$(DIST_TAG)*.deb" -print0 | \
 		xargs -0 -r ln -f -t $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/
 	
 	# Update package index if requested
-	if [ "$(UPDATE_REPO)" = "true" ]; then \
+	@if [ "$(UPDATE_REPO)" = "true" ]; then \
 		cd $(INDIVIDUAL_DEB_LOCAL_REPO_PATH)/ && \
 		dpkg-scanpackages . > Packages && \
 		cd -; \
 	fi
 	
 	# Set the build success marker
-	touch $@
+	@touch $@
 
 # Helper target to get cowbuilder chroot path
 deb_get_chroot_path:
-	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
+	@echo $$(readlink -f $(COW_DIR)/$(COW_NAME))
 
 # Conditional targets based on the TO_SKIP variable
 ifneq ($(TO_SKIP), true)

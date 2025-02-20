@@ -14,31 +14,31 @@ all: deb rpm
 
 # Create build directories
 $(DIRECTORIES):
-	mkdir -p $@
+	@mkdir -p $@
 
 # Cleaning targets
 clean_build:
-	if [ -d $(BUILD_DIR) ]; then \
+	@if [ -d $(BUILD_DIR) ]; then \
 		chmod -R 700 $(BUILD_DIR); \
 		rm -rf $(BUILD_DIR); \
 	fi
 
 clean_cache:
-	if [ -d $(CACHE) ] && [ "$(KEEP_CACHE)" != "true" ]; then \
+	@if [ -d $(CACHE) ] && [ "$(KEEP_CACHE)" != "true" ]; then \
 		chmod -R 700 $(CACHE); \
 		rm -rf $(CACHE); \
 	fi
 
 clean: clean_build clean_cache
-	rm -f ../out/*/*/results/*/*$(NAME)*/success
-	find $(OUT_DIR) -type f -name "*.rpm" -not -name "*.src.rpm" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
-	find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete
-	if [ -d $(OUT_DIR) ];then chmod 700 -R $(OUT_DIR);rm -rf -- $(OUT_DIR);fi
-	if [ -d $(OUT_SRC) ];then chmod 700 -R $(OUT_SRC);rm -rf -- $(OUT_SRC);fi
+	@rm -f ../out/*/*/results/*/*$(NAME)*/success
+	@if [ -d $(OUT_DIR) ];then find $(OUT_DIR) -type f -name "*.rpm" -not -name "*.src.rpm" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete;fi
+	@if [ -d $(OUT_DIR) ];then find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete;fi
+	@if [ -d $(OUT_DIR) ];then chmod 700 -R $(OUT_DIR);rm -rf -- $(OUT_DIR);fi
+	@if [ -d $(OUT_SRC) ];then chmod 700 -R $(OUT_SRC);rm -rf -- $(OUT_SRC);fi
 
 # Manifest targets
 reset_manifest:
-	truncate MANIFEST -s 0
+	@truncate MANIFEST -s 0
 
 manifest: reset_manifest clean_cache $(SOURCE_ARCHIVE)
 
