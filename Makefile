@@ -219,7 +219,7 @@ clean_rpm_repo:
 deb_repo: $(DEB_REPO_DEP) $(OUT_DIR)/GPG-KEY.pub
 	$(MAKE) internal_deb_repo
 
-$(DEB_OUT_DIR)/conf/distributions: common/buildenv/Makefile.config
+$(DEB_OUT_DIR)/conf/distributions:
 	mkdir -p $(DEB_OUT_DIR)/conf/
 	echo "$$DEB_REPO_CONFIG" >$(DEB_OUT_DIR)/conf/distributions
 
