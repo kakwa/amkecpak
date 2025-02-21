@@ -5,6 +5,12 @@ include buildenv/Makefile.vars
 include buildenv/Makefile.rpm
 include buildenv/Makefile.deb
 
+# Configuration
+# ----------------------------------------------------------------------------
+ifneq ($(wildcard $(REPO_BASE_DIR)Makefile.config),)
+    include $(REPO_BASE_DIR)Makefile.config
+endif
+
 #
 # Main targets
 #

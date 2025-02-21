@@ -1,5 +1,9 @@
 # Configuration
 # ----------------------------------------------------------------------------
+ifneq ($(wildcard Makefile.config),)
+    include Makefile.config
+endif
+
 # Name of the gpg key to use
 GPG_KEY := kakwa
 # Output directory for the repos
