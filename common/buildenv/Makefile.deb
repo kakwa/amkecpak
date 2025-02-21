@@ -140,11 +140,11 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 		flock -x /tmp/cowbuilder.$(DIST).lock -c ' \
 		if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
 			export TMPDIR=/tmp/; \
-			$(SUDO) cowbuilder --create --debootstrap $(COWBUILDER_CREATE_ARGS) \
+			$(SUDO) cowbuilder --create --debootstrap $(COWBUILDER_CREATE_ARGS) ; \
 			ret=$$?; \
 		else \
 			export TMPDIR=/tmp/; \
-			$(SUDO) cowbuilder --update $(COWBUILDER_UPDATE_ARGS) \
+			$(SUDO) cowbuilder --update $(COWBUILDER_UPDATE_ARGS) ; \
 				ret=$$?; \
 		fi; exit $$ret;'; \
 	fi
@@ -154,7 +154,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 	$(SUDO) cowbuilder --build \
 		$(BUILD_DIR)/deb.$(DIST)/*.dsc \
 		--buildresult $(OUT_DIR)/ \
-		$(COWBUILDER_BUILD_ARGS) \
+		$(COWBUILDER_BUILD_ARGS); \
 	if [ $$? -ne 0 ]; then \
 		touch $(BUILD_DIR)/failure.chroot.$(DIST); \
 		exit 1; \
