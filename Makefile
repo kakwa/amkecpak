@@ -70,8 +70,7 @@ endif
 # Main Targets
 # ----------------------------------------------------------------------------
 all:
-	$(MAKE) rpm_repo
-	$(MAKE) deb_repo
+	@$(MAKE) deb_repo
 
 clean_pkg: $(clean_PKG)
 
@@ -128,27 +127,16 @@ rpm:
 # Debian Build Target (Chroot)
 deb_chroot:
 	# Initialize output directory as local repo
-	mkdir -p $(LOCAL_REPO_PATH)
-	cd $(LOCAL_REPO_PATH) && dpkg-scanpackages . /dev/null > Packages
+	@mkdir -p $(LOCAL_REPO_PATH)
+	@cd $(LOCAL_REPO_PATH) && dpkg-scanpackages . /dev/null > Packages
 	
 	# Initialize or update cowbuilder chroot
 	@if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
 		export TMPDIR=/tmp/; \
-		$(SUDO) cowbuilder --create \
-			--basepath $(COW_DIR)/$(COW_NAME) \
-			--debootstrap debootstrap \
-			$(COW_DIST) $(OTHERMIRROR) \
-			--mirror $(_MIRROR) \
-			--architecture $(ARCH) \
-			$(BINDMOUNT) \
-			$(COW_UBUNTU) \
-			$(COW_OPTS); \
+		$(SUDO) cowbuilder --create $(COWBUILDER_CREATE_ARGS); \
 	else \
 		export TMPDIR=/tmp/; \
-		$(SUDO) cowbuilder --update \
-			--basepath $(COW_DIR)/$(COW_NAME) \
-			--architecture $(ARCH) \
-			$(BINDMOUNT); \
+		$(SUDO) cowbuilder --update $(COWBUILDER_UPDATE_ARGS); \
 	fi
 	
 	# loop over building the packages:
@@ -156,7 +144,7 @@ deb_chroot:
 	#  - if there are build failures (but no more than last iteration)
 	#    update the local repo, and loop to retry failed package builds
 	# This loop is a bruteforce way to deal with build ordering dependencies
-	old=99998;\
+	@old=99998;\
 	new=99999;\
 	while [ $$new -ne $$old ] && [ $$new -ne 0 ];\
 	do\
@@ -166,18 +154,16 @@ deb_chroot:
 			SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
 		new=$$(find ./ -type f -name "failure.chroot.$(DIST).$(ARCH)" | wc -l);\
-		cd $(LOCAL_REPO_PATH); dpkg-scanpackages . /dev/null >Packages;cd -;\
+		cd $(LOCAL_REPO_PATH) && dpkg-scanpackages . /dev/null >Packages || exit 1;cd -;\
 		if [ $$new -ne 0 ];\
 		then\
 			export TMPDIR=/tmp/;\
-			$(SUDO) cowbuilder --update \
-			  --basepath $(COW_DIR)/$(COW_NAME) \
-			  $(BINDMOUNT);\
+			$(SUDO) cowbuilder --update $(COWBUILDER_UPDATE_ARGS); \
 		fi;\
 	done
 	
 	# do a last build iteration to make sure every packages are build correctly
-	$(MAKE) deb_chroot_internal UPDATE_REPO=false \
+	@$(MAKE) deb_chroot_internal UPDATE_REPO=false \
 		COW_NAME=$(COW_NAME) SKIP_COWBUILDER_SETUP=true
 
 # Build Status Reporting
