@@ -145,6 +145,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 				$(OTHERMIRROR) \
 				--basepath $(COW_DIR)/$(COW_NAME) \
 				--mirror $(DEB_MIRROR) \
+				--architecture $(ARCH) \
 				$(BINDMOUNT) $(COW_UBUNTU) $(COW_OPTS); \
 			ret=$$?; \
 		else \
@@ -161,6 +162,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 		$(BUILD_DIR)/deb.$(DIST)/*.dsc \
 		--basepath $(COW_DIR)/$(COW_NAME) \
 		--buildresult $(OUT_DIR)/ $(OTHERMIRROR) \
+		--architecture $(ARCH) \
 		--mirror $(DEB_MIRROR) $(BINDMOUNT); \
 	if [ $$? -ne 0 ]; then \
 		touch $(BUILD_DIR)/failure.chroot.$(DIST); \

@@ -8,7 +8,7 @@ Homepage: @URL@
 X-Python-Version: >= 2.5
 
 Package: @NAME@
-Architecture: all
+Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}, openconnect (>=8.0), libqt5websockets5 (>=5.9), libqt5webengine5 (>=5.9), libqt5webenginewidgets5 (>=5.9), libqt5keychain1
 Description: @SUMMARY@ 
  @DESCRIPTION@ 

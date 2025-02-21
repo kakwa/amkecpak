@@ -4,13 +4,6 @@ ifneq ($(wildcard Makefile.config),)
     include Makefile.config
 endif
 
-# Name of the gpg key to use
-GPG_KEY := kakwa
-# Output directory for the repos
-OUT_DIR := out/
-# Package provider
-ORIGIN := kakwa
-
 # Package Discovery
 # ----------------------------------------------------------------------------
 PKG := $(shell find ./* -maxdepth 0 -type d | grep -v '^./common\|^./out')
@@ -23,22 +16,32 @@ manifest_PKG := $(addprefix manifest_,$(PKG))
 
 # Output Directories
 # ----------------------------------------------------------------------------
-OUTDEB := $(shell echo $(OUT_DIR)/deb/`lsb_release -sc`/`dpkg --print-architecture`)
-OUTRPM := $(shell echo $(OUT_DIR)/rpm/$(DIST_TAG)/`uname -m`/)
+OUTDEB := $(OUT_DIR)/deb/$(DIST)/$(ARCH)
+OUTRPM := $(OUT_DIR)/rpm/$(DIST_TAG)/$(ARCH)
+
+# Build Directory Structure
+BUILD_DIR := builddir/$(ARCH)
+COW_DIR := /var/cache/pbuilder/$(ARCH)
+
+# Success/Failure Markers
+SUCCESS_MARKER := success.$(ARCH)
+FAILURE_MARKER := failure.$(ARCH)
+FAILURE_CHROOT_MARKER := failure.chroot.$(DIST).$(ARCH)
+FAILURE_RPM_CHROOT_MARKER := failure.rpm.chroot.$(DIST).$(ARCH)
 
 # Must be declared before the include
-DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST)/
+DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST).$(ARCH)
 LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
-COW_NAME := $(DIST).$(shell echo $(LOCAL_REPO_PATH) | md5sum | sed 's/\ .*//').all.cow
+COW_NAME := $(DIST).$(shell echo $(LOCAL_REPO_PATH) | md5sum | sed 's/\ .*//').$(ARCH).cow
 
-RPM_OUT_DIR := $(shell readlink -f $(OUT_DIR))/rpm.$(DIST)/
+RPM_OUT_DIR := $(shell readlink -f $(OUT_DIR))/rpm.$(DIST).$(ARCH)
 RPM_LOCAL_REPO_PATH := $(RPM_OUT_DIR)/raw
 
 # Include Configuration Files
 # ----------------------------------------------------------------------------
 include ./common/buildenv/Makefile.vars
 
-RPM_OUT_REPO := $(RPM_OUT_DIR)/$(DIST_TAG)/$(ARCH)/
+RPM_OUT_REPO := $(RPM_OUT_DIR)/$(DIST_TAG)/$(ARCH)
 
 # Export Configuration
 # ----------------------------------------------------------------------------
@@ -124,30 +127,29 @@ rpm:
 
 # Debian Build Target (Chroot)
 deb_chroot:
-	# init the out directory (as a local repo)
+	# Initialize output directory as local repo
 	mkdir -p $(LOCAL_REPO_PATH)
-	cd $(LOCAL_REPO_PATH); dpkg-scanpackages . /dev/null >Packages
+	cd $(LOCAL_REPO_PATH) && dpkg-scanpackages . /dev/null > Packages
 	
-	# init or update the cowbuilder chroot
-	if ! [ -e $(COW_DIR)/$(COW_NAME) ];\
-	then\
+	# Initialize or update cowbuilder chroot
+	@if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
 		export TMPDIR=/tmp/; \
 		$(SUDO) cowbuilder --create \
-		  --basepath $(COW_DIR)/$(COW_NAME) \
-		  --debootstrap debootstrap \
-		  $(COW_DIST) $(OTHERMIRROR) \
-		  --mirror $(DEB_MIRROR) \
-		  $(BINDMOUNT) \
-		  $(COW_UBUNTU) \
-		  $(COW_OPTS);\
-		ret=$$?;\
-	else\
-		export TMPDIR=/tmp/;\
+			--basepath $(COW_DIR)/$(COW_NAME) \
+			--debootstrap debootstrap \
+			$(COW_DIST) $(OTHERMIRROR) \
+			--mirror $(DEB_MIRROR) \
+			--architecture $(ARCH) \
+			$(BINDMOUNT) \
+			$(COW_UBUNTU) \
+			$(COW_OPTS); \
+	else \
+		export TMPDIR=/tmp/; \
 		$(SUDO) cowbuilder --update \
-	      	  --basepath $(COW_DIR)/$(COW_NAME) \
-		  $(BINDMOUNT);\
-		ret=$$?;\
-	fi; exit $$ret
+			--basepath $(COW_DIR)/$(COW_NAME) \
+			--architecture $(ARCH) \
+			$(BINDMOUNT); \
+	fi
 	
 	# loop over building the packages:
 	#  - count package build failures
@@ -163,7 +165,7 @@ deb_chroot:
 			COW_NAME=$(COW_NAME) \
 			SKIP_COWBUILDER_SETUP=true;\
 		old=$$new;\
-		new=$$(find ./ -type f -name "failure.chroot.$(DIST)" | wc -l);\
+		new=$$(find ./ -type f -name "failure.chroot.$(DIST).$(ARCH)" | wc -l);\
 		cd $(LOCAL_REPO_PATH); dpkg-scanpackages . /dev/null >Packages;cd -;\
 		if [ $$new -ne 0 ];\
 		then\
@@ -181,12 +183,12 @@ deb_chroot:
 # Build Status Reporting
 # ----------------------------------------------------------------------------
 deb_failed:
-	@echo "Package(s) for DIST '$(DIST)' that failed to build:"
-	@find ./ -type f -name "failure.chroot.$(DIST)" | sed 's|\./\([^/]*\)/.*|* \1|'
+	@echo "Package(s) for DIST '$(DIST)' ARCH '$(ARCH)' that failed to build:"
+	@find ./ -type f -name "failure.chroot.$(DIST).$(ARCH)" | sed 's|\./\([^/]*\)/.*|* \1|'
 
 rpm_failed:
-	@echo "Package(s) for DIST '$(DIST)' that failed to build:"
-	@find ./ -type f -name "failure.rpm.chroot.$(DIST)" | sed 's|\./\([^/]*\)/.*|* \1|'
+	@echo "Package(s) for DIST '$(DIST)' ARCH '$(ARCH)' that failed to build:"
+	@find ./ -type f -name "failure.rpm.chroot.$(DIST).$(ARCH)" | sed 's|\./\([^/]*\)/.*|* \1|'
 
 # RPM Build Target (Chroot)
 # ----------------------------------------------------------------------------
@@ -197,7 +199,7 @@ rpm_chroot:
 	do\
 		$(MAKE) rpm_chroot_internal ERROR=skip;\
 		old=$$new;\
-		new=$$(find ./ -type f -name "failure.rpm.chroot.$(DIST)" | wc -l);\
+		new=$$(find ./ -type f -name "failure.rpm.chroot.$(DIST).$(ARCH)" | wc -l);\
 		echo $$new -ne $$old;\
 	done
 	$(MAKE) rpm_chroot_internal
