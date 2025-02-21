@@ -138,7 +138,7 @@ deb_chroot:
 			--basepath $(COW_DIR)/$(COW_NAME) \
 			--debootstrap debootstrap \
 			$(COW_DIST) $(OTHERMIRROR) \
-			--mirror $(DEB_MIRROR) \
+			--mirror $(_MIRROR) \
 			--architecture $(ARCH) \
 			$(BINDMOUNT) \
 			$(COW_UBUNTU) \

@@ -144,15 +144,17 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 				debootstrap $(COW_DIST) \
 				$(OTHERMIRROR) \
 				--basepath $(COW_DIR)/$(COW_NAME) \
-				--mirror $(DEB_MIRROR) \
+				--mirror $(_MIRROR) \
+				$(BINDMOUNT) \
 				--architecture $(ARCH) \
-				$(BINDMOUNT) $(COW_UBUNTU) $(COW_OPTS); \
+				$(COW_UBUNTU) $(COW_OPTS); \
 			ret=$$?; \
 		else \
 			export TMPDIR=/tmp/; \
 			$(SUDO) cowbuilder --update \
 				--basepath $(COW_DIR)/$(COW_NAME) \
-				$(BINDMOUNT); ret=$$?; \
+				$(BINDMOUNT); \
+				ret=$$?; \
 		fi; exit $$ret;'; \
 	fi
 	
@@ -160,10 +162,12 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 	@export TMPDIR=/tmp/; \
 	$(SUDO) cowbuilder --build \
 		$(BUILD_DIR)/deb.$(DIST)/*.dsc \
+		--buildresult $(OUT_DIR)/ \
+		$(OTHERMIRROR) \
 		--basepath $(COW_DIR)/$(COW_NAME) \
-		--buildresult $(OUT_DIR)/ $(OTHERMIRROR) \
-		--architecture $(ARCH) \
-		--mirror $(DEB_MIRROR) $(BINDMOUNT); \
+		--mirror $(_MIRROR) \
+		$(BINDMOUNT) \
+		--architecture $(ARCH); \
 	if [ $$? -ne 0 ]; then \
 		touch $(BUILD_DIR)/failure.chroot.$(DIST); \
 		exit 1; \
