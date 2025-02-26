@@ -38,7 +38,7 @@ clean_cache:
 clean: clean_build clean_cache
 	@rm -f ../out/*/*/results/*/*$(NAME)*/$(SUCCESS_MARKER)
 	@if [ -d $(OUT_DIR) ];then find $(OUT_DIR) -type f -name "*.rpm" -not -name "*.src.rpm" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete;fi
-	@if [ -d $(OUT_DIR) ];then find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete;fi
+	@if [ -d ../out/ ];then find $(OUT_DIR) -type f -name "*.deb" -printf "%f\0" | xargs -i -n 1 -0 find ../out/ -name {} -type f -delete;fi
 	@if [ -d $(OUT_DIR) ];then chmod 700 -R $(OUT_DIR);rm -rf -- $(OUT_DIR);fi
 	@if [ -d $(OUT_SRC) ];then chmod 700 -R $(OUT_SRC);rm -rf -- $(OUT_SRC);fi
 
