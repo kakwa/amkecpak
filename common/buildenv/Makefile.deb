@@ -138,8 +138,9 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 	# Setup or update cowbuilder environment if needed
 	@if ! [ "$(SKIP_COWBUILDER_SETUP)" = "true" ]; then \
 		flock -x /tmp/cowbuilder.$(DIST).lock -c ' \
-		if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
+		if ! [ -f $(COW_BASEPATH)/etc/hosts ]; then \
 			export TMPDIR=/tmp/; \
+			$(SUDO) rm -rf -- $(COW_BASEPATH); \
 			$(SUDO) cowbuilder --create --debootstrap $(COWBUILDER_CREATE_ARGS) ; \
 			ret=$$?; \
 		else \
@@ -185,7 +186,7 @@ $(BUILD_DIR)/pkg_built_chroot.deb.$(DIST): $(DEB_PREPARE) | $(DIRECTORIES) $(IND
 
 # Helper target to get cowbuilder chroot path
 deb_get_chroot_path:
-	@echo $$(readlink -f $(COW_DIR)/$(COW_NAME))
+	@echo $$(readlink -f $(COW_BASEPATH))
 
 # Conditional targets based on the TO_SKIP variable
 ifneq ($(TO_SKIP), true)

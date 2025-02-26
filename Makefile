@@ -21,7 +21,6 @@ OUTRPM := $(OUT_DIR)/rpm/$(DIST_TAG)/$(ARCH)
 
 # Build Directory Structure
 BUILD_DIR := builddir/$(ARCH)
-COW_DIR := /var/cache/pbuilder/$(ARCH)
 
 # Success/Failure Markers
 SUCCESS_MARKER := success.$(ARCH)
@@ -30,17 +29,15 @@ FAILURE_CHROOT_MARKER := failure.chroot.$(DIST).$(ARCH)
 FAILURE_RPM_CHROOT_MARKER := failure.rpm.chroot.$(DIST).$(ARCH)
 
 # Must be declared before the include
-DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST).$(ARCH)
-LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
-COW_NAME := $(DIST).$(shell echo $(LOCAL_REPO_PATH) | md5sum | sed 's/\ .*//').$(ARCH).cow
-
-RPM_OUT_DIR := $(shell readlink -f $(OUT_DIR))/rpm.$(DIST).$(ARCH)
-RPM_LOCAL_REPO_PATH := $(RPM_OUT_DIR)/raw
-
 # Include Configuration Files
 # ----------------------------------------------------------------------------
 include ./common/buildenv/Makefile.vars
 
+DEB_OUT_DIR := $(shell readlink -f $(OUT_DIR))/deb.$(DIST).$(ARCH)
+LOCAL_REPO_PATH := $(DEB_OUT_DIR)/raw
+
+RPM_LOCAL_REPO_PATH := $(RPM_OUT_DIR)/raw
+RPM_OUT_DIR := $(shell readlink -f $(OUT_DIR))/rpm.$(DIST).$(ARCH)
 RPM_OUT_REPO := $(RPM_OUT_DIR)/$(DIST_TAG)/$(ARCH)
 
 # Export Configuration
@@ -129,10 +126,12 @@ deb_chroot:
 	# Initialize output directory as local repo
 	@mkdir -p $(LOCAL_REPO_PATH)
 	@cd $(LOCAL_REPO_PATH) && dpkg-scanpackages . /dev/null > Packages
+	@$(SUDO) mkdir -p $(COW_DIR)/aptcache/
 	
 	# Initialize or update cowbuilder chroot
-	@if ! [ -e $(COW_DIR)/$(COW_NAME) ]; then \
+	@if ! [ -f $(COW_BASEPATH)/etc/hosts ]; then \
 		export TMPDIR=/tmp/; \
+		$(SUDO) rm -rf -- $(COW_BASEPATH); \
 		$(SUDO) cowbuilder --create $(COWBUILDER_CREATE_ARGS); \
 	else \
 		export TMPDIR=/tmp/; \
@@ -193,7 +192,7 @@ rpm_chroot:
 # Utility Functions
 # ----------------------------------------------------------------------------
 deb_get_chroot_path:
-	@echo `readlink -f $(COW_DIR)/$(COW_NAME)`
+	@echo `readlink -f $(COW_BASEPATH)`
 
 # Cleanup Targets
 # ----------------------------------------------------------------------------
