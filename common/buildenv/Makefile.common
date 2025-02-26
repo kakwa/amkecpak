@@ -24,15 +24,15 @@ $(DIRECTORIES):
 
 # Cleaning targets
 clean_build:
-	@if [ -d $(BUILD_DIR) ]; then \
-		chmod -R 700 $(BUILD_DIR); \
-		rm -rf $(BUILD_DIR); \
+	@if [ -d $(BUILD_DIR_BASE) ]; then \
+		chmod -R 700 $(BUILD_DIR_BASE); \
+		rm -rf -- $(BUILD_DIR_BASE); \
 	fi
 
 clean_cache:
 	@if [ -d $(CACHE) ] && [ "$(KEEP_CACHE)" != "true" ]; then \
 		chmod -R 700 $(CACHE); \
-		rm -rf $(CACHE); \
+		rm -rf -- $(CACHE); \
 	fi
 
 clean: clean_build clean_cache
