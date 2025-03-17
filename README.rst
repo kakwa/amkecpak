@@ -6,6 +6,9 @@ DISCLAIMER
 * `Pakste for the packaging framework <https://github.com/kakwa/pakste>`_
 * `kakwalab-pkg for the collection of packages <https://github.com/kakwa/kakwalab-pkg>`_
 
+Info
+----
+
 Amkecpak, a makefile based packaging framework.
 
 .. image:: https://travis-ci.org/kakwa/amkecpak.svg?branch=master
