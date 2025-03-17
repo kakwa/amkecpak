@@ -1,3 +1,6 @@
+DISCLAIMER
+----------
+
 This project is deprecated and has been replaced by:
 
 * `Pakste for the packaging framework <https://github.com/kakwa/pakste>`_
